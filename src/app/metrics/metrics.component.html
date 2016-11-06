@@ -1,3 +1,10 @@
-<p>
-  metrics works!
-</p>
+<tally-metrics-overview
+  [users]="metrics.countUsers"
+  [transactions]="metrics.countTransactions"
+  [balance]="metrics.overallBalance"
+  [avgBalance]="metrics.avgBalance"
+></tally-metrics-overview>
+
+<div *ngFor="let chart of charts">
+  {{chart |json}}
+</div>

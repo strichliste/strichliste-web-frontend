@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MetricsComponent } from './metrics.component';
 import {RouterModule} from '@angular/router';
 import {MetricsService} from './metrics.service';
+import { MetricsOverviewComponent } from './metrics-overview/metrics-overview.component';
 
 @NgModule({
   imports: [
@@ -11,7 +12,7 @@ import {MetricsService} from './metrics.service';
       { path: '', component: MetricsComponent }
     ])
   ],
-  declarations: [MetricsComponent],
+  declarations: [MetricsComponent, MetricsOverviewComponent],
   providers: [MetricsService]
 })
 export class MetricsModule { }
