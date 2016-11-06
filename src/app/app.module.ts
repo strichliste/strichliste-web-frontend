@@ -12,6 +12,7 @@ import { UserComponent } from './user/user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserTransactionsComponent } from './user/user-transactions/user-transactions.component';
 import {UserService} from './user/user.service';
+import {ModalModule} from 'ng2-bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {UserService} from './user/user.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    Routing
+    Routing,
+    ModalModule
   ],
   providers: [AlertsService, UserService],
   bootstrap: [AppComponent]
