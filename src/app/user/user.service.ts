@@ -17,4 +17,9 @@ export class UserService {
       .map(res => res.json());
   }
 
+  createUser(name:string) {
+    return this.http.post(TallyConfig.URL + '/user', {name})
+      .map(res => res.json());
+  }
+
 }

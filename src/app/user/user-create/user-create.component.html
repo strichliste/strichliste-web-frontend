@@ -1,0 +1,15 @@
+<form
+  [formGroup]="createUserFormGroup"
+  (ngSubmit)="createUser(createUserFormGroup.controls['name'].value)">
+  <div class="form-group">
+    <label>Username:</label>
+    <input class="form-control"
+           [formControl]="createUserFormGroup.controls['name']"
+           required
+           maxlength="23"
+           placeholder="your username"
+           type="text">
+  </div>
+  <button class="btn btn-default btn-block" type="submit">Create user</button>
+</form>
+<button type="button" (click)="createUser('test')">test</button>
