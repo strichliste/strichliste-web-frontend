@@ -1,3 +1,4 @@
-<p>
-  user works!
-</p>
+<a class="card well grow" [routerLink]="['user', user.id]">
+  <div class="name">{{user.name}} </div>
+  <div class="balance">{{user.balance| currency: 'USD':true}}</div>
+</a>
