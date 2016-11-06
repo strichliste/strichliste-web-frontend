@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TallyListInterface} from './tally-list.interface';
 import {UserService} from '../user/user.service';
 import {AlertsService} from '../shared/alerts/alerts.service';
@@ -12,7 +12,8 @@ import {AlertModel} from '../shared/alerts/alert.model';
 export class TallyListComponent implements OnInit {
   protected userList;
 
-  constructor(private userService: UserService, private alertsService:AlertsService) { }
+  constructor(private userService: UserService, private alertsService: AlertsService) {
+  }
 
   ngOnInit() {
     this.getUsers();
