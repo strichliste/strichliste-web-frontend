@@ -8,12 +8,18 @@ import {AlertsComponent} from './shared/alerts/alerts.component';
 import {AlertsService} from './shared/alerts/alerts.service';
 import {Routing} from './app.routing';
 import { TallyListComponent } from './tally-list/tally-list.component';
+import { UserComponent } from './user/user.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { UserTransactionsComponent } from './user/user-transactions/user-transactions.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlertsComponent,
-    TallyListComponent
+    TallyListComponent,
+    UserComponent,
+    UserDetailsComponent,
+    UserTransactionsComponent
   ],
   imports: [
     BrowserModule,
