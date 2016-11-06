@@ -11,6 +11,7 @@ import { TallyListComponent } from './tally-list/tally-list.component';
 import { UserComponent } from './user/user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserTransactionsComponent } from './user/user-transactions/user-transactions.component';
+import {UserService} from './user/user.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { UserTransactionsComponent } from './user/user-transactions/user-transac
     HttpModule,
     Routing
   ],
-  providers: [AlertsService],
+  providers: [AlertsService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
