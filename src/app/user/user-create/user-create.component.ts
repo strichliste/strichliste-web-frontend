@@ -14,7 +14,7 @@ export class UserCreateComponent implements OnInit {
 
   createUserFormGroup: FormGroup;
 
-  constructor(private router:Router, fb: FormBuilder, private userService: UserService, private alertsService:AlertsService) {
+  constructor(private router: Router, fb: FormBuilder, private userService: UserService, private alertsService: AlertsService) {
     this.createUserFormGroup = fb.group({
       name: ['']
     });
@@ -23,7 +23,7 @@ export class UserCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  createUser(name:string) {
+  createUser(name: string) {
     this.userService.createUser(name).toPromise().then(res => {
       if (res && res.id) {
         this.router.navigate(['/user', res.id]);
