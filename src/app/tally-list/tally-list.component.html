@@ -1,10 +1,10 @@
 
 
-<div class="clearfix">
-  <div>
-    <a class="card well" [routerLink]="['user', 'create']">
+<div class="flex flex-wrap">
+  <div class="grow well m-a-1">
+    <a class="huge-font" [routerLink]="['user', 'create']">
       +
     </a>
   </div>
-  <tally-user *ngFor="let user of userList" [user]="user"></tally-user>
+  <tally-user class="grow well m-a-1" *ngFor="let user of userList" [user]="user"></tally-user>
 </div>
