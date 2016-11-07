@@ -1,12 +1,14 @@
-
-
 <div class="flex flex-wrap">
   <div class="grow well m-a-1">
     <a class="huge-font" [routerLink]="['user', 'create']">
       +
     </a>
   </div>
-  <tally-user class="grow well m-a-1" *ngFor="let user of userList"
+  <tally-tally-list-search
+    [list]="userList"
+    (onFilterList)="updateList($event)"
+  ></tally-tally-list-search>
+  <tally-user class="grow well m-a-1" *ngFor="let user of filteredList"
               [user]="user">
   </tally-user>
 </div>

@@ -15,7 +15,7 @@ import {UserInterface} from '../user/user.interface';
 export class TallyListComponent implements OnInit {
   protected userList:UserInterface[];
   protected settings:SettingsInterface;
-
+  protected filteredList:UserInterface[];
   constructor(
     private settingsService: SettingsService,
     private userService: UserService,
@@ -32,6 +32,7 @@ export class TallyListComponent implements OnInit {
 
       if (res && res.entries) {
         this.userList = res.entries;
+        this.updateList(this.userList);
       } else {
         this.alertsService.add(new AlertModel('info', 'no users found!'));
       }
@@ -44,5 +45,9 @@ export class TallyListComponent implements OnInit {
     this.settingsService.settings$.subscribe(res => {
       console.log(res);
     })
+  }
+
+  updateList(filteredList:UserInterface[]) {
+    this.filteredList = filteredList;
   }
 }
