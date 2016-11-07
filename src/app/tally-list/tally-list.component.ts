@@ -3,6 +3,9 @@ import {TallyListInterface} from './tally-list.interface';
 import {UserService} from '../user/user.service';
 import {AlertsService} from '../shared/alerts/alerts.service';
 import {AlertModel} from '../shared/alerts/alert.model';
+import {SettingsService} from '../shared/settings.service';
+import {SettingsInterface} from '../shared/settings.interface';
+import {UserInterface} from '../user/user.interface';
 
 @Component({
   selector: 'tally-tally-list',
@@ -10,13 +13,18 @@ import {AlertModel} from '../shared/alerts/alert.model';
   styleUrls: ['./tally-list.component.less']
 })
 export class TallyListComponent implements OnInit {
-  protected userList;
+  protected userList:UserInterface[];
+  protected settings:SettingsInterface;
 
-  constructor(private userService: UserService, private alertsService: AlertsService) {
+  constructor(
+    private settingsService: SettingsService,
+    private userService: UserService,
+    private alertsService: AlertsService) {
   }
 
   ngOnInit() {
     this.getUsers();
+    this.getSettings();
   }
 
   getUsers() {
@@ -30,5 +38,11 @@ export class TallyListComponent implements OnInit {
     }, (err) => {
       this.alertsService.add(new AlertModel('danger', err));
     });
+  }
+
+  getSettings() {
+    this.settingsService.settings$.subscribe(res => {
+      console.log(res);
+    })
   }
 }
