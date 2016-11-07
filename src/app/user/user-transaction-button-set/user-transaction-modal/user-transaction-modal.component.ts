@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -8,6 +8,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class UserTransactionModalComponent implements OnInit {
   @Input() positive:boolean;
+  @Output() onAddTransaction = new EventEmitter();
 
   addTransactionForm:FormGroup;
 
@@ -23,7 +24,6 @@ export class UserTransactionModalComponent implements OnInit {
     if (!this.positive) {
       value *= -1;
     }
-
-    console.log(value);
+    this.onAddTransaction.emit(value);
   }
 }

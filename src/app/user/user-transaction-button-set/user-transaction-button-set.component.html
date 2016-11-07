@@ -1,4 +1,4 @@
-<div class="flex flex-wrap">
+<div class="flex flex-wrap" *ngIf="settings?.boundaries">
   <tally-user-transaction-button
     (onAddTransaction)="addTransaction($event)"
     *ngFor="let value of values"
@@ -10,6 +10,6 @@
   <tally-user-transaction-modal
     class="grow m-a-1"
     [positive]="positive"
+    (onAddTransaction)="addTransaction($event)"
   ></tally-user-transaction-modal>
-
 </div>
