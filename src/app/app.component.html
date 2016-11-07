@@ -1,6 +1,17 @@
+
+
 <tally-alerts></tally-alerts>
-<a routerLink="/metrics" routerLinkActive="active">Metrics</a>
 <div class="container-fluid">
+  <nav class="navbar navbar-static-top">
+    <div class="navbar-header">
+      <a class="navbar-brand" routerLink="/"><img src="assets/logo.png" height="35" width="48"> Strichliste</a>
+    </div>
+  </nav>
+
   <router-outlet></router-outlet>
+  <footer>
+    <a routerLink="/metrics" routerLinkActive="active">Metrics</a>
+  </footer>
+
 </div>
 
