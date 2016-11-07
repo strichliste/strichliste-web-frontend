@@ -17,7 +17,8 @@ import {UserCreateComponent} from './user/user-create/user-create.component';
 import {TransactionService} from './user/transaction.service';
 import {UserTransactionButtonSetComponent} from './user/user-transaction-button-set/user-transaction-button-set.component';
 import {UserTransactionButtonComponent} from './user/user-transaction-button-set/user-transaction-button/user-transaction-button.component';
-import { UserTransactionModalComponent } from './user/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
+import {UserTransactionModalComponent} from './user/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
+import {SettingsService} from './shared/settings.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { UserTransactionModalComponent } from './user/user-transaction-button-se
     Routing,
     ModalModule
   ],
-  providers: [AlertsService, UserService, TransactionService],
+  providers: [AlertsService, UserService, TransactionService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

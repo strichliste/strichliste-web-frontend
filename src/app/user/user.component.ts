@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {UserInterface} from './user.interface';
+import {SettingsInterface} from '../shared/settings.interface';
 
 @Component({
   selector: 'tally-user',
@@ -8,6 +9,7 @@ import {UserInterface} from './user.interface';
 })
 export class UserComponent implements OnInit {
   @Input() user:UserInterface;
+  @Input() settings:SettingsInterface;
   constructor() { }
 
   ngOnInit() {

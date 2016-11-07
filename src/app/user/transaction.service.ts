@@ -10,4 +10,5 @@ export class TransactionService {
   addTransaction(userId, value) {
     return this.http.post(`${TallyConfig.URL}user/${userId}/transaction`, {value}).map(res => res.json());
   }
+
 }

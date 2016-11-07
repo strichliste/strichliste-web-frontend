@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AlertModel} from '../../shared/alerts/alert.model';
 import {UserService} from '../user.service';
 import {AlertsService} from '../../shared/alerts/alerts.service';
+import {SettingsService} from '../../shared/settings.service';
 
 @Component({
   selector: 'tally-user-details',
@@ -14,7 +15,10 @@ export class UserDetailsComponent implements OnInit {
   user: UserInterface;
   queryParamsSubscribtion: any;
 
-  constructor(private route: ActivatedRoute, private userService: UserService, private alertsService: AlertsService) {
+  constructor(private route: ActivatedRoute,
+              private settingsService: SettingsService,
+              private userService: UserService,
+              private alertsService: AlertsService) {
 
   }
 
@@ -22,6 +26,10 @@ export class UserDetailsComponent implements OnInit {
     this.queryParamsSubscribtion = this.route.params.subscribe((param) => {
       this.getUserDetails(param['id']);
     });
+
+    this.settingsService.settings$.subscribe(res => {
+      console.log(res);
+    })
   }
 
   getUserDetails(id) {
