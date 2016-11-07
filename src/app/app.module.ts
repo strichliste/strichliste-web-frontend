@@ -14,6 +14,10 @@ import {UserTransactionsComponent} from './user/user-transactions/user-transacti
 import {UserService} from './user/user.service';
 import {ModalModule} from 'ng2-bootstrap';
 import {UserCreateComponent} from './user/user-create/user-create.component';
+import {TransactionService} from './user/transaction.service';
+import {UserTransactionButtonSetComponent} from './user/user-transaction-button-set/user-transaction-button-set.component';
+import {UserTransactionButtonComponent} from './user/user-transaction-button-set/user-transaction-button/user-transaction-button.component';
+import { UserTransactionModalComponent } from './user/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,10 @@ import {UserCreateComponent} from './user/user-create/user-create.component';
     UserComponent,
     UserDetailsComponent,
     UserTransactionsComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    UserTransactionButtonComponent,
+    UserTransactionButtonSetComponent,
+    UserTransactionModalComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +40,7 @@ import {UserCreateComponent} from './user/user-create/user-create.component';
     Routing,
     ModalModule
   ],
-  providers: [AlertsService, UserService],
+  providers: [AlertsService, UserService, TransactionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
