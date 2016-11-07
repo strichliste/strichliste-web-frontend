@@ -1,19 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertsService} from './alerts.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router, NavigationStart} from '@angular/router';
 
 @Component({
   selector: 'tally-alerts',
   templateUrl: './alerts.component.html',
 })
 export class AlertsComponent implements OnInit {
-  routsubscription:any;
-  constructor(private route: ActivatedRoute, public alertsService: AlertsService) {
+  routeSubscription:any;
+  constructor(private router: Router, public alertsService: AlertsService) {
 
     // reset alerts on routeChange
-    this.routsubscription = this.route.url.subscribe(() => {
-      console.log(this.alertsService.alerts, 'test' );
-      this.alertsService.reset();
+    this.routeSubscription = router.events.subscribe(event => {
+      if(event instanceof NavigationStart) {
+        this.alertsService.reset();
+      }
     });
   }
 
@@ -21,7 +22,7 @@ export class AlertsComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.routsubscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
   }
 
 }
