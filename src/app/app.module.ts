@@ -19,6 +19,7 @@ import {UserTransactionButtonSetComponent} from './user/user-transaction-button-
 import {UserTransactionButtonComponent} from './user/user-transaction-button-set/user-transaction-button/user-transaction-button.component';
 import {UserTransactionModalComponent} from './user/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
 import {SettingsService} from './shared/settings.service';
+import { TallyListSearchComponent } from './tally-list/tally-list-search/tally-list-search.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {SettingsService} from './shared/settings.service';
     UserCreateComponent,
     UserTransactionButtonComponent,
     UserTransactionButtonSetComponent,
-    UserTransactionModalComponent
+    UserTransactionModalComponent,
+    TallyListSearchComponent
   ],
   imports: [
     BrowserModule,
