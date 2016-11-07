@@ -1,12 +1,15 @@
+<div class="flex flex-wrap">
+  <tally-user-transaction-button
+    (onAddTransaction)="addTransaction($event)"
+    *ngFor="let value of values"
+    [value]="value"
+    [positive]="positive"
+    class="grow m-a-1"
+  ></tally-user-transaction-button>
 
-<tally-user-transaction-button
-  *ngFor="let value of values"
-  [userId]="userId"
-  [value]="value"
-  [positive]="positive"
-></tally-user-transaction-button>
+  <tally-user-transaction-modal
+    class="grow m-a-1"
+    [positive]="positive"
+  ></tally-user-transaction-modal>
 
-<tally-user-transaction-modal
-  [userId]="userId"
-  [positive]="positive"
-></tally-user-transaction-modal>
+</div>

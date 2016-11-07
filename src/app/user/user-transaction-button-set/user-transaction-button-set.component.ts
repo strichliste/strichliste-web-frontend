@@ -1,4 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
+import {TransactionService} from '../transaction.service';
+import {AlertsService} from '../../shared/alerts/alerts.service';
 
 @Component({
   selector: 'tally-user-transaction-button-set',
@@ -8,8 +10,11 @@ import {Component, OnInit, Input} from '@angular/core';
 export class UserTransactionButtonSetComponent implements OnInit {
   @Input() userId:number;
   @Input() positive:boolean;
+
+  @Output() onAddTransaction = new EventEmitter();
+
   values: number[];
-  constructor() {
+  constructor(private transactionService:TransactionService, private alertsService:AlertsService) {
 
     this.values = [
       0.5,
@@ -25,4 +30,15 @@ export class UserTransactionButtonSetComponent implements OnInit {
     }
   }
 
+  addTransaction(value:string) {
+
+    this.transactionService.addTransaction(this.userId, value).toPromise().then(res => {
+      this.onAddTransaction.emit();
+
+    }, err => {
+
+    });
+
+    console.log('kuchen');
+  }
 }

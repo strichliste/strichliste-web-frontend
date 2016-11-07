@@ -36,6 +36,10 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
+  refreshUserDetails() {
+    this.getUserDetails(this.user.id);
+  }
+
   ngOnDestroy() {
     this.queryParamsSubscribtion.unsubscribe();
   }

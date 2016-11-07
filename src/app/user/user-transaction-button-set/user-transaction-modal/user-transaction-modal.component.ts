@@ -7,7 +7,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
   styleUrls: ['./user-transaction-modal.component.less']
 })
 export class UserTransactionModalComponent implements OnInit {
-  @Input() userId:number;
   @Input() positive:boolean;
 
   addTransactionForm:FormGroup;

@@ -14,6 +14,7 @@
         <tally-user-transaction-button-set
           [userId]="user?.id"
           [positive]="true"
+          (onAddTransaction)="refreshUserDetails()"
         ></tally-user-transaction-button-set>
       </div>
 
@@ -22,6 +23,7 @@
         <tally-user-transaction-button-set
           [userId]="user?.id"
           [positive]="false"
+          (onAddTransaction)="refreshUserDetails()"
         ></tally-user-transaction-button-set>
       </div>
     </div>

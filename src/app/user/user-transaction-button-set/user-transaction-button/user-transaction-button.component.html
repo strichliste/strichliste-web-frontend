@@ -1,3 +1,7 @@
-<button type="button" class="btn btn-primary" (click)="addTransaction()">{{value| currency: 'USD':true}}</button>
+<button type="button"
+        class="btn btn-block"
+        [ngClass]="{'btn-success':positive,'btn-danger':!positive}"
+        (click)="addTransaction()">{{value| currency: 'USD':true}}
+</button>
 
 

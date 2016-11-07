@@ -1,4 +1,9 @@
-<button type="button" class="btn btn-primary" (click)="staticModal.show()">?</button>
+<button type="button"
+        class="btn btn-block"
+        [ngClass]="{'btn-success':positive,'btn-danger':!positive}"
+        (click)="staticModal.show()">
+  $ ?
+</button>
 
 <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
      tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -13,8 +18,9 @@
       <div class="modal-body">
         <form [formGroup]="addTransactionForm" (submit)="addTransaction(addTransactionForm.controls['value'].value)">
           <div class="input-group input-group-lg">
-            <span class="input-group-addon ng-binding">€</span>
-            <input type="number" lang="nl" [formControl]="addTransactionForm.controls['value']" class="form-control transaction-value" required autocomplete="off" autofocus>
+            <span class="input-group-addon ng-binding">$</span>
+            <input type="number" lang="nl" [formControl]="addTransactionForm.controls['value']"
+                   class="form-control transaction-value" required autocomplete="off" autofocus>
           </div>
         </form>
       </div>
