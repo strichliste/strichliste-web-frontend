@@ -34,7 +34,7 @@ export class TallyListSearchComponent implements OnInit {
 
     if (query) {
       filteredList = this.list.filter((user) => {
-        return user.name.indexOf(query) > -1;
+        return user.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
       });
     } else {
       filteredList = this.list;
@@ -44,5 +44,9 @@ export class TallyListSearchComponent implements OnInit {
 
   toggleShowSearch() {
     this.showSearch = !this.showSearch;
+
+    if (!this.showSearch) {
+      this.onFilterList.emit(this.list);
+    }
   }
 }
