@@ -1,8 +1,16 @@
 <div ng-if="user">
 
   <div class="row">
-    <h2 class="col-xs-12 col-sm-6">{{user?.name}}</h2>
-    <div class="col-xs-12 col-sm-6">{{user?.balance}}</div>
+    <div class="col-xs-12 col-sm-6">
+      <h2>
+        {{user?.name}}
+      </h2>
+    </div>
+    <div class="col-xs-12 col-sm-6 account-balance">
+      <span [ngClass]="{'negative': user?.balance < 0}">
+        {{user?.balance | currency: 'USD':true}}
+      </span>
+    </div>
   </div>
 
   <div class="row">
