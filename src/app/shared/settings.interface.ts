@@ -1,5 +1,5 @@
 export interface SettingsInterface {
-  boundaries: {
+  boundaries?: {
     lower:number,
     upper:number
   }
