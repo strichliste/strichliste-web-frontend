@@ -1,8 +1,6 @@
 import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {TransactionService} from '../transaction.service';
 import {AlertsService} from '../../shared/alerts/alerts.service';
-import {SettingsService} from '../../shared/settings.service';
-import {SettingsInterface} from '../../shared/settings.interface';
 
 @Component({
   selector: 'tally-user-transaction-button-set',
@@ -15,11 +13,9 @@ export class UserTransactionButtonSetComponent implements OnInit {
 
   @Output() onAddTransaction = new EventEmitter();
 
-  settings: SettingsInterface;
   values: number[];
 
   constructor(private transactionService:TransactionService,
-              private settingsService:SettingsService,
               private alertsService:AlertsService) {
 
     this.values = [
@@ -34,10 +30,6 @@ export class UserTransactionButtonSetComponent implements OnInit {
     if (!this.positive) {
       this.values = this.values.map(value => value * -1);
     }
-
-    this.settingsService.settings$.subscribe(res => {
-      this.settings = res;
-    });
   }
 
   addTransaction(value:string) {
