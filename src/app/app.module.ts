@@ -20,6 +20,7 @@ import {UserTransactionButtonComponent} from './user/user-transaction-button-set
 import {UserTransactionModalComponent} from './user/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
 import {SettingsService} from './shared/settings.service';
 import { TallyListSearchComponent } from './tally-list/tally-list-search/tally-list-search.component';
+import {SettingsResolver} from './shared/settings.resolver';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { TallyListSearchComponent } from './tally-list/tally-list-search/tally-l
     Routing,
     ModalModule
   ],
-  providers: [AlertsService, UserService, TransactionService, SettingsService],
+  providers: [AlertsService, UserService, TransactionService, SettingsService, SettingsResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule {
