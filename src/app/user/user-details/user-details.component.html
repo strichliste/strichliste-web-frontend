@@ -20,7 +20,7 @@
       <div class="clearfix">
         <h3>userChargeWallet</h3>
         <tally-user-transaction-button-set
-          [userId]="user?.id"
+          [user]="user"
           [positive]="true"
           (onAddTransaction)="refreshUserDetails()"
         ></tally-user-transaction-button-set>
@@ -29,7 +29,7 @@
       <div class="clearfix">
         <h3>userSpendMoney</h3>
         <tally-user-transaction-button-set
-          [userId]="user?.id"
+          [user]="user"
           [positive]="false"
           (onAddTransaction)="refreshUserDetails()"
         ></tally-user-transaction-button-set>
