@@ -8,7 +8,7 @@
     [list]="userList"
     (onFilterList)="updateList($event)"
   ></tally-tally-list-search>
-  <tally-user class="grow well m-a-1" *ngFor="let user of filteredList"
+  <tally-user class="grow well m-a-1" *ngFor="let user of filteredList; trackBy: user?.id;"
               [user]="user">
   </tally-user>
 </div>
