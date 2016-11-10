@@ -3,13 +3,17 @@
     (onAddTransaction)="addTransaction($event)"
     *ngFor="let value of values"
     [value]="value"
+    [balance]="user?.balance"
     [positive]="positive"
+    [boundaries]="boundaries"
     class="grow m-a-1"
   ></tally-user-transaction-button>
 
   <tally-user-transaction-modal
     class="grow m-a-1"
     [positive]="positive"
+    [balance]="user?.balance"
+    [boundaries]="boundaries"
     (onAddTransaction)="addTransaction($event)"
   ></tally-user-transaction-modal>
 </div>

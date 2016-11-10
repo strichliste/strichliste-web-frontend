@@ -1,4 +1,5 @@
 import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
+import {TransactionValidators} from '../../transaction-validators';
 
 @Component({
   selector: 'tally-user-transaction-button',
@@ -9,6 +10,8 @@ export class UserTransactionButtonComponent implements OnInit {
 
   @Input() positive: boolean;
   @Input() value: number;
+  @Input() balance: number;
+  @Input() boundaries: {lower: number, upper: number};
 
   @Output() onAddTransaction = new EventEmitter();
 
@@ -16,6 +19,10 @@ export class UserTransactionButtonComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  isInvalid() {
+    return TransactionValidators.isInvalid(this.value, this.balance, this.boundaries, this.positive);
   }
 
   addTransaction() {

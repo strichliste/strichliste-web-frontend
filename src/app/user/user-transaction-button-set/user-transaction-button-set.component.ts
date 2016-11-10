@@ -1,6 +1,8 @@
 import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {TransactionService} from '../transaction.service';
 import {AlertsService} from '../../shared/alerts/alerts.service';
+import {ActivatedRoute} from '@angular/router';
+import {UserInterface} from '../user.interface';
 
 @Component({
   selector: 'tally-user-transaction-button-set',
@@ -8,15 +10,21 @@ import {AlertsService} from '../../shared/alerts/alerts.service';
   styleUrls: ['./user-transaction-button-set.component.less']
 })
 export class UserTransactionButtonSetComponent implements OnInit {
-  @Input() userId:number;
+  @Input() user:UserInterface;
   @Input() positive:boolean;
 
   @Output() onAddTransaction = new EventEmitter();
 
   values: number[];
+  boundaries: {upper:number, lower:number};
 
   constructor(private transactionService:TransactionService,
+              route: ActivatedRoute,
               private alertsService:AlertsService) {
+
+    const settings = route.snapshot.data['settings'];
+
+    this.boundaries = settings.boundaries;
 
     this.values = [
       0.5,
@@ -27,9 +35,9 @@ export class UserTransactionButtonSetComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.positive) {
-      this.values = this.values.map(value => value * -1);
-    }
+    // if (!this.positive) {
+    //   this.values = this.values.map(value => value * -1);
+    // }
   }
 
   addTransaction(value:string) {

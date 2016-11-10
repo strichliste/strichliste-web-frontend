@@ -1,3 +1,4 @@
+
 <button type="button"
         class="btn btn-block"
         [ngClass]="{'btn-success':positive,'btn-danger':!positive}"
@@ -29,7 +30,7 @@
         </div>
         <div class="modal-footer ng-scope">
           <button [ngClass]="{'btn-success':positive,'btn-danger':!positive}"
-                  [disabled]="addTransactionForm.invalid"
+                  [disabled]="addTransactionForm.invalid || isInvalid(addTransactionForm.controls['value'].value)"
                   class="btn btn-lg btn-success">
             <span *ngIf="positive">Charge wallet</span>
             <span *ngIf="!positive">Pay purchase</span>

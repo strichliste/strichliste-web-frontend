@@ -1,5 +1,6 @@
 <button type="button"
         class="btn btn-block"
+        [disabled]="isInvalid()"
         [ngClass]="{'btn-success':positive,'btn-danger':!positive}"
         (click)="addTransaction()">{{value| currency: 'USD':true}}
 </button>
