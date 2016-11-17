@@ -1,4 +1,24 @@
-<p>
-  user-transactions works!
-</p>
-{{transactions | json}}
+<h2>
+  Transactions for user „1599:)” - Page 1/5
+</h2>
+
+
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>create date</th>
+    <th>value</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let transaction of transactions; trackBy: transaction?.id">
+    <td>
+      {{transaction.createDate}}
+    </td>
+    <td [ngClass]="{'negative': transaction.value < 0}">
+      {{transaction.value | currency: 'USD':true}}
+    </td>
+  </tr>
+  </tbody>
+</table>

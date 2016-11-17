@@ -12,14 +12,14 @@ import {UserComponent} from './user/user.component';
 import {UserDetailsComponent} from './user/user-details/user-details.component';
 import {UserTransactionsComponent} from './user/user-transactions/user-transactions.component';
 import {UserService} from './user/user.service';
-import {ModalModule} from 'ng2-bootstrap';
+import {ModalModule, PaginationModule} from 'ng2-bootstrap';
 import {UserCreateComponent} from './user/user-create/user-create.component';
 import {TransactionService} from './user/transaction.service';
 import {UserTransactionButtonSetComponent} from './user/user-transaction-button-set/user-transaction-button-set.component';
 import {UserTransactionButtonComponent} from './user/user-transaction-button-set/user-transaction-button/user-transaction-button.component';
 import {UserTransactionModalComponent} from './user/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
 import {SettingsService} from './shared/settings.service';
-import { TallyListSearchComponent } from './tally-list/tally-list-search/tally-list-search.component';
+import {TallyListSearchComponent} from './tally-list/tally-list-search/tally-list-search.component';
 import {SettingsResolver} from './shared/settings.resolver';
 
 @NgModule({
@@ -42,7 +42,8 @@ import {SettingsResolver} from './shared/settings.resolver';
     ReactiveFormsModule,
     HttpModule,
     Routing,
-    ModalModule
+    ModalModule,
+    PaginationModule,
   ],
   providers: [AlertsService, UserService, TransactionService, SettingsService, SettingsResolver],
   bootstrap: [AppComponent]
