@@ -1,6 +1,10 @@
 import {Component} from '@angular/core';
 import {AlertsService} from './shared/alerts/alerts.service';
 import {AlertModel} from './shared/alerts/alert.model';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'tally-root',

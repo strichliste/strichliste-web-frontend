@@ -7,7 +7,6 @@ import {AppComponent} from './app.component';
 import {AlertsComponent} from './shared/alerts/alerts.component';
 import {AlertsService} from './shared/alerts/alerts.service';
 import {Routing} from './app.routing';
-import {TallyListComponent} from './tally-list/tally-list.component';
 import {UserComponent} from './user/user.component';
 import {UserDetailsComponent} from './user/user-details/user-details.component';
 import {UserTransactionsComponent} from './user/user-transactions/user-transactions.component';
@@ -19,14 +18,15 @@ import {UserTransactionButtonSetComponent} from './user/user-transaction-button-
 import {UserTransactionButtonComponent} from './user/user-transaction-button-set/user-transaction-button/user-transaction-button.component';
 import {UserTransactionModalComponent} from './user/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
 import {SettingsService} from './shared/settings.service';
-import {TallyListSearchComponent} from './tally-list/tally-list-search/tally-list-search.component';
 import {SettingsResolver} from './shared/settings.resolver';
+import {UserListComponent} from './user/user-list/user-list.component';
+import {UserListItemComponent} from './user/user-list/user-list-item/user-list-item.component';
+import {UserListSearchComponent} from './user/user-list/user-list-search/user-list-search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlertsComponent,
-    TallyListComponent,
     UserComponent,
     UserDetailsComponent,
     UserTransactionsComponent,
@@ -34,7 +34,9 @@ import {SettingsResolver} from './shared/settings.resolver';
     UserTransactionButtonComponent,
     UserTransactionButtonSetComponent,
     UserTransactionModalComponent,
-    TallyListSearchComponent
+    UserListComponent,
+    UserListSearchComponent,
+    UserListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,7 @@ import {SettingsResolver} from './shared/settings.resolver';
     ReactiveFormsModule,
     HttpModule,
     Routing,
-    ModalModule,
+    ModalModule.forRoot(),
     PaginationModule,
   ],
   providers: [AlertsService, UserService, TransactionService, SettingsService, SettingsResolver],
