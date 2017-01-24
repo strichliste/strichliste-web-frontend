@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TallyListComponent } from './tally-list.component';
+import { UserListSearchComponent } from './user-list-search.component';
 
-describe('TallyListComponent', () => {
-  let component: TallyListComponent;
-  let fixture: ComponentFixture<TallyListComponent>;
+describe('UserListSearchComponent', () => {
+  let component: UserListSearchComponent;
+  let fixture: ComponentFixture<UserListSearchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TallyListComponent ]
+      declarations: [ UserListSearchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TallyListComponent);
+    fixture = TestBed.createComponent(UserListSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

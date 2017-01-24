@@ -1,0 +1,15 @@
+<div class="flex flex-wrap">
+  <div class="grow well m-a-1">
+    <a class="huge-font" [routerLink]="['user', 'create']">
+      +
+    </a>
+  </div>
+  <tally-user-list-search
+    [list]="users"
+    (onFilterList)="updateList($event)"
+  ></tally-user-list-search>
+  <tally-user-list-item [ngClass]="{'well': user?.balance >= 0, 'alert-danger': user?.balance < 0,  'alert': user?.balance < 0}"
+              class="grow m-a-1" *ngFor="let user of filteredUsers; trackBy: user?.id;"
+              [user]="user">
+  </tally-user-list-item>
+</div>

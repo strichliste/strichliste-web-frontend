@@ -1,12 +1,12 @@
-import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {FormGroup, FormBuilder} from '@angular/forms';
 
 @Component({
-  selector: 'tally-tally-list-search',
-  templateUrl: './tally-list-search.component.html',
-  styleUrls: ['./tally-list-search.component.less']
+  selector: 'tally-user-list-search',
+  templateUrl: './user-list-search.component.html',
+  styleUrls: ['./user-list-search.component.less']
 })
-export class TallyListSearchComponent implements OnInit {
+export class UserListSearchComponent implements OnInit {
   @Input() list;
   @Output() onFilterList = new EventEmitter();
 
@@ -26,8 +26,7 @@ export class TallyListSearchComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   filterList(query:string) {
     var filteredList;
