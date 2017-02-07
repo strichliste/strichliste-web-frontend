@@ -1,4 +1,6 @@
-<a [routerLink]="['user', user.id]">
-  <div class="name">{{user.name}} </div>
-  <div class="balance">{{user.balance| currency: 'USD':true}}</div>
-</a>
+
+<h3>Active user</h3>
+<tally-user-list [users]="activeUsers"></tally-user-list>
+
+<h3>Inactive user</h3>
+<tally-user-list [users]="inactiveUsers"></tally-user-list>

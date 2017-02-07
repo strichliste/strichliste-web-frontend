@@ -3,10 +3,10 @@ import {UserDetailsComponent} from './user/user-details/user-details.component';
 import {UserTransactionsComponent} from './user/user-transactions/user-transactions.component';
 import {UserCreateComponent} from './user/user-create/user-create.component';
 import {SettingsResolver} from './shared/settings.resolver';
-import {UserListComponent} from './user/user-list/user-list.component';
+import {UserComponent} from './user/user.component';
 
 export const appRoutes: Routes = [
-  {path: '', component: UserListComponent},
+  {path: '', component: UserComponent},
   {path: 'user/create', component: UserCreateComponent},
   {
     path: 'user/:id',

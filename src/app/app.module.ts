@@ -22,6 +22,7 @@ import {SettingsResolver} from './shared/settings.resolver';
 import {UserListComponent} from './user/user-list/user-list.component';
 import {UserListItemComponent} from './user/user-list/user-list-item/user-list-item.component';
 import {UserListSearchComponent} from './user/user-list/user-list-search/user-list-search.component';
+import {AppSettings} from './app.settings';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import {UserListSearchComponent} from './user/user-list/user-list-search/user-li
     ModalModule.forRoot(),
     PaginationModule,
   ],
-  providers: [AlertsService, UserService, TransactionService, SettingsService, SettingsResolver],
+  providers: [AlertsService, UserService, TransactionService, SettingsService, SettingsResolver, AppSettings],
   bootstrap: [AppComponent]
 })
 export class AppModule {

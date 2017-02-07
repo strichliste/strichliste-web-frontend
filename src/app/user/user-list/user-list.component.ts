@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {UserService} from '../user.service';
 import {UserInterface} from '../user.interface';
 import {AlertModel} from '../../shared/alerts/alert.model';
@@ -10,7 +10,7 @@ import {AlertsService} from '../../shared/alerts/alerts.service';
   styleUrls: ['./user-list.component.less']
 })
 export class UserListComponent implements OnInit {
-  users: UserInterface[];
+  @Input() users: UserInterface[];
   filteredUsers: UserInterface[];
 
   constructor(public userService: UserService,
@@ -19,21 +19,12 @@ export class UserListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getUsers();
   }
 
-  getUsers() {
-    this.userService.getUsers().toPromise().then((res) => {
-
-      if (res && res.entries) {
-        this.users = res.entries;
-        this.updateList(this.users);
-      } else {
-        this.alertsService.add(new AlertModel('info', 'no users found!'));
-      }
-    }, (err) => {
-      this.alertsService.add(new AlertModel('danger', err));
-    });
+  ngOnChanges(changes){
+    if (changes.users) {
+      this.updateList(this.users);
+    }
   }
 
   updateList(filteredList: UserInterface[]) {
