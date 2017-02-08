@@ -4,6 +4,7 @@ import {SettingsInterface} from '../shared/settings.interface';
 import {UserService} from './user.service';
 import {AlertsService} from '../shared/alerts/alerts.service';
 import {AlertModel} from '../shared/alerts/alert.model';
+import {UserStore} from './user.store';
 
 @Component({
   selector: 'tally-user',
@@ -12,37 +13,14 @@ import {AlertModel} from '../shared/alerts/alert.model';
 })
 export class UserComponent implements OnInit {
 
-  activeUsers:UserInterface[];
-  inactiveUsers:UserInterface[];
+  users$;
 
   constructor(public userService: UserService,
+              public userStore:UserStore,
               public alertsService: AlertsService) {
+
+    this.users$ = this.userStore.store$;
   }
 
-  ngOnInit() {
-    this.getUsers();
-  }
-
-  getUsers() {
-    this.userService.getUsers().toPromise().then((res) => {
-
-      if (res && res.entries) {
-        this.updateList(res.entries);
-      } else {
-        this.alertsService.add(new AlertModel('info', 'no users found!'));
-      }
-    }, (err) => {
-      this.alertsService.add(new AlertModel('danger', err));
-    });
-  }
-
-  updateList(users: UserInterface[]) {
-    const splitUsers = this.userService.splitUsersToActiveAndInActive(users);
-
-    this.activeUsers = splitUsers.active;
-    this.inactiveUsers = splitUsers.inactive;
-
-    console.log(splitUsers);
-  }
-
+  ngOnInit() {}
 }

@@ -5,6 +5,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/share';
+import {UserStore} from './user/user.store';
 
 @Component({
   selector: 'tally-root',
@@ -13,7 +15,12 @@ import 'rxjs/add/operator/finally';
 })
 export class AppComponent {
 
-  constructor(private alertsService: AlertsService) {
+  constructor(private alertsService: AlertsService, userStore:UserStore) {
+    userStore.getInitialUsers();
     alertsService.add(new AlertModel('success', 'das ist ein test'));
+    userStore.store$.subscribe((user)=> {
+      console.log(user);
+      console.log('app user', user );
+    })
   }
 }

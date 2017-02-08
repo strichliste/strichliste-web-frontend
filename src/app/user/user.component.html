@@ -1,6 +1,6 @@
 
 <h3>Active user</h3>
-<tally-user-list [users]="activeUsers"></tally-user-list>
+<tally-user-list [users]="(users$ | async)?.activeUsers"></tally-user-list>
 
 <h3>Inactive user</h3>
-<tally-user-list [users]="inactiveUsers"></tally-user-list>
+<tally-user-list [users]="(users$ | async)?.inactiveUsers"></tally-user-list>
