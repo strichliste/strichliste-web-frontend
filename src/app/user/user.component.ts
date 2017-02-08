@@ -1,15 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {UserInterface} from './user.interface';
-import {SettingsInterface} from '../shared/settings.interface';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {UserService} from './user.service';
 import {AlertsService} from '../shared/alerts/alerts.service';
-import {AlertModel} from '../shared/alerts/alert.model';
 import {UserStore} from './user.store';
 
 @Component({
   selector: 'tally-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.less']
+  styleUrls: ['./user.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class UserComponent implements OnInit {
 

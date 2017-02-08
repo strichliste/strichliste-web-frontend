@@ -18,6 +18,7 @@ export class UserStore {
   constructor(public userService:UserService, private settings: AppSettings){
 
     this.state = {
+      query:'',
       users: [],
       activeUsers:[],
       inactiveUsers:[],
@@ -52,6 +53,7 @@ export class UserStore {
     const splitUsers = this.splitUsers(filteredUsers);
 
     const newState = Object.assign(this.state, {
+      query:query,
       inactiveUsers: splitUsers.inactive,
       activeUsers: splitUsers.active,
     });

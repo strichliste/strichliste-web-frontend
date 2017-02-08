@@ -1,8 +1,5 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy} from '@angular/core';
-import {UserService} from '../user.service';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {UserInterface} from '../user.interface';
-import {AlertModel} from '../../shared/alerts/alert.model';
-import {AlertsService} from '../../shared/alerts/alerts.service';
 
 @Component({
   selector: 'tally-user-list',
@@ -12,8 +9,4 @@ import {AlertsService} from '../../shared/alerts/alerts.service';
 })
 export class UserListComponent {
   @Input() users: UserInterface[];
-
-  constructor(public userService: UserService,
-              public alertsService: AlertsService) {
-  }
 }
