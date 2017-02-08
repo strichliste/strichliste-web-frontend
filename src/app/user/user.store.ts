@@ -45,12 +45,18 @@ export class UserStore {
 
   filterUsers(query) {
 
-    if (query) {
+    const filteredUsers = query ? this.state.users.filter((user) => {
+      return user.name.indexOf(query) > -1;
+    }): this.state.users;
 
-    } else {
-      return this.splitUsers(this.state.users);
-    }
+    const splitUsers = this.splitUsers(filteredUsers);
 
+    const newState = Object.assign(this.state, {
+      inactiveUsers: splitUsers.inactive,
+      activeUsers: splitUsers.active,
+    });
+
+    this.store$.next(newState);
   }
 
   splitUsers(users){

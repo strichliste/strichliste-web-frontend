@@ -24,6 +24,7 @@ import {UserListItemComponent} from './user/user-list/user-list-item/user-list-i
 import {UserListSearchComponent} from './user/user-list/user-list-search/user-list-search.component';
 import {AppSettings} from './app.settings';
 import {UserStore} from './user/user.store';
+import { UserSearchComponent } from './user/user-search/user-search.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {UserStore} from './user/user.store';
     UserTransactionModalComponent,
     UserListComponent,
     UserListSearchComponent,
-    UserListItemComponent
+    UserListItemComponent,
+    UserSearchComponent
   ],
   imports: [
     BrowserModule,
