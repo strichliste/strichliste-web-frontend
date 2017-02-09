@@ -9,4 +9,5 @@ import {UserInterface} from '../user.interface';
 })
 export class UserListComponent {
   @Input() users: UserInterface[];
+  @Input() showCreateUser:boolean;
 }
