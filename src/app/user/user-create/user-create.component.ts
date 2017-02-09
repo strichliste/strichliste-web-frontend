@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from '../user.service';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AlertsService} from '../../shared/alerts/alerts.service';
@@ -9,7 +8,9 @@ import {UserStore} from '../user.store';
 @Component({
   selector: 'tally-user-create',
   templateUrl: './user-create.component.html',
-  styleUrls: ['./user-create.component.less']
+  styleUrls: ['./user-create.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class UserCreateComponent implements OnInit {
 
