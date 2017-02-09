@@ -5,8 +5,6 @@ import {UserService} from './user.service';
 import * as moment from 'moment';
 import {AppSettings} from '../app.settings';
 import {UserModel} from './shared/user.model';
-import {toPromise} from 'rxjs/operator/toPromise';
-import {TransactionInterface} from './user-transactions/transaction.interface';
 import {SettingsInterface} from '../shared/settings.interface';
 import {TransactionService} from './transaction.service';
 import {SettingsService} from '../shared/settings.service';
@@ -16,13 +14,13 @@ import {SettingsService} from '../shared/settings.service';
  */
 @Injectable()
 export class UserStore {
-  state:UserStateInterface;
+  state: UserStateInterface;
 
   store$: BehaviorSubject<UserStateInterface>;
   state$;
 
-  constructor(private userService: UserService, private transactionService:TransactionService,
-              private settingsService:SettingsService,
+  constructor(private userService: UserService, private transactionService: TransactionService,
+              private settingsService: SettingsService,
               private settings: AppSettings) {
 
     this.state = {
@@ -30,7 +28,11 @@ export class UserStore {
       users: [],
       activeUsers: [],
       inactiveUsers: [],
-      userTransactions: [],
+      userTransactions: {
+        offset: 0,
+        overallCount: 0,
+        list: []
+      },
       selectedUser: null,
       settings: {
         boundaries: {
@@ -44,9 +46,9 @@ export class UserStore {
     this.state$ = this.store$.asObservable().share();
   }
 
-  getSettings():Promise<any> {
+  getSettings(): Promise<any> {
     return this.settingsService.getSettings().toPromise().then(res => {
-      const newState = Object.assign(this.state, {settings:res});
+      const newState = Object.assign(this.state, {settings: res});
       this.store$.next(newState);
     });
   }
@@ -56,8 +58,8 @@ export class UserStore {
       if (res && res.entries) {
         const splitUsers: any = this.getSplitUsers(res.entries);
 
-        this.sortUsers(splitUsers.active);
-        this.sortUsers(splitUsers.inactive);
+        UserStore.sortUsers(splitUsers.active);
+        UserStore.sortUsers(splitUsers.inactive);
 
         const newState = Object.assign(this.state, {
           users: res.entries,
@@ -86,7 +88,7 @@ export class UserStore {
     this.store$.next(newState);
   }
 
-  sortUsers(users:UserInterface[]) {
+  static sortUsers(users: UserInterface[]) {
     users.sort((a, b) => {
       return a.name.localeCompare(b.name);
     });
@@ -119,7 +121,7 @@ export class UserStore {
           selectedUser: details
         });
 
-        console.log(this.state,newState );
+        console.log(this.state, newState);
 
         this.store$.next(newState);
       });
@@ -147,10 +149,10 @@ export class UserStore {
 
   addUserTransaction(value) {
     return this.transactionService.addTransaction(this.state.selectedUser.id, value).toPromise().then(
-      res => {
-      this.getUserDetails(this.state.selectedUser.id);
-      return this.getInitialUsers();
-    });
+      () => {
+        this.getUserDetails(this.state.selectedUser.id);
+        return this.getInitialUsers();
+      });
   }
 }
 
@@ -159,7 +161,7 @@ interface UserStateInterface {
   users: UserInterface[],
   activeUsers: UserInterface[],
   inactiveUsers: UserInterface[],
-  userTransactions: TransactionInterface[],
+  userTransactions: any,
   selectedUser: UserInterface,
   settings: SettingsInterface
 }
