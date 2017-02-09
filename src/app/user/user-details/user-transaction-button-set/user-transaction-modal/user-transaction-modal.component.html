@@ -16,7 +16,7 @@
         </button>
         <h4 class="modal-title">Custom transaction</h4>
       </div>
-      <form [formGroup]="addTransactionForm" (submit)="addTransaction(addTransactionForm.controls['value'].value)">
+      <form [formGroup]="addTransactionForm" (submit)="addTransaction(addTransactionForm.controls['value'].value);transactionModal.hide()">
 
         <div class="modal-body">
           <p>Enter your custom transaction value here:</p>

@@ -14,17 +14,16 @@ import {UserService} from './user/user.service';
 import {ModalModule, PaginationModule} from 'ng2-bootstrap';
 import {UserCreateComponent} from './user/user-create/user-create.component';
 import {TransactionService} from './user/transaction.service';
-import {UserTransactionButtonSetComponent} from './user/user-transaction-button-set/user-transaction-button-set.component';
-import {UserTransactionButtonComponent} from './user/user-transaction-button-set/user-transaction-button/user-transaction-button.component';
-import {UserTransactionModalComponent} from './user/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
 import {SettingsService} from './shared/settings.service';
-import {SettingsResolver} from './shared/settings.resolver';
 import {UserListComponent} from './user/user-list/user-list.component';
 import {UserListItemComponent} from './user/user-list/user-list-item/user-list-item.component';
 import {UserListSearchComponent} from './user/user-list/user-list-search/user-list-search.component';
 import {AppSettings} from './app.settings';
 import {UserStore} from './user/user.store';
 import { UserSearchComponent } from './user/user-search/user-search.component';
+import {UserTransactionButtonComponent} from './user/user-details/user-transaction-button-set/user-transaction-button/user-transaction-button.component';
+import {UserTransactionButtonSetComponent} from './user/user-details/user-transaction-button-set/user-transaction-button-set.component';
+import {UserTransactionModalComponent} from './user/user-details/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +50,7 @@ import { UserSearchComponent } from './user/user-search/user-search.component';
     ModalModule.forRoot(),
     PaginationModule,
   ],
-  providers: [AlertsService, UserService, UserStore, TransactionService, SettingsService, SettingsResolver, AppSettings],
+  providers: [AlertsService, UserService, UserStore, TransactionService, SettingsService, AppSettings],
   bootstrap: [AppComponent]
 })
 export class AppModule {

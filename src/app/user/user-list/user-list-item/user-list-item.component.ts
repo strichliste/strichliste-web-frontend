@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, ChangeDetectionStrategy} from '@angular/core';
 import {UserInterface} from '../../user.interface';
 import {SettingsInterface} from '../../../shared/settings.interface';
+import {UserStore} from '../../user.store';
 
 @Component({
   selector: 'tally-user-list-item',
@@ -12,10 +13,14 @@ export class UserListItemComponent implements OnInit {
   @Input() user: UserInterface;
   @Input() settings: SettingsInterface;
 
-  constructor() {
+  constructor(private store:UserStore) {
   }
 
   ngOnInit() {
+  }
+
+  selectUser() {
+    this.store.selectUser(this.user);
   }
 
 }

@@ -5,7 +5,7 @@
     [value]="value"
     [balance]="user?.balance"
     [positive]="positive"
-    [boundaries]="boundaries"
+    [boundaries]="(store.store$ | async).settings?.boundaries"
     class="grow m-a-1"
   ></tally-user-transaction-button>
 
@@ -13,7 +13,7 @@
     class="grow m-a-1"
     [positive]="positive"
     [balance]="user?.balance"
-    [boundaries]="boundaries"
+    [boundaries]="(store.store$ | async).settings?.boundaries"
     (onAddTransaction)="addTransaction($event)"
   ></tally-user-transaction-modal>
 </div>

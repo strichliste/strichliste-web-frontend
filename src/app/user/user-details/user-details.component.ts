@@ -1,22 +1,23 @@
-import {Component, OnInit} from '@angular/core';
-import {UserInterface} from '../user.interface';
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {AlertModel} from '../../shared/alerts/alert.model';
-import {UserService} from '../user.service';
+import {UserInterface} from '../user.interface';
+import {UserStore} from '../user.store';
 import {AlertsService} from '../../shared/alerts/alerts.service';
-import {SettingsService} from '../../shared/settings.service';
-import {SettingsInterface} from '../../shared/settings.interface';
+import {AlertModel} from '../../shared/alerts/alert.model';
 
 @Component({
   selector: 'tally-user-details',
   templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.less']
+  styleUrls: ['./user-details.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDetailsComponent implements OnInit {
   user: UserInterface;
   queryParamsSubscribtion: any;
+  userSubscription;
   constructor(private route: ActivatedRoute,
-              private userService: UserService,
+              private store: UserStore,
+              private cd: ChangeDetectorRef,
               private alertsService: AlertsService) {
   }
 
@@ -24,18 +25,19 @@ export class UserDetailsComponent implements OnInit {
     this.queryParamsSubscribtion = this.route.params.subscribe((param) => {
       this.getUserDetails(param['id']);
     });
+
+    this.userSubscription = this.store.store$.map((res) => res.selectedUser).subscribe((user) => {
+      this.user = user;
+      this.cd.markForCheck();
+    });
   }
 
   getUserDetails(id) {
-    this.userService.getUserDetails(id).toPromise().then((res: UserInterface) => {
-      if (res) {
-        this.user = res;
-      } else {
-        this.alertsService.add(new AlertModel('danger', 'no user details found'));
-      }
-    }, (err) => {
-      this.alertsService.add(new AlertModel('danger', err));
-    });
+    this.store.getUserDetails(id)
+      .then(() => {
+      }, (err) => {
+        this.alertsService.add(new AlertModel('danger', err));
+      });
   }
 
   refreshUserDetails() {
@@ -44,5 +46,6 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnDestroy() {
     this.queryParamsSubscribtion.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 }

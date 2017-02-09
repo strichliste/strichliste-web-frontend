@@ -1,11 +1,12 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
-import {TransactionValidators} from '../../transaction-validators';
+import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TransactionValidators} from '../../../transaction-validators';
 
 @Component({
   selector: 'tally-user-transaction-modal',
   templateUrl: './user-transaction-modal.component.html',
-  styleUrls: ['./user-transaction-modal.component.less']
+  styleUrls: ['./user-transaction-modal.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserTransactionModalComponent implements OnInit {
   @Input() positive: boolean;
@@ -26,9 +27,8 @@ export class UserTransactionModalComponent implements OnInit {
   }
 
   addTransaction(value: number) {
-    if (!this.positive) {
-      value *= -1;
-    }
+    value = this.positive ? value : value * -1;
+
     this.onAddTransaction.emit(value);
   }
 

@@ -16,11 +16,17 @@ import {UserStore} from './user/user.store';
 export class AppComponent {
 
   constructor(private alertsService: AlertsService, userStore:UserStore) {
-    userStore.getInitialUsers();
+    userStore.getSettings().then(null,err => this.showError(err));
+    userStore.getInitialUsers().then(null, err => this.showError(err));
+
     alertsService.add(new AlertModel('success', 'das ist ein test'));
     userStore.store$.subscribe((user)=> {
       console.log(user);
       console.log('app user', user );
     })
+  }
+
+  showError(err) {
+    this.alertsService.add(new AlertModel('danger', err));
   }
 }
