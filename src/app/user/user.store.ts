@@ -34,6 +34,9 @@ export class UserStore {
         limit: 10,
         entries: []
       },
+      userTransactionModal: {
+        show: false,
+      },
       selectedUser: null,
       settings: {
         boundaries: {
@@ -76,7 +79,7 @@ export class UserStore {
   filterUsers(query) {
 
     const filteredUsers = query ? this.state.users.filter((user) => {
-        return user.name.indexOf(query) > -1;
+        return user.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
       }) : this.state.users;
 
     const splitUsers = this.getSplitUsers(filteredUsers);
@@ -164,6 +167,11 @@ export class UserStore {
       this.store$.next(newState);
     });
   }
+
+  showUserTransactionModal(show) {
+    const newuserTransactionModal = Object.assign(this.state.userTransactionModal, {show});
+    this.store$.next(Object.assign(this.state, newuserTransactionModal ));
+  }
 }
 
 interface UserStateInterface {
@@ -172,6 +180,7 @@ interface UserStateInterface {
   activeUsers: UserInterface[],
   inactiveUsers: UserInterface[],
   userTransactions: any,
+  userTransactionModal: any,
   selectedUser: UserInterface,
   settings: SettingsInterface
 }

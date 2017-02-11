@@ -15,6 +15,7 @@ export class UserDetailsComponent implements OnInit {
   user: UserInterface;
   queryParamsSubscribtion: any;
   userSubscription;
+  showSideBar:boolean;
   constructor(private route: ActivatedRoute,
               private store: UserStore,
               private cd: ChangeDetectorRef,
@@ -26,8 +27,9 @@ export class UserDetailsComponent implements OnInit {
       this.getUserDetails(param['id']);
     });
 
-    this.userSubscription = this.store.store$.map((res) => res.selectedUser).subscribe((user) => {
-      this.user = user;
+    this.userSubscription = this.store.store$.subscribe((state) => {
+      this.user = state.selectedUser;
+      this.showSideBar = state.userTransactionModal.show;
       this.cd.markForCheck();
     });
   }

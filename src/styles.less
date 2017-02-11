@@ -11,10 +11,60 @@
   flex-grow: 1;
 }
 
-.m-a-1 {
-  margin: 10px!important;
+.m-1 {
+  margin: 0.5rem !important;
+}
+.p-1 {
+  padding: 0.5rem !important;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.card-grid {
+  margin: 0 -0.5rem;
 }
 
 .negative {
   color: #d9230f;
 }
+
+.is-red {
+  color: #d9230f;
+}
+
+.section {
+  margin: 1rem;
+}
+
+html, body, tally-root {
+  height: 100%;
+  display: block;
+}
+
+.center,
+tally-user-details,
+tally-user-create {
+  justify-content: center;
+}
+
+html,
+body,
+tally-root,
+tally-user-details,
+md-sidenav-container,
+.md-sidenav-content,
+.center,
+tally-user-create {
+  flex-direction: column !important;
+  display: flex !important;
+  flex-grow: 1;
+  align-content: space-around;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+@import "~@angular/material/core/theming/prebuilt/indigo-pink.css";

@@ -1,14 +1,16 @@
-<form
+<form class="section center"
   [formGroup]="createUserFormGroup"
   (ngSubmit)="createUser(createUserFormGroup.controls['name'].value)">
-  <div class="form-group">
-    <label>Username:</label>
-    <input class="form-control"
+
+  <md-input-container class="w100">
+    <input md-input class="form-control"
            [formControl]="createUserFormGroup.controls['name']"
-           required
-           maxlength="23"
-           placeholder="your username"
+           placeholder="Username"
+           [required]="true"
            type="text">
-  </div>
-  <button class="btn btn-default btn-block" type="submit">Create user</button>
+  </md-input-container>
+  <button md-raised-button="" class="w100" type="submit">Create user</button>
 </form>
+<div class="m-1">
+  <a [routerLink]="['']"  class="w100" md-raised-button="">back</a>
+</div>

@@ -1,8 +1,10 @@
+<div class="section">
+  <tally-user-search></tally-user-search>
 
-<tally-user-search></tally-user-search>
+  <h3>Active user</h3>
+  <tally-user-list [showCreateUser]="true" [users]="(users$ | async)?.activeUsers"></tally-user-list>
 
-<h3>Active user</h3>
-<tally-user-list [showCreateUser]="true" [users]="(users$ | async)?.activeUsers"></tally-user-list>
+  <h3>Inactive user</h3>
+  <tally-user-list [users]="(users$ | async)?.inactiveUsers"></tally-user-list>
 
-<h3>Inactive user</h3>
-<tally-user-list [users]="(users$ | async)?.inactiveUsers"></tally-user-list>
+</div>

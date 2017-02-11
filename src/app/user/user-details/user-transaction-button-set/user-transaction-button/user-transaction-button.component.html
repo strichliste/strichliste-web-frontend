@@ -1,8 +1,11 @@
-<button type="button"
-        class="btn btn-block"
-        [disabled]="isInvalid(value)"
-        [ngClass]="{'btn-success':positive,'btn-danger':!positive}"
-        (click)="addTransaction(value)">{{value| currency: 'USD':true}}
+<button
+  md-raised-button
+  [color]="color"
+  type="button"
+  class="btn btn-block"
+  [disabled]="isInvalid(value)"
+  [ngClass]="{'btn-success':positive,'btn-danger':!positive}"
+  (click)="addTransaction(value)">{{value| currency: 'USD':true}}
 </button>
 
 

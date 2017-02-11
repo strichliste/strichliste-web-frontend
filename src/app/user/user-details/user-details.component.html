@@ -1,54 +1,56 @@
-<div ng-if="user">
-
-  <div class="row">
-    <div class="col-xs-12 col-sm-6">
-      <h2>
-        {{user?.name}}
-      </h2>
-    </div>
-    <div class="col-xs-12 col-sm-6 account-balance">
+<md-sidenav-container class="p-1">
+  <div class="center">
+    <div class="flex">
+      <div class="grow">
+        <h2>
+          {{user?.name}}
+        </h2>
+      </div>
+      <div class="account-balance">
       <span [ngClass]="{'negative': user?.balance < 0}">
         {{user?.balance | currency: 'USD':true}}
       </span>
-    </div>
-  </div>
-
-  <div class="row">
-
-    <div class="col-xs-12 col-sm-6 credit">
-
-      <div class="clearfix">
-        <h3>userChargeWallet</h3>
-        <tally-user-transaction-button-set
-          [user]="user"
-          [positive]="true"
-        ></tally-user-transaction-button-set>
-      </div>
-
-      <div class="clearfix">
-        <h3>userSpendMoney</h3>
-        <tally-user-transaction-button-set
-          [user]="user"
-          [positive]="false"
-        ></tally-user-transaction-button-set>
       </div>
     </div>
 
-    <div class="col-xs-12 col-sm-6">
-      <h3>Last {{user?.transactions?.length}} transactions (
-        <a [routerLink]="['transactions']">
-          show More
-        </a>)
-      </h3>
-      <table class="table table-striped">
-        <tbody>
-        <tr *ngFor=" let transaction of user?.transactions">
-          <td>{{transaction.createDate}}</td>
-          <td class="balance">{{transaction.value}}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="flex">
+      <div class="grow">
+        <div>
+          <h3>userChargeWallet</h3>
+          <tally-user-transaction-button-set
+            [user]="user"
+            [positive]="true"
+          ></tally-user-transaction-button-set>
+        </div>
 
+        <div>
+          <h3>userSpendMoney</h3>
+          <tally-user-transaction-button-set
+            [user]="user"
+            [positive]="false"
+          ></tally-user-transaction-button-set>
+        </div>
+      </div>
+
+
+      <div>
+        <h3>Last {{user?.transactions?.length}} transactions (
+          <a [routerLink]="['transactions']">
+            show More
+          </a>)
+        </h3>
+        <table class="table table-striped">
+          <tbody>
+          <tr *ngFor=" let transaction of user?.transactions">
+            <td>{{transaction.createDate}}</td>
+            <td class="balance">{{transaction.value}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+</md-sidenav-container>
+<div class="m-1">
+  <a [routerLink]="['']"  class="w100" md-raised-button="">back</a>
 </div>

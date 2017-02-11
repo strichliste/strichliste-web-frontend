@@ -3,6 +3,8 @@ import {UserInterface} from '../../user.interface';
 import {UserStore} from '../../user.store';
 import {AlertsService} from '../../../shared/alerts/alerts.service';
 import {AlertModel} from '../../../shared/alerts/alert.model';
+import {UserTransactionModalComponent} from './user-transaction-modal/user-transaction-modal.component';
+import {MdDialog} from '@angular/material';
 
 
 @Component({
@@ -12,13 +14,14 @@ import {AlertModel} from '../../../shared/alerts/alert.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserTransactionButtonSetComponent implements OnInit {
-  @Input() user:UserInterface;
-  @Input() positive:boolean;
+  @Input() user: UserInterface;
+  @Input() positive: boolean;
 
   values: number[];
-
-  constructor(public store:UserStore,
-              private alerts:AlertsService) {
+  color:string;
+  constructor(public store: UserStore,
+              public dialog: MdDialog,
+              private alerts: AlertsService) {
 
     this.values = [
       0.5,
@@ -28,9 +31,11 @@ export class UserTransactionButtonSetComponent implements OnInit {
     ];
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.color = this.positive ? 'primary' : 'warn';
+  }
 
-  addTransaction(value:string) {
+  addTransaction(value: string) {
     this.store.addUserTransaction(value).then(null, err => {
       this.alerts.add(new AlertModel('danger', 'Error while adding transaction! :('));
     });

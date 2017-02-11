@@ -1,17 +1,15 @@
-
-
 <tally-alerts></tally-alerts>
-<div class="container-fluid">
-  <nav class="navbar navbar-static-top">
-    <div class="navbar-header">
-      <a class="navbar-brand" routerLink="/"><img src="assets/logo.png" height="35" width="48"> Strichliste</a>
-    </div>
-  </nav>
+<md-toolbar color="primary">
+  <a md-button routerLink="/"><img src="assets/logo.png" height="35" width="48"> Strichliste</a>
+  <span class="grow"></span>
+  <button md-button>
+    <md-icon fontIcon="thumbs-up"></md-icon>
+  </button>
+</md-toolbar>
 
-  <router-outlet></router-outlet>
-  <footer>
-    <a routerLink="/metrics" routerLinkActive="active">Metrics</a>
-  </footer>
 
-</div>
+<router-outlet></router-outlet>
+<footer>
+  <a routerLink="/metrics" routerLinkActive="active">Metrics</a>
+</footer>
 

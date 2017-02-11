@@ -1,44 +1,18 @@
+<h4 class="grow ">Custom transaction</h4>
+<form [formGroup]="addTransactionForm"
+      (submit)="addTransaction(addTransactionForm.controls['value'].value);transactionModal.hide()">
 
-<button type="button"
-        class="btn btn-block"
-        [ngClass]="{'btn-success':positive,'btn-danger':!positive}"
-        (click)="transactionModal.show()">
-  $ ?
-</button>
+  <p>Enter your custom transaction value here:</p>
+  <md-input-container class="w100">
+    <input md-input [required]="true" min="0" type="number" lang="nl" [formControl]="addTransactionForm.controls['value']">
+    <md-hint>{{addTransactionForm.controls['value'].validationMessage}}</md-hint>
+  </md-input-container>
 
-<div class="modal fade" bsModal #transactionModal="bs-modal"
-     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="transactionModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Custom transaction</h4>
-      </div>
-      <form [formGroup]="addTransactionForm" (submit)="addTransaction(addTransactionForm.controls['value'].value);transactionModal.hide()">
-
-        <div class="modal-body">
-          <p>Enter your custom transaction value here:</p>
-          <div class="input-group input-group-lg">
-            <span class="input-group-addon ng-binding">$</span>
-            <input min="0" type="number" lang="nl" [formControl]="addTransactionForm.controls['value']"
-                   class="form-control transaction-value">
-          </div>
-          <p>{{addTransactionForm.controls['value'].valid}}</p>
-          <p>{{addTransactionForm.controls['value'].validationMessage}}</p>
-        </div>
-        <div class="modal-footer ng-scope">
-          <button [ngClass]="{'btn-success':positive,'btn-danger':!positive}"
-                  [disabled]="addTransactionForm.invalid || isInvalid(addTransactionForm.controls['value'].value)"
-                  class="btn btn-lg btn-success">
-            <span *ngIf="positive">Charge wallet</span>
-            <span *ngIf="!positive">Pay purchase</span>
-          </button>
-          <button class="btn btn-lg btn-default" type="button" (click)="transactionModal.hide()">Cancel</button>
-        </div>
-      </form>
-
-    </div>
-  </div>
-</div>
+  <button [color]="color"
+          md-raised-button=""
+          [disabled]="addTransactionForm.invalid || isInvalid(addTransactionForm.controls['value'].value)">
+    <span *ngIf="positive">Charge wallet</span>
+    <span *ngIf="!positive">Pay purchase</span>
+  </button>
+  <button type="button" md-raised-button="" (click)="sidenav.toggle()">Cancel</button>
+</form>

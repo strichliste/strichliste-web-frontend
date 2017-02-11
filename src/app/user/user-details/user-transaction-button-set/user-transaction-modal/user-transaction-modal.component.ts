@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TransactionValidators} from '../../../transaction-validators';
+import {MdDialogRef} from '@angular/material';
 
 @Component({
   selector: 'tally-user-transaction-modal',
@@ -12,6 +13,8 @@ export class UserTransactionModalComponent implements OnInit {
   @Input() positive: boolean;
   @Input() balance: number;
   @Input() boundaries: {lower: number, upper: number};
+  @Input() sidenav;
+  @Input() color;
 
   @Output() onAddTransaction = new EventEmitter();
   addTransactionForm: FormGroup;

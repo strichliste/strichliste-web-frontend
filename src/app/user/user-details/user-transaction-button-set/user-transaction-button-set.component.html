@@ -5,15 +5,30 @@
     [value]="value"
     [balance]="user?.balance"
     [positive]="positive"
+    [color]="color"
     [boundaries]="(store.store$ | async).settings?.boundaries"
-    class="grow m-a-1"
+    class="grow m-1"
   ></tally-user-transaction-button>
 
+  <div class="grow m-1">
+    <button
+      md-raised-button=""
+      [color]="color"
+      type="button"
+      (click)="sidenav.toggle()">
+      $ ?
+    </button>
+  </div>
+</div>
+<md-sidenav #sidenav>
   <tally-user-transaction-modal
-    class="grow m-a-1"
+    class="grow m-1"
     [positive]="positive"
+    [color]="color"
     [balance]="user?.balance"
+    [sidenav]="sidenav"
     [boundaries]="(store.store$ | async).settings?.boundaries"
     (onAddTransaction)="addTransaction($event)"
   ></tally-user-transaction-modal>
-</div>
+</md-sidenav>
+

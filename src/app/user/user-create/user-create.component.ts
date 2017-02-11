@@ -1,5 +1,5 @@
 import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {FormGroup, FormBuilder} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AlertsService} from '../../shared/alerts/alerts.service';
 import {AlertModel} from '../../shared/alerts/alert.model';
@@ -18,7 +18,13 @@ export class UserCreateComponent implements OnInit {
 
   constructor(private router: Router, fb: FormBuilder, private store: UserStore, private alertsService: AlertsService) {
     this.createUserFormGroup = fb.group({
-      name: ['']
+      name: ['',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(24)
+        ]
+      ]
     });
   }
 

@@ -12,8 +12,9 @@ export class UserTransactionButtonComponent implements OnInit {
   @Input() positive: boolean;
   @Input() value: number;
   @Input() balance: number;
-  @Input() boundaries: {lower: number, upper: number};
+  @Input() color: string;
 
+  @Input() boundaries: {lower: number, upper: number};
   @Output() onAddTransaction = new EventEmitter();
 
   constructor() {

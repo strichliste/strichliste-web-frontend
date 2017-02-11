@@ -24,6 +24,8 @@ import { UserSearchComponent } from './user/user-search/user-search.component';
 import {UserTransactionButtonComponent} from './user/user-details/user-transaction-button-set/user-transaction-button/user-transaction-button.component';
 import {UserTransactionButtonSetComponent} from './user/user-details/user-transaction-button-set/user-transaction-button-set.component';
 import {UserTransactionModalComponent} from './user/user-details/user-transaction-button-set/user-transaction-modal/user-transaction-modal.component';
+import {MaterialModule} from '@angular/material';
+import 'hammerjs';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import {UserTransactionModalComponent} from './user/user-details/user-transactio
     HttpModule,
     Routing,
     ModalModule.forRoot(),
+    MaterialModule.forRoot(),
     PaginationModule,
   ],
   providers: [AlertsService, UserService, UserStore, TransactionService, SettingsService, AppSettings],
