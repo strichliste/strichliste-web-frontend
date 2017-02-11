@@ -26,6 +26,7 @@ export class UserStore {
     this.state = {
       query: '',
       users: [],
+      userLimit: 25,
       activeUsers: [],
       inactiveUsers: [],
       userTransactions: {
@@ -61,18 +62,24 @@ export class UserStore {
     return this.userService.getUsers().toPromise().then((res) => {
       if (res && res.entries) {
         const splitUsers: any = this.getSplitUsers(res.entries);
-
-        UserStore.sortUsers(splitUsers.active);
-        UserStore.sortUsers(splitUsers.inactive);
-
         const newState = Object.assign(this.state, {
           query: '',
           users: res.entries,
           inactiveUsers: splitUsers.inactive,
           activeUsers: splitUsers.active,
         });
+
         this.store$.next(newState);
       }
+    });
+  }
+
+  limitUsers(users){
+    var index = -1;
+
+    return users.filter(user => {
+      index += 1;
+      return index < this.state.userLimit;
     });
   }
 
@@ -100,7 +107,7 @@ export class UserStore {
   }
 
   getSplitUsers(users) {
-    return users.reduce((splitUsers, user) => {
+    const splitUsers =  users.reduce((splitUsers, user) => {
       if (user.lastTransaction && moment().diff(moment(user.lastTransaction)) < this.settings.inactiveUserPeriod) {
         splitUsers.active.push(user);
       } else {
@@ -109,6 +116,14 @@ export class UserStore {
 
       return splitUsers;
     }, {active: [], inactive: []});
+
+    UserStore.sortUsers(splitUsers.active);
+    UserStore.sortUsers(splitUsers.inactive);
+    splitUsers.active = this.limitUsers(splitUsers.active);
+    splitUsers.inactive = this.limitUsers(splitUsers.inactive);
+
+
+    return splitUsers;
   }
 
   selectUser(user) {
@@ -177,6 +192,7 @@ export class UserStore {
 interface UserStateInterface {
   query: string,
   users: UserInterface[],
+  userLimit: number,
   activeUsers: UserInterface[],
   inactiveUsers: UserInterface[],
   userTransactions: any,
