@@ -12,12 +12,12 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let transaction of transactions; trackBy: transaction?.id">
+  <tr *ngFor="let entry of transactionState.entries; trackBy: entry?.id">
     <td>
-      {{transaction.createDate}}
+      {{entry.createDate}}
     </td>
-    <td [ngClass]="{'negative': transaction.value < 0}">
-      {{transaction.value | currency: 'USD':true}}
+    <td [ngClass]="{'negative': entry.value < 0}">
+      {{entry.value | currency: 'USD':true}}
     </td>
   </tr>
   </tbody>

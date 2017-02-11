@@ -31,7 +31,8 @@ export class UserStore {
       userTransactions: {
         offset: 0,
         overallCount: 0,
-        list: []
+        limit: 10,
+        entries: []
       },
       selectedUser: null,
       settings: {
@@ -62,6 +63,7 @@ export class UserStore {
         UserStore.sortUsers(splitUsers.inactive);
 
         const newState = Object.assign(this.state, {
+          query: '',
           users: res.entries,
           inactiveUsers: splitUsers.inactive,
           activeUsers: splitUsers.active,
@@ -153,6 +155,14 @@ export class UserStore {
         this.getUserDetails(this.state.selectedUser.id);
         return this.getInitialUsers();
       });
+  }
+
+  getUserTransactions(userId, limit, offset) {
+    return this.transactionService.getTransactions(userId, limit, offset).toPromise().then( res => {
+      console.log(res);
+      const newState = Object.assign(this.state, {userTransactions: res});
+      this.store$.next(newState);
+    });
   }
 }
 
