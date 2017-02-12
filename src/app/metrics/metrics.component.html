@@ -5,6 +5,39 @@
   [avgBalance]="metrics.avgBalance"
 ></tally-metrics-overview>
 
-<div *ngFor="let chart of charts">
-  {{chart |json}}
+<h3>income vs. spent</h3>
+<div *ngIf="payment?.labels?.length" style="display: block">
+  <canvas baseChart
+          [datasets]="payment.data"
+          [labels]="payment.labels"
+          [options]="chartOptions"
+          [legend]="true"
+          [chartType]="'bar'"
+          height="300"
+  ></canvas>
 </div>
+
+<h3>active user</h3>
+<div *ngIf="activeUser?.labels?.length" style="display: block">
+  <canvas baseChart
+          [datasets]="activeUser.data"
+          [labels]="activeUser.labels"
+          [options]="chartOptions"
+          [legend]="true"
+          [chartType]="'bar'"
+          height="300"
+  ></canvas>
+</div>
+
+<h3>transactions</h3>
+<div *ngIf="transaction?.labels?.length" style="display: block">
+  <canvas baseChart
+          [datasets]="transaction.data"
+          [labels]="transaction.labels"
+          [options]="chartOptions"
+          [legend]="true"
+          [chartType]="'bar'"
+          height="300"
+  ></canvas>
+</div>
+

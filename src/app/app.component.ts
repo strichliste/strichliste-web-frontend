@@ -12,7 +12,6 @@ import {UserStore} from './user/user.store';
   selector: 'tally-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
 

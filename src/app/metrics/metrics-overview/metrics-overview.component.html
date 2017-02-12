@@ -1,23 +1,21 @@
-<div class="row metrics ng-scope">
-  <div class="col-xs-12">
-    <h2>Overview</h2>
-  </div>
-  <div class="col-xs-3 metric">
+<h2>Overview</h2>
+<div class="flex">
+  <div class="grow metric">
     <h3>user</h3>
     <span>{{users}}</span>
   </div>
 
-  <div class="col-xs-3 metric">
+  <div class="grow metric">
     <h3>transactions</h3>
     <span>{{transactions}}</span>
   </div>
 
-  <div class="col-xs-3 metric">
+  <div class="grow metric">
     <h3>system balance</h3>
     <span>{{balance | currency: 'USD':true}}</span>
   </div>
 
-  <div class="col-xs-3 metric">
+  <div class="grow metric">
     <h3>avg. balance</h3>
     <span>{{avgBalance | currency: 'USD':true}}</span>
   </div>
