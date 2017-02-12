@@ -1,36 +1,23 @@
-import {Component, OnInit, ElementRef} from '@angular/core';
-import {MetricsService} from './metrics.service';
+import {Component, OnInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {MetricsInterface} from './metrics.interface';
-import {AlertsService} from '../shared/alerts/alerts.service';
+import {MetricsStore} from './metrics.store';
 
 declare var Chart: any;
 
 @Component({
   selector: 'tally-metrics',
   templateUrl: './metrics.component.html',
-  styleUrls: ['./metrics.component.less']
+  styleUrls: ['./metrics.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class MetricsComponent implements OnInit {
 
   protected metrics: MetricsInterface;
-  protected charts;
+  protected  metricsSubscription;
   chartOptions;
-  payment;
-  activeUser;
-  transaction;
-  constructor(private api: MetricsService, private alerts: AlertsService, el: ElementRef) {
-    this.metrics = {
-      countUsers: 0,
-      countTransactions: 0,
-      overallBalance: 0,
-      avgBalance: 0,
-      days: []
-    };
-    this.payment = {};
-    this.activeUser = {};
-    this.transaction = {};
-    this.charts = [];
-    // Chart.js Options
+  constructor(private store:MetricsStore, cd:ChangeDetectorRef) {
+
     this.chartOptions = {
       animation: false,
       maintainAspectRatio: false,
@@ -45,67 +32,19 @@ export class MetricsComponent implements OnInit {
 
       barShowStroke: true,
       barStrokeWidth: 1
-    }
-  }
+    };
 
+    this.store.getMetrics();
+    this.metricsSubscription = this.store.state$.subscribe((metrics) => {
+      this.metrics = metrics;
+      cd.markForCheck();
+    });
+  }
   ngOnInit() {
-    this.getMetrics();
+
   }
 
-  getMetrics() {
-    this.api.getMetrics().toPromise().then(res => {
-      this.metrics = res;
-      this.initChartData(this.metrics)
-      console.log(this.metrics, this.payment );
-    }, err => {
-      this.alerts.add(err);
-    });
-  }
-
-  initChartData(metrics) {
-
-    const spent = [], income = [], labels = [], users = [], transactions = [];
-
-    function formatNumber(num) {
-      return Math.round(num * 100) / 100;
-    }
-
-    metrics.days.forEach(function (day, index) {
-      spent.push(formatNumber(day.dayBalanceNegative * -1));
-      income.push(formatNumber(day.dayBalancePositive));
-
-      users.push(day.distinctUsers);
-      transactions.push(day.overallNumber);
-
-      labels.push(day.date);
-    });
-
-    this.payment = {
-      labels: labels,
-      series: ['Spent', 'Income'],
-      colors: ['#d9230f', '#0fd948'],
-      data: [
-        {data: spent, label:'Spent'},
-        {data: income, label:'Income'}
-      ]
-    };
-
-    this.activeUser = {
-      labels: labels,
-      series: ['Users'],
-      colors: ['#ffa200'],
-      data: [
-        {data: users, label:'Users'}
-      ]
-    };
-
-    this.transaction = {
-      labels: labels,
-      series: ['Transactions'],
-      colors: ['#00a5ff'],
-      data: [
-        {data: transactions, label:'Transactions'}
-      ]
-    };
+  ngOnDestroy(){
+    this.metricsSubscription.unsubscribe();
   }
 }

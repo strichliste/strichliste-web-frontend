@@ -5,6 +5,7 @@ import {RouterModule} from '@angular/router';
 import {MetricsService} from './metrics.service';
 import {MetricsOverviewComponent} from './metrics-overview/metrics-overview.component';
 import {ChartsModule} from 'ng2-charts';
+import {MetricsStore} from './metrics.store';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import {ChartsModule} from 'ng2-charts';
     ])
   ],
   declarations: [MetricsComponent, MetricsOverviewComponent],
-  providers: [MetricsService]
+  providers: [MetricsService, MetricsStore]
 })
 export class MetricsModule {
 }

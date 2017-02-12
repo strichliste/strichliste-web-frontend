@@ -6,10 +6,10 @@
 ></tally-metrics-overview>
 
 <h3>income vs. spent</h3>
-<div *ngIf="payment?.labels?.length" style="display: block">
+<div *ngIf="metrics.payment?.labels?.length" style="display: block">
   <canvas baseChart
-          [datasets]="payment.data"
-          [labels]="payment.labels"
+          [datasets]="metrics.payment.data"
+          [labels]="metrics.payment.labels"
           [options]="chartOptions"
           [legend]="true"
           [chartType]="'bar'"
@@ -18,10 +18,10 @@
 </div>
 
 <h3>active user</h3>
-<div *ngIf="activeUser?.labels?.length" style="display: block">
+<div *ngIf="metrics.activeUser?.labels?.length" style="display: block">
   <canvas baseChart
-          [datasets]="activeUser.data"
-          [labels]="activeUser.labels"
+          [datasets]="metrics.activeUser.data"
+          [labels]="metrics.activeUser.labels"
           [options]="chartOptions"
           [legend]="true"
           [chartType]="'bar'"
@@ -30,10 +30,10 @@
 </div>
 
 <h3>transactions</h3>
-<div *ngIf="transaction?.labels?.length" style="display: block">
+<div *ngIf="metrics.transaction?.labels?.length" style="display: block">
   <canvas baseChart
-          [datasets]="transaction.data"
-          [labels]="transaction.labels"
+          [datasets]="metrics.transaction.data"
+          [labels]="metrics.transaction.labels"
           [options]="chartOptions"
           [legend]="true"
           [chartType]="'bar'"
