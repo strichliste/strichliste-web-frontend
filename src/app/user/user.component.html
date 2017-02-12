@@ -1,10 +1,17 @@
 <div class="section">
-  <tally-user-search></tally-user-search>
-
-  <h3>Active user</h3>
-  <tally-user-list [showCreateUser]="true" [users]="(users$ | async)?.activeUsers"></tally-user-list>
-
-  <h3>Inactive user</h3>
-  <tally-user-list [users]="(users$ | async)?.inactiveUsers"></tally-user-list>
-
+  <div class="flex">
+    <tally-user-search></tally-user-search>
+    <tally-user-sort></tally-user-sort>
+  </div>
+  <a md-fab class="create-user-fab" [routerLink]="['user', 'create']">
+    <md-icon>add</md-icon>
+  </a>
+  <md-tab-group>
+    <md-tab label="Active user">
+      <tally-user-list [showCreateUser]="true" [users]="(users$ | async)?.activeUsers"></tally-user-list>
+    </md-tab>
+    <md-tab label="Inactive user">
+      <tally-user-list [users]="(users$ | async)?.inactiveUsers"></tally-user-list>
+    </md-tab>
+  </md-tab-group>
 </div>

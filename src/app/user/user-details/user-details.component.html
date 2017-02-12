@@ -33,12 +33,8 @@
       </div>
 
 
-      <div>
-        <h3>Last {{user?.transactions?.length}} transactions (
-          <a [routerLink]="['transactions']">
-            show More
-          </a>)
-        </h3>
+      <div *ngIf="user?.transactions?.length" class="transactions">
+        <h3>Last {{user?.transactions?.length}} transactions</h3>
         <table class="table table-striped">
           <tbody>
           <tr *ngFor=" let transaction of user?.transactions">
@@ -47,10 +43,14 @@
           </tr>
           </tbody>
         </table>
+        <a md-raised-button class="w100" [routerLink]="['transactions']">
+          browse Transactions
+        </a>
       </div>
     </div>
   </div>
+  <div class="m-1">
+    <a [routerLink]="['']"  class="w100" md-raised-button="">back</a>
+  </div>
 </md-sidenav-container>
-<div class="m-1">
-  <a [routerLink]="['']"  class="w100" md-raised-button="">back</a>
-</div>
+

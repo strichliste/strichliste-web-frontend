@@ -1,6 +1,4 @@
-<a md-raised-button class="grow" [routerLink]="['user', user.id]" (click)="selectUser()">
-  <md-card-content>
+<a md-raised-button class="grow" (click)="selectUser()">
     <div class="name">{{user.name}}</div>
-    <div class="balance">{{user.balance| currency: 'USD':true}}</div>
-  </md-card-content>
+    <div class="balance">{{user.balance}}</div>
 </a>

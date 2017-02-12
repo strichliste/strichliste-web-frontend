@@ -27,14 +27,10 @@ export class UserStore {
       query: '',
       users: [],
       userLimit: 25,
+      sortBy: 'name',
       activeUsers: [],
       inactiveUsers: [],
-      userTransactions: {
-        offset: 0,
-        overallCount: 0,
-        limit: 10,
-        entries: []
-      },
+      userTransactions: [],
       userTransactionModal: {
         show: false,
       },
@@ -74,7 +70,7 @@ export class UserStore {
     });
   }
 
-  limitUsers(users){
+  limitUsers(users) {
     var index = -1;
 
     return users.filter(user => {
@@ -100,14 +96,35 @@ export class UserStore {
     this.store$.next(newState);
   }
 
-  static sortUsers(users: UserInterface[]) {
-    users.sort((a, b) => {
-      return a.name.localeCompare(b.name);
+  updateSortBy(sortBy) {
+    const activeUsers = this.sortUsers(this.state.activeUsers, sortBy);
+    const inactiveUsers = this.sortUsers(this.state.inactiveUsers, sortBy);
+
+    this.store$.next(Object.assign(this.state, {
+      sortBy: sortBy,
+      activeUsers: activeUsers,
+      inactiveUsers: inactiveUsers,
+    }));
+  }
+
+  sortUsers(users: UserInterface[], sortBy):UserInterface[] {
+    const newUsers = [...users];
+    newUsers.sort((a, b) => {
+      a[sortBy] = a[sortBy] || '0';
+      b[sortBy] = b[sortBy] || '0';
+
+      if (a[sortBy].localeCompare) {
+        return a[sortBy].localeCompare(b[sortBy]);
+      } else {
+        return Number(b[sortBy]) - Number(a[sortBy]);
+      }
     });
+
+    return newUsers;
   }
 
   getSplitUsers(users) {
-    const splitUsers =  users.reduce((splitUsers, user) => {
+    const splitUsers = users.reduce((splitUsers, user) => {
       if (user.lastTransaction && moment().diff(moment(user.lastTransaction)) < this.settings.inactiveUserPeriod) {
         splitUsers.active.push(user);
       } else {
@@ -117,11 +134,8 @@ export class UserStore {
       return splitUsers;
     }, {active: [], inactive: []});
 
-    UserStore.sortUsers(splitUsers.active);
-    UserStore.sortUsers(splitUsers.inactive);
-    splitUsers.active = this.limitUsers(splitUsers.active);
-    splitUsers.inactive = this.limitUsers(splitUsers.inactive);
-
+    this.sortUsers(splitUsers.active, this.state.sortBy);
+    this.sortUsers(splitUsers.inactive, this.state.sortBy);
 
     return splitUsers;
   }
@@ -140,9 +154,6 @@ export class UserStore {
         const newState = Object.assign(this.state, {
           selectedUser: details
         });
-
-        console.log(this.state, newState);
-
         this.store$.next(newState);
       });
   }
@@ -175,17 +186,9 @@ export class UserStore {
       });
   }
 
-  getUserTransactions(userId, limit, offset) {
-    return this.transactionService.getTransactions(userId, limit, offset).toPromise().then( res => {
-      console.log(res);
-      const newState = Object.assign(this.state, {userTransactions: res});
-      this.store$.next(newState);
-    });
-  }
-
   showUserTransactionModal(show) {
-    const newuserTransactionModal = Object.assign(this.state.userTransactionModal, {show});
-    this.store$.next(Object.assign(this.state, newuserTransactionModal ));
+    const newUserTransactionModal = Object.assign(this.state.userTransactionModal, {show});
+    this.store$.next(Object.assign(this.state, newUserTransactionModal));
   }
 }
 
@@ -193,6 +196,7 @@ interface UserStateInterface {
   query: string,
   users: UserInterface[],
   userLimit: number,
+  sortBy: string,
   activeUsers: UserInterface[],
   inactiveUsers: UserInterface[],
   userTransactions: any,

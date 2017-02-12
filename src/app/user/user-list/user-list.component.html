@@ -1,7 +1,4 @@
-<div class="flex flex-wrap card-grid">
-  <a md-raised-button class="flex grow m-1" [routerLink]="['user', 'create']">
-  <md-icon>+</md-icon>
-  </a>
+<div class="flex flex-wrap">
   <tally-user-list-item [ngClass]="{'is-red': user?.balance < 0}"
                         class="flex grow m-1" *ngFor="let user of users; trackBy: user?.id;"
                         [user]="user">

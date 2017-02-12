@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 .flex {
   display: flex;
+  flex-direction: row;
 }
 
 .flex-wrap {
@@ -12,10 +13,10 @@
 }
 
 .m-1 {
-  margin: 0.5rem !important;
+  margin: 0.5rem;
 }
 .p-1 {
-  padding: 0.5rem !important;
+  padding: 0.5rem;
 }
 
 .w100 {
@@ -38,29 +39,39 @@
   margin: 1rem;
 }
 
+table {
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  border-spacing: 0;
+  border-collapse: collapse;
+  th {
+    vertical-align: bottom;
+  }
+
+  th,td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    text-align: left;
+  }
+}
+
 html, body, tally-root {
   height: 100%;
   display: block;
-}
-
-.center,
-tally-user-details,
-tally-user-create {
-  justify-content: center;
 }
 
 html,
 body,
 tally-root,
 tally-user-details,
+tally-user-transactions,
 md-sidenav-container,
 .md-sidenav-content,
-.center,
 tally-user-create {
-  flex-direction: column !important;
-  display: flex !important;
-  flex-grow: 1;
-  align-content: space-around;
+  height: 100%;
 }
 
 body {

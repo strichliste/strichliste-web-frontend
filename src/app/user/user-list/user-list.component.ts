@@ -1,5 +1,7 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {UserInterface} from '../user.interface';
+import {UserStore} from '../user.store';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'tally-user-list',

@@ -2,14 +2,11 @@
 <md-toolbar color="primary">
   <a md-button routerLink="/"><img src="assets/logo.png" height="35" width="48"> Strichliste</a>
   <span class="grow"></span>
-  <button md-button>
-    <md-icon fontIcon="thumbs-up"></md-icon>
-  </button>
+    <a routerLink="/metrics" md-button>Metrics</a>
 </md-toolbar>
 
 
 <router-outlet></router-outlet>
 <footer>
-  <a routerLink="/metrics" routerLinkActive="active">Metrics</a>
 </footer>
 
