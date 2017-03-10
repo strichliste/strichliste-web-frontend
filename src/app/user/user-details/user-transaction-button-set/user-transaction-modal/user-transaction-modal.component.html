@@ -4,7 +4,7 @@
 
   <p>Enter your custom transaction value here:</p>
   <md-input-container class="w100">
-    <input md-input [required]="true" min="0" type="number" lang="nl" [formControl]="addTransactionForm.controls['value']">
+    <input mdInput [required]="true" min="0" type="number" lang="nl" [formControl]="addTransactionForm.controls['value']">
     <md-hint>{{addTransactionForm.controls['value'].validationMessage}}</md-hint>
   </md-input-container>
 

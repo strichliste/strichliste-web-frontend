@@ -3,7 +3,7 @@
   (ngSubmit)="createUser(createUserFormGroup.controls['name'].value)">
 
   <md-input-container class="w100">
-    <input md-input class="form-control"
+    <input mdInput class="form-control"
            [formControl]="createUserFormGroup.controls['name']"
            placeholder="Username"
            [required]="true"
