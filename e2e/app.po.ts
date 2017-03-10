@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class TallyPage {
+export class StrichlistePage {
   navigateTo() {
     return browser.get('/');
   }

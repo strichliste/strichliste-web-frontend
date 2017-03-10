@@ -1,10 +1,10 @@
-import { TallyPage } from './app.po';
+import { StrichlistePage } from './app.po';
 
-describe('tally App', function() {
-  let page: TallyPage;
+describe('strichliste App', () => {
+  let page: StrichlistePage;
 
   beforeEach(() => {
-    page = new TallyPage();
+    page = new StrichlistePage();
   });
 
   it('should display message saying app works', () => {
