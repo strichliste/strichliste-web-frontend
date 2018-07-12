@@ -1,8 +1,0 @@
-<div class="flex flex-wrap">
-  <tally-user-list-item [ngClass]="{'is-red': user?.balance < 0}"
-                        class="flex grow m-1" *ngFor="let user of users; trackBy: user?.id;"
-                        [user]="user">
-  </tally-user-list-item>
-</div>
-
-

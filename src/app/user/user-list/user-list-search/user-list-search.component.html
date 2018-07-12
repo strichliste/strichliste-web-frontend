@@ -1,8 +1,0 @@
-<div (click)="toggleShowSearch()" class="grow well m-a-1">
-    <span class="huge-font">
-      s
-    </span>
-</div>
-<form *ngIf="showSearch" [formGroup]="filterForm">
-  <input class="form-control" [formControl]="filterForm.controls['query']" placeholder="search" type="text">
-</form>
