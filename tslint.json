@@ -1,0 +1,23 @@
+{
+  "extends": "ts-config",
+  "rules": {
+    "promise-function-async": false,
+    "no-shadowed-variable": false,
+    "no-floating-promises": false,
+    "trailing-comma": [true],
+    "one-line": [false],
+    "align": [false],
+    "newline-before-return": [false],
+    "max-line-length": [false],
+    "arrow-return-shorthand": true,
+    "object-literal-sort-keys": false,
+    "object-literal-key-quotes": [false],
+    "return-undefined": true,
+    "cyclomatic-complexity": [true, 10],
+    "no-parameter-properties": false,
+    "no-unbound-method": false,
+    "deprecation": {
+      "severity": "warning"
+    }
+  }
+}
