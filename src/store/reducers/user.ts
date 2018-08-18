@@ -2,7 +2,7 @@ import { TransactionTypes } from '.';
 import { Action } from '..';
 import { fetchJson, get, post } from '../../services/api';
 import { DefaultThunkAction } from '../action';
-import { Dispatch } from '../store';
+import { Dispatch, ThunkAction } from '../store';
 import { UsersState } from './user';
 
 export interface GetUsersResponse {
@@ -81,13 +81,14 @@ export function startLoadingUsers(stale: boolean = false): DefaultThunkAction {
   };
 }
 
-export function startCreatingUser(name: string): DefaultThunkAction {
+export function startCreatingUser(name: string): ThunkAction<Promise<User>> {
   return async (dispatch: Dispatch) => {
     try {
       const data = await post('user', {
         name,
       });
       dispatch(userDetailsLoaded(data.user));
+      return data.user;
     } catch (error) {
       console.log(error);
     }

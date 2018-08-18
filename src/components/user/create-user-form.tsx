@@ -1,29 +1,40 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { DefaultThunkAction } from '../../store';
+import { FormattedMessage } from 'react-intl';
 import { startCreatingUser } from '../../store/reducers';
-import { Button, FormField } from '../ui';
+import { Button, FormField, theme } from '../ui';
+
+interface OwnProps {
+  userCreated(id: number): void;
+}
 
 interface ActionProps {
-  startCreatingUser(name: string): DefaultThunkAction;
+  // tslint:disable-next-line:no-any
+  startCreatingUser(name: string): any;
 }
 
 interface State {
   name: string;
 }
 
-type Props = ActionProps;
+type Props = OwnProps & ActionProps;
 
 export class CreateUserForm extends React.Component<Props, State> {
   public state = {
     name: '',
   };
 
-  public submit = (e: React.FormEvent<HTMLFormElement>) => {
+  public submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    this.props.startCreatingUser(this.state.name);
-    this.setState({ name: '' });
+    try {
+      const data = await this.props.startCreatingUser(this.state.name);
+
+      this.setState({ name: '' });
+      this.props.userCreated(data.id);
+    } catch (error) {
+      console.log('failed to create user', error);
+    }
   };
 
   // tslint:disable-next-line:prefer-function-over-method
@@ -31,16 +42,25 @@ export class CreateUserForm extends React.Component<Props, State> {
     return (
       <form onSubmit={this.submit}>
         <FormField>
+          <label>
+            <FormattedMessage id="USER_CREATE_NAME_LABEL" />
+          </label>
           <input
             value={this.state.name}
-            onChange={e => this.setState({ name: e.target.value })}
-            placeholder="user"
+            onChange={e =>
+              this.setState({
+                name: e.target.value,
+              })
+            }
+            placeholder=""
             type="text"
             required
           />
         </FormField>
         <FormField>
-          <Button> + </Button>
+          <Button color={theme.green}>
+            <FormattedMessage id="USER_CREATE_TRIGGER" />
+          </Button>
         </FormField>
       </form>
     );
