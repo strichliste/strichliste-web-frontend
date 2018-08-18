@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { DefaultThunkAction } from '../../store';
 import { startCreatingUser } from '../../store/reducers';
+import { Button, FormField } from '../ui';
 
 interface ActionProps {
   startCreatingUser(name: string): DefaultThunkAction;
@@ -31,7 +32,7 @@ export class CreateUserForm extends React.Component<Props, State> {
 
     return (
       <form onSubmit={this.submit}>
-        <div>
+        <FormField>
           <input
             value={this.state.name}
             onChange={e => this.setState({ name: e.target.value })}
@@ -39,10 +40,10 @@ export class CreateUserForm extends React.Component<Props, State> {
             type="text"
             required
           />
-        </div>
-        <div>
-          <button> + </button>
-        </div>
+        </FormField>
+        <FormField>
+          <Button> + </Button>
+        </FormField>
       </form>
     );
   }
