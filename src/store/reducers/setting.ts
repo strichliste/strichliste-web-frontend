@@ -1,6 +1,6 @@
 import { get } from '../../services/api';
 import { Action, DefaultThunkAction } from '../action';
-import { Dispatch } from '../store';
+import { AppState, Dispatch } from '../store';
 
 export enum SettingsTypes {
   StartLoadingSettings = 'START_LOADING_SETTINGS',
@@ -117,4 +117,13 @@ export function settings(
     default:
       return state;
   }
+}
+
+// Settings selectors
+export function getSettings(state: AppState): Settings {
+  return state.settings;
+}
+
+export function getPayment(state: AppState): Payment {
+  return getSettings(state).payment;
 }
