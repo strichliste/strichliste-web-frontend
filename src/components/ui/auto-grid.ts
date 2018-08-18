@@ -5,5 +5,5 @@ export const AutoGrid = styled('div')({
   display: 'grid',
   gridGap: '1rem',
   gridTemplateColumns: 'repeat(auto-fill, minmax(10rem, 1fr))',
-  gridAutoRows: 'minmax(7rem, auto)',
+  gridAutoRows: 'minmax(10rem, auto)',
 });
