@@ -74,7 +74,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
               </ListItem>
               {user.transactions &&
                 Object.keys(user.transactions).map(id => (
-                  <ConnectedTransactionListItem id={id} />
+                  <ConnectedTransactionListItem key={id} id={id} />
                 ))}
             </CardContent>
           </Card>
