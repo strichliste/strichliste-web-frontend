@@ -1,5 +1,5 @@
 import { Action } from '..';
-import { fetchJson } from '../../services/api';
+import { fetchJson, get, post } from '../../services/api';
 import { DefaultThunkAction } from '../action';
 import { Dispatch } from '../store';
 import { UsersState } from './user';
@@ -11,12 +11,11 @@ export interface GetUsersResponse {
 export interface User {
   id: number;
   name: string;
-  mailAddress: string;
+  active: boolean;
+  email?: string;
   balance: number;
-  lastTransaction: string;
-  countOfTransactions: number;
-  weightedCountOfPurchases?: number;
-  activeDays: number;
+  created: string;
+  updated?: string;
   transactions: string[];
 }
 
@@ -54,7 +53,7 @@ export function userDetailsLoaded(payload: User): UserDetailsLoadedAction {
 
 export function startLoadingUserDetails(id: number): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const details = await fetchJson(`user/${id}`);
+    const details = await fetchJson(`user/${id}`, { mode: 'cors' });
     dispatch(userDetailsLoaded(details.user));
   };
 }
@@ -73,7 +72,9 @@ export function usersLoaded(payload: GetUsersResponse): UsersLoadedAction {
 export function startLoadingUsers(): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     try {
-      const data = await fetchJson('user');
+      const data = await get('user?stale=true');
+      console.log(data);
+
       dispatch(usersLoaded(data));
     } catch (error) {
       console.log(error);
@@ -84,11 +85,10 @@ export function startLoadingUsers(): DefaultThunkAction {
 export function startCreatingUser(name: string): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     try {
-      const data = await fetchJson('user', {
-        method: 'POST',
-        body: JSON.stringify({ name }),
+      const data = await post('user', {
+        name,
       });
-      dispatch(usersLoaded(data));
+      dispatch(userDetailsLoaded(data.user));
     } catch (error) {
       console.log(error);
     }
