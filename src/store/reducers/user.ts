@@ -82,14 +82,26 @@ export function startLoadingUsers(): ThunkAction<Promise<void>> {
   };
 }
 
+export function startCreatingUsers(): ThunkAction<Promise<void>> {
+  return async (dispatch: Dispatch) => {
+    try {
+      const data = await get('user');
+      dispatch(usersLoaded(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export type UserActions = UsersLoadedAction | UserDetailsLoadedAction;
 
 export function user(state: UsersState = {}, action: Action): UsersState {
   switch (action.type) {
     case UserActionTypes.UsersLoaded:
-      return action.payload.users.reduce((users, user) => {
-        return { ...users, [user.id]: user };
-      }, state);
+      return action.payload.users.reduce(
+        (users: UsersState, user: User) => ({ ...users, [user.id]: user }),
+        state
+      );
     case UserActionTypes.UserDetailsLoaded:
       return { ...state, [action.payload.id]: action.payload };
     default:
