@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { User } from '../../store/reducers';
 import { ConnectedCurrency } from '../currency';
-import { Ellipsis } from '../ui';
+import { AlertText, Ellipsis } from '../ui';
 import { Card } from '../ui/card';
 
 interface OwnProps {
@@ -21,8 +21,10 @@ export function UserCard({ user }: UserCardProps): JSX.Element {
   return (
     <Card hover width="100%" height="6rem">
       <Ellipsis>
-        <Ellipsis>{user.name}</Ellipsis>
-        <ConnectedCurrency value={user.balance} />
+        <AlertText value={user.balance}>
+          <Ellipsis>{user.name}</Ellipsis>
+          <ConnectedCurrency value={user.balance} />
+        </AlertText>
       </Ellipsis>
     </Card>
   );
