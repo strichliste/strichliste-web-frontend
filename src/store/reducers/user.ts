@@ -1,6 +1,7 @@
 import { Action } from '..';
-import { get } from '../../services/api';
-import { Dispatch, ThunkAction } from '../store';
+import { fetchJson } from '../../services/api';
+import { DefaultThunkAction } from '../action';
+import { Dispatch } from '../store';
 import { UsersState } from './user';
 
 export interface GetUsersResponse {
@@ -51,11 +52,9 @@ export function userDetailsLoaded(payload: User): UserDetailsLoadedAction {
   };
 }
 
-export function startLoadingUserDetails(
-  id: number
-): ThunkAction<Promise<void>> {
+export function startLoadingUserDetails(id: number): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const details = await get(`user/${id}`);
+    const details = await fetchJson(`user/${id}`);
     dispatch(userDetailsLoaded(details.user));
   };
 }
@@ -71,10 +70,10 @@ export function usersLoaded(payload: GetUsersResponse): UsersLoadedAction {
   };
 }
 
-export function startLoadingUsers(): ThunkAction<Promise<void>> {
+export function startLoadingUsers(): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     try {
-      const data = await get('user');
+      const data = await fetchJson('user');
       dispatch(usersLoaded(data));
     } catch (error) {
       console.log(error);
@@ -82,10 +81,13 @@ export function startLoadingUsers(): ThunkAction<Promise<void>> {
   };
 }
 
-export function startCreatingUsers(): ThunkAction<Promise<void>> {
+export function startCreatingUser(name: string): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     try {
-      const data = await get('user');
+      const data = await fetchJson('user', {
+        method: 'POST',
+        body: JSON.stringify({ name }),
+      });
       dispatch(usersLoaded(data));
     } catch (error) {
       console.log(error);
