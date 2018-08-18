@@ -73,9 +73,9 @@ export class UserDetails extends React.Component<UserDetailsProps> {
                 <FormattedMessage id="USER_TRANSACTIONS" />
               </ListItem>
               {user.transactions &&
-                Object.keys(user.transactions).map(id => (
-                  <ConnectedTransactionListItem key={id} id={id} />
-                ))}
+                Object.keys(user.transactions)
+                  .sort((a, b) => Number(b) - Number(a))
+                  .map(id => <ConnectedTransactionListItem key={id} id={id} />)}
             </CardContent>
           </Card>
         </div>
