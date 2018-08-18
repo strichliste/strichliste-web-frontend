@@ -27,7 +27,9 @@ export class User extends React.Component<UserProps> {
       <>
         <AutoGrid>
           <Link to="/createUser">
-            <Card>+</Card>
+            <Card hover width="100%" height="6rem">
+              +
+            </Card>
           </Link>
 
           {this.props.users.map(id => (
