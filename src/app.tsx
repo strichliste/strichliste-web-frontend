@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // tslint:disable-next-line:no-import-side-effect
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { ConnectedSettingsLoader } from './components/settings';
-import { baseCss, resetCss } from './components/ui/theme';
+import { Header, baseCss, resetCss } from './components/ui';
 import { ConnectedUserDetails } from './components/user/user-details';
 import { CreateUser } from './components/views/create-user';
 import { ConnectedUser } from './components/views/user';
@@ -23,11 +23,11 @@ class Layout extends React.Component {
   public render(): JSX.Element {
     return (
       <div className="App">
-        <header className="App-header">
+        <Header>
           <h1>
             <FormattedMessage id="TALLY_HEADER" />
           </h1>
-        </header>
+        </Header>
         <ConnectedSettingsLoader />
         <Switch>
           <Route path="/" exact={true} component={ConnectedUser} />
