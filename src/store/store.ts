@@ -2,11 +2,9 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk, { ThunkAction as ReduxThunkAction } from 'redux-thunk';
 
 import { Action } from './';
-import { counter } from './reducers';
 import { user } from './reducers/user';
 
 const reducers = {
-  counter,
   user,
 };
 

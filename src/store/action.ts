@@ -1,3 +1,3 @@
-import { IncreaseAction, UserActions } from './reducers';
+import { UserActions } from './reducers';
 
-export type Action = IncreaseAction | UserActions;
+export type Action = UserActions;
