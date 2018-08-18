@@ -9,6 +9,7 @@ interface CardProps {
 export const Card = styled('div')<CardProps>(
   {
     fontSize: '1rem',
+    overflow: 'hidden',
     padding: '1rem',
     margin: '1rem',
     display: 'inline-flex',
@@ -35,4 +36,8 @@ export const CardContainer = styled('div')({
   width: '100%',
   height: '100%',
   textAlign: 'center',
+});
+
+export const CardContent = styled('div')({
+  width: '100%',
 });
