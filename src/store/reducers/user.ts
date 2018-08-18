@@ -1,3 +1,4 @@
+import { TransactionTypes } from '.';
 import { Action } from '..';
 import { fetchJson, get, post } from '../../services/api';
 import { DefaultThunkAction } from '../action';
@@ -16,7 +17,7 @@ export interface User {
   balance: number;
   created: string;
   updated?: string;
-  transactions: string[];
+  transactions: { [key: number]: number };
 }
 
 export interface UsersState {
@@ -69,10 +70,10 @@ export function usersLoaded(payload: GetUsersResponse): UsersLoadedAction {
   };
 }
 
-export function startLoadingUsers(): DefaultThunkAction {
+export function startLoadingUsers(stale: boolean = false): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     try {
-      const data = await get('user?stale=true');
+      const data = await get(`user?stale=${stale}`);
       console.log(data);
 
       dispatch(usersLoaded(data));
@@ -106,6 +107,17 @@ export function user(state: UsersState = {}, action: Action): UsersState {
       );
     case UserActionTypes.UserDetailsLoaded:
       return { ...state, [action.payload.id]: action.payload };
+    case TransactionTypes.TransactionsLoaded:
+      const user = state[action.payload[0].user.id];
+      return {
+        ...state,
+        [user.id]: {
+          ...user,
+          transactions: action.payload.reduce((transactions, transaction) => {
+            return { ...transactions, [transaction.id]: transaction.id };
+          }, user.transactions),
+        },
+      };
     default:
       return state;
   }
