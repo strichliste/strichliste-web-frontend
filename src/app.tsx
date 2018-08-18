@@ -1,7 +1,7 @@
 import { injectGlobal } from 'emotion';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 // tslint:disable-next-line:no-import-side-effect
 import { FormattedMessage, IntlProvider } from 'react-intl';
@@ -30,13 +30,23 @@ class Layout extends React.Component {
         </Header>
         <ConnectedSettingsLoader />
         <Switch>
-          <Route path="/" exact={true} component={ConnectedUser} />
+          <Route
+            path="/active"
+            exact={true}
+            render={props => <ConnectedUser {...props} stale={false} />}
+          />
+          <Route
+            path="/inactive"
+            exact={true}
+            render={props => <ConnectedUser {...props} stale={true} />}
+          />
           <Route path="/createUser" exact={true} component={CreateUser} />
           <Route
             path="/user/:id"
             exact={true}
             component={ConnectedUserDetails}
           />
+          <Redirect from="/" to="/active" />
         </Switch>
       </div>
     );
