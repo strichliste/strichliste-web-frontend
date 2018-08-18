@@ -1,0 +1,13 @@
+{
+  "short_name": "Strichliste",
+  "name": "strichliste",
+  "icons": [
+    {
+      "src": "logo",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone"
+}
