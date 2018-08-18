@@ -74,8 +74,6 @@ export function startLoadingUsers(stale: boolean = false): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     try {
       const data = await get(`user?stale=${stale}`);
-      console.log(data);
-
       dispatch(usersLoaded(data));
     } catch (error) {
       console.log(error);
@@ -102,20 +100,29 @@ export function user(state: UsersState = {}, action: Action): UsersState {
   switch (action.type) {
     case UserActionTypes.UsersLoaded:
       return action.payload.users.reduce(
-        (users: UsersState, user: User) => ({ ...users, [user.id]: user }),
+        (users: UsersState, user: User) => ({
+          ...users,
+          [user.id]: { ...state[user.id], ...user },
+        }),
         state
       );
     case UserActionTypes.UserDetailsLoaded:
-      return { ...state, [action.payload.id]: action.payload };
+      return {
+        ...state,
+        [action.payload.id]: { ...state[action.payload.id], ...action.payload },
+      };
     case TransactionTypes.TransactionsLoaded:
       const user = state[action.payload[0].user.id];
       return {
         ...state,
         [user.id]: {
           ...user,
-          transactions: action.payload.reduce((transactions, transaction) => {
-            return { ...transactions, [transaction.id]: transaction.id };
-          }, user.transactions),
+          transactions: action.payload.reduce(
+            (nextTransactions, transaction) => {
+              return { ...nextTransactions, [transaction.id]: transaction.id };
+            },
+            user.transactions
+          ),
         },
       };
     default:

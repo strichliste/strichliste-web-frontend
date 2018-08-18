@@ -28,8 +28,6 @@ export class CreateUserForm extends React.Component<Props, State> {
 
   // tslint:disable-next-line:prefer-function-over-method
   public render(): JSX.Element {
-    console.log(this.props);
-
     return (
       <form onSubmit={this.submit}>
         <FormField>

@@ -100,7 +100,5 @@ export const ConnectedUserDetails = connect(
 
 // tslint:disable-next-line:no-any
 function getUser(state: AppState, match: any): User {
-  console.log(state, match, state.user[match.params.id]);
-
   return state.user[match.params.id];
 }
