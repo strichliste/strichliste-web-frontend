@@ -1,4 +1,5 @@
 import styled from 'react-emotion';
+import { theme } from './theme';
 
 export const FormField = styled('div')({
   marginBottom: '0.5rem',
@@ -33,4 +34,9 @@ export const Column = styled('div')<ColumnProps>(
 
 export const FullWidth = styled('div')({
   width: '100%',
+});
+
+export const ListItem = styled('div')({
+  borderBottom: `solid 1px ${theme.border}`,
+  padding: '1rem',
 });
