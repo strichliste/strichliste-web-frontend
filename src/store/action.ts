@@ -1,7 +1,6 @@
 import { ThunkAction } from '.';
-import { UserActions } from './reducers';
-import { SettingsActions } from './reducers/settings';
+import { SettingsActions, TransactionActions, UserActions } from './reducers';
 
-export type Action = UserActions | SettingsActions;
+export type Action = UserActions | SettingsActions | TransactionActions;
 
 export type DefaultThunkAction = ThunkAction<Promise<void>>;

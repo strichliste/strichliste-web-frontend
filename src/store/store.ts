@@ -2,10 +2,11 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk, { ThunkAction as ReduxThunkAction } from 'redux-thunk';
 
 import { Action } from './';
-import { settings, user } from './reducers';
+import { settings, transaction, user } from './reducers';
 
 const reducers = {
   user,
+  transaction,
   settings,
 };
 
