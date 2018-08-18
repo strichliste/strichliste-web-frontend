@@ -36,7 +36,6 @@ type UserDetailsProps = StateProps &
 
 export class UserDetails extends React.Component<UserDetailsProps> {
   public componentDidMount(): void {
-    console.log(this.props.match.params.id);
     this.props.startLoadingUserDetails(this.props.match.params.id);
     this.props.startLoadingTransactions(this.props.match.params.id);
   }
@@ -52,8 +51,8 @@ export class UserDetails extends React.Component<UserDetailsProps> {
           <Card width="100%">
             <CardContent>
               <Row>
-                <Column>{user.name}</Column>
-                <Column>
+                <Column margin="1rem">{user.name}</Column>
+                <Column margin="1rem">
                   <AlertText value={user.balance}>
                     <Currency value={user.balance} />
                   </AlertText>
