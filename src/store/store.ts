@@ -2,10 +2,11 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk, { ThunkAction as ReduxThunkAction } from 'redux-thunk';
 
 import { Action } from './';
-import { user } from './reducers/user';
+import { settings, user } from './reducers';
 
 const reducers = {
   user,
+  settings,
 };
 
 export type AppState = {
