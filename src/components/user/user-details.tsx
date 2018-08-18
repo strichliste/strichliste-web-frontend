@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
+import { FormattedMessage } from 'react-intl';
 import { AppState, DefaultThunkAction } from '../../store';
 import {
   User,
@@ -9,13 +10,14 @@ import {
   startLoadingUserDetails,
 } from '../../store/reducers';
 import { Currency } from '../currency';
-import { ConnectedPayment } from '../transaction';
+import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
 import {
   AlertText,
   Card,
   CardContent,
   CenterSection,
   Column,
+  ListItem,
   Row,
 } from '../ui';
 
@@ -46,25 +48,37 @@ export class UserDetails extends React.Component<UserDetailsProps> {
     }
     return (
       <CenterSection>
-        <Card width="100%">
-          <CardContent>
-            <Row>
-              <Column>{user.name}</Column>
-              <Column>
-                <AlertText value={user.balance}>
-                  <Currency value={user.balance} />
-                </AlertText>
-              </Column>
-            </Row>
+        <div>
+          <Card width="100%">
+            <CardContent>
+              <Row>
+                <Column>{user.name}</Column>
+                <Column>
+                  <AlertText value={user.balance}>
+                    <Currency value={user.balance} />
+                  </AlertText>
+                </Column>
+              </Row>
 
-            <Row>
-              <Column>
-                <ConnectedPayment userId={user.id} />
-              </Column>
-              <Column>1</Column>
-            </Row>
-          </CardContent>
-        </Card>
+              <Row>
+                <Column>
+                  <ConnectedPayment userId={user.id} />
+                </Column>
+              </Row>
+            </CardContent>
+          </Card>
+          <Card width="100%">
+            <CardContent>
+              <ListItem>
+                <FormattedMessage id="USER_TRANSACTIONS" />
+              </ListItem>
+              {user.transactions &&
+                Object.keys(user.transactions).map(id => (
+                  <ConnectedTransactionListItem id={id} />
+                ))}
+            </CardContent>
+          </Card>
+        </div>
       </CenterSection>
     );
   }
