@@ -4,16 +4,18 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // tslint:disable-next-line:no-import-side-effect
+import { FormattedMessage, IntlProvider } from 'react-intl';
 import { ConnectedSettingsLoader } from './components/settings';
 import { baseCss, resetCss } from './components/ui/theme';
 import { ConnectedUserDetails } from './components/user/user-details';
 import { CreateUser } from './components/views/create-user';
 import { ConnectedUser } from './components/views/user';
+import { en } from './locales/en';
 import { store } from './store';
 
+// inject global non scoped css stylings
 // tslint:disable-next-line:no-unused-expression
 injectGlobal(resetCss);
-
 injectGlobal(baseCss);
 
 class Layout extends React.Component {
@@ -22,7 +24,9 @@ class Layout extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1>Strichliste</h1>
+          <h1>
+            <FormattedMessage id="TALLY_HEADER" />
+          </h1>
         </header>
         <ConnectedSettingsLoader />
         <Switch>
@@ -44,9 +48,11 @@ class App extends React.Component {
   public render(): JSX.Element {
     return (
       <Provider store={store}>
-        <BrowserRouter>
-          <Layout />
-        </BrowserRouter>
+        <IntlProvider locale="en" messages={en}>
+          <BrowserRouter>
+            <Layout />
+          </BrowserRouter>
+        </IntlProvider>
       </Provider>
     );
   }
