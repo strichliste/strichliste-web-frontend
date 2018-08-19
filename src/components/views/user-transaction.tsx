@@ -7,15 +7,17 @@ import { Card, FixedFooter, Section } from '../ui';
 
 export function UserTransaction(): JSX.Element {
   return (
-    <Section>
-      <Card>
-        <FormattedMessage id="USER_TRANSACTION_CREATE" />
-        <ConnectedCreateUserTransactionForm />
-      </Card>
+    <>
+      <Section>
+        <Card>
+          <FormattedMessage id="USER_TRANSACTION_CREATE" />
+          <ConnectedCreateUserTransactionForm />
+        </Card>
+      </Section>
       <FixedFooter>
         <BackButton />
       </FixedFooter>
-    </Section>
+    </>
   );
 }
 
