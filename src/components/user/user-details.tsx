@@ -9,6 +9,7 @@ import {
   startLoadingTransactions,
   startLoadingUserDetails,
 } from '../../store/reducers';
+import { BackButton } from '../common';
 import { Currency } from '../currency';
 import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
 import {
@@ -17,6 +18,7 @@ import {
   CardContent,
   CenterSection,
   Column,
+  FixedFooter,
   ListItem,
   Row,
 } from '../ui';
@@ -46,9 +48,9 @@ export class UserDetails extends React.Component<UserDetailsProps> {
       return <>LOADING...</>;
     }
     return (
-      <CenterSection>
-        <div>
-          <Card width="100%">
+      <>
+        <CenterSection>
+          <Card width="50%">
             <CardContent>
               <Row>
                 <Column margin="1rem">{user.name}</Column>
@@ -66,7 +68,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
               </Row>
             </CardContent>
           </Card>
-          <Card width="100%">
+          <Card width="50%">
             <CardContent>
               <ListItem>
                 <FormattedMessage id="USER_TRANSACTIONS" />
@@ -77,8 +79,11 @@ export class UserDetails extends React.Component<UserDetailsProps> {
                   .map(id => <ConnectedTransactionListItem key={id} id={id} />)}
             </CardContent>
           </Card>
-        </div>
-      </CenterSection>
+        </CenterSection>
+        <FixedFooter>
+          <BackButton />
+        </FixedFooter>
+      </>
     );
   }
 }

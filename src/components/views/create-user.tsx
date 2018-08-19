@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from 'react-router';
-import { Card, CenterSection } from '../ui';
+import { BackButton } from '../common';
+import { Card, CenterSection, FixedFooter } from '../ui';
 import { ConnectedCreateUserForm } from '../user/create-user-form';
 
 export function CreateUser(props: RouteComponentProps<{}>): JSX.Element {
@@ -17,6 +18,9 @@ export function CreateUser(props: RouteComponentProps<{}>): JSX.Element {
           />
         </div>
       </Card>
+      <FixedFooter>
+        <BackButton />
+      </FixedFooter>
     </CenterSection>
   );
 }
