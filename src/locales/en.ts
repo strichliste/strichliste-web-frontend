@@ -1,5 +1,7 @@
 export const en = {
   TALLY_HEADER: 'Tally',
+  USER_SEARCH_LINK: 'Find users',
+  USER_SEARCH_HEADLINE: 'Find users',
   USER_ACTIVE: 'Active users',
   USER_INACTIVE: 'Inactive users',
   USER_ACTIVE_LINK: 'Show active users only',
