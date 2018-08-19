@@ -58,7 +58,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   public createTransaction = () => {
     if (this.state.selectedUser.id && this.state.selectedAmount) {
       this.props.startCreatingTransaction(Number(this.props.match.params.id), {
-        amount: this.state.selectedAmount,
+        amount: this.state.selectedAmount * -1,
         recipientId: this.state.selectedUser.id,
       });
       this.props.history.goBack();
