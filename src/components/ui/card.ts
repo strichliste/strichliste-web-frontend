@@ -1,9 +1,9 @@
 import styled from 'react-emotion';
 
 interface CardProps {
+  height?: string;
   hover?: boolean;
   width?: string;
-  height?: string;
 }
 
 export const Card = styled('div')<CardProps>(
@@ -11,7 +11,6 @@ export const Card = styled('div')<CardProps>(
     fontSize: '1rem',
     overflow: 'hidden',
     padding: '1rem',
-    margin: '1rem',
     position: 'relative',
     borderRadius: '2px',
     background: '#fff',

@@ -16,11 +16,11 @@ import {
   AlertText,
   Card,
   CardContent,
-  CenterSection,
   Column,
   FixedFooter,
   ListItem,
   Row,
+  SplitLayout,
 } from '../ui';
 
 interface StateProps {
@@ -49,8 +49,8 @@ export class UserDetails extends React.Component<UserDetailsProps> {
     }
     return (
       <>
-        <CenterSection>
-          <Card width="50%">
+        <SplitLayout>
+          <Card>
             <CardContent>
               <Row>
                 <Column margin="1rem">{user.name}</Column>
@@ -68,7 +68,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
               </Row>
             </CardContent>
           </Card>
-          <Card width="50%">
+          <Card>
             <CardContent>
               <ListItem>
                 <FormattedMessage id="USER_TRANSACTIONS" />
@@ -79,7 +79,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
                   .map(id => <ConnectedTransactionListItem key={id} id={id} />)}
             </CardContent>
           </Card>
-        </CenterSection>
+        </SplitLayout>
         <FixedFooter>
           <BackButton />
         </FixedFooter>

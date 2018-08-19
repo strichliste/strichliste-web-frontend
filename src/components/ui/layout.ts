@@ -9,15 +9,26 @@ export const Section = styled('section')({
   padding: '1rem',
 });
 
-export const Row = styled('div')({
-  display: 'flex',
-  width: '100%',
-});
+interface RowProps {
+  alignContent?: string;
+  justifyContent?: string;
+}
+export const Row = styled('div')<RowProps>(
+  {
+    display: 'flex',
+    width: '100%',
+  },
+  props => ({
+    alignContent: props.alignContent,
+    justifyContent: props.justifyContent,
+  })
+);
 
 export const CenterSection = styled(Section)({
   display: 'flex',
   justifyContent: 'center',
   alignContent: 'center',
+  padding: '0',
 });
 
 interface ColumnProps {
@@ -39,4 +50,14 @@ export const FullWidth = styled('div')({
 export const ListItem = styled('div')({
   borderBottom: `solid 1px ${theme.border}`,
   padding: '1rem',
+});
+
+export const SplitLayout = styled('div')({
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  margin: '1rem',
+  gridGap: '1rem',
+  '@media (min-width: 48rem)': {
+    gridTemplateColumns: '1fr 1fr',
+  },
 });

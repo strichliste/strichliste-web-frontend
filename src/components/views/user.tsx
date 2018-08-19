@@ -56,7 +56,7 @@ export class User extends React.Component<UserProps> {
             <FormattedMessage id="USER_ACTIVE" />
           )}
         </Column>
-        <AutoGrid>
+        <AutoGrid rows="5rem" columns="10rem">
           <Link to="/createUser">
             <Card hover width="100%" height="6rem">
               +

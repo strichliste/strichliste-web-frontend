@@ -20,12 +20,10 @@ type UserCardProps = OwnProps & StateProps;
 export function UserCard({ user }: UserCardProps): JSX.Element {
   return (
     <Card hover width="100%" height="6rem">
-      <Ellipsis>
-        <AlertText value={user.balance}>
-          <Ellipsis>{user.name}</Ellipsis>
-          <ConnectedCurrency value={user.balance} />
-        </AlertText>
-      </Ellipsis>
+      <AlertText value={user.balance}>
+        <Ellipsis>{user.name}</Ellipsis>
+        <ConnectedCurrency value={user.balance} />
+      </AlertText>
     </Card>
   );
 }
