@@ -4,10 +4,11 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { User, getUserArray } from '../../store/reducers';
-import { MaterialInput } from '../ui';
+import { AutoGrid, MaterialInput } from '../ui';
+import { ConnectedUserCard } from './user-card';
 
 interface OwnProps {
-  userId: number;
+  userId?: number;
   onSelect(user: User): void;
 }
 
@@ -36,6 +37,7 @@ export function UserSelection(props: Props): JSX.Element {
         selectedItem,
       }) => (
         <div>
+          <FormattedMessage id="USER_SEARCH_HEADLINE" />
           <MaterialInput>
             <label {...getLabelProps()}>
               <FormattedMessage id="USER_SELECTION_LIST_LABEL" />
@@ -57,14 +59,6 @@ export function UserSelection(props: Props): JSX.Element {
                           key: item.name,
                           index,
                           item,
-                          style: {
-                            backgroundColor:
-                              highlightedIndex === index
-                                ? 'lightgray'
-                                : 'white',
-                            fontWeight:
-                              selectedItem === item ? 'bold' : 'normal',
-                          },
                         })}
                       >
                         {item.name}
@@ -85,4 +79,54 @@ const mapStateToProps = (state: AppState): StateProps => ({
 
 export const ConnectedUserSelectionList = connect(mapStateToProps)(
   UserSelection
+);
+
+function UserSelectionCards(props: Props): JSX.Element {
+  const items = props.users;
+
+  return (
+    <Downshift
+      onChange={selection => props.onSelect(selection)}
+      itemToString={item => (item ? item.value : '')}
+    >
+      {({ getInputProps, getItemProps, getMenuProps, isOpen, inputValue }) => (
+        <div>
+          <FormattedMessage id="USER_SEARCH_HEADLINE" />
+
+          <MaterialInput>
+            <input {...getInputProps()} />
+          </MaterialInput>
+          <div {...getMenuProps()}>
+            <AutoGrid rows="5rem" columns="10rem">
+              {isOpen
+                ? items
+                    .filter(
+                      item =>
+                        !inputValue ||
+                        item.name
+                          .toLowerCase()
+                          .includes(inputValue.toLowerCase())
+                    )
+                    .map((item, index) => (
+                      <div
+                        {...getItemProps({
+                          key: item.name,
+                          index,
+                          item,
+                        })}
+                      >
+                        <ConnectedUserCard id={item.id} />
+                      </div>
+                    ))
+                : null}
+            </AutoGrid>
+          </div>
+        </div>
+      )}
+    </Downshift>
+  );
+}
+
+export const ConnectedUserSelectionCards = connect(mapStateToProps)(
+  UserSelectionCards
 );
