@@ -8,8 +8,8 @@ export interface Transaction {
   id: number;
   user: User;
   article?: string;
-  sender?: string;
-  recipient?: string;
+  sender?: User;
+  recipient?: User;
   comment?: string;
   amount: number;
   created: string;
@@ -44,9 +44,15 @@ export function transactionsLoaded(
 
 export type TransactionActions = TransactionsLoadedAction;
 
-export function startLoadingTransactions(userId: number): DefaultThunkAction {
+export function startLoadingTransactions(
+  userId: number,
+  _offset?: number,
+  _limit?: number
+): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const data: TransactionResponse = await get(`user/${userId}/transaction`);
+    const data: TransactionResponse = await get(
+      `user/${userId}/transaction?offset=0&limit=5`
+    );
     if (data.transactions.length) {
       dispatch(transactionsLoaded(data.transactions));
     }

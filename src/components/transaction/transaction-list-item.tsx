@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { Transaction } from '../../store/reducers';
 import { Currency } from '../currency';
-import { AlertText, Column, ListItem, Row } from '../ui';
+import { AlertText, Column, Ellipsis, ListItem, Row } from '../ui';
 
 interface OwnProps {
   id: number | string;
@@ -28,6 +29,26 @@ export function TransactionListItem(props: Props): JSX.Element | null {
           </AlertText>
         </Column>
         <Column>{props.transaction.created}</Column>
+        <Column>
+          <Ellipsis>
+            {props.transaction.sender && (
+              <>
+                <FormattedMessage id="USER_TRANSACTIONS_SENDER" />:{' '}
+                {props.transaction.sender.name}
+              </>
+            )}
+          </Ellipsis>
+        </Column>
+        <Column>
+          <Ellipsis>
+            {props.transaction.recipient && (
+              <>
+                <FormattedMessage id="USER_TRANSACTIONS_RECIPIENT" />:{' '}
+                {props.transaction.recipient.name}
+              </>
+            )}
+          </Ellipsis>
+        </Column>
       </Row>
     </ListItem>
   );

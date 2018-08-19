@@ -7,6 +7,8 @@ export const en = {
   USER_ACTIVE_LINK: 'Show active users only',
   USER_INACTIVE_LINK: 'Show inactive users only',
   USER_TRANSACTIONS: 'Transactions',
+  USER_TRANSACTIONS_SENDER: 'sender',
+  USER_TRANSACTIONS_RECIPIENT: 'recipient',
   USER_TRANSACTION_CREATE: 'Send money to a friend',
   USER_TRANSACTION_CREATE_LINK: 'Send money to a friend',
   USER_TRANSACTION_FROM_AMOUNT_LABEL: 'amount',
