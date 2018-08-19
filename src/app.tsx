@@ -10,6 +10,7 @@ import { Header, baseCss, resetCss } from './components/ui';
 import { ConnectedUserDetails } from './components/user/user-details';
 import { CreateUser } from './components/views/create-user';
 import { ConnectedUser } from './components/views/user';
+import { ConnectedUserTransaction } from './components/views/user-transaction';
 import { en } from './locales/en';
 import { store } from './store';
 
@@ -47,6 +48,11 @@ class Layout extends React.Component {
             path="/user/:id"
             exact={true}
             component={ConnectedUserDetails}
+          />
+          <Route
+            path="/user/:id/send_money_to_a_friend"
+            exact={true}
+            component={ConnectedUserTransaction}
           />
 
           <Redirect from="/" to="/active" />
