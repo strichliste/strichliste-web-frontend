@@ -15,7 +15,6 @@ import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
 import {
   AlertText,
   Card,
-  CardContent,
   Column,
   FixedFooter,
   ListItem,
@@ -51,33 +50,28 @@ export class UserDetails extends React.Component<UserDetailsProps> {
       <>
         <SplitLayout>
           <Card>
-            <CardContent>
-              <Row>
-                <Column margin="1rem">{user.name}</Column>
-                <Column margin="1rem">
-                  <AlertText value={user.balance}>
-                    <Currency value={user.balance} />
-                  </AlertText>
-                </Column>
-              </Row>
+            <SplitLayout>
+              {user.name}
 
-              <Row>
-                <Column>
-                  <ConnectedPayment userId={user.id} />
-                </Column>
-              </Row>
-            </CardContent>
+              <AlertText value={user.balance}>
+                <Currency value={user.balance} />
+              </AlertText>
+            </SplitLayout>
+
+            <Row>
+              <Column>
+                <ConnectedPayment userId={user.id} />
+              </Column>
+            </Row>
           </Card>
           <Card>
-            <CardContent>
-              <ListItem>
-                <FormattedMessage id="USER_TRANSACTIONS" />
-              </ListItem>
-              {user.transactions &&
-                Object.keys(user.transactions)
-                  .sort((a, b) => Number(b) - Number(a))
-                  .map(id => <ConnectedTransactionListItem key={id} id={id} />)}
-            </CardContent>
+            <ListItem>
+              <FormattedMessage id="USER_TRANSACTIONS" />
+            </ListItem>
+            {user.transactions &&
+              Object.keys(user.transactions)
+                .sort((a, b) => Number(b) - Number(a))
+                .map(id => <ConnectedTransactionListItem key={id} id={id} />)}
           </Card>
         </SplitLayout>
         <FixedFooter>
