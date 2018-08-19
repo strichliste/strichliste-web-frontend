@@ -6,7 +6,7 @@ export const FormField = styled('div')({
 });
 
 export const Section = styled('section')({
-  padding: '1.5rem',
+  padding: '1rem',
 });
 
 export const Row = styled('div')({
