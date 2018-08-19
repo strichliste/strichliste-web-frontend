@@ -4,6 +4,7 @@ interface CardProps {
   height?: string;
   hover?: boolean;
   width?: string;
+  margin?: string;
 }
 
 export const Card = styled('div')<CardProps>(
@@ -19,6 +20,7 @@ export const Card = styled('div')<CardProps>(
   },
   props => ({
     width: props.width,
+    margin: props.margin,
     height: props.height,
     '&:hover': {
       boxShadow: props.hover
