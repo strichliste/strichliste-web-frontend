@@ -75,6 +75,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
             {user.transactions &&
               Object.keys(user.transactions)
                 .sort((a, b) => Number(b) - Number(a))
+                .slice(0, 5)
                 .map(id => <ConnectedTransactionListItem key={id} id={id} />)}
           </Card>
         </SplitLayout>
