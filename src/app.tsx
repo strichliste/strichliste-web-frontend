@@ -1,7 +1,7 @@
 import { injectGlobal } from 'emotion';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { HashRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
 
 // tslint:disable-next-line:no-import-side-effect
 import { FormattedMessage, IntlProvider } from 'react-intl';
@@ -25,7 +25,9 @@ class Layout extends React.Component {
       <div className="App">
         <Header>
           <h1>
-            <FormattedMessage id="TALLY_HEADER" />
+            <Link to="/">
+              <FormattedMessage id="TALLY_HEADER" />
+            </Link>
           </h1>
         </Header>
         <ConnectedSettingsLoader />
