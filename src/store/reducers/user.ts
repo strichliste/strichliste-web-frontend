@@ -2,7 +2,7 @@ import { TransactionTypes } from '.';
 import { Action } from '..';
 import { fetchJson, get, post } from '../../services/api';
 import { DefaultThunkAction } from '../action';
-import { Dispatch, ThunkAction } from '../store';
+import { AppState, Dispatch, ThunkAction } from '../store';
 import { UsersState } from './user';
 
 export interface GetUsersResponse {
@@ -129,4 +129,9 @@ export function user(state: UsersState = {}, action: Action): UsersState {
     default:
       return state;
   }
+}
+
+export function getUserArray(state: AppState): User[] {
+  const userState = state.user;
+  return Object.values(userState);
 }
