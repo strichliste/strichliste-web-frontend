@@ -10,6 +10,7 @@ import { Header, baseCss, resetCss } from './components/ui';
 import { ConnectedUserDetails } from './components/user/user-details';
 import { CreateUser } from './components/views/create-user';
 import { ConnectedUser } from './components/views/user';
+import { ConnectedUserSearch } from './components/views/user-search';
 import { ConnectedUserTransaction } from './components/views/user-transaction';
 import { en } from './locales/en';
 import { store } from './store';
@@ -44,6 +45,11 @@ class Layout extends React.Component {
             render={props => <ConnectedUser {...props} stale={true} />}
           />
           <Route path="/create_user" exact={true} component={CreateUser} />
+          <Route
+            path="/find_users"
+            exact={true}
+            component={ConnectedUserSearch}
+          />
           <Route
             path="/user/:id"
             exact={true}
