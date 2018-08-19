@@ -8,7 +8,7 @@ import { ConnectedCreateUserForm } from '../user/create-user-form';
 export function CreateUser(props: RouteComponentProps<{}>): JSX.Element {
   return (
     <CenterSection>
-      <Card>
+      <Card margin="3rem">
         <div>
           <h2>
             <FormattedMessage id="USER_CREATE_HEADLINE" />
