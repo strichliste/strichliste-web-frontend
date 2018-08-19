@@ -8,6 +8,7 @@ export const en = {
   USER_TRANSACTION_CREATE: 'Send money to a friend',
   USER_TRANSACTION_CREATE_LINK: 'Send money to a friend',
   USER_TRANSACTION_FROM_AMOUNT_LABEL: 'amount',
+  USER_SELECTION_LIST_LABEL: 'Select a user by name',
   USER_CREATE_HEADLINE: 'Create new user',
   USER_CREATE_TRIGGER: 'Create user',
   USER_CREATE_NAME_LABEL: 'Name',

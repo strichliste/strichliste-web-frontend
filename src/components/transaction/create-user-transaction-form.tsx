@@ -5,15 +5,24 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { DefaultThunkAction } from '../../store';
 import {
   CreateTransactionParams,
+  User,
   startCreatingTransaction,
 } from '../../store/reducers';
+import { Currency } from '../currency';
 import { Button, MaterialInput, theme } from '../ui';
+import { ConnectedUserSelectionList } from '../user';
 
 const initialState = {
   selectedAmount: 0,
-  selectedUser: 5,
+  selectedUser: {
+    id: 0,
+    name: '',
+    active: false,
+    balance: 0,
+    created: '',
+    transactions: {},
+  },
   amount: 0,
-  userId: 0,
 };
 
 interface ActionProps {
@@ -23,7 +32,11 @@ interface ActionProps {
   ): DefaultThunkAction;
 }
 
-type State = typeof initialState;
+interface State {
+  selectedAmount: number;
+  amount: number;
+  selectedUser: User;
+}
 
 type Props = RouteComponentProps<{ id: string }> & ActionProps;
 
@@ -37,65 +50,64 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
     }));
   };
 
-  public submitUserId = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    this.setState(state => ({ selectedUser: state.userId }));
+  public submitUserId = (user: User): void => {
+    console.log('selected user', user);
+    this.setState(() => ({ selectedUser: user }));
   };
 
   public createTransaction = () => {
-    console.log(this.props);
-
-    this.props.startCreatingTransaction(Number(this.props.match.params.id), {
-      amount: this.state.selectedAmount,
-      recipientId: this.state.selectedUser,
-    });
+    if (this.state.selectedUser.id && this.state.selectedAmount) {
+      this.props.startCreatingTransaction(Number(this.props.match.params.id), {
+        amount: this.state.selectedAmount,
+        recipientId: this.state.selectedUser.id,
+      });
+      this.props.history.goBack();
+    }
   };
 
   public render(): JSX.Element {
     return (
       <>
-        <form onSubmit={e => this.submitAmount(e)}>
-          <MaterialInput>
-            <FormattedMessage
-              children={text => (
+        {!this.state.selectedUser.name &&
+          this.state.selectedAmount === 0 && (
+            <form onSubmit={e => this.submitAmount(e)}>
+              <MaterialInput>
+                <label>
+                  <FormattedMessage id="USER_TRANSACTION_FROM_AMOUNT_LABEL" />
+                </label>
                 <input
                   value={this.state.amount}
                   onChange={e =>
                     this.setState({ amount: Number(e.target.value) })
                   }
                   autoFocus
-                  placeholder={text.toString()}
                   type="text"
                 />
-              )}
-              id="USER_TRANSACTION_FROM_AMOUNT_LABEL"
+              </MaterialInput>
+            </form>
+          )}
+        {this.state.selectedAmount > 0 &&
+          this.state.selectedUser.name === '' && (
+            <ConnectedUserSelectionList
+              userId={Number(this.props.match.params.id)}
+              onSelect={this.submitUserId}
             />
-          </MaterialInput>
-        </form>
+          )}
 
-        <form onSubmit={e => this.submitUserId(e)}>
-          <MaterialInput>
-            <FormattedMessage
-              children={text => (
-                <input
-                  value={this.state.userId}
-                  onChange={e =>
-                    this.setState({ userId: Number(e.target.value) })
-                  }
-                  autoFocus
-                  placeholder={text.toString()}
-                  type="text"
-                />
-              )}
-              id="USER_TRANSACTION_FROM_AMOUNT_LABEL"
-            />
-          </MaterialInput>
-        </form>
-        <div>
-          <Button onClick={this.createTransaction} color={theme.primary}>
-            +
-          </Button>
-        </div>
+        {this.state.selectedUser.name &&
+          this.state.selectedAmount && (
+            <>
+              <div>
+                Give {this.state.selectedUser.name}
+                <Currency value={this.state.selectedAmount} />
+              </div>
+              <div>
+                <Button onClick={this.createTransaction} color={theme.primary}>
+                  +
+                </Button>
+              </div>
+            </>
+          )}
       </>
     );
   }
