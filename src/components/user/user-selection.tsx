@@ -98,27 +98,23 @@ function UserSelectionCards(props: Props): JSX.Element {
           </MaterialInput>
           <div {...getMenuProps()}>
             <AutoGrid rows="5rem" columns="10rem">
-              {isOpen
-                ? items
-                    .filter(
-                      item =>
-                        !inputValue ||
-                        item.name
-                          .toLowerCase()
-                          .includes(inputValue.toLowerCase())
-                    )
-                    .map((item, index) => (
-                      <div
-                        {...getItemProps({
-                          key: item.name,
-                          index,
-                          item,
-                        })}
-                      >
-                        <ConnectedUserCard id={item.id} />
-                      </div>
-                    ))
-                : null}
+              {items
+                .filter(
+                  item =>
+                    !inputValue ||
+                    item.name.toLowerCase().includes(inputValue.toLowerCase())
+                )
+                .map((item, index) => (
+                  <div
+                    {...getItemProps({
+                      key: item.name,
+                      index,
+                      item,
+                    })}
+                  >
+                    <ConnectedUserCard id={item.id} />
+                  </div>
+                ))}
             </AutoGrid>
           </div>
         </div>
