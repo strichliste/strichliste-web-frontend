@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { FormattedMessage } from 'react-intl';
+import { CreateUserTransactionLink } from '.';
 import { AppState, DefaultThunkAction } from '../../store';
 import {
   User,
@@ -63,6 +64,9 @@ export class UserDetails extends React.Component<UserDetailsProps> {
                 <ConnectedPayment userId={user.id} />
               </Column>
             </Row>
+            <div>
+              <CreateUserTransactionLink />
+            </div>
           </Card>
           <Card>
             <ListItem>
