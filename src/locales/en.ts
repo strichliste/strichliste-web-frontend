@@ -5,6 +5,7 @@ export const en = {
   USER_ACTIVE_LINK: 'Show active users only',
   USER_INACTIVE_LINK: 'Show inactive users only',
   USER_TRANSACTIONS: 'Transactions',
+  USER_TRANSACTION_CREATE: 'Send money to a friend',
   USER_CREATE_HEADLINE: 'Create new user',
   USER_CREATE_TRIGGER: 'Create user',
   USER_CREATE_NAME_LABEL: 'Name',
