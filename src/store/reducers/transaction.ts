@@ -53,14 +53,20 @@ export function startLoadingTransactions(userId: number): DefaultThunkAction {
   };
 }
 
+export interface CreateTransactionParams {
+  amount: number;
+  articleId?: number;
+  recipientId?: number;
+  comment?: string;
+}
 export function startCreatingTransaction(
   userId: number,
-  amount: number
+  params: CreateTransactionParams
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     const data: CreateTransactionResponse = await post(
       `user/${userId}/transaction`,
-      { amount }
+      params
     );
     if (data.transaction) {
       dispatch(userDetailsLoaded(data.transaction.user));

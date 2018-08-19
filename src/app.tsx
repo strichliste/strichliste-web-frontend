@@ -10,6 +10,8 @@ import { Header, baseCss, resetCss } from './components/ui';
 import { ConnectedUserDetails } from './components/user/user-details';
 import { CreateUser } from './components/views/create-user';
 import { ConnectedUser } from './components/views/user';
+import { ConnectedUserSearch } from './components/views/user-search';
+import { ConnectedUserTransaction } from './components/views/user-transaction';
 import { en } from './locales/en';
 import { store } from './store';
 
@@ -33,22 +35,33 @@ class Layout extends React.Component {
         <ConnectedSettingsLoader />
         <Switch>
           <Route
-            path="/active"
+            path="/active_users"
             exact={true}
             render={props => <ConnectedUser {...props} stale={false} />}
           />
           <Route
-            path="/inactive"
+            path="/inactive_users"
             exact={true}
             render={props => <ConnectedUser {...props} stale={true} />}
           />
-          <Route path="/createUser" exact={true} component={CreateUser} />
+          <Route path="/create_user" exact={true} component={CreateUser} />
+          <Route
+            path="/find_users"
+            exact={true}
+            component={ConnectedUserSearch}
+          />
           <Route
             path="/user/:id"
             exact={true}
             component={ConnectedUserDetails}
           />
-          <Redirect from="/" to="/active" />
+          <Route
+            path="/user/:id/send_money_to_a_friend"
+            exact={true}
+            component={ConnectedUserTransaction}
+          />
+
+          <Redirect from="/" to="/active_users" />
         </Switch>
       </div>
     );
