@@ -38,6 +38,11 @@ export class User extends React.Component<UserProps> {
     return (
       <>
         <Column margin="1rem">
+          <div>
+            <Link to="find_users">
+              <FormattedMessage id="USER_SEARCH_LINK" />
+            </Link>
+          </div>
           {!this.props.stale ? (
             <Link to="inactive_users">
               <FormattedMessage id="USER_INACTIVE_LINK" />
