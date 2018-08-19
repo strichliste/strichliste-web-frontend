@@ -78,7 +78,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 <input
                   value={this.state.amount}
                   onChange={e =>
-                    this.setState({ amount: Number(e.target.value) })
+                    this.setState({ amount: castNumber(e.target.value) })
                   }
                   autoFocus
                   type="text"
@@ -123,3 +123,8 @@ export const ConnectedCreateUserTransactionForm = withRouter(
     mapDispatchToProps
   )(CreateUserTransactionForm)
 );
+
+function castNumber(text: string): number {
+  const maybeNumber = Number(text);
+  return isNaN(maybeNumber) ? 0 : maybeNumber;
+}
