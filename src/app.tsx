@@ -33,21 +33,22 @@ class Layout extends React.Component {
         <ConnectedSettingsLoader />
         <Switch>
           <Route
-            path="/active"
+            path="/active_users"
             exact={true}
             render={props => <ConnectedUser {...props} stale={false} />}
           />
           <Route
-            path="/inactive"
+            path="/inactive_users"
             exact={true}
             render={props => <ConnectedUser {...props} stale={true} />}
           />
-          <Route path="/createUser" exact={true} component={CreateUser} />
+          <Route path="/create_user" exact={true} component={CreateUser} />
           <Route
             path="/user/:id"
             exact={true}
             component={ConnectedUserDetails}
           />
+
           <Redirect from="/" to="/active" />
         </Switch>
       </div>
