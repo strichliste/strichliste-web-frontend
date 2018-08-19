@@ -2,7 +2,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { DefaultThunkAction } from '../../store';
-import { startCreatingTransaction } from '../../store/reducers';
+import {
+  CreateTransactionParams,
+  startCreatingTransaction,
+} from '../../store/reducers';
 import { Currency } from '../currency';
 import { Button } from '../ui';
 
@@ -13,7 +16,10 @@ interface OwnProps {
 }
 
 interface ActionProps {
-  startCreatingTransaction(userId: number, amount: number): DefaultThunkAction;
+  startCreatingTransaction(
+    userId: number,
+    params: CreateTransactionParams
+  ): DefaultThunkAction;
 }
 
 type Props = OwnProps & ActionProps;
@@ -22,7 +28,9 @@ export function TransactionButton(props: Props): JSX.Element {
   return (
     <Button
       color={props.color}
-      onClick={() => props.startCreatingTransaction(props.userId, props.value)}
+      onClick={() =>
+        props.startCreatingTransaction(props.userId, { amount: props.value })
+      }
       type="button"
     >
       <Currency value={props.value} />
