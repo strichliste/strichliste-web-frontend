@@ -55,7 +55,7 @@ class Layout extends React.Component {
             component={ConnectedUserTransaction}
           />
 
-          <Redirect from="/" to="/active" />
+          <Redirect from="/" to="/active_users" />
         </Switch>
       </div>
     );

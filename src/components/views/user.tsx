@@ -39,11 +39,11 @@ export class User extends React.Component<UserProps> {
       <>
         <Column margin="1rem">
           {!this.props.stale ? (
-            <Link to="inactive">
+            <Link to="inactive_users">
               <FormattedMessage id="USER_INACTIVE_LINK" />
             </Link>
           ) : (
-            <Link to="active">
+            <Link to="active_users">
               <FormattedMessage id="USER_ACTIVE_LINK" />
             </Link>
           )}
@@ -57,7 +57,7 @@ export class User extends React.Component<UserProps> {
           )}
         </Column>
         <AutoGrid rows="5rem" columns="10rem">
-          <Link to="/createUser">
+          <Link to="/create_user">
             <Card hover width="100%" height="6rem">
               +
             </Card>
