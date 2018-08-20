@@ -1,5 +1,7 @@
 # Strichliste Web [![Build Status](https://travis-ci.org/strichliste/strichliste.svg?branch=master)](https://travis-ci.org/strichliste/strichliste) [![Greenkeeper badge](https://badges.greenkeeper.io/strichliste/strichliste.svg)](https://greenkeeper.io/)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/strichliste/strichliste.svg)](https://greenkeeper.io/)
+
 SPA Frontend for the [Strichliste](http://v2.strichliste.org/) project
 
 ## Getting Started
