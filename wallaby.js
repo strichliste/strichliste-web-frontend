@@ -13,6 +13,9 @@ module.exports = wallaby => ({
   tests: ['src/**/*.spec.ts?(x)'],
   testFramework: 'jest',
   bootstrap(w) {
-    w.testFramework.configure(require('./package.json').jest);
+    w.testFramework.configure({
+      verbose: true,
+      testURL: 'http://localhost/',
+    });
   },
 });
