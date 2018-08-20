@@ -1,4 +1,4 @@
-# Strichliste Web
+# Strichliste Web [![Build Status](https://travis-ci.org/strichliste/strichliste.svg?branch=master)](https://travis-ci.org/strichliste/strichliste)
 
 SPA Frontend for the [Strichliste](http://v2.strichliste.org/) project
 
