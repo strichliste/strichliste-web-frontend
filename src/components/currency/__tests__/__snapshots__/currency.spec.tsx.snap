@@ -11,9 +11,3 @@ exports[`Currency matches the snapshot for german locales 1`] = `
   1,20 €
 </span>
 `;
-
-exports[`Currency matches the snapshot for german locales 2`] = `
-<span>
-  1,20 €
-</span>
-`;
