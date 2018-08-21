@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrencyInput matches the snapshot 1`] = `
+<input
+  type="text"
+  value="0.00"
+/>
+`;
+
+exports[`CurrencyInput matches the snapshot 2`] = `
+<input
+  type="text"
+  value="0.00"
+/>
+`;
+
+exports[`CurrencyInput with a default value matches the snapshot 1`] = `
+<input
+  type="text"
+  value="1,234.56"
+/>
+`;
+
+exports[`CurrencyInput with changes on the input field updates state and calls onChange 1`] = `
+<input
+  placeholder="testInput"
+  type="text"
+  value="1.50"
+/>
+`;

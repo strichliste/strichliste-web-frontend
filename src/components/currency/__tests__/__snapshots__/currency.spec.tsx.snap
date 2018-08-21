@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Currency matches the snapshot for english locales 1`] = `
+<span>
+  €1.20
+</span>
+`;
+
+exports[`Currency matches the snapshot for german locales 1`] = `
+<span>
+  1,20 €
+</span>
+`;
+
+exports[`Currency matches the snapshot for german locales 2`] = `
+<span>
+  1,20 €
+</span>
+`;
