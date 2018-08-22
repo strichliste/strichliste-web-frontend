@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateCustomTransactionLink with deposit matches the snapshot 1`] = `
+<button
+  class="css-1ge74h7"
+  color="#9DB06A"
+  type="text"
+>
+  ?
+</button>
+`;
+
+exports[`CreateCustomTransactionLink with dispense matches the snapshot 1`] = `
+<button
+  class="css-9uowof"
+  color="#E86C76"
+  type="text"
+>
+  ?
+</button>
+`;

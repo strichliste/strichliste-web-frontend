@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
+<form>
+  <input
+    placeholder="0"
+    type="text"
+    value="0.00"
+  />
+  <button
+    class="css-1ge74h7"
+    color="#9DB06A"
+    type="submit"
+  >
+    <span>
+      USER_TRANSACTION_CREATE_CUSTOM_DEPOSIT_BUTTON
+    </span>
+  </button>
+</form>
+`;

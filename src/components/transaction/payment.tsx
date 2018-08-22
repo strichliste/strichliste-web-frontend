@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { Payment, getPayment } from '../../store/reducers';
 import { Column, FormField, Row, theme } from '../ui';
+import { CreateCustomTransactionLink } from './create-custom-transaction-link';
 import { ConnectedTransactionButton } from './transaction-button';
 
 interface OwnProps {
@@ -40,6 +41,9 @@ export function Payment(props: Props): JSX.Element {
         )}
       </FormField>
       <FormField>
+        <CreateCustomTransactionLink isDeposit={true} />
+      </FormField>
+      <FormField>
         {props.payment.dispense.enabled && (
           <>
             <FormattedMessage id="PAYMENT_DISPENSE_LABEL" />
@@ -56,6 +60,9 @@ export function Payment(props: Props): JSX.Element {
             </Row>
           </>
         )}
+      </FormField>
+      <FormField>
+        <CreateCustomTransactionLink isDeposit={false} />
       </FormField>
     </>
   );
