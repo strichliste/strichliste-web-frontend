@@ -7,6 +7,7 @@ import { Payment, getPayment } from '../../store/reducers';
 import { Column, FormField, Row, theme } from '../ui';
 import { CreateCustomTransactionLink } from './create-custom-transaction-link';
 import { ConnectedTransactionButton } from './transaction-button';
+import { ConnectedTransactionValidator } from './validator';
 
 interface OwnProps {
   userId: number;
@@ -36,10 +37,19 @@ export function Payment(props: Props): JSX.Element {
                   }
                   key={step}
                 >
-                  <ConnectedTransactionButton
-                    color={theme.green}
+                  <ConnectedTransactionValidator
                     userId={props.userId}
+                    boundary={props.payment.boundary}
                     value={step}
+                    isDeposit={true}
+                    render={isValid => (
+                      <ConnectedTransactionButton
+                        color={theme.green}
+                        userId={props.userId}
+                        value={step}
+                        disabled={!isValid}
+                      />
+                    )}
                   />
                 </Column>
               ))}
@@ -64,10 +74,19 @@ export function Payment(props: Props): JSX.Element {
                   }
                   key={step}
                 >
-                  <ConnectedTransactionButton
-                    color={theme.red}
+                  <ConnectedTransactionValidator
                     userId={props.userId}
-                    value={step * -1}
+                    boundary={props.payment.boundary}
+                    value={step}
+                    isDeposit={false}
+                    render={isValid => (
+                      <ConnectedTransactionButton
+                        color={theme.red}
+                        userId={props.userId}
+                        value={step * -1}
+                        disabled={!isValid}
+                      />
+                    )}
                   />
                 </Column>
               ))}
