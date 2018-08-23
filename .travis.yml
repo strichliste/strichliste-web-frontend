@@ -15,3 +15,5 @@ deploy:
   file: strichliste-frontend.tar.gz
   on:
     repo: strichliste/strichliste
+    tags: true
+    branch: master
