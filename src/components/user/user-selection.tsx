@@ -42,7 +42,7 @@ export function UserSelection(props: Props): JSX.Element {
             <label {...getLabelProps()}>
               <FormattedMessage id="USER_SELECTION_LIST_LABEL" />
             </label>
-            <input {...getInputProps()} />
+            <input {...getInputProps()} autoFocus={true} />
             <ul {...getMenuProps()}>
               {isOpen
                 ? items
@@ -94,7 +94,7 @@ function UserSelectionCards(props: Props): JSX.Element {
           <FormattedMessage id="USER_SEARCH_HEADLINE" />
 
           <MaterialInput>
-            <input {...getInputProps()} />
+            <input {...getInputProps()} autoFocus={true} />
           </MaterialInput>
           <div {...getMenuProps()}>
             <AutoGrid rows="5rem" columns="10rem">

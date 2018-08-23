@@ -36,6 +36,7 @@ export class CurrencyInput extends React.Component<Props, State> {
               value={test}
               onChange={this.updateValue}
               type="text"
+              autoFocus={true}
             />
           )}
         />
