@@ -11,16 +11,32 @@ export interface SettingsResponse {
   settings: Settings;
 }
 
-// tslint:disable-next-line:interface-name
-export interface I18n {
-  dateFormat: string;
-  timezone: string;
-  language: string;
-  currency: string;
+interface Settings {
+  staleUserPeriod: string;
+  i18n: I18n;
+  account: Account;
+  payment: Payment;
 }
 
-export interface Transactions {
+export interface Payment {
+  boundary: Boundary;
+  transactions: Transactions;
+  deposit: Deposit;
+  dispense: Deposit;
+}
+
+interface Deposit {
   enabled: boolean;
+  custom: boolean;
+  steps: number[];
+}
+
+interface Transactions {
+  enabled: boolean;
+}
+
+interface Account {
+  boundary: Boundary;
 }
 
 export interface Boundary {
@@ -28,35 +44,18 @@ export interface Boundary {
   lower: number;
 }
 
-export interface Deposit {
-  enabled: boolean;
-  custom: boolean;
-  boundary: Boundary;
-  steps: number[];
+// tslint:disable-next-line:interface-name
+interface I18n {
+  dateFormat: string;
+  timezone: string;
+  language: string;
+  currency: Currency;
 }
 
-export interface Boundery {
-  upper: number;
-  lower: number;
-}
-
-export interface Dispense {
-  enabled: boolean;
-  custom: boolean;
-  boundery: Boundery;
-  steps: number[];
-}
-
-export interface Payment {
-  transactions: Transactions;
-  deposit: Deposit;
-  dispense: Dispense;
-}
-
-export interface Settings {
-  staleUserPeriod: string;
-  i18n: I18n;
-  payment: Payment;
+interface Currency {
+  name: string;
+  symbol: string;
+  alpha3: string;
 }
 
 export interface SettingsLoadedAction {
@@ -88,20 +87,34 @@ const initialState = {
     dateFormat: 'YYYY-MM-DD HH:mm:ss',
     timezone: 'auto',
     language: 'en',
-    currency: '\u20ac',
+    currency: {
+      name: 'Euro',
+      symbol: '€',
+      alpha3: 'EUR',
+    },
+  },
+  account: {
+    boundary: {
+      upper: 20000,
+      lower: -20000,
+    },
   },
   payment: {
-    transactions: { enabled: true },
+    boundary: {
+      upper: 15000,
+      lower: -2000,
+    },
+    transactions: {
+      enabled: true,
+    },
     deposit: {
       enabled: true,
       custom: true,
-      boundary: { upper: 9999999, lower: -5000 },
       steps: [50, 100, 200, 500, 1000],
     },
     dispense: {
       enabled: true,
       custom: true,
-      boundery: { upper: 15000, lower: -2000 },
       steps: [50, 100, 200, 500, 1000],
     },
   },

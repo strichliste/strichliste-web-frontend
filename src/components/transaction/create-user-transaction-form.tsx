@@ -8,9 +8,10 @@ import {
   User,
   startCreatingTransaction,
 } from '../../store/reducers';
-import { Currency } from '../currency';
+import { Currency, CurrencyInput } from '../currency';
 import { Button, MaterialInput, theme } from '../ui';
 import { ConnectedUserSelectionList } from '../user';
+import { ConnectedUserToUserValidator } from './user-to-user-validator';
 
 const initialState = {
   selectedAmount: 0,
@@ -70,17 +71,12 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
         {!this.state.selectedUser.name &&
           this.state.selectedAmount === 0 && (
             <form onSubmit={e => this.submitAmount(e)}>
+              <label>
+                <FormattedMessage id="USER_TRANSACTION_FROM_AMOUNT_LABEL" />
+              </label>
               <MaterialInput>
-                <label>
-                  <FormattedMessage id="USER_TRANSACTION_FROM_AMOUNT_LABEL" />
-                </label>
-                <input
-                  value={this.state.amount}
-                  onChange={e =>
-                    this.setState({ amount: castNumber(e.target.value) })
-                  }
-                  autoFocus
-                  type="text"
+                <CurrencyInput
+                  onChange={value => this.setState({ amount: value })}
                 />
               </MaterialInput>
             </form>
@@ -96,15 +92,28 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
         {this.state.selectedUser.name &&
           this.state.selectedAmount && (
             <>
-              <div>
-                Give {this.state.selectedUser.name}
-                <Currency value={this.state.selectedAmount} />
-              </div>
-              <div>
-                <Button onClick={this.createTransaction} color={theme.primary}>
-                  +
-                </Button>
-              </div>
+              <ConnectedUserToUserValidator
+                value={this.state.selectedAmount}
+                userId={Number(this.props.match.params.id)}
+                targetUserId={this.state.selectedUser.id}
+                render={isValid => (
+                  <>
+                    <div>
+                      Give {this.state.selectedUser.name}
+                      <Currency value={this.state.selectedAmount} />
+                    </div>
+                    <div>
+                      <Button
+                        disabled={!isValid}
+                        onClick={this.createTransaction}
+                        color={theme.primary}
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </>
+                )}
+              />
             </>
           )}
       </>
@@ -122,8 +131,3 @@ export const ConnectedCreateUserTransactionForm = withRouter(
     mapDispatchToProps
   )(CreateUserTransactionForm)
 );
-
-function castNumber(text: string): number {
-  const maybeNumber = Number(text);
-  return isNaN(maybeNumber) ? 0 : maybeNumber;
-}

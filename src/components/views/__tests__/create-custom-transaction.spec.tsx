@@ -19,7 +19,7 @@ describe('CreateCustomTransaction', () => {
           match={{ params: { id: 5, deposit: 'deposit' } } as any}
           location={mock}
         />,
-        {}
+        { user: { 5: { balance: 0 } } }
       );
 
       expect(container.firstChild).toMatchSnapshot();
@@ -35,7 +35,7 @@ describe('CreateCustomTransaction', () => {
           match={{ params: { id: 5, deposit: 'dispense' } } as any}
           location={mock}
         />,
-        {}
+        { user: { 5: { balance: 0 } } }
       );
 
       expect(container.firstChild).toMatchSnapshot();
