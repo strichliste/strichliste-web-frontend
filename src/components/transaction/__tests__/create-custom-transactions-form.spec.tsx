@@ -5,10 +5,7 @@ import {
   createConnectedComponent,
   getMockStore,
 } from '../../../spec-configs/mock-store';
-import {
-  renderWithContext,
-  renderWithIntl,
-} from '../../../spec-configs/render';
+import { renderWithContext } from '../../../spec-configs/render';
 import {
   ConnectedCreateCustomTransactionForm,
   CreateCustomTransactionForm,
@@ -22,8 +19,9 @@ describe('CreateCustomTransactionForm', () => {
     const Component = createConnectedComponent(
       ConnectedCreateCustomTransactionForm
     );
-    const { container } = renderWithIntl(
-      <Component isDeposit={true} userId={12} store={store} />
+    const { container } = renderWithContext(
+      <Component isDeposit={true} userId={12} store={store} />,
+      { user: { 12: { balance: 0 } } }
     );
     expect(container.firstChild).toMatchSnapshot();
   });
@@ -34,11 +32,14 @@ describe('CreateCustomTransactionForm', () => {
         const mock = jest.fn();
         const { getByPlaceholderText, getByText } = renderWithContext(
           <CreateCustomTransactionForm
+            boundary={{ upper: 100, lower: -50 }}
             createTransaction={mock}
             isDeposit={true}
             userId={12}
           />,
-          {}
+          {
+            user: { 12: { balance: 0 } },
+          }
         );
         const input = getByPlaceholderText('0');
         const button = getByText(
@@ -59,12 +60,13 @@ describe('CreateCustomTransactionForm', () => {
 
       const { getByPlaceholderText, getByText } = renderWithContext(
         <CreateCustomTransactionForm
+          boundary={{ upper: 100, lower: -50 }}
           transactionCreated={mockOnCreate}
           createTransaction={mock}
           isDeposit={false}
           userId={1}
         />,
-        {}
+        { user: { 1: { balance: 0 } } }
       );
       const input = getByPlaceholderText('0');
       const button = getByText(

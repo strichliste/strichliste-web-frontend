@@ -2,18 +2,24 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
-import { Dispatch } from '../../store';
+import { AppState, Dispatch } from '../../store';
 import {
+  Boundary,
   CreateTransactionParams,
   startCreatingTransaction,
 } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { Button, FormField, theme } from '../ui';
+import { ConnectedTransactionValidator } from './validator';
 
 interface OwnProps {
   isDeposit: boolean;
   userId: number;
   transactionCreated?(): void;
+}
+
+interface MapStateProps {
+  boundary: Boundary;
 }
 
 interface StateProps {
@@ -27,7 +33,7 @@ interface ActionProps {
   ): Promise<void>;
 }
 
-type Props = ActionProps & OwnProps;
+type Props = ActionProps & OwnProps & MapStateProps;
 
 export class CreateCustomTransactionForm extends React.Component<
   Props,
@@ -60,29 +66,43 @@ export class CreateCustomTransactionForm extends React.Component<
   };
 
   public render(): JSX.Element {
-    const { isDeposit } = this.props;
+    const { isDeposit, userId, boundary } = this.props;
     return (
       <form onSubmit={this.submit}>
         <FormField>
           <CurrencyInput placeholder="0" onChange={this.handleChange} />
         </FormField>
         <FormField>
-          <Button color={isDeposit ? theme.green : theme.red} type="submit">
-            <FormattedMessage
-              id={
-                isDeposit
-                  ? 'USER_TRANSACTION_CREATE_CUSTOM_DEPOSIT_BUTTON'
-                  : 'USER_TRANSACTION_CREATE_CUSTOM_DISPENSE_BUTTON'
-              }
-            />
-          </Button>
+          <ConnectedTransactionValidator
+            userId={userId}
+            boundary={boundary}
+            value={this.state.value}
+            isDeposit={true}
+            render={isValid => (
+              <Button
+                disabled={!isValid}
+                color={isDeposit ? theme.green : theme.red}
+                type="submit"
+              >
+                <FormattedMessage
+                  id={
+                    isDeposit
+                      ? 'USER_TRANSACTION_CREATE_CUSTOM_DEPOSIT_BUTTON'
+                      : 'USER_TRANSACTION_CREATE_CUSTOM_DISPENSE_BUTTON'
+                  }
+                />
+              </Button>
+            )}
+          />
         </FormField>
       </form>
     );
   }
 }
 
-const mapStateToProps = undefined;
+const mapStateToProps = (state: AppState): MapStateProps => ({
+  boundary: state.settings.payment.boundary,
+});
 
 const mapDispatchToProps = (dispatch: Dispatch): ActionProps => ({
   createTransaction: (userId: number, params: CreateTransactionParams) =>
