@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { Card, CardContainer, SearchFrom } from '.';
+import { Card, CardContainer } from '.';
 import { AutoGrid } from './auto-grid';
 import { CenterGrid } from './center-grid';
 
@@ -69,16 +69,4 @@ storiesOf('Components/UI', module).add('Cards CenterGRid', () => (
   </CenterGrid>
 ));
 
-// tslint:disable-next-line:no-any
-storiesOf('Components/UI', module).add('SearchForm', () => (
-  <SearchFrom
-    label="test"
-    value="hallo"
-    placeholder="search"
-    // tslint:disable-next-line:no-empty
-    onSubmit={() => {}}
-    // tslint:disable-next-line:no-empty
-    onChange={() => {}}
-  />
-));
 storiesOf('Components/UI', module).add('Card', () => <Card />);
