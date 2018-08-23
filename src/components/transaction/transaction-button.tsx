@@ -13,6 +13,7 @@ interface OwnProps {
   userId: number;
   value: number;
   color?: string;
+  disabled?: boolean;
 }
 
 interface ActionProps {
@@ -32,6 +33,7 @@ export function TransactionButton(props: Props): JSX.Element {
         props.startCreatingTransaction(props.userId, { amount: props.value })
       }
       type="button"
+      disabled={props.disabled}
     >
       <Currency value={props.value} />
     </Button>
