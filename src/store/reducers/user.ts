@@ -146,7 +146,9 @@ export function getUserTransactionsArray(
 ): number[] {
   const user = getUser(state, userId);
   if (user) {
-    return Object.values(user.transactions);
+    return Object.values(user.transactions).sort(
+      (a, b) => Number(b) - Number(a)
+    );
   } else {
     return [];
   }

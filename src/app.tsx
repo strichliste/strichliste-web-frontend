@@ -10,6 +10,7 @@ import { Header, baseCss, resetCss } from './components/ui';
 import { ConnectedUserDetails } from './components/user/user-details';
 import { CreateCustomTransaction } from './components/views/create-custom-transaction';
 import { CreateUser } from './components/views/create-user';
+import { TransactionOverview } from './components/views/transaction-overview';
 import { ConnectedUser } from './components/views/user';
 import { ConnectedUserSearch } from './components/views/user-search';
 import { ConnectedUserTransaction } from './components/views/user-transaction';
@@ -60,6 +61,11 @@ class Layout extends React.Component {
             path="/user/:id/send_money_to_a_friend"
             exact={true}
             component={ConnectedUserTransaction}
+          />
+          <Route
+            path="/user/:id/transactions"
+            exact={true}
+            component={TransactionOverview}
           />
           <Route
             path="/user/:id/:deposit"
