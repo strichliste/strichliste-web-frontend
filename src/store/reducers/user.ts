@@ -135,3 +135,19 @@ export function getUserArray(state: AppState): User[] {
   const userState = state.user;
   return Object.values(userState);
 }
+
+export function getUser(state: AppState, userId: number): User | undefined {
+  return state.user[userId];
+}
+
+export function getUserTransactionsArray(
+  state: AppState,
+  userId: number
+): number[] {
+  const user = getUser(state, userId);
+  if (user) {
+    return Object.values(user.transactions);
+  } else {
+    return [];
+  }
+}
