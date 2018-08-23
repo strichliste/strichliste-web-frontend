@@ -53,10 +53,13 @@ describe('CreateCustomTransactionForm', () => {
     });
   });
   describe('with dispense', () => {
-    it('submits form with negated cents value', () => {
+    it('submits form with negated cents value', async () => {
       const mock = jest.fn();
+      const mockOnCreate = jest.fn();
+
       const { getByPlaceholderText, getByText } = renderWithContext(
         <CreateCustomTransactionForm
+          transactionCreated={mockOnCreate}
           createTransaction={mock}
           isDeposit={false}
           userId={1}
@@ -69,9 +72,10 @@ describe('CreateCustomTransactionForm', () => {
       );
 
       fireEvent.change(input, { target: { value: '120' } });
-      fireEvent.submit(button);
+      await fireEvent.submit(button);
 
       expect(mock).toHaveBeenCalledWith(1, { amount: -120 });
+      expect(mockOnCreate).toHaveBeenCalled();
     });
   });
 });
