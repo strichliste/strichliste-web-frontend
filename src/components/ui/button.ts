@@ -1,5 +1,6 @@
 import styled from 'react-emotion';
 import { ButtonProps } from './button';
+import { theme } from './theme';
 
 export interface ButtonProps {
   color?: string;
@@ -31,7 +32,7 @@ export const Button = styled('button')<ButtonProps>(
     },
   },
   props => ({
-    background: props.color,
+    background: props.disabled ? theme.grey : props.color,
   })
 );
 
