@@ -57,16 +57,15 @@ class Layout extends React.Component {
             component={ConnectedUserDetails}
           />
           <Route
-            path="/user/:id/:deposit"
-            exact={true}
-            component={CreateCustomTransaction}
-          />
-          <Route
             path="/user/:id/send_money_to_a_friend"
             exact={true}
             component={ConnectedUserTransaction}
           />
-
+          <Route
+            path="/user/:id/:deposit"
+            exact={true}
+            component={CreateCustomTransaction}
+          />
           <Redirect from="/" to="/active_users" />
         </Switch>
       </div>
