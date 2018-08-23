@@ -51,7 +51,6 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   };
 
   public submitUserId = (user: User): void => {
-    console.log('selected user', user);
     this.setState(() => ({ selectedUser: user }));
   };
 

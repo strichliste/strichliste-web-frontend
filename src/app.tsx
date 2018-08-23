@@ -8,6 +8,7 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { ConnectedSettingsLoader } from './components/settings';
 import { Header, baseCss, resetCss } from './components/ui';
 import { ConnectedUserDetails } from './components/user/user-details';
+import { CreateCustomTransaction } from './components/views/create-custom-transaction';
 import { CreateUser } from './components/views/create-user';
 import { ConnectedUser } from './components/views/user';
 import { ConnectedUserSearch } from './components/views/user-search';
@@ -54,6 +55,11 @@ class Layout extends React.Component {
             path="/user/:id"
             exact={true}
             component={ConnectedUserDetails}
+          />
+          <Route
+            path="/user/:id/:deposit"
+            exact={true}
+            component={CreateCustomTransaction}
           />
           <Route
             path="/user/:id/send_money_to_a_friend"

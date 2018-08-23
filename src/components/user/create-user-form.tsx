@@ -25,7 +25,9 @@ export class CreateUserForm extends React.Component<Props, State> {
     name: '',
   };
 
-  public submit = async (e: React.FormEvent<HTMLFormElement>) => {
+  public submit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     try {
       const data = await this.props.startCreatingUser(this.state.name);

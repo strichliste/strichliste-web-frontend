@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateCustomTransaction with deposit matches the snapshot 1`] = `
+<section
+  class="css-q5fqw0"
+>
+  <div
+    class="css-16o7h75"
+  >
+    <form>
+      <div
+        class="css-cet0rr"
+      >
+        <input
+          placeholder="0"
+          type="text"
+          value="0.00"
+        />
+      </div>
+      <div
+        class="css-cet0rr"
+      >
+        <button
+          class="css-1ge74h7"
+          color="#9DB06A"
+          type="submit"
+        >
+          <span>
+            USER_TRANSACTION_CREATE_CUSTOM_DEPOSIT_BUTTON
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+`;
+
+exports[`CreateCustomTransaction with dispense matches the snapshot 1`] = `
+<section
+  class="css-q5fqw0"
+>
+  <div
+    class="css-16o7h75"
+  >
+    <form>
+      <div
+        class="css-cet0rr"
+      >
+        <input
+          placeholder="0"
+          type="text"
+          value="0.00"
+        />
+      </div>
+      <div
+        class="css-cet0rr"
+      >
+        <button
+          class="css-9uowof"
+          color="#E86C76"
+          type="submit"
+        >
+          <span>
+            USER_TRANSACTION_CREATE_CUSTOM_DISPENSE_BUTTON
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+`;

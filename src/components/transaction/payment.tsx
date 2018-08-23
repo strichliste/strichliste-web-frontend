@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { Payment, getPayment } from '../../store/reducers';
 import { Column, FormField, Row, theme } from '../ui';
+import { CreateCustomTransactionLink } from './create-custom-transaction-link';
 import { ConnectedTransactionButton } from './transaction-button';
 
 interface OwnProps {
@@ -26,8 +27,15 @@ export function Payment(props: Props): JSX.Element {
           <>
             <FormattedMessage id="PAYMENT_DEPOSIT_LABEL" />
             <Row>
-              {props.payment.deposit.steps.map(step => (
-                <Column margin="0 0.5rem 0 0" key={step}>
+              {props.payment.deposit.steps.map((step, index) => (
+                <Column
+                  margin={
+                    index !== props.payment.deposit.steps.length - 1
+                      ? '0 0.5rem 0 0'
+                      : ''
+                  }
+                  key={step}
+                >
                   <ConnectedTransactionButton
                     color={theme.green}
                     userId={props.userId}
@@ -40,12 +48,22 @@ export function Payment(props: Props): JSX.Element {
         )}
       </FormField>
       <FormField>
+        <CreateCustomTransactionLink isDeposit={true} />
+      </FormField>
+      <FormField>
         {props.payment.dispense.enabled && (
           <>
             <FormattedMessage id="PAYMENT_DISPENSE_LABEL" />
             <Row>
-              {props.payment.dispense.steps.map(step => (
-                <Column margin="0 0.5rem 0 0" key={step}>
+              {props.payment.dispense.steps.map((step, index) => (
+                <Column
+                  margin={
+                    index !== props.payment.deposit.steps.length - 1
+                      ? '0 0.5rem 0 0'
+                      : ''
+                  }
+                  key={step}
+                >
                   <ConnectedTransactionButton
                     color={theme.red}
                     userId={props.userId}
@@ -56,6 +74,9 @@ export function Payment(props: Props): JSX.Element {
             </Row>
           </>
         )}
+      </FormField>
+      <FormField>
+        <CreateCustomTransactionLink isDeposit={false} />
       </FormField>
     </>
   );
