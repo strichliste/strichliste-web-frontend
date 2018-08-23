@@ -1,10 +1,17 @@
 language: node_js
 node_js:
-  - node
+- node
 before_install:
-  - 'nvm install-latest-npm'
+- nvm install-latest-npm
 install: npm install
 script:
-  - npm run test
-  - npm run build
-  - tar cvfz strichliste-frontend.tar.gz build/
+- npm run test
+- npm run build
+- tar cvfz strichliste-frontend.tar.gz build/
+deploy:
+  provider: releases
+  api_key:
+    secure: fZ746ZT9Z9gHdAQCC9wLS6jfzghSdVp9MZJSuQgZsG7rk+YlNAlPcyoyjJddzodHFZZ6N4taYZQELCTEkYrO2oGl27U33eGfVYwDE1SJf1v+ystEBrBMIe7cmLy97EdeDPHMtqyNUAghSME9CtevznGOPuQHato5vId/KI5HduiuAZFB0uOc2g3h74Wk/PRo9T3LZ+i8v8wzxzBNID6DF6ofnXW0fxsZRpDIUYlsHlClLtfaSMMHQG/N1GQrZJk3lIjy9+eB3+7jbPqnan8zficqP4jDMUW9oQZt+1xB3v1DSAN2GEnwzZH0WjrpicfoeG15sQBwfBRS2hqj+a1Uh4PCHwUlmnUGDGu3xNwTd0B6vQXjVozC4jGhF+iPZw0DM+ttZDNDUg55z5I4jAfD5j6UIGhygFWNtAPAchwdQUJB1FrOc6rqVLBY6ZHbONbl+dMcDtS789/xVQGdtJeWW1mjhIkJG3waO8Q5lgLDDWGp7rarKVZPAKm0FMHo/AEiRumF5np6ejE7kmIB480Gf+cz8ot/M1oH3nhYeD/DX1N/dx8+llRakUjyQlmtbhi5Y9SxS+Zvgh1cpOvGkihslWoRbzrK+w784C1tgbYhAdne5a5iHixIV6xlpwCMx7Gwn9ZXiWMdlcl7JHylSFGMyFOdkespDnBJof/loJ71XXU=
+  file: strichliste-frontend.tar.gz
+  on:
+    repo: strichliste/strichliste
