@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cleanup, fireEvent } from 'react-testing-library';
+import { cleanup, fireEvent, wait } from 'react-testing-library';
 
 import {
   createConnectedComponent,
@@ -72,10 +72,10 @@ describe('CreateCustomTransactionForm', () => {
       );
 
       fireEvent.change(input, { target: { value: '120' } });
-      await fireEvent.submit(button);
+      fireEvent.submit(button);
 
       expect(mock).toHaveBeenCalledWith(1, { amount: -120 });
-      expect(mockOnCreate).toHaveBeenCalled();
+      await wait(() => expect(mockOnCreate).toHaveBeenCalled());
     });
   });
 });
