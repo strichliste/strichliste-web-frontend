@@ -8,6 +8,7 @@ interface State {
 interface Props {
   placeholder?: string;
   value?: number;
+  autoFocus?: boolean;
   onChange?(value: number): void;
 }
 
@@ -36,7 +37,7 @@ export class CurrencyInput extends React.Component<Props, State> {
               value={test}
               onChange={this.updateValue}
               type="text"
-              autoFocus={true}
+              autoFocus={this.props.autoFocus}
             />
           )}
         />
