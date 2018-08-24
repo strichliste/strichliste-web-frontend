@@ -77,7 +77,7 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
           </FormField>
           <FormField>
             <Button color={theme.green} type="submit">
-              <FormattedMessage id="ARTICLE_ADD_FROM_SUBMIT" />
+              <FormattedMessage id="ARTICLE_ADD_FORM_SUBMIT" />
             </Button>
           </FormField>
         </form>
