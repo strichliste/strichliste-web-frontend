@@ -8,6 +8,11 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { ConnectedSettingsLoader } from './components/settings';
 import { Header, baseCss, resetCss } from './components/ui';
 import { ConnectedUserDetails } from './components/user/user-details';
+import {
+  ArticleForm,
+  ConnectedArticleForm,
+} from './components/views/article-form';
+import { Articles } from './components/views/articles';
 import { CreateCustomTransaction } from './components/views/create-custom-transaction';
 import { CreateUser } from './components/views/create-user';
 import { TransactionOverview } from './components/views/transaction-overview';
@@ -51,6 +56,22 @@ class Layout extends React.Component {
             path="/find_users"
             exact={true}
             component={ConnectedUserSearch}
+          />
+          <Route path="/articles" exact={true} component={Articles} />
+          <Route
+            path="/articles/add"
+            exact={true}
+            component={ConnectedArticleForm}
+          />
+          <Route
+            path="/articles/:id"
+            exact={true}
+            component={ConnectedUserSearch}
+          />
+          <Route
+            path="/articles/:id/edit"
+            exact={true}
+            component={ArticleForm}
           />
           <Route
             path="/user/:id"
