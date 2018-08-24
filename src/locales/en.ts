@@ -1,4 +1,10 @@
 export const en = {
+  ARTICLE_HEADLINE: 'Articles',
+  ARTICLE_LINK: 'show article list',
+  ARTICLE_ADD_LINK: 'add new articles',
+  ARTICLE_ADD_FORM_NAME_LABEL: 'name',
+  ARTICLE_ADD_FORM_BARCODE_LABEL: 'barcode',
+  ARTICLE_ADD_FORM_SUBMIT: 'submit',
   TALLY_HEADER: 'Tally',
   USER_SEARCH_LINK: 'Find users',
   USER_SEARCH_HEADLINE: 'Find users',
