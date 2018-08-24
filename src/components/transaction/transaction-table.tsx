@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { AppState } from '../../store';
+import { AppState, Dispatch } from '../../store';
 import {
   getUserTransactionsArray,
   startLoadingTransactions,
@@ -18,73 +18,87 @@ interface StateProps {
 }
 
 interface ActionProps {
-  startLoadingTransactions(
+  loadTransactions(
     userId: number,
-    _offset?: number,
-    _limit?: number
-  ): void;
+    offset?: number,
+    limit?: number
+  ): Promise<void>;
 }
 
 export type TransactionTableProps = ActionProps & StateProps & OwnProps;
 
-let offset = 0;
-const limit = 15;
-
-function pageToNextPage(
-  id: number,
-  loadTransactions: (userId: number, _offset?: number, _limit?: number) => void
-): void {
-  offset += limit;
-  loadTransactions(id, offset, limit);
+interface State {
+  limit: number;
+  offset: number;
 }
 
-export function TransactionTable({
-  userId,
-  transactions,
-  startLoadingTransactions,
-}: TransactionTableProps): JSX.Element | null {
-  return (
-    <>
-      <table>
-        <tr>
-          <th>
-            <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />
-          </th>
-          <th>
-            <FormattedMessage id="USER_TRANSACTIONS_TABLE_SENDER" />
-          </th>
-          <th>
-            <FormattedMessage id="USER_TRANSACTIONS_TABLE_RECIPIENT" />
-          </th>
-          <th>
-            <FormattedMessage id="USER_TRANSACTIONS_TABLE_CREATED" />
-          </th>
-          <th>
-            <FormattedMessage id="USER_TRANSACTIONS_TABLE_ARTICLE" />
-          </th>
-          <th>
-            <FormattedMessage id="USER_TRANSACTIONS_TABLE_COMMENT" />
-          </th>
-        </tr>
-        {transactions.map(id => (
-          <ConnectedTransactionRowItem key={id} id={id} />
-        ))}
-      </table>
-      <Button onClick={() => pageToNextPage(userId, startLoadingTransactions)}>
-        more
-      </Button>
-      <div style={{ marginBottom: '2rem' }} />
-    </>
-  );
+export class TransactionTable extends React.Component<
+  TransactionTableProps,
+  State
+> {
+  public state = {
+    offset: 0,
+    limit: 15,
+  };
+
+  public componentDidMount(): void {
+    this.loadMoreRows();
+  }
+
+  public loadMoreRows = async (): Promise<void> => {
+    this.setState(state => ({
+      offset: state.offset + state.limit,
+    }));
+    const { limit, offset } = this.state;
+    await this.props.loadTransactions(this.props.userId, offset, limit);
+  };
+
+  public render(): JSX.Element {
+    return (
+      <>
+        <table>
+          <tr>
+            <th>
+              <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />
+            </th>
+            <th>
+              <FormattedMessage id="USER_TRANSACTIONS_TABLE_SENDER" />
+            </th>
+            <th>
+              <FormattedMessage id="USER_TRANSACTIONS_TABLE_RECIPIENT" />
+            </th>
+            <th>
+              <FormattedMessage id="USER_TRANSACTIONS_TABLE_CREATED" />
+            </th>
+            <th>
+              <FormattedMessage id="USER_TRANSACTIONS_TABLE_ARTICLE" />
+            </th>
+            <th>
+              <FormattedMessage id="USER_TRANSACTIONS_TABLE_COMMENT" />
+            </th>
+          </tr>
+          {}
+          {this.props.transactions.map(id => (
+            <ConnectedTransactionRowItem key={id} id={id} />
+          ))}
+        </table>
+        <div style={{ marginBottom: '2rem' }} />
+        <Button onClick={this.loadMoreRows}>
+          <FormattedMessage id="USER_TRANSACTIONS_TABLE_LOAD_NEXT_ROWS" />
+        </Button>
+      </>
+    );
+  }
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
   transactions: getUserTransactionsArray(state, props.userId),
 });
 
-const mapDispatchToProps: ActionProps = {
-  startLoadingTransactions,
-};
+const mapDispatchToProps = (dispatch: Dispatch): ActionProps => ({
+  loadTransactions: (id: number, offset: number, limit: number) =>
+    dispatch(startLoadingTransactions(id, offset, limit)),
+});
 
 export const ConnectedTransactionTable = connect(
   mapStateToProps,
