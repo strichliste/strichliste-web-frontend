@@ -46,12 +46,16 @@ export type TransactionActions = TransactionsLoadedAction;
 
 export function startLoadingTransactions(
   userId: number,
-  _offset?: number,
-  _limit?: number
+  offset?: number,
+  limit?: number
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
+    const params =
+      offset !== undefined && limit !== undefined
+        ? `?offset=${offset}&limit=${limit}`
+        : '?offset=0&limit=15';
     const data: TransactionResponse = await get(
-      `user/${userId}/transaction?offset=0&limit=5`
+      `user/${userId}/transaction${params}`
     );
     if (data.transactions.length) {
       dispatch(transactionsLoaded(data.transactions));

@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import { CreateUserTransactionLink } from '.';
 import { AppState, DefaultThunkAction } from '../../store';
 import {
   User,
+  getUser,
   startLoadingTransactions,
   startLoadingUserDetails,
 } from '../../store/reducers';
@@ -70,7 +72,9 @@ export class UserDetails extends React.Component<UserDetailsProps> {
           </Card>
           <Card>
             <ListItem>
-              <FormattedMessage id="USER_TRANSACTIONS" />
+              <Link to={this.props.match.url + '/transactions'}>
+                <FormattedMessage id="USER_TRANSACTIONS" />{' '}
+              </Link>
             </ListItem>
             {user.transactions &&
               Object.keys(user.transactions)
@@ -88,7 +92,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
 }
 
 const mapStateToProps = (state: AppState, { match }: UserDetailsProps) => ({
-  details: getUser(state, match),
+  details: getUser(state, match.params.id),
 });
 
 const mapDispatchToProps: ActionProps = {
@@ -100,8 +104,3 @@ export const ConnectedUserDetails = connect(
   mapStateToProps,
   mapDispatchToProps
 )(UserDetails);
-
-// tslint:disable-next-line:no-any
-function getUser(state: AppState, match: any): User {
-  return state.user[match.params.id];
-}

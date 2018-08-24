@@ -33,6 +33,7 @@ export const CenterSection = styled(Section)({
 
 interface ColumnProps {
   margin?: string;
+  width?: string;
 }
 export const Column = styled('div')<ColumnProps>(
   {
@@ -40,6 +41,7 @@ export const Column = styled('div')<ColumnProps>(
   },
   props => ({
     margin: props.margin,
+    width: props.width,
   })
 );
 

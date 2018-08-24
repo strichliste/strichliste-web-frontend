@@ -57,6 +57,7 @@ export class CreateUserForm extends React.Component<Props, State> {
             placeholder=""
             type="text"
             required
+            autoFocus={true}
           />
         </FormField>
         <FormField>

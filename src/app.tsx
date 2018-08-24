@@ -8,8 +8,14 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { ConnectedSettingsLoader } from './components/settings';
 import { Header, baseCss, resetCss } from './components/ui';
 import { ConnectedUserDetails } from './components/user/user-details';
+import {
+  ArticleForm,
+  ConnectedArticleForm,
+} from './components/views/article-form';
+import { Articles } from './components/views/articles';
 import { CreateCustomTransaction } from './components/views/create-custom-transaction';
 import { CreateUser } from './components/views/create-user';
+import { TransactionOverview } from './components/views/transaction-overview';
 import { ConnectedUser } from './components/views/user';
 import { ConnectedUserSearch } from './components/views/user-search';
 import { ConnectedUserTransaction } from './components/views/user-transaction';
@@ -51,6 +57,22 @@ class Layout extends React.Component {
             exact={true}
             component={ConnectedUserSearch}
           />
+          <Route path="/articles" exact={true} component={Articles} />
+          <Route
+            path="/articles/add"
+            exact={true}
+            component={ConnectedArticleForm}
+          />
+          <Route
+            path="/articles/:id"
+            exact={true}
+            component={ConnectedUserSearch}
+          />
+          <Route
+            path="/articles/:id/edit"
+            exact={true}
+            component={ArticleForm}
+          />
           <Route
             path="/user/:id"
             exact={true}
@@ -60,6 +82,11 @@ class Layout extends React.Component {
             path="/user/:id/send_money_to_a_friend"
             exact={true}
             component={ConnectedUserTransaction}
+          />
+          <Route
+            path="/user/:id/transactions"
+            exact={true}
+            component={TransactionOverview}
           />
           <Route
             path="/user/:id/:deposit"
