@@ -7,7 +7,7 @@ install: npm install
 script:
 - npm run test
 - npm run build
-- mv public strichliste-frontend
+- mv build strichliste-frontend
 - tar cvfz strichliste-frontend.tar.gz strichliste-frontend/
 deploy:
   provider: releases
