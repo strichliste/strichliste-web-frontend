@@ -1,6 +1,6 @@
 import { get, post } from '../../services/api';
 import { Action, DefaultThunkAction } from '../action';
-import { AppState, Dispatch } from '../store';
+import { AppState, Dispatch, ThunkAction } from '../store';
 
 export interface ArticleResponse {
   articles: Article[];
@@ -38,6 +38,20 @@ export function startLoadingArticles(): DefaultThunkAction {
     const data: ArticleResponse = await get(`article`);
     if (data.articles.length) {
       dispatch(articlesLoaded(data.articles));
+    }
+  };
+}
+
+export function getArticleByBarcode(
+  barcode: string
+): ThunkAction<Promise<Article>> {
+  return async (dispatch: Dispatch) => {
+    const data: ArticleResponse = await get(`article?barcode=${barcode}`);
+    if (data.articles.length) {
+      dispatch(articlesLoaded(data.articles));
+      return data.articles[0];
+    } else {
+      throw Error('no articles are matching the barcode');
     }
   };
 }
