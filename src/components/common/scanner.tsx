@@ -27,10 +27,10 @@ export class Scanner extends React.Component<Props, State> {
   }
 
   public detection = (event: KeyboardEvent): void => {
-    const keyCode = event.keyCode;
+    const key = event.key;
     clearTimeout(this.state.timeout);
 
-    if (keyCode === 13 && this.state.maybeBarcode.length > 6) {
+    if (key === 'Enter' && this.state.maybeBarcode.length > 6) {
       this.setState(state => ({
         barcode: state.maybeBarcode,
         maybeBarcode: '',
@@ -38,13 +38,10 @@ export class Scanner extends React.Component<Props, State> {
       if (this.props.onChange) {
         this.props.onChange(this.state.barcode);
       }
-    } else if (
-      (keyCode > 47 && keyCode < 58) ||
-      (keyCode > 64 && keyCode < 91)
-    ) {
+    } else if (/[a-zA-Z0-9]/i.test(key)) {
       this.setState(state => ({
         barcode: '',
-        maybeBarcode: state.maybeBarcode + String.fromCharCode(keyCode),
+        maybeBarcode: state.maybeBarcode + key,
       }));
 
       const id = setTimeout(() => {
