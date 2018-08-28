@@ -5,6 +5,8 @@ export const en = {
   ARTICLE_ADD_FORM_NAME_LABEL: 'name',
   ARTICLE_ADD_FORM_BARCODE_LABEL: 'barcode',
   ARTICLE_ADD_FORM_SUBMIT: 'submit',
+  ARTICLE_LOADING_BY_BARCODE: 'fetching article by barcode',
+  ARTICLE_FETCHED_BY_BARCODE: 'you just scanned:',
   TALLY_HEADER: 'Tally',
   USER_SEARCH_LINK: 'Find users',
   USER_SEARCH_HEADLINE: 'Find users',
