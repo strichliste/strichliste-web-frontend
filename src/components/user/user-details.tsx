@@ -5,13 +5,14 @@ import { RouteComponentProps } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { CreateUserTransactionLink } from '.';
-import { AppState, DefaultThunkAction } from '../../store';
+import { AppState } from '../../store';
 import {
   User,
   getUser,
   startLoadingTransactions,
   startLoadingUserDetails,
 } from '../../store/reducers';
+import { ConnectedArticleScanner } from '../article/article-scanner';
 import { BackButton } from '../common';
 import { Currency } from '../currency';
 import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
@@ -30,8 +31,10 @@ interface StateProps {
 }
 
 interface ActionProps {
-  startLoadingUserDetails(id: number): DefaultThunkAction;
-  startLoadingTransactions(id: number): DefaultThunkAction;
+  // tslint:disable-next-line:no-any
+  startLoadingUserDetails(id: number): any;
+  // tslint:disable-next-line:no-any
+  startLoadingTransactions(id: number): any;
 }
 
 type UserDetailsProps = StateProps &
@@ -39,9 +42,9 @@ type UserDetailsProps = StateProps &
   RouteComponentProps<{ id: number }>;
 
 export class UserDetails extends React.Component<UserDetailsProps> {
-  public componentDidMount(): void {
-    this.props.startLoadingUserDetails(this.props.match.params.id);
-    this.props.startLoadingTransactions(this.props.match.params.id);
+  public async componentDidMount(): Promise<void> {
+    await this.props.startLoadingUserDetails(this.props.match.params.id);
+    await this.props.startLoadingTransactions(this.props.match.params.id);
   }
 
   public render(): JSX.Element {
@@ -51,6 +54,8 @@ export class UserDetails extends React.Component<UserDetailsProps> {
     }
     return (
       <>
+        <ConnectedArticleScanner userId={user.id} />
+
         <SplitLayout>
           <Card>
             <SplitLayout>
@@ -70,6 +75,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
               <CreateUserTransactionLink />
             </div>
           </Card>
+
           <Card>
             <ListItem>
               <Link to={this.props.match.url + '/transactions'}>

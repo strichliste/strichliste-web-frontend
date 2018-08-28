@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { AddArticleParams, startAddArticle } from '../../store/reducers';
 import { BackButton } from '../common';
+import { Scanner } from '../common/scanner';
 import { CurrencyInput } from '../currency';
 import { Button, FixedFooter, FormField, theme } from '../ui';
 
@@ -25,8 +26,7 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
     precursor: null,
   };
 
-  public submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  public submit = async () => {
     await this.props.addArticle(this.state);
     this.props.history.goBack();
   };
@@ -34,7 +34,7 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
   public render(): JSX.Element {
     return (
       <>
-        <form onSubmit={this.submit}>
+        <div>
           <FormField>
             <FormattedMessage
               id="ARTICLE_ADD_FORM_NAME_LABEL"
@@ -51,6 +51,7 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
             />
           </FormField>
           <FormField>
+            <Scanner onChange={barcode => this.setState({ barcode })} />
             <FormattedMessage
               id="ARTICLE_ADD_FORM_BARCODE_LABEL"
               children={text => (
@@ -76,11 +77,11 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
             />
           </FormField>
           <FormField>
-            <Button color={theme.green} type="submit">
+            <Button onClick={this.submit} color={theme.green} type="submit">
               <FormattedMessage id="ARTICLE_ADD_FORM_SUBMIT" />
             </Button>
           </FormField>
-        </form>
+        </div>
         <FixedFooter>
           <BackButton />
         </FixedFooter>
