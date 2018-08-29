@@ -3,22 +3,14 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
 
-// tslint:disable-next-line:no-import-side-effect
 import { FormattedMessage, IntlProvider } from 'react-intl';
+import { ArticleRouter } from './components/article/article-router';
 import { ConnectedSettingsLoader } from './components/settings';
 import { Header, baseCss, resetCss } from './components/ui';
-import { ConnectedUserDetails } from './components/user/user-details';
-import {
-  ArticleForm,
-  ConnectedArticleForm,
-} from './components/views/article-form';
-import { Articles } from './components/views/articles';
-import { CreateCustomTransaction } from './components/views/create-custom-transaction';
+import { UserRouter } from './components/user/user-router';
 import { CreateUser } from './components/views/create-user';
-import { TransactionOverview } from './components/views/transaction-overview';
 import { ConnectedUser } from './components/views/user';
 import { ConnectedUserSearch } from './components/views/user-search';
-import { ConnectedUserTransaction } from './components/views/user-transaction';
 import { en } from './locales/en';
 import { store } from './store';
 
@@ -57,42 +49,8 @@ class Layout extends React.Component {
             exact={true}
             component={ConnectedUserSearch}
           />
-          <Route path="/articles" exact={true} component={Articles} />
-          <Route
-            path="/articles/add"
-            exact={true}
-            component={ConnectedArticleForm}
-          />
-          <Route
-            path="/articles/:id"
-            exact={true}
-            component={ConnectedUserSearch}
-          />
-          <Route
-            path="/articles/:id/edit"
-            exact={true}
-            component={ArticleForm}
-          />
-          <Route
-            path="/user/:id"
-            exact={true}
-            component={ConnectedUserDetails}
-          />
-          <Route
-            path="/user/:id/send_money_to_a_friend"
-            exact={true}
-            component={ConnectedUserTransaction}
-          />
-          <Route
-            path="/user/:id/transactions"
-            exact={true}
-            component={TransactionOverview}
-          />
-          <Route
-            path="/user/:id/:deposit"
-            exact={true}
-            component={CreateCustomTransaction}
-          />
+          <Route path="/articles" component={ArticleRouter} />
+          <Route path="/user" component={UserRouter} />
           <Redirect from="/" to="/active_users" />
         </Switch>
       </div>
