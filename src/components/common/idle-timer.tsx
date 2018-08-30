@@ -32,6 +32,7 @@ export class IdleTimer extends React.Component<Props, State> {
     document.removeEventListener('click', this.resetTimer);
     document.removeEventListener('touch', this.resetTimer);
     document.removeEventListener('keyup', this.resetTimer);
+    clearTimeout(this.state.timerId);
   }
 
   public resetTimer = () => {
