@@ -42,7 +42,7 @@ export class ArticleList extends React.Component<Props, State> {
         </Card>
         <Card margin="2rem 0 0 0">
           {this.props.articles.map(article => (
-            <ListItem>
+            <ListItem key={article.id}>
               <Row>
                 <Column width="50%">{article.name}</Column>
                 <Column width="25%">{article.barcode}</Column>
