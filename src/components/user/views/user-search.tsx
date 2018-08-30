@@ -23,7 +23,7 @@ export class UserSearch extends React.Component<Props> {
     return (
       <>
         <ConnectedUserSelectionCards
-          onSelect={user => this.props.history.push(`user/${user.id}`)}
+          onSelect={user => this.props.history.push(`/user/${user.id}`)}
         />
         <FixedFooter>
           <BackButton />

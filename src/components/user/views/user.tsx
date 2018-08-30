@@ -39,16 +39,16 @@ export class User extends React.Component<UserProps> {
       <>
         <Column margin="1rem">
           <div>
-            <Link to="find_users">
+            <Link to="/user/search">
               <FormattedMessage id="USER_SEARCH_LINK" />
             </Link>
           </div>
           {!this.props.stale ? (
-            <Link to="user/inactive">
+            <Link to="/user/inactive">
               <FormattedMessage id="USER_INACTIVE_LINK" />
             </Link>
           ) : (
-            <Link to="active_users">
+            <Link to="/active_users">
               <FormattedMessage id="USER_ACTIVE_LINK" />
             </Link>
           )}
