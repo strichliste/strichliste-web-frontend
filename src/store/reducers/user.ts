@@ -94,6 +94,25 @@ export function startCreatingUser(name: string): ThunkAction<Promise<User>> {
     }
   };
 }
+export interface UserUpdateParams {
+  name: string;
+  email?: string;
+  active: boolean;
+}
+export function startUpdateUser(
+  userId: number,
+  params: UserUpdateParams
+): ThunkAction<Promise<User>> {
+  return async (dispatch: Dispatch) => {
+    try {
+      const data = await post(`user/${userId}`, params);
+      dispatch(userDetailsLoaded(data.user));
+      return data.user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
 
 export type UserActions = UsersLoadedAction | UserDetailsLoadedAction;
 
