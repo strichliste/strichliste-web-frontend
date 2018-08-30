@@ -76,7 +76,7 @@ export class User extends React.Component<UserProps> {
         </AutoGrid>
 
         <Card margin="1rem">
-          <Link to="articles">
+          <Link to="/articles">
             <FormattedMessage id="ARTICLE_LINK" />
           </Link>
         </Card>
