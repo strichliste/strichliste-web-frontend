@@ -8,9 +8,7 @@ import { ArticleRouter } from './components/article/article-router';
 import { ConnectedSettingsLoader } from './components/settings';
 import { Header, baseCss, resetCss } from './components/ui';
 import { UserRouter } from './components/user/user-router';
-import { CreateUser } from './components/views/create-user';
-import { ConnectedUser } from './components/views/user';
-import { ConnectedUserSearch } from './components/views/user-search';
+import { ConnectedUser } from './components/user/views/user';
 import { en } from './locales/en';
 import { store } from './store';
 
@@ -37,17 +35,6 @@ class Layout extends React.Component {
             path="/active_users"
             exact={true}
             render={props => <ConnectedUser {...props} stale={false} />}
-          />
-          <Route
-            path="/inactive_users"
-            exact={true}
-            render={props => <ConnectedUser {...props} stale={true} />}
-          />
-          <Route path="/create_user" exact={true} component={CreateUser} />
-          <Route
-            path="/find_users"
-            exact={true}
-            component={ConnectedUserSearch}
           />
           <Route path="/articles" component={ArticleRouter} />
           <Route path="/user" component={UserRouter} />

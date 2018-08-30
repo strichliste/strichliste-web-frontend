@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { FormattedMessage } from 'react-intl';
-import { AppState, ThunkAction } from '../../store';
-import { startLoadingUsers } from '../../store/reducers';
-import { AutoGrid, Card, Column } from '../ui';
-import { ConnectedUserCard } from '../user/user-card';
+import { AppState, ThunkAction } from '../../../store';
+import { startLoadingUsers } from '../../../store/reducers';
+import { AutoGrid, Card, Column } from '../../ui';
+import { ConnectedUserCard } from '../user-card';
 
 interface OwnProps {
   stale: boolean;
@@ -39,16 +39,16 @@ export class User extends React.Component<UserProps> {
       <>
         <Column margin="1rem">
           <div>
-            <Link to="find_users">
+            <Link to="/user/search">
               <FormattedMessage id="USER_SEARCH_LINK" />
             </Link>
           </div>
           {!this.props.stale ? (
-            <Link to="inactive_users">
+            <Link to="/user/inactive">
               <FormattedMessage id="USER_INACTIVE_LINK" />
             </Link>
           ) : (
-            <Link to="active_users">
+            <Link to="/active_users">
               <FormattedMessage id="USER_ACTIVE_LINK" />
             </Link>
           )}
@@ -62,7 +62,7 @@ export class User extends React.Component<UserProps> {
           )}
         </Column>
         <AutoGrid rows="5rem" columns="10rem">
-          <Link to="/create_user">
+          <Link to="/user/create">
             <Card hover width="100%" height="6rem">
               +
             </Card>
@@ -76,7 +76,7 @@ export class User extends React.Component<UserProps> {
         </AutoGrid>
 
         <Card margin="1rem">
-          <Link to="articles">
+          <Link to="/articles">
             <FormattedMessage id="ARTICLE_LINK" />
           </Link>
         </Card>

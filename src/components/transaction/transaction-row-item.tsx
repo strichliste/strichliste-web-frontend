@@ -37,7 +37,7 @@ export function TransactionRowItem(props: Props): JSX.Element | null {
         </Ellipsis>
       </td>
       <td>{props.transaction.created}</td>
-      <td>{props.transaction.article ? props.transaction.article : ''}</td>
+      <td>{props.transaction.article ? props.transaction.article.name : ''}</td>
       <td>{props.transaction.comment ? props.transaction.comment : ''}</td>
     </tr>
   );

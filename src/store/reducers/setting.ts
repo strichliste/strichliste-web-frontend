@@ -12,6 +12,7 @@ export interface SettingsResponse {
 }
 
 interface Settings {
+  idleTimer: number;
   staleUserPeriod: string;
   i18n: I18n;
   account: Account;
@@ -82,6 +83,7 @@ export function startLoadingSettings(): DefaultThunkAction {
 }
 
 const initialState = {
+  idleTimer: 15000,
   staleUserPeriod: '10 day',
   i18n: {
     dateFormat: 'YYYY-MM-DD HH:mm:ss',

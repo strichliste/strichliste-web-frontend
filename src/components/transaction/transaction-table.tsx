@@ -57,30 +57,31 @@ export class TransactionTable extends React.Component<
     return (
       <>
         <table>
-          <tr>
-            <th>
-              <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />
-            </th>
-            <th>
-              <FormattedMessage id="USER_TRANSACTIONS_TABLE_SENDER" />
-            </th>
-            <th>
-              <FormattedMessage id="USER_TRANSACTIONS_TABLE_RECIPIENT" />
-            </th>
-            <th>
-              <FormattedMessage id="USER_TRANSACTIONS_TABLE_CREATED" />
-            </th>
-            <th>
-              <FormattedMessage id="USER_TRANSACTIONS_TABLE_ARTICLE" />
-            </th>
-            <th>
-              <FormattedMessage id="USER_TRANSACTIONS_TABLE_COMMENT" />
-            </th>
-          </tr>
-          {}
-          {this.props.transactions.map(id => (
-            <ConnectedTransactionRowItem key={id} id={id} />
-          ))}
+          <tbody>
+            <tr>
+              <th>
+                <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />
+              </th>
+              <th>
+                <FormattedMessage id="USER_TRANSACTIONS_TABLE_SENDER" />
+              </th>
+              <th>
+                <FormattedMessage id="USER_TRANSACTIONS_TABLE_RECIPIENT" />
+              </th>
+              <th>
+                <FormattedMessage id="USER_TRANSACTIONS_TABLE_CREATED" />
+              </th>
+              <th>
+                <FormattedMessage id="USER_TRANSACTIONS_TABLE_ARTICLE" />
+              </th>
+              <th>
+                <FormattedMessage id="USER_TRANSACTIONS_TABLE_COMMENT" />
+              </th>
+            </tr>
+            {this.props.transactions.map(id => (
+              <ConnectedTransactionRowItem key={id} id={id} />
+            ))}
+          </tbody>
         </table>
         <div style={{ marginBottom: '2rem' }} />
         <Button onClick={this.loadMoreRows}>
