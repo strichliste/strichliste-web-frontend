@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router';
 import { ConnectedUserDetails } from '.';
-import { IdleTimer } from '../common/idle-timer';
+import { ConnectedIdleTimer } from '../common/idle-timer';
 import { CreateCustomTransaction } from '../views/create-custom-transaction';
 import { TransactionOverview } from '../views/transaction-overview';
 import { CreateUser } from './views/create-user';
@@ -17,7 +17,7 @@ type Props = UserRouterProps & RouteComponentProps<{}>;
 export function UserRouter(props: Props): JSX.Element {
   return (
     <>
-      <IdleTimer timeout={30000} onTimeOut={() => props.history.push('/')} />
+      <ConnectedIdleTimer onTimeOut={() => props.history.push('/')} />
       <Switch>
         <Route
           path="/user/inactive"
