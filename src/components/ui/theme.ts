@@ -35,6 +35,10 @@ export const baseCss = `
   font-size: 18px;
 }
 
+label {
+  display: block;
+}
+
 @media only screen and (min-width: ${theme.laptop}) {
   :root{
     font-size: 24px;
