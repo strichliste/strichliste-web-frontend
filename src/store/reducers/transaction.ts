@@ -2,12 +2,13 @@ import { User } from '.';
 import { get, post } from '../../services/api';
 import { Action, DefaultThunkAction } from '../action';
 import { Dispatch } from '../store';
+import { Article } from './article';
 import { userDetailsLoaded } from './user';
 
 export interface Transaction {
   id: number;
   user: User;
-  article?: string;
+  article?: Article;
   sender?: User;
   recipient?: User;
   comment?: string;
