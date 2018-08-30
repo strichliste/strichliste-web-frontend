@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from 'react-router';
-import { BackButton } from '../common';
-import { Card, CenterSection, FixedFooter } from '../ui';
-import { ConnectedCreateUserForm } from '../user/create-user-form';
+import { BackButton } from '../../common';
+import { Card, CenterSection, FixedFooter } from '../../ui';
+import { ConnectedCreateUserForm } from '../create-user-form';
 
 export function CreateUser(props: RouteComponentProps<{}>): JSX.Element {
   return (
@@ -26,5 +26,5 @@ export function CreateUser(props: RouteComponentProps<{}>): JSX.Element {
 }
 
 function userCreated(props: RouteComponentProps<{}>, id: number): void {
-  props.history.push(`user/${id}`);
+  props.history.push(`/user/${id}`);
 }

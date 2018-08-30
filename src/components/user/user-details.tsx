@@ -60,7 +60,9 @@ export class UserDetails extends React.Component<UserDetailsProps> {
           <Card>
             <SplitLayout>
               {user.name}
-
+              <Link to={`${user.id}/edit`}>
+                <FormattedMessage id="USER_EDIT_LINK" />
+              </Link>
               <AlertText value={user.balance}>
                 <Currency value={user.balance} />
               </AlertText>

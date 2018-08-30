@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { DefaultThunkAction } from '../../store';
-import { startLoadingUsers } from '../../store/reducers';
-import { BackButton } from '../common';
-import { FixedFooter } from '../ui';
-import { ConnectedUserSelectionCards } from '../user';
+import { ConnectedUserSelectionCards } from '..';
+import { DefaultThunkAction } from '../../../store';
+import { startLoadingUsers } from '../../../store/reducers';
+import { BackButton } from '../../common';
+import { FixedFooter } from '../../ui';
 
 interface ActionProps {
   startLoadingUsers(stale?: boolean): DefaultThunkAction;

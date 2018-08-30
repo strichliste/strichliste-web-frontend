@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { BackButton } from '../common';
-import { ConnectedCreateUserTransactionForm } from '../transaction';
-import { FixedFooter, Section } from '../ui';
+import { BackButton } from '../../common';
+import { ConnectedCreateUserTransactionForm } from '../../transaction';
+import { FixedFooter, Section } from '../../ui';
 
 export function UserTransaction(): JSX.Element {
   return (
