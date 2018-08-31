@@ -1,6 +1,6 @@
 import { TransactionTypes } from '.';
 import { Action } from '..';
-import { fetchJson, get, post } from '../../services/api';
+import { get, post } from '../../services/api';
 import { DefaultThunkAction } from '../action';
 import { AppState, Dispatch, ThunkAction } from '../store';
 import { UsersState } from './user';
@@ -13,11 +13,11 @@ export interface User {
   id: number;
   name: string;
   active: boolean;
-  email?: string;
+  email?: string | null;
   balance: number;
   created: string;
   updated?: string;
-  transactions: { [key: number]: number };
+  transactions?: { [key: number]: number };
 }
 
 export interface UsersState {
@@ -54,7 +54,7 @@ export function userDetailsLoaded(payload: User): UserDetailsLoadedAction {
 
 export function startLoadingUserDetails(id: number): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const details = await fetchJson(`user/${id}`, { mode: 'cors' });
+    const details = await get(`user/${id}`);
     dispatch(userDetailsLoaded(details.user));
   };
 }
@@ -132,7 +132,9 @@ export function user(state: UsersState = {}, action: Action): UsersState {
         [action.payload.id]: { ...state[action.payload.id], ...action.payload },
       };
     case TransactionTypes.TransactionsLoaded:
-      const user = state[action.payload[0].user.id];
+      const user = state[action.payload[0].user.id]
+        ? state[action.payload[0].user.id]
+        : action.payload[0].user;
       return {
         ...state,
         [user.id]: {
@@ -150,13 +152,16 @@ export function user(state: UsersState = {}, action: Action): UsersState {
   }
 }
 
+export function getUserState(state: AppState): UsersState {
+  return state.user;
+}
+
 export function getUserArray(state: AppState): User[] {
-  const userState = state.user;
-  return Object.values(userState);
+  return Object.values(getUserState(state));
 }
 
 export function getUser(state: AppState, userId: number): User | undefined {
-  return state.user[userId];
+  return getUserState(state)[userId];
 }
 
 export function getUserTransactionsArray(
@@ -165,7 +170,7 @@ export function getUserTransactionsArray(
 ): number[] {
   const user = getUser(state, userId);
   if (user) {
-    return Object.values(user.transactions).sort(
+    return Object.values(user.transactions ? user.transactions : []).sort(
       (a, b) => Number(b) - Number(a)
     );
   } else {

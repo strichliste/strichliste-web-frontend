@@ -35,7 +35,7 @@ export class UserEditForm extends React.Component<
     if (this.props.user) {
       this.setState({
         name: this.props.user.name,
-        email: this.props.user.email,
+        email: this.props.user.email || '',
         active: this.props.user.active,
       });
     }

@@ -11,7 +11,7 @@ export interface SettingsResponse {
   settings: Settings;
 }
 
-interface Settings {
+export interface Settings {
   idleTimer: number;
   staleUserPeriod: string;
   i18n: I18n;
@@ -76,14 +76,15 @@ export function settingsLoaded(settings: Settings): SettingsLoadedAction {
 export function startLoadingSettings(): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     const data: SettingsResponse = await get('settings');
+
     if (data.settings) {
       dispatch(settingsLoaded(data.settings));
     }
   };
 }
 
-const initialState = {
-  idleTimer: 15000,
+export const initialState = {
+  idleTimer: 150000,
   staleUserPeriod: '10 day',
   i18n: {
     dateFormat: 'YYYY-MM-DD HH:mm:ss',
