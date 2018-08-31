@@ -7,7 +7,7 @@ import {
   startLoadingTransactions,
 } from '../../store/reducers';
 import { Button } from '../ui';
-import { ConnectedTransactionRowItem } from './transaction-row-item';
+import { ConnectedTransactionListItem } from './transaction-list-item';
 
 interface OwnProps {
   userId: number;
@@ -56,34 +56,9 @@ export class TransactionTable extends React.Component<
   public render(): JSX.Element {
     return (
       <>
-        <table>
-          <tbody>
-            <tr>
-              <th>
-                <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />
-              </th>
-              <th>
-                <FormattedMessage id="USER_TRANSACTIONS_TABLE_SENDER" />
-              </th>
-              <th>
-                <FormattedMessage id="USER_TRANSACTIONS_TABLE_RECIPIENT" />
-              </th>
-              <th>
-                <FormattedMessage id="USER_TRANSACTIONS_TABLE_CREATED" />
-              </th>
-              <th>
-                <FormattedMessage id="USER_TRANSACTIONS_TABLE_ARTICLE" />
-              </th>
-              <th>
-                <FormattedMessage id="USER_TRANSACTIONS_TABLE_COMMENT" />
-              </th>
-            </tr>
-            {this.props.transactions.map(id => (
-              <ConnectedTransactionRowItem key={id} id={id} />
-            ))}
-          </tbody>
-        </table>
-        <div style={{ marginBottom: '2rem' }} />
+        {this.props.transactions.map(id => (
+          <ConnectedTransactionListItem key={id} id={id} />
+        ))}
         <Button onClick={this.loadMoreRows}>
           <FormattedMessage id="USER_TRANSACTIONS_TABLE_LOAD_NEXT_ROWS" />
         </Button>

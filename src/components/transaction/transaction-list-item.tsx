@@ -23,13 +23,12 @@ export function TransactionListItem(props: Props): JSX.Element | null {
   return (
     <ListItem>
       <Row>
-        <Column>
+        <Column grow={0} width="5rem">
           <AlertText value={props.transaction.amount}>
             <Currency value={props.transaction.amount} />
           </AlertText>
         </Column>
-        <Column>{props.transaction.created}</Column>
-        <Column>
+        <Column width="8rem" grow={1}>
           <Ellipsis>
             {props.transaction.sender && (
               <>
@@ -37,17 +36,17 @@ export function TransactionListItem(props: Props): JSX.Element | null {
                 {props.transaction.sender.name}
               </>
             )}
-          </Ellipsis>
-        </Column>
-        <Column>
-          <Ellipsis>
             {props.transaction.recipient && (
               <>
                 <FormattedMessage id="USER_TRANSACTIONS_RECIPIENT" />:{' '}
                 {props.transaction.recipient.name}
               </>
             )}
+            {props.transaction.article && <>{props.transaction.article.name}</>}
           </Ellipsis>
+        </Column>
+        <Column grow={0} width="9rem">
+          <Ellipsis>{props.transaction.created}</Ellipsis>
         </Column>
       </Row>
     </ListItem>

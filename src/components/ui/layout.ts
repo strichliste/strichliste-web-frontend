@@ -34,12 +34,14 @@ export const CenterSection = styled(Section)({
 interface ColumnProps {
   margin?: string;
   width?: string;
+  grow?: number;
 }
 export const Column = styled('div')<ColumnProps>(
   {
     flexGrow: 1,
   },
   props => ({
+    flexGrow: props.grow,
     margin: props.margin,
     width: props.width,
   })
@@ -51,7 +53,7 @@ export const FullWidth = styled('div')({
 
 export const ListItem = styled('div')({
   borderBottom: `solid 1px ${theme.border}`,
-  padding: '1rem',
+  padding: '1rem 0',
 });
 
 export const SplitLayout = styled('div')({

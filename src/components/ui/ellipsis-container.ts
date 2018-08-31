@@ -1,6 +1,6 @@
 import styled from 'react-emotion';
 
-export const Ellipsis = styled('p')({
+export const Ellipsis = styled('div')({
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
