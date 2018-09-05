@@ -3,6 +3,7 @@
 jest.mock('../../../services/api', () => ({
   get: jest.fn(),
   post: jest.fn(),
+  restDelete: jest.fn(),
 }));
 
 import { DeepPartial } from 'redux';
@@ -13,9 +14,15 @@ import {
   userDetailsLoaded,
 } from '..';
 import { Action } from '../..';
-import { get, post } from '../../../services/api';
+import { get, post, restDelete } from '../../../services/api';
 import { getMockStore } from '../../../spec-configs/mock-store';
-import { startLoadingTransactions, transactionsLoaded } from '../transaction';
+import {
+  getTransaction,
+  isTransactionDeletable,
+  startDeletingTransaction,
+  startLoadingTransactions,
+  transactionsLoaded,
+} from '../transaction';
 
 describe('transaction reducer', () => {
   let action: DeepPartial<Action>;
@@ -65,6 +72,24 @@ describe('action creators', () => {
       ]);
     });
   });
+  describe('startDeletingTransaction', () => {
+    beforeEach(() => {
+      (restDelete as any).mockImplementationOnce(() =>
+        Promise.resolve({ transaction: { id: 5, user: { name: 'user' } } })
+      );
+    });
+
+    it('updates the transaction and dispatches the new transaction and updated user', async () => {
+      const store = getMockStore();
+      await store.dispatch(startDeletingTransaction(2, 4));
+
+      expect(restDelete).toHaveBeenCalledWith('user/2/transaction/4');
+      expect(store.getActions()).toEqual([
+        transactionsLoaded([{ id: 5, user: { name: 'user' } }] as any),
+        userDetailsLoaded({ name: 'user' } as any),
+      ]);
+    });
+  });
   describe('startLoadingTransactions', () => {
     beforeEach(() => {
       (get as any).mockImplementationOnce(() =>
@@ -87,6 +112,50 @@ describe('action creators', () => {
       await store.dispatch(startLoadingTransactions(2, 50, 12));
 
       expect(get).toHaveBeenCalledWith('user/2/transaction?offset=50&limit=12');
+    });
+  });
+});
+
+describe('selectors', () => {
+  describe('getTransaction', () => {
+    it('returns undefined if no transaction is found', () => {
+      expect(
+        getTransaction(
+          {
+            transaction: { 1: { id: 1 } },
+          } as any,
+          5
+        )
+      ).toBeUndefined();
+    });
+    it('returns a matching transaction by id', () => {
+      expect(
+        getTransaction(
+          {
+            transaction: { 1: { id: 1 } },
+          } as any,
+          1
+        )
+      ).toEqual({ id: 1 });
+    });
+  });
+
+  describe('isTransactionDeletable', () => {
+    it('returns flag if transaction is found', () => {
+      expect(
+        isTransactionDeletable(
+          { transaction: { 1: { id: 1, isDeletable: true } } } as any,
+          1
+        )
+      ).toBeTruthy();
+    });
+    it('returns false if no transaction is found', () => {
+      expect(
+        isTransactionDeletable(
+          { transaction: { 1: { id: 1, isDeletable: true } } } as any,
+          2
+        )
+      ).toBeFalsy();
     });
   });
 });

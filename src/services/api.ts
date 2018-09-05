@@ -1,14 +1,13 @@
+// tslint:disable no-any
 const API_URL = process.env.REACT_APP_API;
 
 export async function fetchJson(
   endpoint: string,
   options: RequestInit = {}
-  // tslint:disable-next-line:no-any
 ): Promise<any> {
   return fetch(`${API_URL}${endpoint}`, options).then(async res => res.json());
 }
 
-// tslint:disable-next-line:no-any
 export async function post(endpoint: string, params: any): Promise<any> {
   const options: RequestInit = {
     mode: 'cors',
@@ -19,7 +18,12 @@ export async function post(endpoint: string, params: any): Promise<any> {
   return fetch(`${API_URL}${endpoint}`, options).then(async res => res.json());
 }
 
-// tslint:disable-next-line:no-any
 export async function get(endpoint: string): Promise<any> {
   return fetch(`${API_URL}${endpoint}`).then(async res => res.json());
+}
+
+export async function restDelete(endpoint: string): Promise<any> {
+  return fetch(`${API_URL}${endpoint}`, {
+    method: 'delete',
+  }).then(async res => res.json());
 }

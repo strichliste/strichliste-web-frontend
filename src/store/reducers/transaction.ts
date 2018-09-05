@@ -1,7 +1,7 @@
 import { User } from '.';
-import { get, post } from '../../services/api';
+import { get, post, restDelete } from '../../services/api';
 import { Action, DefaultThunkAction } from '../action';
-import { Dispatch } from '../store';
+import { AppState, Dispatch } from '../store';
 import { Article } from './article';
 import { userDetailsLoaded } from './user';
 
@@ -14,13 +14,15 @@ export interface Transaction {
   comment?: string;
   amount: number;
   created: string;
+  deleted: boolean;
+  isDeletable: boolean;
 }
 
 export interface TransactionResponse {
   transactions: Transaction[];
 }
 
-export interface CreateTransactionResponse {
+export interface TransactionResponse {
   transaction: Transaction;
 }
 
@@ -75,13 +77,28 @@ export function startCreatingTransaction(
   params: CreateTransactionParams
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const data: CreateTransactionResponse = await post(
+    const data: TransactionResponse = await post(
       `user/${userId}/transaction`,
       params
     );
     if (data.transaction) {
       dispatch(userDetailsLoaded(data.transaction.user));
       dispatch(transactionsLoaded([data.transaction]));
+    }
+  };
+}
+
+export function startDeletingTransaction(
+  userId: number,
+  transactionId: number
+): DefaultThunkAction {
+  return async (dispatch: Dispatch) => {
+    const data: TransactionResponse = await restDelete(
+      `user/${userId}/transaction/${transactionId}`
+    );
+    if (data.transaction) {
+      dispatch(transactionsLoaded([data.transaction]));
+      dispatch(userDetailsLoaded(data.transaction.user));
     }
   };
 }
@@ -102,4 +119,24 @@ export function transaction(
     default:
       return state;
   }
+}
+
+export function getTransactionState(state: AppState): TransactionState {
+  return state.transaction;
+}
+
+export function getTransaction(
+  state: AppState,
+  id: number
+): Transaction | undefined {
+  return getTransactionState(state)[id];
+}
+
+export function isTransactionDeletable(state: AppState, id: number): boolean {
+  const transaction = getTransaction(state, id);
+  if (transaction) {
+    return transaction.isDeletable;
+  }
+
+  return false;
 }

@@ -16,6 +16,7 @@ import { ConnectedArticleScanner } from '../article/article-scanner';
 import { BackButton } from '../common';
 import { Currency } from '../currency';
 import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
+import { ConnectedTransactionUndoButton } from '../transaction/transaction-undo-button';
 import {
   AlertText,
   Card,
@@ -52,6 +53,14 @@ export class UserDetails extends React.Component<UserDetailsProps> {
     if (!user) {
       return <>LOADING...</>;
     }
+
+    const transactions = user.transactions
+      ? Object.keys(user.transactions)
+          .map(a => Number(a))
+          .sort((a, b) => b - a)
+          .slice(0, 5)
+      : [];
+
     return (
       <>
         <ConnectedArticleScanner userId={user.id} />
@@ -83,12 +92,16 @@ export class UserDetails extends React.Component<UserDetailsProps> {
               <Link to={this.props.match.url + '/transactions'}>
                 <FormattedMessage id="USER_TRANSACTIONS" />{' '}
               </Link>
+              <ConnectedTransactionUndoButton
+                userId={user.id}
+                transactionId={
+                  transactions && transactions[0] ? transactions[0] : 0
+                }
+              />
             </ListItem>
-            {user.transactions &&
-              Object.keys(user.transactions)
-                .sort((a, b) => Number(b) - Number(a))
-                .slice(0, 5)
-                .map(id => <ConnectedTransactionListItem key={id} id={id} />)}
+            {transactions.map(id => (
+              <ConnectedTransactionListItem key={id} id={id} />
+            ))}
           </Card>
         </SplitLayout>
         <FixedFooter>
