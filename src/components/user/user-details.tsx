@@ -16,7 +16,6 @@ import { ConnectedArticleScanner } from '../article/article-scanner';
 import { BackButton } from '../common';
 import { Currency } from '../currency';
 import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
-import { ConnectedTransactionUndoButton } from '../transaction/transaction-undo-button';
 import {
   AlertText,
   Card,
@@ -92,12 +91,6 @@ export class UserDetails extends React.Component<UserDetailsProps> {
               <Link to={this.props.match.url + '/transactions'}>
                 <FormattedMessage id="USER_TRANSACTIONS" />{' '}
               </Link>
-              <ConnectedTransactionUndoButton
-                userId={user.id}
-                transactionId={
-                  transactions && transactions[0] ? transactions[0] : 0
-                }
-              />
             </ListItem>
             {transactions.map(id => (
               <ConnectedTransactionListItem key={id} id={id} />

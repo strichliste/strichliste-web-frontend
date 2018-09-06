@@ -5,6 +5,7 @@ import { AppState } from '../../store';
 import { Transaction } from '../../store/reducers';
 import { Currency } from '../currency';
 import { AlertText, Column, Ellipsis, LineThrough, ListItem, Row } from '../ui';
+import { ConnectedTransactionUndoButton } from './transaction-undo-button';
 
 interface OwnProps {
   id: number | string;
@@ -49,7 +50,14 @@ export function TransactionListItem(props: Props): JSX.Element | null {
             </Ellipsis>
           </Column>
           <Column grow={0} width="9rem">
-            <Ellipsis>{props.transaction.created}</Ellipsis>
+            {props.transaction.isDeletable ? (
+              <ConnectedTransactionUndoButton
+                transactionId={props.transaction.id}
+                userId={props.transaction.user.id}
+              />
+            ) : (
+              <Ellipsis>{props.transaction.created}</Ellipsis>
+            )}
           </Column>
         </Row>
       </LineThrough>

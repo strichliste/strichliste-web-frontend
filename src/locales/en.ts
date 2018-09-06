@@ -30,7 +30,7 @@ export const en = {
   USER_TRANSACTION_CREATE_CUSTOM_DEPOSIT_BUTTON: 'Charge wallet',
   USER_TRANSACTION_CREATE_CUSTOM_DISPENSE_BUTTON: 'Pay purchase',
   USER_TRANSACTION_FROM_AMOUNT_LABEL: 'amount',
-  USER_TRANSACTION_UNDO: 'undo last transaction',
+  USER_TRANSACTION_UNDO: 'undo',
   USER_SELECTION_LIST_LABEL: 'Select a user by name',
   USER_CREATE_HEADLINE: 'Create new user',
   USER_CREATE_TRIGGER: 'Create user',
