@@ -1,5 +1,6 @@
 import { User } from '.';
 import { get, post, restDelete } from '../../services/api';
+import { playCashSound } from '../../services/sound';
 import { Action, DefaultThunkAction } from '../action';
 import { AppState, Dispatch } from '../store';
 import { Article } from './article';
@@ -77,6 +78,7 @@ export function startCreatingTransaction(
   params: CreateTransactionParams
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
+    playCashSound();
     const data: TransactionResponse = await post(
       `user/${userId}/transaction`,
       params
