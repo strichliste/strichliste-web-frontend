@@ -78,7 +78,7 @@ export function startCreatingTransaction(
   params: CreateTransactionParams
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    playCashSound();
+    playCashSound(params);
     const data: TransactionResponse = await post(
       `user/${userId}/transaction`,
       params
