@@ -5,6 +5,19 @@ export const FormField = styled('div')({
   marginBottom: '0.5rem',
 });
 
+export interface FixedContainerProps {
+  top?: number;
+}
+export const FixedContainer = styled('div')<FixedContainerProps>(
+  {
+    position: 'fixed',
+    width: '100%',
+  },
+  props => ({
+    top: props.top,
+  })
+);
+
 export const Section = styled('section')({
   padding: '1rem',
 });
