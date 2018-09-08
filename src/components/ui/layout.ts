@@ -12,6 +12,7 @@ export const FixedContainer = styled('div')<FixedContainerProps>(
   {
     position: 'fixed',
     width: '100%',
+    zIndex: 10,
   },
   props => ({
     top: props.top,

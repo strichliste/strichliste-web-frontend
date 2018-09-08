@@ -7,12 +7,7 @@ jest.mock('../../../services/api', () => ({
 }));
 
 import { DeepPartial } from 'redux';
-import {
-  TransactionTypes,
-  startCreatingTransaction,
-  transaction,
-  userDetailsLoaded,
-} from '..';
+import { TransactionTypes, startCreatingTransaction, transaction } from '..';
 import { Action } from '../..';
 import { get, post, restDelete } from '../../../services/api';
 import { getMockStore } from '../../../spec-configs/mock-store';
@@ -21,7 +16,6 @@ import {
   isTransactionDeletable,
   startDeletingTransaction,
   startLoadingTransactions,
-  transactionsLoaded,
 } from '../transaction';
 
 describe('transaction reducer', () => {
@@ -43,12 +37,8 @@ describe('transaction reducer', () => {
     });
 
     it('merges transaction to state', () => {
-      const expectedResult = {
-        2: { id: 2 },
-        3: { id: 3 },
-      };
       const result = transaction(undefined, action as Action);
-      expect(result).toEqual(expectedResult);
+      expect(result).toMatchSnapshot();
     });
   });
 });
@@ -66,10 +56,7 @@ describe('action creators', () => {
       await store.dispatch(startCreatingTransaction(2, { amount: 1 }));
 
       expect(post).toHaveBeenCalledWith('user/2/transaction', { amount: 1 });
-      expect(store.getActions()).toEqual([
-        userDetailsLoaded({ name: 'user' } as any),
-        transactionsLoaded([{ id: 5, user: { name: 'user' } }] as any),
-      ]);
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
   describe('startDeletingTransaction', () => {
@@ -84,10 +71,7 @@ describe('action creators', () => {
       await store.dispatch(startDeletingTransaction(2, 4));
 
       expect(restDelete).toHaveBeenCalledWith('user/2/transaction/4');
-      expect(store.getActions()).toEqual([
-        transactionsLoaded([{ id: 5, user: { name: 'user' } }] as any),
-        userDetailsLoaded({ name: 'user' } as any),
-      ]);
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
   describe('startLoadingTransactions', () => {
@@ -102,9 +86,7 @@ describe('action creators', () => {
       await store.dispatch(startLoadingTransactions(2));
 
       expect(get).toHaveBeenCalledWith('user/2/transaction?offset=0&limit=15');
-      expect(store.getActions()).toEqual([
-        transactionsLoaded([{ id: 2 }, { id: 3 }] as any),
-      ]);
+      expect(store.getActions()).toMatchSnapshot();
     });
 
     it('sets the given params', async () => {

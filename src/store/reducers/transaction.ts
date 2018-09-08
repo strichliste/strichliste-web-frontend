@@ -1,4 +1,4 @@
-import { User } from '.';
+import { User, setGlobalError, setGlobalLoader } from '.';
 import { get, post, restDelete } from '../../services/api';
 import { playCashSound } from '../../services/sound';
 import { Action, DefaultThunkAction } from '../action';
@@ -54,15 +54,25 @@ export function startLoadingTransactions(
   limit?: number
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
+    dispatch(setGlobalLoader(true));
+    dispatch(setGlobalError(''));
     const params =
       offset !== undefined && limit !== undefined
         ? `?offset=${offset}&limit=${limit}`
         : '?offset=0&limit=15';
-    const data: TransactionResponse = await get(
-      `user/${userId}/transaction${params}`
-    );
-    if (data.transactions.length) {
-      dispatch(transactionsLoaded(data.transactions));
+    try {
+      const data: TransactionResponse = await get(
+        `user/${userId}/transaction${params}`
+      );
+      dispatch(setGlobalLoader(false));
+      if (data.transactions.length) {
+        dispatch(transactionsLoaded(data.transactions));
+      } else {
+        dispatch(setGlobalError('USER_TRANSACTIONS_LOADING_ERROR'));
+      }
+    } catch (e) {
+      dispatch(setGlobalLoader(false));
+      dispatch(setGlobalError('USER_TRANSACTIONS_LOADING_ERROR'));
     }
   };
 }
@@ -78,14 +88,25 @@ export function startCreatingTransaction(
   params: CreateTransactionParams
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
+    dispatch(setGlobalLoader(true));
+    dispatch(setGlobalError(''));
     playCashSound(params);
-    const data: TransactionResponse = await post(
-      `user/${userId}/transaction`,
-      params
-    );
-    if (data.transaction) {
-      dispatch(userDetailsLoaded(data.transaction.user));
-      dispatch(transactionsLoaded([data.transaction]));
+    try {
+      const data: TransactionResponse = await post(
+        `user/${userId}/transaction`,
+        params
+      );
+      dispatch(setGlobalLoader(false));
+
+      if (data.transaction) {
+        dispatch(userDetailsLoaded(data.transaction.user));
+        dispatch(transactionsLoaded([data.transaction]));
+      } else {
+        dispatch(setGlobalError('USER_TRANSACTION_CREATION_ERROR'));
+      }
+    } catch (error) {
+      dispatch(setGlobalLoader(false));
+      dispatch(setGlobalError('USER_TRANSACTION_CREATION_ERROR'));
     }
   };
 }
@@ -95,12 +116,24 @@ export function startDeletingTransaction(
   transactionId: number
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const data: TransactionResponse = await restDelete(
-      `user/${userId}/transaction/${transactionId}`
-    );
-    if (data.transaction) {
-      dispatch(transactionsLoaded([data.transaction]));
-      dispatch(userDetailsLoaded(data.transaction.user));
+    dispatch(setGlobalLoader(true));
+    dispatch(setGlobalError(''));
+
+    try {
+      const data: TransactionResponse = await restDelete(
+        `user/${userId}/transaction/${transactionId}`
+      );
+      dispatch(setGlobalLoader(false));
+
+      if (data.transaction) {
+        dispatch(transactionsLoaded([data.transaction]));
+        dispatch(userDetailsLoaded(data.transaction.user));
+      } else {
+        dispatch(setGlobalError('USER_TRANSACTION_DELETION_ERROR'));
+      }
+    } catch (error) {
+      dispatch(setGlobalLoader(false));
+      dispatch(setGlobalError('USER_TRANSACTION_DELETION_ERROR'));
     }
   };
 }
