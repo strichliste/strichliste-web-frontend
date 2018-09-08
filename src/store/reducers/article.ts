@@ -101,3 +101,7 @@ export function getArticle(state: AppState): ArticleState {
 export function getArticleList(state: AppState): Article[] {
   return Object.values(getArticle(state));
 }
+
+export function getPopularArticles(state: AppState): Article[] {
+  return getArticleList(state).sort((a, b) => b.usageCount - a.usageCount);
+}
