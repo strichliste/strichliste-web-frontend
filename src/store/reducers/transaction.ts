@@ -65,7 +65,7 @@ export function startLoadingTransactions(
         `user/${userId}/transaction${params}`
       );
       dispatch(setGlobalLoader(false));
-      if (data.transactions.length) {
+      if (data && data.transactions) {
         dispatch(transactionsLoaded(data.transactions));
       } else {
         dispatch(setGlobalError('USER_TRANSACTIONS_LOADING_ERROR'));

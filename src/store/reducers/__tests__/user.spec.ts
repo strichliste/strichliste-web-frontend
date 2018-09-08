@@ -116,6 +116,13 @@ describe('user reducer', () => {
         expect(result).toEqual(expectedResult);
       });
     });
+    describe('with an empty transaction', () => {
+      it('wont throw an exception', () => {
+        action = transactionsLoaded([] as any);
+        const result = user(undefined, action as Action);
+        expect(result).toEqual(result);
+      });
+    });
   });
 });
 

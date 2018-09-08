@@ -169,6 +169,9 @@ export function user(state: UsersState = {}, action: Action): UsersState {
         [action.payload.id]: { ...state[action.payload.id], ...action.payload },
       };
     case TransactionTypes.TransactionsLoaded:
+      if (action.payload[0] === undefined) {
+        return state;
+      }
       const user = state[action.payload[0].user.id]
         ? state[action.payload[0].user.id]
         : action.payload[0].user;
