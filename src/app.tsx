@@ -5,8 +5,10 @@ import { HashRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
 
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { ArticleRouter } from './components/article/article-router';
+import { ConnectedErrorMessage } from './components/common/error-message';
 import { ConnectedSettingsLoader } from './components/settings';
 import { Header, baseCss, resetCss } from './components/ui';
+import { GlobalLoadingIndicator } from './components/ui/loader';
 import { UserRouter } from './components/user/user-router';
 import { ConnectedUser } from './components/user/views/user';
 import { en } from './locales/en';
@@ -22,6 +24,8 @@ class Layout extends React.Component {
   public render(): JSX.Element {
     return (
       <div className="App">
+        <GlobalLoadingIndicator />
+        <ConnectedErrorMessage />
         <Header>
           <h1>
             <Link to="/">

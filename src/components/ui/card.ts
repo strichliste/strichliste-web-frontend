@@ -5,6 +5,8 @@ interface CardProps {
   hover?: boolean;
   width?: string;
   margin?: string;
+  background?: string;
+  color?: string;
 }
 
 export const Card = styled('div')<CardProps>(
@@ -22,6 +24,8 @@ export const Card = styled('div')<CardProps>(
     width: props.width,
     margin: props.margin,
     height: props.height,
+    background: props.background,
+    color: props.color,
     '&:hover': {
       boxShadow: props.hover
         ? '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);'

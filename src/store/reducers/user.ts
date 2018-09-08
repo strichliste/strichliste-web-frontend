@@ -1,9 +1,9 @@
-import { TransactionTypes } from '.';
+import { TransactionTypes, setGlobalLoader } from '.';
 import { Action } from '..';
 import { get, post } from '../../services/api';
 import { DefaultThunkAction } from '../action';
 import { AppState, Dispatch, ThunkAction } from '../store';
-import { UsersState } from './user';
+import { setGlobalError } from './error';
 
 export interface GetUsersResponse {
   users: User[];
@@ -72,25 +72,47 @@ export function usersLoaded(payload: GetUsersResponse): UsersLoadedAction {
 
 export function startLoadingUsers(stale: boolean = false): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
+    dispatch(setGlobalLoader(true));
+    dispatch(setGlobalError(''));
     try {
       const data = await get(`user?stale=${stale}`);
       dispatch(usersLoaded(data));
     } catch (error) {
-      console.log(error);
+      dispatch(setGlobalError('USERS_LOADING_FAILED'));
     }
+    dispatch(setGlobalLoader(false));
   };
 }
 
-export function startCreatingUser(name: string): ThunkAction<Promise<User>> {
+export function startCreatingUser(
+  name: string
+): ThunkAction<Promise<User | undefined>> {
   return async (dispatch: Dispatch) => {
+    dispatch(setGlobalLoader(true));
+    dispatch(setGlobalError(''));
+
     try {
       const data = await post('user', {
         name,
       });
-      dispatch(userDetailsLoaded(data.user));
-      return data.user;
+      dispatch(setGlobalLoader(false));
+      if (data.user) {
+        dispatch(userDetailsLoaded(data.user));
+        return data.user;
+      }
+      if (
+        data.error &&
+        data.error.class &&
+        data.error.class.indexOf('UserAlreadyExistsException')
+      ) {
+        dispatch(setGlobalError('USERS_CREATION_FAILED_USER_EXIST'));
+        return undefined;
+      }
+      dispatch(setGlobalError('USERS_CREATION_FAILED'));
+      return undefined;
     } catch (error) {
-      console.log(error);
+      dispatch(setGlobalError('USERS_CREATION_FAILED'));
+      dispatch(setGlobalLoader(false));
     }
   };
 }
@@ -104,12 +126,27 @@ export function startUpdateUser(
   params: UserUpdateParams
 ): ThunkAction<Promise<User>> {
   return async (dispatch: Dispatch) => {
+    dispatch(setGlobalLoader(true));
+    dispatch(setGlobalError(''));
     try {
       const data = await post(`user/${userId}`, params);
-      dispatch(userDetailsLoaded(data.user));
-      return data.user;
+      dispatch(setGlobalLoader(false));
+      if (data.user && data.user.id) {
+        dispatch(userDetailsLoaded(data.user));
+        return data.user;
+      }
+      if (
+        data.error &&
+        data.error.class &&
+        data.error.class.indexOf('UserAlreadyExistsException')
+      ) {
+        dispatch(setGlobalError('USERS_CREATION_FAILED_USER_EXIST'));
+        return undefined;
+      }
+      dispatch(setGlobalError('USER_EDIT_USER_FAILED'));
     } catch (error) {
-      console.log(error);
+      dispatch(setGlobalError('USER_EDIT_USER_FAILED'));
+      dispatch(setGlobalLoader(false));
     }
   };
 }
