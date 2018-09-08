@@ -20,7 +20,7 @@ export const LoadingIndicator = styled('div')<LoadingIndicatorProps>(
   props => ({
     width: props.started ? '102%' : '1%',
     transition: props.started
-      ? 'width 500ms ease-out, opacity 200ms linear'
+      ? 'width 3000ms ease-out, opacity 200ms linear'
       : 'none',
   })
 );

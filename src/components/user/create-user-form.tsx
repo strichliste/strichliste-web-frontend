@@ -29,13 +29,10 @@ export class CreateUserForm extends React.Component<Props, State> {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-    try {
-      const data = await this.props.startCreatingUser(this.state.name);
-
+    const data = await this.props.startCreatingUser(this.state.name);
+    if (data && data.id) {
       this.setState({ name: '' });
       this.props.userCreated(data.id);
-    } catch (error) {
-      console.log('failed to create user', error);
     }
   };
 

@@ -20,7 +20,6 @@ import {
   startLoadingUsers,
   startUpdateUser,
   userDetailsLoaded,
-  usersLoaded,
 } from '../user';
 
 describe('user reducer', () => {
@@ -128,7 +127,7 @@ describe('action creators', () => {
       const store = getMockStore();
       await store.dispatch(startLoadingUsers(true));
       expect(get).toHaveBeenCalledWith('user?stale=true');
-      expect(store.getActions()).toEqual([usersLoaded([{ id: 1 }] as any)]);
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
 
@@ -155,9 +154,7 @@ describe('action creators', () => {
       const store = getMockStore();
       await store.dispatch(startCreatingUser('test'));
       expect(post).toHaveBeenCalledWith('user', { name: 'test' });
-      expect(store.getActions()).toEqual([
-        userDetailsLoaded([{ id: 1 }] as any),
-      ]);
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
 
@@ -172,9 +169,7 @@ describe('action creators', () => {
         name: 'test',
         active: true,
       });
-      expect(store.getActions()).toEqual([
-        userDetailsLoaded([{ id: 1 }] as any),
-      ]);
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
 });

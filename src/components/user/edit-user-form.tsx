@@ -20,7 +20,8 @@ interface StateProps {
 }
 
 interface ActionProps {
-  startUpdateUser(userId: number, params: UserUpdateParams): void;
+  // tslint:disable-next-line:no-any
+  startUpdateUser(userId: number, params: UserUpdateParams): any;
 }
 
 export type UserEditFormProps = ActionProps & StateProps & OwnProps;
@@ -41,10 +42,17 @@ export class UserEditForm extends React.Component<
     }
   }
 
-  public submit = (e: React.FormEvent<HTMLFormElement>) => {
+  public submit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
-    this.props.startUpdateUser(this.props.userId, this.state);
-    this.props.onSave();
+    const user = await this.props.startUpdateUser(
+      this.props.userId,
+      this.state
+    );
+    if (user && user.id) {
+      this.props.onSave();
+    }
   };
 
   public render(): JSX.Element {

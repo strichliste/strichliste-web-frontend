@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`action creators startCreatingUser triggers userDetailsLoaded on success 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "GLOBAL_LOADER": true,
+    },
+    "type": "SET_LOADER",
+  },
+  Object {
+    "payload": Object {
+      "GLOBAL_ERROR": "",
+    },
+    "type": "SET_ERROR",
+  },
+  Object {
+    "payload": Object {
+      "GLOBAL_LOADER": false,
+    },
+    "type": "SET_LOADER",
+  },
+  Object {
+    "payload": Array [
+      Object {
+        "id": 1,
+      },
+    ],
+    "type": "[USER] Loaded_Details",
+  },
+]
+`;
+
+exports[`action creators startLoadingUsers triggers usersLoaded on success 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "GLOBAL_LOADER": true,
+    },
+    "type": "SET_LOADER",
+  },
+  Object {
+    "payload": Object {
+      "GLOBAL_ERROR": "",
+    },
+    "type": "SET_ERROR",
+  },
+  Object {
+    "payload": Array [
+      Object {
+        "id": 1,
+      },
+    ],
+    "type": "[USER] Loaded",
+  },
+  Object {
+    "payload": Object {
+      "GLOBAL_LOADER": false,
+    },
+    "type": "SET_LOADER",
+  },
+]
+`;
+
+exports[`action creators startUpdateUser triggers userDetailsLoaded on success 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "GLOBAL_LOADER": true,
+    },
+    "type": "SET_LOADER",
+  },
+  Object {
+    "payload": Object {
+      "GLOBAL_ERROR": "",
+    },
+    "type": "SET_ERROR",
+  },
+  Object {
+    "payload": Object {
+      "GLOBAL_LOADER": false,
+    },
+    "type": "SET_LOADER",
+  },
+  Object {
+    "payload": Object {
+      "GLOBAL_ERROR": "USER_EDIT_USER_FAILED",
+    },
+    "type": "SET_ERROR",
+  },
+]
+`;

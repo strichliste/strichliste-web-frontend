@@ -8,6 +8,12 @@ export const en = {
   ARTICLE_LOADING_BY_BARCODE: 'fetching article by barcode',
   ARTICLE_FETCHED_BY_BARCODE: 'you just scanned:',
   TALLY_HEADER: 'Tally',
+  USERS_LOADING_FAILED:
+    'Oops could not load users :-( Maybe check your internet connection and try it again',
+  USERS_CREATION_FAILED: 'Oops could not create this user',
+  USERS_CREATION_FAILED_USER_EXIST: 'This user already exists',
+  USER_EDIT_USER_FAILED:
+    'Could not save the user :-(. Check your input or your internet connection',
   USER_SEARCH_LINK: 'Find users',
   USER_SEARCH_HEADLINE: 'Find users',
   USER_ACTIVE: 'Active users',
