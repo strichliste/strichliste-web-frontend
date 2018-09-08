@@ -3,6 +3,7 @@ import { Card, theme } from '../ui';
 
 interface State {
   isVisible: boolean;
+  timeoutId: number | NodeJS.Timer;
 }
 
 interface Props {
@@ -12,15 +13,20 @@ interface Props {
 }
 
 export class Toast extends React.Component<Props, State> {
-  public state = { isVisible: true };
+  public state = { isVisible: true, timeoutId: 0 };
 
   public componentDidMount(): void {
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       this.setState({ isVisible: false });
       if (this.props.onFadeOut) {
         this.props.onFadeOut();
       }
     }, this.props.fadeOutSeconds * 1000);
+    this.setState({ timeoutId });
+  }
+
+  public componentWillUnmount(): void {
+    clearTimeout(this.state.timeoutId);
   }
 
   public render(): JSX.Element | null {
