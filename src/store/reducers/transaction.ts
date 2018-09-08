@@ -2,7 +2,7 @@ import { User, setGlobalError, setGlobalLoader } from '.';
 import { get, post, restDelete } from '../../services/api';
 import { playCashSound } from '../../services/sound';
 import { Action, DefaultThunkAction } from '../action';
-import { AppState, Dispatch } from '../store';
+import { AppState, Dispatch, ThunkAction } from '../store';
 import { Article } from './article';
 import { userDetailsLoaded } from './user';
 
@@ -86,7 +86,8 @@ export interface CreateTransactionParams {
 export function startCreatingTransaction(
   userId: number,
   params: CreateTransactionParams
-): DefaultThunkAction {
+  // tslint:disable-next-line:no-any
+): ThunkAction<Promise<any>> {
   return async (dispatch: Dispatch) => {
     dispatch(setGlobalLoader(true));
     dispatch(setGlobalError(''));
@@ -101,12 +102,15 @@ export function startCreatingTransaction(
       if (data.transaction) {
         dispatch(userDetailsLoaded(data.transaction.user));
         dispatch(transactionsLoaded([data.transaction]));
+        return data.transaction;
       } else {
         dispatch(setGlobalError('USER_TRANSACTION_CREATION_ERROR'));
+        return undefined;
       }
     } catch (error) {
       dispatch(setGlobalLoader(false));
       dispatch(setGlobalError('USER_TRANSACTION_CREATION_ERROR'));
+      return undefined;
     }
   };
 }

@@ -45,7 +45,7 @@ export class ArticleSearchList extends React.Component<Props, State> {
           {({ getInputProps, getItemProps, getMenuProps, inputValue }) => (
             <div>
               <MaterialInput>
-                <input {...getInputProps()} autoFocus={true} />
+                <input autoFocus={true} {...getInputProps()} />
               </MaterialInput>
               <div {...getMenuProps()}>
                 {items

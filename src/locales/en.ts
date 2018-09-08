@@ -15,6 +15,7 @@ export const en = {
   USER_EDIT_USER_FAILED:
     'Could not save the user :-(. Check your input or your internet connection',
   USER_SEARCH_LINK: 'Find users',
+  USER_ARTICLE_LINK: 'Buy article',
   USER_SEARCH_HEADLINE: 'Find users',
   USER_ACTIVE: 'Active users',
   USER_INACTIVE: 'Inactive users',

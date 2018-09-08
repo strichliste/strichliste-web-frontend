@@ -25,6 +25,7 @@ import {
   Row,
   SplitLayout,
 } from '../ui';
+import { UserArticleTransactionLink } from './user-router';
 
 interface StateProps {
   details: User;
@@ -83,6 +84,9 @@ export class UserDetails extends React.Component<UserDetailsProps> {
             </Row>
             <div>
               <CreateUserTransactionLink />
+            </div>
+            <div>
+              <UserArticleTransactionLink id={user.id} />
             </div>
           </Card>
 
