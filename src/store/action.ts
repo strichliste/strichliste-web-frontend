@@ -1,15 +1,19 @@
 import { ThunkAction } from '.';
 import {
   ArticleActions,
+  ErrorActions,
+  LoaderActions,
   SettingsActions,
   TransactionActions,
   UserActions,
 } from './reducers';
 
 export type Action =
-  | UserActions
+  | ArticleActions
+  | ErrorActions
+  | LoaderActions
   | SettingsActions
   | TransactionActions
-  | ArticleActions;
+  | UserActions;
 
 export type DefaultThunkAction = ThunkAction<Promise<void>>;
