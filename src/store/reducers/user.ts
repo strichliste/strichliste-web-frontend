@@ -1,4 +1,4 @@
-import { TransactionTypes, setGlobalLoader } from '.';
+import { Transaction, TransactionTypes, setGlobalLoader } from '.';
 import { Action } from '..';
 import { get, post } from '../../services/api';
 import { DefaultThunkAction } from '../action';
@@ -169,12 +169,10 @@ export function user(state: UsersState = {}, action: Action): UsersState {
         [action.payload.id]: { ...state[action.payload.id], ...action.payload },
       };
     case TransactionTypes.TransactionsLoaded:
-      if (action.payload[0] === undefined) {
+      const user = getUserFromStateOrPayload(state, action.payload[0]);
+      if (!user) {
         return state;
       }
-      const user = state[action.payload[0].user.id]
-        ? state[action.payload[0].user.id]
-        : action.payload[0].user;
       return {
         ...state,
         [user.id]: {
@@ -190,6 +188,18 @@ export function user(state: UsersState = {}, action: Action): UsersState {
     default:
       return state;
   }
+}
+
+function getUserFromStateOrPayload(
+  state: UsersState,
+  transaction?: Transaction
+): User | undefined {
+  if (!transaction) {
+    return undefined;
+  }
+
+  const userId = transaction.user.id;
+  return state[userId] ? state[userId] : transaction.user;
 }
 
 export function getUserState(state: AppState): UsersState {
