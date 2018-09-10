@@ -46,18 +46,18 @@ Array [
     "type": "SET_ERROR",
   },
   Object {
+    "payload": Object {
+      "GLOBAL_LOADER": false,
+    },
+    "type": "SET_LOADER",
+  },
+  Object {
     "payload": Array [
       Object {
         "id": 1,
       },
     ],
     "type": "[USER] Loaded",
-  },
-  Object {
-    "payload": Object {
-      "GLOBAL_LOADER": false,
-    },
-    "type": "SET_LOADER",
   },
 ]
 `;
@@ -83,10 +83,12 @@ Array [
     "type": "SET_LOADER",
   },
   Object {
-    "payload": Object {
-      "GLOBAL_ERROR": "USER_EDIT_USER_FAILED",
-    },
-    "type": "SET_ERROR",
+    "payload": Array [
+      Object {
+        "id": 1,
+      },
+    ],
+    "type": "[USER] Loaded_Details",
   },
 ]
 `;
