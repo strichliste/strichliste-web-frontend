@@ -1,4 +1,5 @@
 import { get } from '../../services/api';
+import { MaybeResponse, errorHandler } from '../../services/error-handler';
 import { Action, DefaultThunkAction } from '../action';
 import { AppState, Dispatch } from '../store';
 
@@ -7,7 +8,7 @@ export enum SettingsTypes {
   SettingsLoaded = 'SETTINGS_LOADED',
 }
 
-export interface SettingsResponse {
+export interface SettingsResponse extends MaybeResponse {
   settings: Settings;
 }
 
@@ -75,9 +76,13 @@ export function settingsLoaded(settings: Settings): SettingsLoadedAction {
 
 export function startLoadingSettings(): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const data: SettingsResponse = await get('settings');
+    const promise = get('settings');
+    const data = await errorHandler<SettingsResponse>(dispatch, {
+      promise,
+      defaultError: 'SETTINGS_LOADED_FAILED',
+    });
 
-    if (data.settings) {
+    if (data && data.settings) {
       dispatch(settingsLoaded(data.settings));
     }
   };

@@ -55,4 +55,6 @@ export const en = {
   PAYMENT_DEPOSIT_LABEL: 'Charge your wallet',
   PAYMENT_DISPENSE_LABEL: 'What you have to pay',
   BACK_BUTTON: 'back',
+  SETTINGS_LOADED_FAILED:
+    'Could not load settings, falling back to default settings',
 };

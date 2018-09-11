@@ -1,7 +1,7 @@
 import { Dispatch } from '../store';
 import { LoaderTypes, setGlobalError, setLoader } from '../store/reducers';
 
-export interface Response {
+export interface MaybeResponse {
   error?: {
     class: string;
   };
@@ -13,7 +13,7 @@ export interface ErrorConfig<Result> {
   defaultError?: string;
   promise: Promise<Result>;
 }
-export async function errorHandler<Result extends Response>(
+export async function errorHandler<Result extends MaybeResponse>(
   dispatch: Dispatch,
   config: ErrorConfig<Result>
 ): Promise<Result | undefined> {
