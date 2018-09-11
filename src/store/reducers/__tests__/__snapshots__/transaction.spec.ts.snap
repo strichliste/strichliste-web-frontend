@@ -61,6 +61,12 @@ Array [
     "type": "SET_LOADER",
   },
   Object {
+    "payload": Object {
+      "name": "user",
+    },
+    "type": "[USER] Loaded_Details",
+  },
+  Object {
     "payload": Array [
       Object {
         "id": 5,
@@ -70,12 +76,6 @@ Array [
       },
     ],
     "type": "TRANSACTIONS_LOADED",
-  },
-  Object {
-    "payload": Object {
-      "name": "user",
-    },
-    "type": "[USER] Loaded_Details",
   },
 ]
 `;
