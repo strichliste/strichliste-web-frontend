@@ -1,8 +1,9 @@
 import { get, post } from '../../services/api';
+import { MaybeResponse, errorHandler } from '../../services/error-handler';
 import { Action, DefaultThunkAction } from '../action';
 import { AppState, Dispatch, ThunkAction } from '../store';
 
-export interface ArticleResponse {
+export interface ArticleResponse extends MaybeResponse {
   articles: Article[];
 }
 
@@ -35,8 +36,12 @@ export function articlesLoaded(payload: Article[]): ArticlesLoadedAction {
 
 export function startLoadingArticles(): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const data: ArticleResponse = await get(`article`);
-    if (data.articles.length) {
+    const promise = get(`article`);
+    const data = await errorHandler<ArticleResponse>(dispatch, {
+      promise,
+      defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
+    });
+    if (data && data.articles && data.articles.length) {
       dispatch(articlesLoaded(data.articles));
     }
   };
@@ -44,15 +49,20 @@ export function startLoadingArticles(): DefaultThunkAction {
 
 export function getArticleByBarcode(
   barcode: string
-): ThunkAction<Promise<Article>> {
+): ThunkAction<Promise<Article | undefined>> {
   return async (dispatch: Dispatch) => {
-    const data: ArticleResponse = await get(`article?barcode=${barcode}`);
-    if (data.articles.length) {
+    const promise = get(`article?barcode=${barcode}`);
+    const data = await errorHandler<ArticleResponse>(dispatch, {
+      promise,
+      defaultError: 'ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE',
+    });
+    if (data && data.articles && data.articles.length) {
       dispatch(articlesLoaded(data.articles));
       return data.articles[0];
     } else {
       throw Error('no articles are matching the barcode');
     }
+    return undefined;
   };
 }
 
@@ -65,8 +75,12 @@ export interface AddArticleParams {
 }
 export function startAddArticle(article: AddArticleParams): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const data: { article: Article } = await post(`article`, article);
-    if (data.article) {
+    const promise = post(`article`, article);
+    const data = await errorHandler(dispatch, {
+      promise,
+      defaultError: 'ARTICLE_COULD_NOT_BE_CREATED',
+    });
+    if (data && data.article) {
       dispatch(articlesLoaded([data.article]));
     }
   };

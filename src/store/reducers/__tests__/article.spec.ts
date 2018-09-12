@@ -12,7 +12,6 @@ import { Action } from '../../action';
 import {
   ArticleTypes,
   article,
-  articlesLoaded,
   getArticle,
   getArticleByBarcode,
   getArticleList,
@@ -79,7 +78,7 @@ describe('action creators', () => {
       const store = getMockStore();
       await store.dispatch(startAddArticle({ id: 1 } as any));
       expect(post).toHaveBeenCalledWith('article', { id: 1 });
-      expect(store.getActions()).toEqual([articlesLoaded([{ id: 1 }] as any)]);
+      expect(store.getActions()).toMatchSnapshot();
     });
   });
 
@@ -91,7 +90,7 @@ describe('action creators', () => {
       const store = getMockStore();
       await store.dispatch(getArticleByBarcode('asdf'));
       expect(get).toHaveBeenCalledWith('article?barcode=asdf');
-      expect(store.getActions()).toEqual([articlesLoaded([{ id: 1 }] as any)]);
+      expect(store.getActions()).toMatchSnapshot();
     });
 
     it('throws no articles error if the result list is empty', async () => {
@@ -116,7 +115,7 @@ describe('action creators', () => {
     const store = getMockStore();
     await store.dispatch(startLoadingArticles());
     expect(get).toHaveBeenCalledWith('article');
-    expect(store.getActions()).toEqual([articlesLoaded([{ id: 1 }] as any)]);
+    expect(store.getActions()).toMatchSnapshot();
   });
 });
 
