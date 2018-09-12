@@ -43,9 +43,9 @@ type UserDetailsProps = StateProps &
   RouteComponentProps<{ id: number }>;
 
 export class UserDetails extends React.Component<UserDetailsProps> {
-  public async componentDidMount(): Promise<void> {
-    await this.props.startLoadingUserDetails(this.props.match.params.id);
-    await this.props.startLoadingTransactions(this.props.match.params.id);
+  public componentDidMount(): void {
+    this.props.startLoadingUserDetails(this.props.match.params.id);
+    this.props.startLoadingTransactions(this.props.match.params.id);
   }
 
   public render(): JSX.Element {

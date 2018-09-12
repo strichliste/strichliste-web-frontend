@@ -7,6 +7,12 @@ export const en = {
   ARTICLE_ADD_FORM_SUBMIT: 'submit',
   ARTICLE_LOADING_BY_BARCODE: 'fetching article by barcode',
   ARTICLE_FETCHED_BY_BARCODE: 'you just scanned:',
+  ARTICLES_COULD_NOT_BE_LOADED:
+    'Could not load Articles maybe check your internet connection',
+  ARTICLE_COULD_NOT_BE_CREATED:
+    'Could not load Articles maybe check your internet connection',
+  ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE:
+    'Could not load the article by barcode',
   TALLY_HEADER: 'Tally',
   USERS_LOADING_FAILED:
     'Oops could not load users :-( Maybe check your internet connection and try it again',
@@ -55,4 +61,6 @@ export const en = {
   PAYMENT_DEPOSIT_LABEL: 'Charge your wallet',
   PAYMENT_DISPENSE_LABEL: 'What you have to pay',
   BACK_BUTTON: 'back',
+  SETTINGS_LOADED_FAILED:
+    'Could not load settings, falling back to default settings',
 };

@@ -1,5 +1,6 @@
-import { User, setGlobalError, setGlobalLoader } from '.';
+import { User } from '.';
 import { get, post, restDelete } from '../../services/api';
+import { MaybeResponse, errorHandler } from '../../services/error-handler';
 import { playCashSound } from '../../services/sound';
 import { Action, DefaultThunkAction } from '../action';
 import { AppState, Dispatch, ThunkAction } from '../store';
@@ -19,11 +20,11 @@ export interface Transaction {
   isDeletable: boolean;
 }
 
-export interface TransactionResponse {
+export interface TransactionsResponse extends MaybeResponse {
   transactions: Transaction[];
 }
 
-export interface TransactionResponse {
+export interface TransactionResponse extends MaybeResponse {
   transaction: Transaction;
 }
 
@@ -54,25 +55,17 @@ export function startLoadingTransactions(
   limit?: number
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    dispatch(setGlobalLoader(true));
-    dispatch(setGlobalError(''));
     const params =
       offset !== undefined && limit !== undefined
         ? `?offset=${offset}&limit=${limit}`
         : '?offset=0&limit=15';
-    try {
-      const data: TransactionResponse = await get(
-        `user/${userId}/transaction${params}`
-      );
-      dispatch(setGlobalLoader(false));
-      if (data && data.transactions) {
-        dispatch(transactionsLoaded(data.transactions));
-      } else {
-        dispatch(setGlobalError('USER_TRANSACTIONS_LOADING_ERROR'));
-      }
-    } catch (e) {
-      dispatch(setGlobalLoader(false));
-      dispatch(setGlobalError('USER_TRANSACTIONS_LOADING_ERROR'));
+    const promise = get(`user/${userId}/transaction${params}`);
+    const data = await errorHandler<TransactionsResponse>(dispatch, {
+      promise,
+      defaultError: 'USER_TRANSACTIONS_LOADING_ERROR',
+    });
+    if (data && data.transactions) {
+      dispatch(transactionsLoaded(data.transactions));
     }
   };
 }
@@ -89,29 +82,18 @@ export function startCreatingTransaction(
   // tslint:disable-next-line:no-any
 ): ThunkAction<Promise<any>> {
   return async (dispatch: Dispatch) => {
-    dispatch(setGlobalLoader(true));
-    dispatch(setGlobalError(''));
     playCashSound(params);
-    try {
-      const data: TransactionResponse = await post(
-        `user/${userId}/transaction`,
-        params
-      );
-      dispatch(setGlobalLoader(false));
-
-      if (data.transaction) {
-        dispatch(userDetailsLoaded(data.transaction.user));
-        dispatch(transactionsLoaded([data.transaction]));
-        return data.transaction;
-      } else {
-        dispatch(setGlobalError('USER_TRANSACTION_CREATION_ERROR'));
-        return undefined;
-      }
-    } catch (error) {
-      dispatch(setGlobalLoader(false));
-      dispatch(setGlobalError('USER_TRANSACTION_CREATION_ERROR'));
-      return undefined;
+    const promise = post(`user/${userId}/transaction`, params);
+    const data = await errorHandler<TransactionResponse>(dispatch, {
+      promise,
+      defaultError: 'USER_TRANSACTION_CREATION_ERROR',
+    });
+    if (data && data.transaction) {
+      dispatch(userDetailsLoaded(data.transaction.user));
+      dispatch(transactionsLoaded([data.transaction]));
+      return data.transaction;
     }
+    return undefined;
   };
 }
 
@@ -120,24 +102,14 @@ export function startDeletingTransaction(
   transactionId: number
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    dispatch(setGlobalLoader(true));
-    dispatch(setGlobalError(''));
-
-    try {
-      const data: TransactionResponse = await restDelete(
-        `user/${userId}/transaction/${transactionId}`
-      );
-      dispatch(setGlobalLoader(false));
-
-      if (data.transaction) {
-        dispatch(transactionsLoaded([data.transaction]));
-        dispatch(userDetailsLoaded(data.transaction.user));
-      } else {
-        dispatch(setGlobalError('USER_TRANSACTION_DELETION_ERROR'));
-      }
-    } catch (error) {
-      dispatch(setGlobalLoader(false));
-      dispatch(setGlobalError('USER_TRANSACTION_DELETION_ERROR'));
+    const promise = restDelete(`user/${userId}/transaction/${transactionId}`);
+    const data = await errorHandler<TransactionResponse>(dispatch, {
+      promise,
+      defaultError: 'USER_TRANSACTION_DELETION_ERROR',
+    });
+    if (data && data.transaction) {
+      dispatch(userDetailsLoaded(data.transaction.user));
+      dispatch(transactionsLoaded([data.transaction]));
     }
   };
 }
