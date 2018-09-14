@@ -21,6 +21,7 @@ export interface Transaction {
 }
 
 export interface TransactionsResponse extends MaybeResponse {
+  count?: number;
   transactions: Transaction[];
 }
 
@@ -53,7 +54,7 @@ export function startLoadingTransactions(
   userId: number,
   offset?: number,
   limit?: number
-): DefaultThunkAction {
+): ThunkAction<Promise<TransactionsResponse | undefined>> {
   return async (dispatch: Dispatch) => {
     const params =
       offset !== undefined && limit !== undefined
@@ -66,7 +67,9 @@ export function startLoadingTransactions(
     });
     if (data && data.transactions) {
       dispatch(transactionsLoaded(data.transactions));
+      return data;
     }
+    return undefined;
   };
 }
 
