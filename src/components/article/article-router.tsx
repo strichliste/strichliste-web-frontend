@@ -5,7 +5,7 @@ import { ConnectedUserSearch } from '../user/views/user-search';
 import { ArticleForm, ConnectedArticleForm } from '../views/article-form';
 import { ConnectedArticleList } from './article-list';
 
-export function ArticleRouter(props: RouteComponentProps<{}>): JSX.Element {
+export function ArticleRouter(props: RouteComponentProps): JSX.Element {
   return (
     <>
       <ConnectedIdleTimer onTimeOut={() => props.history.push('/')} />

@@ -5,9 +5,9 @@ import { ConnectedTransactionTable } from '../transaction/transaction-table';
 import { Card, FixedFooter, Section } from '../ui';
 
 export type TransactionOverviewProps = RouteComponentProps<{
-  id: number;
-  offset: number;
-  limit: number;
+  id: string;
+  offset: string;
+  limit: string;
 }>;
 
 export function TransactionOverview(
@@ -19,9 +19,9 @@ export function TransactionOverview(
       <Section>
         <Card>
           <ConnectedTransactionTable
-            limit={limit}
-            offset={offset}
-            userId={id}
+            limit={Number(limit)}
+            offset={Number(offset)}
+            userId={Number(id)}
           />
         </Card>
       </Section>

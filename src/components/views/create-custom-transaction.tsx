@@ -5,7 +5,7 @@ import { ConnectedCreateCustomTransactionForm } from '../transaction/create-cust
 import { Card, FixedFooter, Section } from '../ui';
 
 export function CreateCustomTransaction(
-  props: RouteComponentProps<{ id: number; deposit: string }>
+  props: RouteComponentProps<{ id: string; deposit: string }>
 ): JSX.Element {
   return (
     <>
@@ -14,7 +14,7 @@ export function CreateCustomTransaction(
           <ConnectedCreateCustomTransactionForm
             transactionCreated={() => props.history.goBack()}
             isDeposit={props.match.params.deposit === 'deposit'}
-            userId={props.match.params.id}
+            userId={Number(props.match.params.id)}
           />
         </Card>
       </Section>

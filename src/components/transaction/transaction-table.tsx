@@ -30,7 +30,7 @@ interface ActionProps {
 export type TransactionTableProps = ActionProps &
   StateProps &
   OwnProps &
-  RouteComponentProps<{}>;
+  RouteComponentProps;
 
 interface State {
   transactions: Transaction[];
