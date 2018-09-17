@@ -46,7 +46,7 @@ export function UserRouter(props: Props): JSX.Element {
           component={ConnectedUserTransaction}
         />
         <Route
-          path="/user/:id/transactions/:limit/:offset"
+          path="/user/:id/transactions/:page"
           exact={true}
           component={TransactionOverview}
         />

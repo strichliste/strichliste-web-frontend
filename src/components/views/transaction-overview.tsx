@@ -6,21 +6,20 @@ import { Card, FixedFooter, Section } from '../ui';
 
 export type TransactionOverviewProps = RouteComponentProps<{
   id: string;
-  offset: string;
-  limit: string;
+  page: string;
 }>;
 
 export function TransactionOverview(
   props: TransactionOverviewProps
 ): JSX.Element {
-  const { id, offset, limit } = props.match.params;
+  const { id, page } = props.match.params;
   return (
     <>
       <Section>
         <Card>
           <ConnectedTransactionTable
-            limit={Number(limit)}
-            offset={Number(offset)}
+            onPageChange={url => props.history.push(url)}
+            page={Number(page)}
             userId={Number(id)}
           />
         </Card>
