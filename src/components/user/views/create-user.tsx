@@ -5,7 +5,7 @@ import { BackButton } from '../../common';
 import { Card, CenterSection, FixedFooter } from '../../ui';
 import { ConnectedCreateUserForm } from '../create-user-form';
 
-export function CreateUser(props: RouteComponentProps<{}>): JSX.Element {
+export function CreateUser(props: RouteComponentProps): JSX.Element {
   return (
     <CenterSection>
       <Card margin="3rem">
@@ -25,6 +25,6 @@ export function CreateUser(props: RouteComponentProps<{}>): JSX.Element {
   );
 }
 
-function userCreated(props: RouteComponentProps<{}>, id: number): void {
+function userCreated(props: RouteComponentProps, id: number): void {
   props.history.push(`/user/${id}`);
 }

@@ -11,7 +11,7 @@ interface ActionProps {
   startLoadingUsers(stale?: boolean): DefaultThunkAction;
 }
 
-type Props = ActionProps & RouteComponentProps<{}>;
+type Props = ActionProps & RouteComponentProps;
 
 export class UserSearch extends React.Component<Props> {
   public componentDidMount(): void {

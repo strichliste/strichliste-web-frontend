@@ -4,16 +4,24 @@ import { BackButton } from '../common';
 import { ConnectedTransactionTable } from '../transaction/transaction-table';
 import { Card, FixedFooter, Section } from '../ui';
 
-export type TransactionOverviewProps = RouteComponentProps<{ id: number }>;
+export type TransactionOverviewProps = RouteComponentProps<{
+  id: string;
+  page: string;
+}>;
 
 export function TransactionOverview(
   props: TransactionOverviewProps
 ): JSX.Element {
+  const { id, page } = props.match.params;
   return (
     <>
       <Section>
         <Card>
-          <ConnectedTransactionTable userId={props.match.params.id} />
+          <ConnectedTransactionTable
+            onPageChange={url => props.history.push(url)}
+            page={Number(page)}
+            userId={Number(id)}
+          />
         </Card>
       </Section>
       <FixedFooter>

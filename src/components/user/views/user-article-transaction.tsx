@@ -19,7 +19,7 @@ interface ActionProps {
 }
 
 export type UserArticleTransactionProps = ActionProps &
-  RouteComponentProps<{ id: number }>;
+  RouteComponentProps<{ id: string }>;
 
 export function UserArticleTransaction(
   props: UserArticleTransactionProps
@@ -40,10 +40,13 @@ async function onSelect(
   article: Article,
   props: UserArticleTransactionProps
 ): Promise<void> {
-  const result = await props.startCreatingTransaction(props.match.params.id, {
-    amount: article.amount,
-    articleId: article.id,
-  });
+  const result = await props.startCreatingTransaction(
+    Number(props.match.params.id),
+    {
+      amount: article.amount,
+      articleId: article.id,
+    }
+  );
   if (result) {
     props.history.goBack();
   }

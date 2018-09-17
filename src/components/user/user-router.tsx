@@ -15,7 +15,7 @@ import { ConnectedUserTransaction } from './views/user-transaction';
 
 export interface UserRouterProps {}
 
-type Props = UserRouterProps & RouteComponentProps<{}>;
+type Props = UserRouterProps & RouteComponentProps;
 
 export function UserRouter(props: Props): JSX.Element {
   return (
@@ -46,7 +46,7 @@ export function UserRouter(props: Props): JSX.Element {
           component={ConnectedUserTransaction}
         />
         <Route
-          path="/user/:id/transactions"
+          path="/user/:id/transactions/:page"
           exact={true}
           component={TransactionOverview}
         />

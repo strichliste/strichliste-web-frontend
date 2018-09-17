@@ -40,12 +40,12 @@ interface ActionProps {
 
 type UserDetailsProps = StateProps &
   ActionProps &
-  RouteComponentProps<{ id: number }>;
+  RouteComponentProps<{ id: string }>;
 
 export class UserDetails extends React.Component<UserDetailsProps> {
   public componentDidMount(): void {
-    this.props.startLoadingUserDetails(this.props.match.params.id);
-    this.props.startLoadingTransactions(this.props.match.params.id);
+    this.props.startLoadingUserDetails(Number(this.props.match.params.id));
+    this.props.startLoadingTransactions(Number(this.props.match.params.id));
   }
 
   public render(): JSX.Element {
@@ -92,7 +92,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
 
           <Card>
             <ListItem>
-              <Link to={this.props.match.url + '/transactions'}>
+              <Link to={this.props.match.url + '/transactions/1'}>
                 <FormattedMessage id="USER_TRANSACTIONS" />{' '}
               </Link>
             </ListItem>
@@ -110,7 +110,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
 }
 
 const mapStateToProps = (state: AppState, { match }: UserDetailsProps) => ({
-  details: getUser(state, match.params.id),
+  details: getUser(state, Number(match.params.id)),
 });
 
 const mapDispatchToProps: ActionProps = {

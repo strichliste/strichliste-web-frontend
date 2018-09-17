@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { AppState, Dispatch } from '../../store';
+import { Dispatch } from '../../store';
 import {
-  getUserTransactionsArray,
+  Transaction,
+  TransactionsResponse,
   startLoadingTransactions,
 } from '../../store/reducers';
 import { Button } from '../ui';
@@ -11,10 +12,8 @@ import { ConnectedTransactionListItem } from './transaction-list-item';
 
 interface OwnProps {
   userId: number;
-}
-
-interface StateProps {
-  transactions: number[];
+  page: number;
+  onPageChange(url: string): void;
 }
 
 interface ActionProps {
@@ -22,54 +21,78 @@ interface ActionProps {
     userId: number,
     offset?: number,
     limit?: number
-  ): Promise<void>;
+  ): Promise<TransactionsResponse | undefined>;
 }
 
-export type TransactionTableProps = ActionProps & StateProps & OwnProps;
+export type TransactionTableProps = ActionProps & OwnProps;
 
 interface State {
   limit: number;
   offset: number;
+  transactions: Transaction[];
 }
+
+let lastPage = 0;
 
 export class TransactionTable extends React.Component<
   TransactionTableProps,
   State
 > {
   public state = {
-    offset: 0,
     limit: 15,
+    offset: 0,
+    transactions: [],
   };
 
   public componentDidMount(): void {
-    this.loadMoreRows();
+    this.loadRows();
   }
 
-  public loadMoreRows = async (): Promise<void> => {
-    this.setState(state => ({
-      offset: state.offset + state.limit,
-    }));
-    const { limit, offset } = this.state;
-    await this.props.loadTransactions(this.props.userId, offset, limit);
+  public componentDidUpdate(): void {
+    if (lastPage !== this.props.page) {
+      this.loadRows();
+      lastPage = this.props.page;
+    }
+  }
+
+  public next = () => {
+    const next = this.props.page + 1;
+    const url = `/user/${this.props.userId}/transactions/${next}`;
+
+    this.props.onPageChange(url);
+  };
+
+  public getLimitAndOffset = (): { limit: number; offset: number } => {
+    const { page } = this.props;
+    const limit = this.state.limit;
+    const offset = limit * page;
+
+    return { limit, offset };
+  };
+
+  public loadRows = async (): Promise<void> => {
+    const { limit, offset } = this.getLimitAndOffset();
+    const res = await this.props.loadTransactions(
+      this.props.userId,
+      offset,
+      limit
+    );
+    if (res && res.transactions) {
+      this.setState({ transactions: res.transactions });
+    }
   };
 
   public render(): JSX.Element {
     return (
       <>
-        {this.props.transactions.map(id => (
-          <ConnectedTransactionListItem key={id} id={id} />
-        ))}
-        <Button onClick={this.loadMoreRows}>
+        <Button onClick={this.next}>
           <FormattedMessage id="USER_TRANSACTIONS_TABLE_LOAD_NEXT_ROWS" />
         </Button>
+        <TransactionPage transactions={this.state.transactions} />
       </>
     );
   }
 }
-
-const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
-  transactions: getUserTransactionsArray(state, props.userId),
-});
 
 const mapDispatchToProps = (dispatch: Dispatch): ActionProps => ({
   loadTransactions: (id: number, offset: number, limit: number) =>
@@ -77,6 +100,19 @@ const mapDispatchToProps = (dispatch: Dispatch): ActionProps => ({
 });
 
 export const ConnectedTransactionTable = connect(
-  mapStateToProps,
+  undefined,
   mapDispatchToProps
 )(TransactionTable);
+
+function TransactionPage(props: { transactions: Transaction[] }): JSX.Element {
+  return (
+    <>
+      {props.transactions.map(transaction => (
+        <ConnectedTransactionListItem
+          key={transaction.id}
+          id={transaction.id}
+        />
+      ))}
+    </>
+  );
+}

@@ -15,7 +15,7 @@ interface ActionProps {
   addArticle(article: AddArticleParams): any;
 }
 
-type Props = OwnProps & ActionProps & RouteComponentProps<{}>;
+type Props = OwnProps & ActionProps & RouteComponentProps;
 
 export class ArticleForm extends React.Component<Props, AddArticleParams> {
   public state = {

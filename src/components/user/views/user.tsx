@@ -20,7 +20,7 @@ interface ActionProps {
   startLoadingUsers(stale?: boolean): ThunkAction<Promise<void>>;
 }
 
-type UserProps = OwnProps & StateProps & ActionProps & RouteComponentProps<{}>;
+type UserProps = OwnProps & StateProps & ActionProps & RouteComponentProps;
 let lastStale: boolean;
 export class User extends React.Component<UserProps> {
   public componentDidMount(): void {
