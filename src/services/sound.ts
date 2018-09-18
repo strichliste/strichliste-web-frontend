@@ -10,7 +10,7 @@ const dispense = new Howl({
 });
 
 export function playCashSound(params: CreateTransactionParams): void {
-  if (params.amount > 0 && !params.articleId) {
+  if (params && params.amount && params.amount > 0 && !params.articleId) {
     deposit.play();
   } else {
     dispense.play();

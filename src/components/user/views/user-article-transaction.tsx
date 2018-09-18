@@ -43,7 +43,6 @@ async function onSelect(
   const result = await props.startCreatingTransaction(
     Number(props.match.params.id),
     {
-      amount: article.amount,
       articleId: article.id,
     }
   );

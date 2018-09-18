@@ -53,7 +53,6 @@ export class ArticleScanner extends React.Component<Props, State> {
 
   public createTransaction = (article: Article): void => {
     this.props.startCreatingTransaction(this.props.userId, {
-      amount: article.amount,
       articleId: article.id,
     });
   };

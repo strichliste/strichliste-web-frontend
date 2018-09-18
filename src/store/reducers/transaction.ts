@@ -74,7 +74,7 @@ export function startLoadingTransactions(
 }
 
 export interface CreateTransactionParams {
-  amount: number;
+  amount?: number;
   articleId?: number;
   recipientId?: number;
   comment?: string;
