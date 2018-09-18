@@ -1,6 +1,6 @@
 {
   "name": "strichliste-web",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": true,
   "dependencies": {
     "downshift": "^2.1.1",
