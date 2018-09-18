@@ -16,7 +16,7 @@ export interface Transaction {
   comment?: string;
   amount: number;
   created: string;
-  deleted: boolean;
+  isDeleted: boolean;
   isDeletable: boolean;
 }
 

@@ -30,14 +30,14 @@ export class UserEditForm extends React.Component<
   UserEditFormProps,
   UserUpdateParams
 > {
-  public state = { name: '', email: '', active: true };
+  public state = { name: '', email: '', isDisabled: false };
 
   public componentDidMount(): void {
     if (this.props.user) {
       this.setState({
         name: this.props.user.name,
         email: this.props.user.email || '',
-        active: this.props.user.active,
+        isDisabled: this.props.user.isDisabled || false,
       });
     }
   }
@@ -50,6 +50,7 @@ export class UserEditForm extends React.Component<
       this.props.userId,
       this.state
     );
+
     if (user && user.id) {
       this.props.onSave();
     }
@@ -88,12 +89,12 @@ export class UserEditForm extends React.Component<
             <label>
               <FormattedMessage id="USER_EDIT_ACTIVE_LABEL" />
               <input
-                checked={this.state.active}
-                onChange={e => this.setState({ active: e.target.checked })}
+                checked={this.state.isDisabled}
+                onChange={e => this.setState({ isDisabled: e.target.checked })}
                 type="checkbox"
               />
             </label>
-            {!this.state.active && (
+            {this.state.isDisabled && (
               <FormattedMessage id="USER_EDIT_ACTIVE_WARNING" />
             )}
           </FormField>

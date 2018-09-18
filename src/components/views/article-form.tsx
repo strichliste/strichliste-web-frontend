@@ -27,8 +27,10 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
   };
 
   public submit = async () => {
-    await this.props.addArticle(this.state);
-    this.props.history.goBack();
+    const maybeArticle = await this.props.addArticle(this.state);
+    if (maybeArticle) {
+      this.props.history.goBack();
+    }
   };
 
   public render(): JSX.Element {

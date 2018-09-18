@@ -12,7 +12,8 @@ export interface GetUsersResponse {
 export interface User {
   id: number;
   name: string;
-  active: boolean;
+  isActive: boolean;
+  isDisabled?: boolean;
   email?: string | null;
   balance: number;
   created: string;
@@ -70,9 +71,19 @@ export function usersLoaded(payload: GetUsersResponse): UsersLoadedAction {
   };
 }
 
-export function startLoadingUsers(stale: boolean = false): DefaultThunkAction {
+export function startLoadingUsers(
+  isActive?: boolean,
+  isDeleted?: boolean
+): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const promise = get(`user?stale=${stale}`);
+    let params = '?';
+    if (isDeleted !== undefined) {
+      params += `&deleted=${isDeleted}`;
+    }
+    if (isActive !== undefined) {
+      params += `&active=${isActive}`;
+    }
+    const promise = get(`user${params}`);
     const data = await errorHandler(dispatch, {
       promise,
       defaultError: 'USERS_LOADING_FAILED',
@@ -100,20 +111,21 @@ export function startCreatingUser(
 
     if (data && data.user) {
       dispatch(userDetailsLoaded(data.user));
+      return data.user;
     }
 
-    return data;
+    return undefined;
   };
 }
 export interface UserUpdateParams {
   name: string;
   email?: string;
-  active: boolean;
+  isDisabled: boolean;
 }
 export function startUpdateUser(
   userId: number,
   params: UserUpdateParams
-): ThunkAction<Promise<User>> {
+): ThunkAction<Promise<User | undefined>> {
   return async (dispatch: Dispatch) => {
     const promise = post(`user/${userId}`, params);
     const data = await errorHandler(dispatch, {
@@ -125,9 +137,10 @@ export function startUpdateUser(
     });
     if (data && data.user) {
       dispatch(userDetailsLoaded(data.user));
+      return data.user;
     }
 
-    return data;
+    return undefined;
   };
 }
 

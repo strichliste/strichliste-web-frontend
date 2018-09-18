@@ -38,7 +38,7 @@ class Layout extends React.Component {
           <Route
             path="/active_users"
             exact={true}
-            render={props => <ConnectedUser {...props} stale={false} />}
+            render={props => <ConnectedUser {...props} isActive={true} />}
           />
           <Route path="/articles" component={ArticleRouter} />
           <Route path="/user" component={UserRouter} />
@@ -54,7 +54,7 @@ class App extends React.Component {
   public render(): JSX.Element {
     return (
       <Provider store={store}>
-        <IntlProvider locale="en" messages={en}>
+        <IntlProvider textComponent={React.Fragment} locale="en" messages={en}>
           <HashRouter hashType="hashbang">
             <Layout />
           </HashRouter>

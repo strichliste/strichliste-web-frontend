@@ -15,8 +15,7 @@ type Props = ActionProps & RouteComponentProps;
 
 export class UserSearch extends React.Component<Props> {
   public componentDidMount(): void {
-    this.props.startLoadingUsers(true);
-    this.props.startLoadingUsers(false);
+    this.props.startLoadingUsers();
   }
 
   public render(): JSX.Element {

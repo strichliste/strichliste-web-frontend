@@ -25,7 +25,7 @@ export function UserRouter(props: Props): JSX.Element {
         <Route
           path="/user/inactive"
           exact={true}
-          render={props => <ConnectedUser {...props} stale={true} />}
+          render={props => <ConnectedUser {...props} isActive={false} />}
         />
         <Route
           path="/user/search"
