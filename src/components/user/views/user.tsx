@@ -9,7 +9,7 @@ import { AutoGrid, Card, Column } from '../../ui';
 import { ConnectedUserCard } from '../user-card';
 
 interface OwnProps {
-  stale: boolean;
+  isActive: boolean;
 }
 
 interface StateProps {
@@ -17,21 +17,24 @@ interface StateProps {
 }
 
 interface ActionProps {
-  startLoadingUsers(stale?: boolean): ThunkAction<Promise<void>>;
+  startLoadingUsers(
+    isActive?: boolean,
+    isDisabled?: boolean
+  ): ThunkAction<Promise<void>>;
 }
 
 type UserProps = OwnProps & StateProps & ActionProps & RouteComponentProps;
 let lastStale: boolean;
 export class User extends React.Component<UserProps> {
   public componentDidMount(): void {
-    this.props.startLoadingUsers(this.props.stale);
+    this.props.startLoadingUsers(this.props.isActive, false);
   }
 
   public componentDidUpdate(): void {
-    if (lastStale !== this.props.stale) {
-      this.props.startLoadingUsers(this.props.stale);
+    if (lastStale !== this.props.isActive) {
+      this.props.startLoadingUsers(this.props.isActive, false);
     }
-    lastStale = this.props.stale;
+    lastStale = this.props.isActive;
   }
 
   public render(): JSX.Element {
@@ -43,7 +46,7 @@ export class User extends React.Component<UserProps> {
               <FormattedMessage id="USER_SEARCH_LINK" />
             </Link>
           </div>
-          {!this.props.stale ? (
+          {this.props.isActive ? (
             <Link to="/user/inactive">
               <FormattedMessage id="USER_INACTIVE_LINK" />
             </Link>
@@ -55,7 +58,7 @@ export class User extends React.Component<UserProps> {
         </Column>
 
         <Column margin="1rem">
-          {this.props.stale ? (
+          {!this.props.isActive ? (
             <FormattedMessage id="USER_INACTIVE" />
           ) : (
             <FormattedMessage id="USER_ACTIVE" />
@@ -86,13 +89,13 @@ export class User extends React.Component<UserProps> {
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => ({
-  users: getUsers(state, props.stale),
+  users: getUsers(state, props.isActive),
 });
 
-function getUsers(state: AppState, stale: boolean): string[] {
-  return Object.keys(state.user).filter(
-    key => (state.user[key].balance === 0) === stale
-  );
+function getUsers(state: AppState, isActive: boolean): string[] {
+  return Object.values(state.user)
+    .filter(user => user.isActive === isActive && user.isDisabled === false)
+    .map(user => user.id);
 }
 
 const mapDispatchToProps: ActionProps = {

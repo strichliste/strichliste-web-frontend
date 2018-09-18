@@ -23,7 +23,7 @@ export function TransactionListItem(props: Props): JSX.Element | null {
   }
   return (
     <ListItem>
-      <LineThrough lineThrough={props.transaction.deleted}>
+      <LineThrough lineThrough={props.transaction.isDeleted}>
         <Row>
           <Column grow={0} width="5rem">
             <AlertText value={props.transaction.amount}>

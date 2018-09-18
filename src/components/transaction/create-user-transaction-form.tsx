@@ -18,7 +18,7 @@ const initialState = {
   selectedUser: {
     id: 0,
     name: '',
-    active: false,
+    isActive: false,
     balance: 0,
     created: '',
     transactions: {},

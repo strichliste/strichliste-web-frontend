@@ -34,7 +34,7 @@ export function renderAndReturnContext(
     result: render(
       <Provider store={store}>
         <Router history={history}>
-          <IntlProvider>{ui}</IntlProvider>
+          <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
         </Router>
       </Provider>
     ),
@@ -44,5 +44,7 @@ export function renderAndReturnContext(
 }
 
 export function renderWithIntl(ui: JSX.Element): RenderResult {
-  return render(<IntlProvider>{ui}</IntlProvider>);
+  return render(
+    <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
+  );
 }

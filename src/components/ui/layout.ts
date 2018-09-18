@@ -38,7 +38,7 @@ export const Row = styled('div')<RowProps>(
   })
 );
 
-export const CenterSection = styled(Section)({
+export const CenterSection = styled('section')({
   display: 'flex',
   justifyContent: 'center',
   alignContent: 'center',

@@ -28,7 +28,6 @@ describe('user reducer', () => {
   describe('with non matching action', () => {
     it('returns initial state', () => {
       const initialState = {};
-      // tslint:disable-next-line no-any
       expect(user(undefined, {} as any)).toEqual(initialState);
     });
   });
@@ -39,7 +38,7 @@ describe('user reducer', () => {
         {
           id: 1,
           name: 'schinken',
-          active: true,
+          isActive: true,
           email: null,
           balance: 12330,
           created: '2018-08-18 16:18:40',
@@ -58,7 +57,7 @@ describe('user reducer', () => {
         1: {
           id: 1,
           name: 'schinken',
-          active: true,
+          isActive: true,
           email: null,
           balance: 12330,
           created: '2018-08-18 16:18:40',
@@ -74,7 +73,7 @@ describe('user reducer', () => {
       action = userDetailsLoaded({
         id: 1,
         name: 'schinken',
-        active: true,
+        isActive: true,
         balance: 12330,
         created: '2018-08-18 16:18:40',
       });
@@ -82,7 +81,7 @@ describe('user reducer', () => {
         1: {
           id: 1,
           name: 'schinken',
-          active: true,
+          isActive: true,
           balance: 12330,
           created: '2018-08-18 16:18:40',
         },
@@ -133,7 +132,7 @@ describe('action creators', () => {
 
       const store = getMockStore();
       await store.dispatch(startLoadingUsers(true));
-      expect(get).toHaveBeenCalledWith('user?stale=true');
+      expect(get).toHaveBeenCalledWith('user?&active=true');
       expect(store.getActions()).toMatchSnapshot();
     });
   });
@@ -171,10 +170,12 @@ describe('action creators', () => {
         Promise.resolve({ user: [{ id: 1 }] })
       );
       const store = getMockStore();
-      await store.dispatch(startUpdateUser(1, { name: 'test', active: true }));
+      await store.dispatch(
+        startUpdateUser(1, { name: 'test', isDisabled: true })
+      );
       expect(post).toHaveBeenCalledWith('user/1', {
         name: 'test',
-        active: true,
+        isDisabled: true,
       });
       expect(store.getActions()).toMatchSnapshot();
     });

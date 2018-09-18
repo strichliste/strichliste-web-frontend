@@ -10,7 +10,7 @@ export const en = {
   ARTICLES_COULD_NOT_BE_LOADED:
     'Could not load Articles maybe check your internet connection',
   ARTICLE_COULD_NOT_BE_CREATED:
-    'Could not load Articles maybe check your internet connection',
+    'Could not create the article maybe check your internet connection',
   ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE:
     'Could not load the article by barcode',
   TALLY_HEADER: 'Tally',
@@ -56,11 +56,13 @@ export const en = {
   USER_EDIT_TRIGGER: 'save changes',
   USER_EDIT_NAME_LABEL: 'name',
   USER_EDIT_MAIL_LABEL: 'e-mail',
-  USER_EDIT_ACTIVE_LABEL: 'is active',
+  USER_EDIT_ACTIVE_LABEL: 'is disabled',
   USER_EDIT_ACTIVE_WARNING: 'you can not enable a disabled user. So take care',
   PAYMENT_DEPOSIT_LABEL: 'Charge your wallet',
   PAYMENT_DISPENSE_LABEL: 'What you have to pay',
   BACK_BUTTON: 'back',
   SETTINGS_LOADED_FAILED:
     'Could not load settings, falling back to default settings',
+  PAGER_PREV: 'prev',
+  PAGER_NEXT: 'next',
 };
