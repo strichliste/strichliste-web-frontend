@@ -130,12 +130,15 @@ describe('selectors', () => {
     });
   });
   describe('getArticleList', () => {
-    it('returns articles as array', () => {
+    it('returns all active articles as array', () => {
       expect(
         getArticleList({
-          article: { 1: { id: 1 } },
+          article: {
+            1: { id: 1, isActive: true },
+            2: { id: 2, isActive: false },
+          },
         } as any)
-      ).toEqual([{ id: 1 }]);
+      ).toEqual([{ id: 1, isActive: true }]);
     });
   });
 });

@@ -71,18 +71,28 @@ export interface AddArticleParams {
   barcode: string;
   amount: number;
   active: boolean;
-  precursor: string | null;
+  precursor: Article | null;
 }
-export function startAddArticle(article: AddArticleParams): DefaultThunkAction {
+export function startAddArticle(
+  article: AddArticleParams
+): ThunkAction<Promise<Article | undefined>> {
   return async (dispatch: Dispatch) => {
-    const promise = post(`article`, article);
+    const url = article.precursor
+      ? `article/${article.precursor.id}`
+      : 'article';
+    const promise = post(url, article);
     const data = await errorHandler(dispatch, {
       promise,
       defaultError: 'ARTICLE_COULD_NOT_BE_CREATED',
     });
     if (data && data.article) {
       dispatch(articlesLoaded([data.article]));
+      if (data.article.precursor) {
+        dispatch(articlesLoaded([data.article.precursor]));
+      }
+      return data.article;
     }
+    return undefined;
   };
 }
 
@@ -112,8 +122,15 @@ export function getArticle(state: AppState): ArticleState {
   return state.article;
 }
 
+export function getArticleById(
+  state: AppState,
+  id: number
+): Article | undefined {
+  return getArticle(state)[id];
+}
+
 export function getArticleList(state: AppState): Article[] {
-  return Object.values(getArticle(state));
+  return Object.values(getArticle(state)).filter(article => article.isActive);
 }
 
 export function getPopularArticles(state: AppState): Article[] {
