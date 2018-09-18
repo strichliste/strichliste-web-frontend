@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router';
 import { ConnectedIdleTimer } from '../common/idle-timer';
 import { ConnectedUserSearch } from '../user/views/user-search';
-import { ArticleForm, ConnectedArticleForm } from '../views/article-form';
 import { ConnectedArticleList } from './article-list';
+import { ArticleEditFormView } from './views/article-edit-form-view';
 
 export function ArticleRouter(props: RouteComponentProps): JSX.Element {
   return (
@@ -14,14 +14,18 @@ export function ArticleRouter(props: RouteComponentProps): JSX.Element {
         <Route
           path="/articles/add"
           exact={true}
-          component={ConnectedArticleForm}
+          component={ArticleEditFormView}
         />
         <Route
           path="/articles/:id"
           exact={true}
           component={ConnectedUserSearch}
         />
-        <Route path="/articles/:id/edit" exact={true} component={ArticleForm} />
+        <Route
+          path="/articles/:id/edit"
+          exact={true}
+          component={ArticleEditFormView}
+        />
       </Switch>
     </>
   );

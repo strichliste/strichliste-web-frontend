@@ -44,7 +44,11 @@ export class ArticleList extends React.Component<Props, State> {
           {this.props.articles.map(article => (
             <ListItem key={article.id}>
               <Row>
-                <Column width="50%">{article.name}</Column>
+                <Column width="50%">
+                  <Link to={`/articles/${article.id}/edit`}>
+                    {article.name}
+                  </Link>
+                </Column>
                 <Column width="25%">{article.barcode}</Column>
                 <Column width="25%">
                   <Currency value={article.amount} />

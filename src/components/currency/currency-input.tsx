@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
 
 interface State {
+  lastPropValue: number | undefined;
   value: number;
 }
 
@@ -13,9 +14,22 @@ interface Props {
 }
 
 export class CurrencyInput extends React.Component<Props, State> {
-  public state = {
-    value: this.props.value ? this.props.value / 100 : 0,
-  };
+  public state = { lastPropValue: 0, value: this.getValueFromProps() };
+
+  public getValueFromProps(): number {
+    return this.props.value ? this.props.value / 100 : 0;
+  }
+
+  public componentDidUpdate(): void {
+    if (this.props.value === undefined) {
+      return;
+    }
+
+    if (this.state.lastPropValue !== this.props.value) {
+      const value = this.getValueFromProps();
+      this.setState({ lastPropValue: this.props.value, value });
+    }
+  }
 
   public updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cleanedNumber = convertFormattedNumberToCents(e.target.value);

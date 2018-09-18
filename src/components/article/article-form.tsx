@@ -1,21 +1,32 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { AddArticleParams, startAddArticle } from '../../store/reducers';
-import { BackButton } from '../common';
+import { AppState } from '../../store';
+import {
+  AddArticleParams,
+  Article,
+  getArticleById,
+  startAddArticle,
+} from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { CurrencyInput } from '../currency';
-import { Button, FixedFooter, FormField, theme } from '../ui';
+import { Button, FormField, theme } from '../ui';
 
-interface OwnProps {}
+interface OwnProps {
+  articleId?: number;
+  onCreated(): void;
+}
 
 interface ActionProps {
   // tslint:disable-next-line:no-any
   addArticle(article: AddArticleParams): any;
 }
 
-type Props = OwnProps & ActionProps & RouteComponentProps;
+interface ReduxStateProps {
+  article?: Article;
+}
+
+type Props = OwnProps & ActionProps & ReduxStateProps;
 
 export class ArticleForm extends React.Component<Props, AddArticleParams> {
   public state = {
@@ -26,10 +37,24 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
     precursor: null,
   };
 
+  public componentDidMount(): void {
+    if (this.props.article) {
+      this.setState({
+        name: this.props.article.name,
+        barcode: this.props.article.barcode,
+        amount: this.props.article.amount,
+        active: this.props.article.active,
+        precursor: this.props.article,
+      });
+    }
+  }
+
   public submit = async () => {
     const maybeArticle = await this.props.addArticle(this.state);
+    console.log(maybeArticle);
+
     if (maybeArticle) {
-      this.props.history.goBack();
+      this.props.onCreated();
     }
   };
 
@@ -72,6 +97,7 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
               id="ARTICLE_ADD_FORM_AMOUNT_LABEL"
               children={text => (
                 <CurrencyInput
+                  value={this.state.amount}
                   placeholder={text as string}
                   onChange={amount => this.setState({ amount })}
                 />
@@ -84,19 +110,24 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
             </Button>
           </FormField>
         </div>
-        <FixedFooter>
-          <BackButton />
-        </FixedFooter>
       </>
     );
   }
 }
+
+const mapsStateToProps = (state: AppState, { articleId }: OwnProps) => {
+  if (!articleId) {
+    return { article: undefined };
+  }
+
+  return { article: getArticleById(state, articleId) };
+};
 
 const mapDispatchToProps: ActionProps = {
   addArticle: startAddArticle,
 };
 
 export const ConnectedArticleForm = connect(
-  undefined,
+  mapsStateToProps,
   mapDispatchToProps
 )(ArticleForm);
