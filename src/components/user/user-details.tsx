@@ -92,7 +92,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
 
           <Card>
             <ListItem>
-              <Link to={this.props.match.url + '/transactions/1'}>
+              <Link to={this.props.match.url + '/transactions/0'}>
                 <FormattedMessage id="USER_TRANSACTIONS" />{' '}
               </Link>
             </ListItem>

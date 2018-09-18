@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from 'react-router-dom';
-import { BackButton } from '../common';
 import { ConnectedTransactionTable } from '../transaction/transaction-table';
-import { Card, FixedFooter, Section } from '../ui';
+import { Button, Card, FixedFooter, Section, theme } from '../ui';
 
 export type TransactionOverviewProps = RouteComponentProps<{
   id: string;
@@ -25,7 +25,9 @@ export function TransactionOverview(
         </Card>
       </Section>
       <FixedFooter>
-        <BackButton />
+        <Button color={theme.primary} onClick={() => props.history.push(``)}>
+          <FormattedMessage id="BACK_BUTTON" />
+        </Button>
       </FixedFooter>
     </>
   );

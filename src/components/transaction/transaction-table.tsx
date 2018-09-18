@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Dispatch } from '../../store';
 import {
@@ -7,7 +6,7 @@ import {
   TransactionsResponse,
   startLoadingTransactions,
 } from '../../store/reducers';
-import { Button } from '../ui';
+import { Pager } from '../common/pager';
 import { ConnectedTransactionListItem } from './transaction-list-item';
 
 interface OwnProps {
@@ -29,6 +28,7 @@ export type TransactionTableProps = ActionProps & OwnProps;
 interface State {
   limit: number;
   offset: number;
+  itemCount: number;
   transactions: Transaction[];
 }
 
@@ -41,6 +41,7 @@ export class TransactionTable extends React.Component<
   public state = {
     limit: 15,
     offset: 0,
+    itemCount: 0,
     transactions: [],
   };
 
@@ -55,9 +56,8 @@ export class TransactionTable extends React.Component<
     }
   }
 
-  public next = () => {
-    const next = this.props.page + 1;
-    const url = `/user/${this.props.userId}/transactions/${next}`;
+  public next = (nextPage: number) => {
+    const url = `/user/${this.props.userId}/transactions/${nextPage}`;
 
     this.props.onPageChange(url);
   };
@@ -77,17 +77,20 @@ export class TransactionTable extends React.Component<
       offset,
       limit
     );
-    if (res && res.transactions) {
-      this.setState({ transactions: res.transactions });
+    if (res && res.transactions && res.count) {
+      this.setState({ transactions: res.transactions, itemCount: res.count });
     }
   };
 
   public render(): JSX.Element {
     return (
       <>
-        <Button onClick={this.next}>
-          <FormattedMessage id="USER_TRANSACTIONS_TABLE_LOAD_NEXT_ROWS" />
-        </Button>
+        <Pager
+          itemCount={this.state.itemCount}
+          currentPage={this.props.page}
+          limit={this.state.limit}
+          onChange={this.next}
+        />
         <TransactionPage transactions={this.state.transactions} />
       </>
     );
