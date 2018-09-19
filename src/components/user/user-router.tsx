@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Route, RouteComponentProps, Switch } from 'react-router';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ConnectedUserDetails } from '.';
 import { ConnectedIdleTimer } from '../common/idle-timer';
@@ -22,6 +22,11 @@ export function UserRouter(props: Props): JSX.Element {
     <>
       <ConnectedIdleTimer onTimeOut={() => props.history.push('/')} />
       <Switch>
+        <Route
+          path="/user/active"
+          exact={true}
+          render={props => <ConnectedUser {...props} isActive={true} />}
+        />
         <Route
           path="/user/inactive"
           exact={true}
@@ -55,6 +60,7 @@ export function UserRouter(props: Props): JSX.Element {
           exact={true}
           component={CreateCustomTransaction}
         />
+        <Redirect from="/" to="/user/active" />
       </Switch>
     </>
   );

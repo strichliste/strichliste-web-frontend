@@ -2,12 +2,16 @@ import styled from 'react-emotion';
 import { theme } from './theme';
 
 export const Header = styled('header')({
+  fontSize: '1.2rem',
   padding: '1rem',
+  marginBottom: '3rem',
   textAlign: 'center',
-  background: `${theme.primary}`,
-  color: `${theme.white}`,
-  boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+  color: `${theme.grey}`,
+  textTransform: 'uppercase',
   a: {
-    color: `${theme.white}`,
+    color: `${theme.grey}`,
+  },
+  '.active': {
+    color: `${theme.black}`,
   },
 });

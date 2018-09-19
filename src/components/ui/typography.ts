@@ -9,7 +9,7 @@ interface AlertTextProps {
   value: number;
 }
 export const AlertText = styled('span')<AlertTextProps>({}, props => ({
-  color: props.value < 0 ? theme.red : undefined,
+  color: props.value < 0 ? theme.red : theme.green,
 }));
 
 interface LineThroughProps {
