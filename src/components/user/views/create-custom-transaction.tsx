@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { BackButton } from '../common';
-import { ConnectedCreateCustomTransactionForm } from '../transaction/create-custom-transaction-form';
-import { Card, FixedFooter, Section } from '../ui';
+import { BackButton } from '../../common';
+import { ConnectedCreateCustomTransactionForm } from '../../transaction/create-custom-transaction-form';
+import { Card, FixedFooter, Section } from '../../ui';
 
 export function CreateCustomTransaction(
   props: RouteComponentProps<{ id: string; deposit: string }>

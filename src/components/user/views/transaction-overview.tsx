@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from 'react-router-dom';
-import { ConnectedTransactionTable } from '../transaction/transaction-table';
-import { Button, Card, FixedFooter, Section, theme } from '../ui';
+import { ConnectedTransactionTable } from '../../transaction/transaction-table';
+import { Button, Card, FixedFooter, Section, theme } from '../../ui';
 
 export type TransactionOverviewProps = RouteComponentProps<{
   id: string;

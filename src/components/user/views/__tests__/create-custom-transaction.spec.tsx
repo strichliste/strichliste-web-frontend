@@ -1,12 +1,13 @@
+// tslint:disable:no-any
+
 import * as React from 'react';
 import { cleanup } from 'react-testing-library';
 
-import { renderWithContext } from '../../../spec-configs/render';
+import { renderWithContext } from '../../../../spec-configs/render';
 import { CreateCustomTransaction } from '../create-custom-transaction';
 
 afterEach(cleanup);
 
-// tslint:disable-next-line:no-any
 const mock: any = jest.fn();
 
 describe('CreateCustomTransaction', () => {
@@ -15,7 +16,6 @@ describe('CreateCustomTransaction', () => {
       const { container } = renderWithContext(
         <CreateCustomTransaction
           history={mock}
-          // tslint:disable-next-line:no-any
           match={{ params: { id: 5, deposit: 'deposit' } } as any}
           location={mock}
         />,
@@ -31,7 +31,6 @@ describe('CreateCustomTransaction', () => {
       const { container } = renderWithContext(
         <CreateCustomTransaction
           history={mock}
-          // tslint:disable-next-line:no-any
           match={{ params: { id: 5, deposit: 'dispense' } } as any}
           location={mock}
         />,

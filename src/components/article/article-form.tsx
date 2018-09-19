@@ -51,8 +51,6 @@ export class ArticleForm extends React.Component<Props, AddArticleParams> {
 
   public submit = async () => {
     const maybeArticle = await this.props.addArticle(this.state);
-    console.log(maybeArticle);
-
     if (maybeArticle) {
       this.props.onCreated();
     }
