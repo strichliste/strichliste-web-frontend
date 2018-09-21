@@ -1,5 +1,5 @@
 import styled from 'react-emotion';
-import { theme } from './theme';
+import { breakPoints, theme } from './theme';
 
 export interface MarginWidthProps {
   margin?: string;
@@ -84,7 +84,7 @@ export const SplitLayout = styled('div')({
   gridTemplateColumns: '1fr',
   margin: '1rem',
   gridGap: '1rem',
-  '@media (min-width: 48rem)': {
+  [breakPoints.tablet]: {
     gridTemplateColumns: '1fr 1fr',
   },
 });
