@@ -5,7 +5,7 @@ exports[`CreateCustomTransaction with deposit matches the snapshot 1`] = `
   class="css-q5fqw0"
 >
   <div
-    class="css-6ocq3m"
+    class="css-93hxb4"
   >
     <form>
       <div
@@ -21,9 +21,9 @@ exports[`CreateCustomTransaction with deposit matches the snapshot 1`] = `
         class="css-cet0rr"
       >
         <button
-          class="css-1p8w3ca"
           color="#708F63"
           type="submit"
+          class="css-1p8w3ca"
         >
           <span>
             USER_TRANSACTION_CREATE_CUSTOM_DEPOSIT_BUTTON
@@ -40,7 +40,7 @@ exports[`CreateCustomTransaction with dispense matches the snapshot 1`] = `
   class="css-q5fqw0"
 >
   <div
-    class="css-6ocq3m"
+    class="css-93hxb4"
   >
     <form>
       <div
@@ -56,9 +56,9 @@ exports[`CreateCustomTransaction with dispense matches the snapshot 1`] = `
         class="css-cet0rr"
       >
         <button
-          class="css-nyzi8n"
           color="#B67138"
           type="submit"
+          class="css-nyzi8n"
         >
           <span>
             USER_TRANSACTION_CREATE_CUSTOM_DISPENSE_BUTTON

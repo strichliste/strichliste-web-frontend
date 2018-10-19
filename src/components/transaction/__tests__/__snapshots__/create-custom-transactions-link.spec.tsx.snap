@@ -2,9 +2,9 @@
 
 exports[`CreateCustomTransactionLink with deposit matches the snapshot 1`] = `
 <button
-  class="css-1p8w3ca"
   color="#708F63"
   type="text"
+  class="css-1p8w3ca"
 >
   ?
 </button>
@@ -12,9 +12,9 @@ exports[`CreateCustomTransactionLink with deposit matches the snapshot 1`] = `
 
 exports[`CreateCustomTransactionLink with dispense matches the snapshot 1`] = `
 <button
-  class="css-nyzi8n"
   color="#B67138"
   type="text"
+  class="css-nyzi8n"
 >
   ?
 </button>

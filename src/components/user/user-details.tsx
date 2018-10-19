@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
+import { Card } from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { CreateUserTransactionLink } from '.';
@@ -18,7 +19,6 @@ import { Currency } from '../currency';
 import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
 import {
   AlertText,
-  Card,
   Column,
   FixedFooter,
   ListItem,

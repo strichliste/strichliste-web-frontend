@@ -1,3 +1,4 @@
+import { Card } from 'bricks-of-sand';
 import Downshift from 'downshift';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -8,7 +9,7 @@ import {
   startLoadingArticles,
 } from '../../store/reducers';
 import { Currency } from '../currency';
-import { Card, Column, MaterialInput, Row } from '../ui';
+import { Column, MaterialInput, Row } from '../ui';
 
 interface OwnProps {
   onSelect(article: Article): void;

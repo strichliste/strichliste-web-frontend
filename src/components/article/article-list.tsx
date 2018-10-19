@@ -1,3 +1,4 @@
+import { Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -9,7 +10,7 @@ import {
   startLoadingArticles,
 } from '../../store/reducers';
 import { Currency } from '../currency';
-import { Card, Column, ListItem, Row } from '../ui';
+import { Column, ListItem, Row } from '../ui';
 
 interface OwnProps {}
 

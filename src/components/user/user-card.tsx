@@ -1,3 +1,4 @@
+import { Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -5,7 +6,6 @@ import { AppState } from '../../store';
 import { User, getUser } from '../../store/reducers';
 import { ConnectedCurrency } from '../currency';
 import { AlertText } from '../ui';
-import { Card } from '../ui/card';
 
 interface OwnProps {
   id: number;
@@ -27,8 +27,7 @@ export function UserCard({ user }: UserCardProps): JSX.Element | null {
       flex
       justifyContent="space-between"
       flexDirection="column"
-      hover
-      width="100%"
+      hover="level3"
       height="6rem"
     >
       <span>{user.name}</span>

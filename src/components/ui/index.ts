@@ -1,6 +1,5 @@
 export * from './auto-grid';
 export * from './button';
-export * from './card';
 export * from './ellipsis-container';
 export * from './header';
 export * from './theme';
