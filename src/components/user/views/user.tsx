@@ -29,7 +29,6 @@ type UserProps = OwnProps & StateProps & ActionProps & RouteComponentProps;
 let lastStale: boolean;
 
 const GridWrapper = styled('div')({
-  padding: '1rem',
   marginLeft: '0rem',
   [breakPoints.tablet]: {
     marginLeft: '8rem',
@@ -61,15 +60,12 @@ export class User extends React.Component<UserProps> {
     return (
       <>
         <GridWrapper>
-          <Tabs margin="1rem">
+          <Tabs margin="2rem 1rem">
             <NavLink activeClassName="active" to="/user/active">
               <FormattedMessage id="USER_ACTIVE_LINK" />
             </NavLink>
             <NavLink activeClassName="active" to="/user/inactive">
               <FormattedMessage id="USER_INACTIVE_LINK" />
-            </NavLink>
-            <NavLink activeClassName="active" to="/user/search">
-              <FormattedMessage id="USER_SEARCH_LINK" />
             </NavLink>
           </Tabs>
           <CreateUserPosition>
