@@ -1,5 +1,5 @@
+import { Theme, withTheme } from 'bricks-of-sand';
 import styled from 'react-emotion';
-import { theme } from '.';
 
 export const CenterText = styled('span')({
   textAlign: 'center',
@@ -8,9 +8,13 @@ export const CenterText = styled('span')({
 interface AlertTextProps {
   value: number;
 }
-export const AlertText = styled('span')<AlertTextProps>({}, props => ({
-  color: props.value < 0 ? theme.red : theme.green,
-}));
+export const AlertText = withTheme<AlertTextProps, Theme>(
+  styled('span')<AlertTextProps>({}, props => {
+    return {
+      color: props.value < 0 ? props.theme.red : props.theme.green,
+    };
+  })
+);
 
 interface LineThroughProps {
   lineThrough?: boolean;
