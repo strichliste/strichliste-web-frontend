@@ -13,6 +13,6 @@ describe('Currency', () => {
         <Currency value={120} />
       </IntlProvider>
     );
-    expect(container.firstChild).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
