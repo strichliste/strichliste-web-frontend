@@ -16,15 +16,17 @@ export const FormField = styled('div')({
 
 export interface FixedContainerProps {
   top?: number;
+  bottom?: number;
 }
 export const FixedContainer = styled('div')<FixedContainerProps>(
   {
     position: 'fixed',
     width: '100%',
-    zIndex: 10,
+    zIndex: 300,
   },
   props => ({
     top: props.top,
+    bottom: props.bottom,
   })
 );
 
