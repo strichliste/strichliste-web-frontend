@@ -1,6 +1,6 @@
 export const en = {
   ARTICLE_HEADLINE: 'Articles',
-  ARTICLE_LINK: 'article list',
+  ARTICLE_LINK: 'Article List',
   ARTICLE_ADD_LINK: 'add new articles',
   ARTICLE_ADD_FORM_NAME_LABEL: 'name',
   ARTICLE_ADD_FORM_BARCODE_LABEL: 'barcode',
