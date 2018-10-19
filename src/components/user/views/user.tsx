@@ -2,11 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
 
+import { AutoGrid } from 'bricks-of-sand';
 import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { AppState, ThunkAction } from '../../../store';
 import { startLoadingUsers } from '../../../store/reducers';
-import { AutoGrid, Tabs, breakPoints } from '../../ui';
+import { Tabs, breakPoints } from '../../ui';
 import { ConnectedInlineCreateUserForm } from '../create-user-inline-form';
 import { ConnectedUserCard } from '../user-card';
 
@@ -39,8 +40,7 @@ const CreateUserPosition = styled('div')({
   [breakPoints.tablet]: {
     position: 'absolute',
     zIndex: 10,
-    marginLeft: '-3rem',
-    marginTop: '2rem',
+    marginLeft: '-2rem',
   },
 });
 

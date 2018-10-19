@@ -2,10 +2,11 @@ import * as React from 'react';
 import styled from 'react-emotion';
 import { connect } from 'react-redux';
 
+import { Button, Card, Flex, PrimaryButton, withTheme } from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { startCreatingUser } from '../../store/reducers';
-import { shadows, theme } from '../ui';
+import { AddIcon } from '../ui/icons/add';
 
 interface ActionProps {
   // tslint:disable-next-line:no-any
@@ -24,17 +25,9 @@ const TRANSITION = 'all 0.5s ease-out';
 const Trigger = styled('div')<TriggerProps>(
   {
     display: 'flex',
-    background: theme.white,
-    transition: TRANSITION,
-    boxShadow: shadows.level2,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '2rem',
-    span: {
-      padding: '1rem',
-      transition: TRANSITION,
-      fontSize: '2rem',
-    },
+    height: '6rem',
     form: {
       overflow: 'hidden',
       transition: TRANSITION,
@@ -44,15 +37,29 @@ const Trigger = styled('div')<TriggerProps>(
     },
   },
   props => ({
-    width: props.isActive ? '10rem' : '2rem',
     borderRadius: props.isActive ? '4px' : '100%',
-    span: {
+    svg: {
+      fill: props.theme.white,
       transform: props.isActive ? 'rotate(45deg)' : 'rotate(0deg)',
     },
     form: {
       width: props.isActive ? '9rem' : '0rem',
     },
   })
+);
+
+const RedBlackButton = withTheme(
+  styled(Button)<TriggerProps>(
+    {
+      backgroundColor: 'none',
+    },
+    props => ({
+      svg: {
+        fill: props.theme.white,
+      },
+      background: props.isActive ? props.theme.red : props.theme.primary,
+    })
+  )
 );
 
 export class InlineCreateUserForm extends React.Component<Props, State> {
@@ -92,31 +99,46 @@ export class InlineCreateUserForm extends React.Component<Props, State> {
     const { isActive, name } = this.state;
 
     const form = (
-      <form onSubmit={this.submit}>
-        <FormattedMessage
-          id="USER_CREATE_NAME_LABEL"
-          children={text => (
-            <input
-              value={name}
-              onChange={e =>
-                this.setState({
-                  name: e.target.value,
-                })
-              }
-              placeholder={text as string}
-              type="text"
-              required
-              autoFocus={true}
-            />
-          )}
-        />
-      </form>
+      <Card
+        flex
+        height="6rem"
+        alignItems="center"
+        margin="0 0 0 1rem"
+        level="level3"
+      >
+        <form onSubmit={this.submit}>
+          <FormattedMessage
+            id="USER_CREATE_NAME_LABEL"
+            children={text => (
+              <Flex>
+                <input
+                  value={name}
+                  onChange={e =>
+                    this.setState({
+                      name: e.target.value,
+                    })
+                  }
+                  placeholder={text as string}
+                  type="text"
+                  required
+                  autoFocus={true}
+                />
+                <PrimaryButton type="submit" isRound>
+                  go
+                </PrimaryButton>
+              </Flex>
+            )}
+          />
+        </form>
+      </Card>
     );
 
     return (
       <Trigger isActive={isActive}>
-        {form}
-        <span onClick={this.toggle}>+</span>
+        <RedBlackButton isActive={isActive} onClick={this.toggle} isRound>
+          <AddIcon />
+        </RedBlackButton>
+        {isActive && form}
       </Trigger>
     );
   }
