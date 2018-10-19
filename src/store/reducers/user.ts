@@ -76,14 +76,21 @@ export function startLoadingUsers(
   isDeleted?: boolean
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const params = new URLSearchParams();
+    const params: { deleted?: string; active?: string } = {};
     if (isDeleted !== undefined) {
-      params.append('deleted', isDeleted.toString());
+      params.deleted = isDeleted.toString();
     }
     if (isActive !== undefined) {
-      params.append('active', isActive.toString());
+      params.active = isActive.toString();
     }
-    const promise = get(`user?${params.toString()}`);
+    const promise = get(
+      `user${Object.keys(params).reduce((paramString, param, index) => {
+        const next = `${paramString}${index === 0 ? '?' : '&'}${param}=${
+          params[param]
+        }`;
+        return next;
+      }, '')}`
+    );
     const data = await errorHandler(dispatch, {
       promise,
       defaultError: 'USERS_LOADING_FAILED',
