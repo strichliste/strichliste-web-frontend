@@ -47,10 +47,9 @@ describe('action creators', () => {
       Promise.resolve({ settings: initialState })
     );
 
-    const expectedActions = [settingsLoaded(initialState)];
     const mockStore = getMockStore();
     await mockStore.dispatch(startLoadingSettings());
-    expect(mockStore.getActions()).toEqual(expectedActions);
+    expect(mockStore.getActions()).toMatchSnapshot();
   });
 });
 

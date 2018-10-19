@@ -10,8 +10,8 @@ import { get, post } from '../../../services/api';
 import { getMockStore } from '../../../spec-configs/mock-store';
 import { Action } from '../../action';
 import {
-  ArticleTypes,
   article,
+  articlesLoaded,
   getArticle,
   getArticleByBarcode,
   getArticleList,
@@ -44,10 +44,7 @@ describe('article reducer', () => {
     ];
 
     beforeEach(() => {
-      action = {
-        type: ArticleTypes.articlesLoaded,
-        payload: articlesResponse,
-      };
+      action = articlesLoaded(articlesResponse as any);
     });
 
     it('creates a new article entry in the store', () => {
