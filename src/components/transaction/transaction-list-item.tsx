@@ -1,10 +1,11 @@
+import { ResponsiveGrid } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { Transaction } from '../../store/reducers';
 import { Currency } from '../currency';
-import { AlertText, Column, Ellipsis, LineThrough, ListItem, Row } from '../ui';
+import { AlertText, Ellipsis, LineThrough, ListItem } from '../ui';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
 
 interface OwnProps {
@@ -24,13 +25,11 @@ export function TransactionListItem(props: Props): JSX.Element | null {
   return (
     <ListItem>
       <LineThrough lineThrough={props.transaction.isDeleted}>
-        <Row>
-          <Column grow={0} width="5rem">
+        <ResponsiveGrid margin="0" columns="2fr 1fr">
+          <ResponsiveGrid margin="0" columns="1fr" tabletColumns="1fr 1fr">
             <AlertText value={props.transaction.amount}>
               <Currency value={props.transaction.amount} />
             </AlertText>
-          </Column>
-          <Column width="8rem" grow={1}>
             <Ellipsis>
               {props.transaction.sender && (
                 <>
@@ -48,18 +47,16 @@ export function TransactionListItem(props: Props): JSX.Element | null {
                 <>{props.transaction.article.name}</>
               )}
             </Ellipsis>
-          </Column>
-          <Column grow={0} width="9rem">
-            {props.transaction.isDeletable ? (
-              <ConnectedTransactionUndoButton
-                transactionId={props.transaction.id}
-                userId={props.transaction.user.id}
-              />
-            ) : (
-              <Ellipsis>{props.transaction.created}</Ellipsis>
-            )}
-          </Column>
-        </Row>
+          </ResponsiveGrid>
+          {props.transaction.isDeletable ? (
+            <ConnectedTransactionUndoButton
+              transactionId={props.transaction.id}
+              userId={props.transaction.user.id}
+            />
+          ) : (
+            <Ellipsis>{props.transaction.created}</Ellipsis>
+          )}
+        </ResponsiveGrid>
       </LineThrough>
     </ListItem>
   );
