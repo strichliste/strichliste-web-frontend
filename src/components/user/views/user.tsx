@@ -13,6 +13,7 @@ import { ConnectedUserCard } from '../user-card';
 
 interface OwnProps {
   isActive: boolean;
+  showCreateUserForm?: boolean;
 }
 
 interface StateProps {
@@ -69,7 +70,9 @@ export class User extends React.Component<UserProps> {
             </NavLink>
           </Tabs>
           <CreateUserPosition>
-            <ConnectedInlineCreateUserForm />
+            <ConnectedInlineCreateUserForm
+              isActive={this.props.showCreateUserForm || false}
+            />
           </CreateUserPosition>
           <AutoGrid rows="5rem" columns="10rem">
             {this.props.users.map(id => (

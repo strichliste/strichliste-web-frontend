@@ -7,6 +7,11 @@ import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { startCreatingUser } from '../../store/reducers';
 import { AddIcon } from '../ui/icons/add';
+import { EditIcon } from '../ui/icons/edit';
+
+interface OwnProps {
+  isActive: boolean;
+}
 
 interface ActionProps {
   // tslint:disable-next-line:no-any
@@ -15,14 +20,12 @@ interface ActionProps {
 
 interface State {
   name: string;
-  isActive: boolean;
 }
 
-type Props = ActionProps & RouteComponentProps;
+type Props = ActionProps & RouteComponentProps & OwnProps;
 
-type TriggerProps = Pick<State, 'isActive'>;
 const TRANSITION = 'all 0.5s ease-out';
-const Trigger = styled('div')<TriggerProps>(
+const Trigger = styled('div')<OwnProps>(
   {
     display: 'flex',
     justifyContent: 'center',
@@ -49,7 +52,7 @@ const Trigger = styled('div')<TriggerProps>(
 );
 
 const RedBlackButton = withTheme(
-  styled(Button)<TriggerProps>(
+  styled(Button)<OwnProps>(
     {
       backgroundColor: 'none',
     },
@@ -65,7 +68,6 @@ const RedBlackButton = withTheme(
 export class InlineCreateUserForm extends React.Component<Props, State> {
   public state = {
     name: '',
-    isActive: false,
   };
 
   public submit = async (
@@ -74,29 +76,21 @@ export class InlineCreateUserForm extends React.Component<Props, State> {
     e.preventDefault();
     const user = await this.props.startCreatingUser(this.state.name);
     if (user && user.id) {
-      this.deactivate();
       this.props.history.push(`/user/${user.id}`);
     }
   };
 
-  public activate = () => {
-    this.setState(state => ({ ...state, isActive: true }));
-  };
-
-  public deactivate = () => {
-    this.setState({ isActive: false, name: '' });
-  };
-
   public toggle = () => {
-    if (this.state.isActive) {
-      this.deactivate();
+    if (this.props.isActive) {
+      this.props.history.goBack();
     } else {
-      this.activate();
+      this.props.history.push(this.props.history.location.pathname + '/add');
     }
   };
 
   public render(): JSX.Element {
-    const { isActive, name } = this.state;
+    const { name } = this.state;
+    const { isActive } = this.props;
 
     const form = (
       <Card
@@ -124,7 +118,7 @@ export class InlineCreateUserForm extends React.Component<Props, State> {
                   autoFocus={true}
                 />
                 <PrimaryButton type="submit" isRound>
-                  go
+                  <EditIcon />
                 </PrimaryButton>
               </Flex>
             )}

@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { ConnectedUserDetails } from '.';
 import { ConnectedIdleTimer } from '../common/idle-timer';
 import { CreateCustomTransaction } from './views/create-custom-transaction';
-import { CreateUser } from './views/create-user';
 import { TransactionOverview } from './views/transaction-overview';
 import { ConnectedUser } from './views/user';
 import { ConnectedUserArticleTransaction } from './views/user-article-transaction';
@@ -33,11 +32,37 @@ export function UserRouter(props: Props): JSX.Element {
           render={props => <ConnectedUser {...props} isActive={false} />}
         />
         <Route
+          path="/user/active/add"
+          exact={true}
+          render={props => (
+            <ConnectedUser
+              {...props}
+              showCreateUserForm={true}
+              isActive={true}
+            />
+          )}
+        />
+        <Route
+          path="/user/inactive/add"
+          exact={true}
+          render={props => (
+            <ConnectedUser
+              {...props}
+              showCreateUserForm={true}
+              isActive={false}
+            />
+          )}
+        />
+        <Route
+          path="/user/inactive"
+          exact={true}
+          render={props => <ConnectedUser {...props} isActive={false} />}
+        />
+        <Route
           path="/user/search"
           exact={true}
           component={ConnectedUserSearch}
         />
-        <Route path="/user/create" exact={true} component={CreateUser} />
         <Route path="/user/:id" exact={true} component={ConnectedUserDetails} />
         <Route path="/user/:id/edit" exact={true} component={UserEditView} />
         <Route
