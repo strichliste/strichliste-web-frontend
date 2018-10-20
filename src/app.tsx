@@ -8,7 +8,7 @@ import { ArticleRouter } from './components/article/article-router';
 import { ConnectedErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
 import { ConnectedSettingsLoader } from './components/settings';
-import { baseCss } from './components/ui';
+import { MainFooter, baseCss } from './components/ui';
 import { GlobalLoadingIndicator } from './components/ui/loader';
 import { UserRouter } from './components/user/user-router';
 import { en } from './locales/en';
@@ -41,6 +41,7 @@ class Layout extends React.Component {
           <Route path="/user" component={UserRouter} />
           <Redirect from="/" to="/user/active" />
         </Switch>
+        <MainFooter />
       </>
     );
   }
