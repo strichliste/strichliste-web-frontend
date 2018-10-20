@@ -63,7 +63,7 @@ export class CreateCustomTransactionForm extends React.Component<
   public render(): JSX.Element {
     const { userId, boundary } = this.props;
     return (
-      <ResponsiveGrid columns="1fr 4fr 1fr">
+      <ResponsiveGrid columns="3rem 1fr 3rem">
         <ConnectedTransactionValidator
           userId={userId}
           boundary={boundary}

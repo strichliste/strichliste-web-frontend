@@ -28,6 +28,7 @@ export const en = {
   USER_ACTIVE_LINK: 'active users',
   USER_INACTIVE_LINK: 'inactive users',
   USER_TRANSACTIONS: 'Transactions',
+  USER_TRANSACTIONS_LINK: 'ALL TRANSACTIONS',
   USER_TRANSACTIONS_LOADING_ERROR: 'Could not load transactions',
   USER_TRANSACTION_CREATION_ERROR: 'Could not create transaction',
   USER_TRANSACTION_DELETION_ERROR: 'Could not undo transaction',

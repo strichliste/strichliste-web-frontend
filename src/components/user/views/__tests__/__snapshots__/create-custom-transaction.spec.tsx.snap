@@ -8,7 +8,7 @@ exports[`CreateCustomTransaction with deposit matches the snapshot 1`] = `
     class="css-kmcglx"
   >
     <div
-      class="css-dm9b5a"
+      class="css-1aayd4f"
     >
       <button
         disabled=""
@@ -42,7 +42,7 @@ exports[`CreateCustomTransaction with dispense matches the snapshot 1`] = `
     class="css-kmcglx"
   >
     <div
-      class="css-dm9b5a"
+      class="css-1aayd4f"
     >
       <button
         disabled=""
