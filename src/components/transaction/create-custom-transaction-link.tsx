@@ -1,6 +1,6 @@
+import { Button, theme } from 'bricks-of-sand';
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Button, theme } from '../ui';
 
 export interface CreateCustomTransactionLinkProps extends RouteComponentProps {
   isDeposit: boolean;

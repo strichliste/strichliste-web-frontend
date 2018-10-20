@@ -1,3 +1,4 @@
+import { Button, theme } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -8,7 +9,7 @@ import {
   getUser,
   startUpdateUser,
 } from '../../store/reducers';
-import { Button, FormField, theme } from '../ui';
+import { FormField } from '../ui';
 
 interface OwnProps {
   userId: number;

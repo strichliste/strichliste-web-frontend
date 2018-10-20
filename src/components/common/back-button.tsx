@@ -1,8 +1,7 @@
+import { Button, theme } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
-
-import { Button, theme } from '../ui';
 
 function NavButton(props: RouteComponentProps): JSX.Element | null {
   return (

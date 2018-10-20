@@ -1,5 +1,5 @@
+import { breakPoints, theme } from 'bricks-of-sand';
 import styled from 'react-emotion';
-import { breakPoints, theme } from './theme';
 
 export interface MarginWidthProps {
   margin?: string;

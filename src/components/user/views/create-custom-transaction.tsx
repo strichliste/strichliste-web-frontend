@@ -14,7 +14,6 @@ export function CreateCustomTransaction(
         <Card>
           <ConnectedCreateCustomTransactionForm
             transactionCreated={() => props.history.goBack()}
-            isDeposit={props.match.params.deposit === 'deposit'}
             userId={Number(props.match.params.id)}
           />
         </Card>

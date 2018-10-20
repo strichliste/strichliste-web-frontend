@@ -14,11 +14,6 @@ import { UserRouter } from './components/user/user-router';
 import { en } from './locales/en';
 import { store } from './store';
 
-// inject global non scoped css stylings
-// tslint:disable-next-line:no-unused-expression
-injectGlobal(resetCss);
-injectGlobal(baseCss);
-
 theme.primary = '#343434';
 theme.red = '#E25766';
 theme.green = '#71EA73';
@@ -26,6 +21,11 @@ theme.grey = '#badada';
 theme.lightGrey = '#F5F5F5';
 theme.textSubtile = '#5B687B';
 theme.borderRadius = '8px';
+
+// inject global non scoped css stylings
+// tslint:disable-next-line:no-unused-expression
+injectGlobal(resetCss);
+injectGlobal(baseCss(theme));
 
 class Layout extends React.Component {
   // tslint:disable-next-line:prefer-function-over-method

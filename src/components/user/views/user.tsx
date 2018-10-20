@@ -2,12 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
 
-import { AutoGrid } from 'bricks-of-sand';
+import { AutoGrid, breakPoints } from 'bricks-of-sand';
 import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { AppState, ThunkAction } from '../../../store';
 import { startLoadingUsers } from '../../../store/reducers';
-import { Tabs, breakPoints } from '../../ui';
+import { Tabs } from '../../ui';
 import { ConnectedInlineCreateUserForm } from '../create-user-inline-form';
 import { ConnectedUserCard } from '../user-card';
 

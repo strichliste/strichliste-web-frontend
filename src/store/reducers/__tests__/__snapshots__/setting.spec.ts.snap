@@ -53,6 +53,7 @@ Array [
             200,
             500,
             1000,
+            2000,
           ],
         },
         "dispense": Object {
@@ -64,6 +65,7 @@ Array [
             200,
             500,
             1000,
+            2000,
           ],
         },
         "transactions": Object {

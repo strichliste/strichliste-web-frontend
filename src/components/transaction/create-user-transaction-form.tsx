@@ -1,3 +1,4 @@
+import { Button, MaterialInput, theme } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -9,7 +10,6 @@ import {
   startCreatingTransaction,
 } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
-import { Button, MaterialInput, theme } from '../ui';
 import { ConnectedUserSelectionList } from '../user';
 import { ConnectedUserToUserValidator } from './user-to-user-validator';
 

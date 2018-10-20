@@ -2,7 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
-import { Card } from 'bricks-of-sand';
+import { Block, Flex, ResponsiveGrid, theme, withTheme } from 'bricks-of-sand';
+import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { CreateUserTransactionLink } from '.';
@@ -14,17 +15,9 @@ import {
   startLoadingUserDetails,
 } from '../../store/reducers';
 import { ConnectedArticleScanner } from '../article/article-scanner';
-import { BackButton } from '../common';
 import { Currency } from '../currency';
 import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
-import {
-  AlertText,
-  Column,
-  FixedFooter,
-  ListItem,
-  Row,
-  SplitLayout,
-} from '../ui';
+import { AlertText } from '../ui';
 import { UserArticleTransactionLink } from './user-router';
 
 interface StateProps {
@@ -41,6 +34,29 @@ interface ActionProps {
 type UserDetailsProps = StateProps &
   ActionProps &
   RouteComponentProps<{ id: string }>;
+
+const StyledUser = withTheme(
+  styled('div')({
+    [theme.breakPoints.tablet]: {
+      marginTop: '5rem',
+    },
+  })
+);
+
+const UserHeader = withTheme(
+  styled('div')(
+    {
+      h1: {
+        fontSize: '2rem',
+      },
+    },
+    props => ({
+      h1: {
+        color: props.theme.primary,
+      },
+    })
+  )
+);
 
 export class UserDetails extends React.Component<UserDetailsProps> {
   public componentDidMount(): void {
@@ -62,49 +78,48 @@ export class UserDetails extends React.Component<UserDetailsProps> {
       : [];
 
     return (
-      <>
+      <StyledUser>
         <ConnectedArticleScanner userId={user.id} />
+        <ResponsiveGrid columns="4fr 2fr">
+          <UserHeader>
+            <Flex justifyContent="space-between">
+              <h1>{user.name}</h1>
+              <h1>
+                <AlertText value={user.balance}>
+                  <Currency value={user.balance} />
+                </AlertText>
+              </h1>
+            </Flex>
+            <Flex justifyContent="space-between" margin="1rem 0">
+              <h2>
+                <Link to={`${user.id}/edit`}>
+                  <FormattedMessage id="USER_EDIT_LINK" />
+                </Link>
+              </h2>
+              <h2>
+                <UserArticleTransactionLink id={user.id} />
+              </h2>
+              <h2>
+                <CreateUserTransactionLink />
+              </h2>
+            </Flex>
+          </UserHeader>
+        </ResponsiveGrid>
+        <ResponsiveGrid columns="2fr 4fr">
+          <div>
+            <ConnectedPayment userId={user.id} />
+          </div>
 
-        <SplitLayout>
-          <Card>
-            <SplitLayout>
-              {user.name}
-              <Link to={`${user.id}/edit`}>
-                <FormattedMessage id="USER_EDIT_LINK" />
-              </Link>
-              <AlertText value={user.balance}>
-                <Currency value={user.balance} />
-              </AlertText>
-            </SplitLayout>
-
-            <Row>
-              <Column>
-                <ConnectedPayment userId={user.id} />
-              </Column>
-            </Row>
-            <div>
-              <CreateUserTransactionLink />
-            </div>
-            <div>
-              <UserArticleTransactionLink id={user.id} />
-            </div>
-          </Card>
-
-          <Card>
-            <ListItem>
-              <Link to={this.props.match.url + '/transactions/0'}>
-                <FormattedMessage id="USER_TRANSACTIONS" />{' '}
-              </Link>
-            </ListItem>
+          <Block margin="-0.5rem 0 0 3rem">
             {transactions.map(id => (
               <ConnectedTransactionListItem key={id} id={id} />
             ))}
-          </Card>
-        </SplitLayout>
-        <FixedFooter>
-          <BackButton />
-        </FixedFooter>
-      </>
+            <Link to={this.props.match.url + '/transactions/0'}>
+              <FormattedMessage id="USER_TRANSACTIONS" />{' '}
+            </Link>
+          </Block>
+        </ResponsiveGrid>
+      </StyledUser>
     );
   }
 }
