@@ -1598,10 +1598,10 @@ braces@^2.3.0, braces@^2.3.1:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-bricks-of-sand@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.0.8.tgz#e2b79d15eabfc2823ea77d1d5ac5a67b4b894199"
-  integrity sha512-rZ948StWdavPvFWY6WSZ6U+nxGa0btRSqoDEHlxelLgUGg461JV17KFF9aTqwpSsy0JZoIv35mcgtZbXavG4Qw==
+bricks-of-sand@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.0.10.tgz#3c0e2c247ac01e9c996abcbbb556710675537df2"
+  integrity sha512-5TTxRMpOSwJYrqwvpxr/bf/9MIILPSuyH70zH+e9ykPZiQyMJrrbKYbPXErgPjszk59v3awYjqSeJKTU28rUyw==
   dependencies:
     emotion "^9.2.10"
     emotion-theming "^9.2.9"
