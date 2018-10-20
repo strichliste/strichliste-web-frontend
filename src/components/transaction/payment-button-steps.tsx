@@ -17,6 +17,7 @@ export function PaymentButtonList(props: PaymentButtonListProps): JSX.Element {
     <ResponsiveGrid columns="1fr 1fr 1fr">
       {props.steps.map(step => (
         <ConnectedTransactionValidator
+          key={step}
           userId={props.userId}
           boundary={props.boundary}
           value={step}
