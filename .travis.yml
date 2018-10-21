@@ -18,4 +18,3 @@ deploy:
   on:
     repo: strichliste/strichliste
     tags: true
-    branch: master
