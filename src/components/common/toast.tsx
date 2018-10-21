@@ -1,5 +1,5 @@
+import { Card, theme } from 'bricks-of-sand';
 import * as React from 'react';
-import { Card, theme } from '../ui';
 
 interface State {
   isVisible: boolean;

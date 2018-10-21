@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`settings reducer with non matching action returns initial state 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "GLOBAL_LOADER": true,
+    },
+    "type": "SET_LOADER",
+  },
+  Object {
+    "payload": Object {
+      "GLOBAL_ERROR": "",
+    },
+    "type": "SET_ERROR",
+  },
+  Object {
+    "payload": Object {
+      "GLOBAL_LOADER": false,
+    },
+    "type": "SET_LOADER",
+  },
+  Object {
+    "payload": Object {
+      "account": Object {
+        "boundary": Object {
+          "lower": -20000,
+          "upper": 20000,
+        },
+      },
+      "i18n": Object {
+        "currency": Object {
+          "alpha3": "EUR",
+          "name": "Euro",
+          "symbol": "€",
+        },
+        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+        "language": "en",
+        "timezone": "auto",
+      },
+      "idleTimer": 150000,
+      "payment": Object {
+        "boundary": Object {
+          "lower": -2000,
+          "upper": 15000,
+        },
+        "deposit": Object {
+          "custom": true,
+          "enabled": true,
+          "steps": Array [
+            50,
+            100,
+            200,
+            500,
+            1000,
+            2000,
+          ],
+        },
+        "dispense": Object {
+          "custom": true,
+          "enabled": true,
+          "steps": Array [
+            50,
+            100,
+            200,
+            500,
+            1000,
+            2000,
+          ],
+        },
+        "transactions": Object {
+          "enabled": true,
+        },
+      },
+      "staleUserPeriod": "10 day",
+    },
+    "type": "SETTINGS_LOADED",
+  },
+]
+`;

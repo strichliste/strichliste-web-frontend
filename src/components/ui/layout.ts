@@ -1,5 +1,14 @@
+import { breakPoints, theme } from 'bricks-of-sand';
 import styled from 'react-emotion';
-import { theme } from './theme';
+
+export interface MarginWidthProps {
+  margin?: string;
+  width?: string;
+}
+export const WithMargin = styled('div')<MarginWidthProps>({}, props => ({
+  margin: props.margin,
+  width: props.width,
+}));
 
 export const FormField = styled('div')({
   marginBottom: '0.5rem',
@@ -7,15 +16,17 @@ export const FormField = styled('div')({
 
 export interface FixedContainerProps {
   top?: number;
+  bottom?: number;
 }
 export const FixedContainer = styled('div')<FixedContainerProps>(
   {
     position: 'fixed',
     width: '100%',
-    zIndex: 10,
+    zIndex: 300,
   },
   props => ({
     top: props.top,
+    bottom: props.bottom,
   })
 );
 
@@ -75,7 +86,39 @@ export const SplitLayout = styled('div')({
   gridTemplateColumns: '1fr',
   margin: '1rem',
   gridGap: '1rem',
-  '@media (min-width: 48rem)': {
+  [breakPoints.tablet]: {
     gridTemplateColumns: '1fr 1fr',
   },
 });
+
+export interface FlexProps {
+  flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
+  flexWrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
+  justifyContent?:
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly';
+  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
+  alignContent?:
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around'
+    | 'stretch';
+}
+export const Flex = styled('div')<FlexProps>(
+  {
+    display: 'flex',
+  },
+  props => ({
+    flexDirection: props.flexDirection,
+    flexWrap: props.flexWrap,
+    justifyContent: props.justifyContent,
+    alignItems: props.alignItems,
+    alignContent: props.alignContent,
+  })
+);

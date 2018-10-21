@@ -1,10 +1,10 @@
+import { AutoGrid, MaterialInput } from 'bricks-of-sand';
 import Downshift from 'downshift';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { User, getUserArray } from '../../store/reducers';
-import { AutoGrid, MaterialInput } from '../ui';
 import { ConnectedUserCard } from './user-card';
 
 interface OwnProps {

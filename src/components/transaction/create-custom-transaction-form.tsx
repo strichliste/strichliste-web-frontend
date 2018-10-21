@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
+import { Button, ResponsiveGrid, theme } from 'bricks-of-sand';
 import { AppState, Dispatch } from '../../store';
 import {
   Boundary,
@@ -9,11 +9,9 @@ import {
   startCreatingTransaction,
 } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
-import { Button, FormField, theme } from '../ui';
 import { ConnectedTransactionValidator } from './validator';
 
 interface OwnProps {
-  isDeposit: boolean;
   userId: number;
   transactionCreated?(): void;
 }
@@ -30,7 +28,8 @@ interface ActionProps {
   createTransaction(
     userId: number,
     params: CreateTransactionParams
-  ): Promise<void>;
+  ): // tslint:disable-next-line:no-any
+  Promise<any>;
 }
 
 type Props = ActionProps & OwnProps & MapStateProps;
@@ -45,57 +44,66 @@ export class CreateCustomTransactionForm extends React.Component<
     this.setState({ value });
   };
 
-  public submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const {
-      createTransaction,
-      userId,
-      isDeposit,
-      transactionCreated,
-    } = this.props;
+  public submit = async (isDeposit: boolean) => {
+    const { createTransaction, userId, transactionCreated } = this.props;
     const multiplier = isDeposit ? 1 : -1;
     const amount = this.state.value * multiplier;
 
-    await createTransaction(userId, {
-      amount,
-    });
+    const result = await createTransaction(userId, { amount });
 
     if (transactionCreated) {
       transactionCreated();
     }
+
+    if (result) {
+      this.setState({ value: 0 });
+    }
   };
 
   public render(): JSX.Element {
-    const { isDeposit, userId, boundary } = this.props;
+    const { userId, boundary } = this.props;
     return (
-      <form onSubmit={this.submit}>
-        <FormField>
-          <CurrencyInput placeholder="0" onChange={this.handleChange} />
-        </FormField>
-        <FormField>
-          <ConnectedTransactionValidator
-            userId={userId}
-            boundary={boundary}
-            value={this.state.value}
-            isDeposit={true}
-            render={isValid => (
-              <Button
-                disabled={!isValid}
-                color={isDeposit ? theme.green : theme.red}
-                type="submit"
-              >
-                <FormattedMessage
-                  id={
-                    isDeposit
-                      ? 'USER_TRANSACTION_CREATE_CUSTOM_DEPOSIT_BUTTON'
-                      : 'USER_TRANSACTION_CREATE_CUSTOM_DISPENSE_BUTTON'
-                  }
-                />
-              </Button>
-            )}
-          />
-        </FormField>
-      </form>
+      <ResponsiveGrid columns="3rem 1fr 3rem">
+        <ConnectedTransactionValidator
+          userId={userId}
+          boundary={boundary}
+          value={this.state.value}
+          isDeposit={false}
+          render={isValid => (
+            <Button
+              background={theme.red}
+              onClick={() => this.submit(false)}
+              isRound
+              disabled={!isValid}
+              type="submit"
+            >
+              -
+            </Button>
+          )}
+        />
+        <CurrencyInput
+          value={this.state.value}
+          placeholder="CUSTOM AMOUNT"
+          onChange={this.handleChange}
+        />
+        <ConnectedTransactionValidator
+          userId={userId}
+          boundary={boundary}
+          value={this.state.value}
+          isDeposit={true}
+          render={isValid => (
+            <Button
+              background={theme.green}
+              onClick={() => this.submit(true)}
+              isRound
+              disabled={!isValid}
+              type="submit"
+            >
+              +
+            </Button>
+          )}
+        />
+      </ResponsiveGrid>
     );
   }
 }

@@ -1,8 +1,8 @@
+import { theme } from 'bricks-of-sand';
 import styled from 'react-emotion';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { getGlobalLoader } from '../../store/reducers';
-import { theme } from './theme';
 
 interface LoadingIndicatorProps {
   started: boolean;
@@ -14,7 +14,7 @@ export const LoadingIndicator = styled('div')<LoadingIndicatorProps>(
     top: 0,
     left: '-1%',
     height: '2px',
-    backgroundColor: theme.white,
+    backgroundColor: theme.primary,
     borderRadius: '3px',
   },
   props => ({

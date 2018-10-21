@@ -1,3 +1,4 @@
+import { ThemeProvider, theme } from 'bricks-of-sand';
 import { MemoryHistory, createMemoryHistory } from 'history';
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
@@ -15,11 +16,13 @@ export function renderWithContext(
   history: MemoryHistory = createMemoryHistory()
 ): RenderResult {
   return render(
-    <Provider store={store}>
-      <Router history={history}>
-        <IntlProvider>{ui}</IntlProvider>
-      </Router>
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Router history={history}>
+          <IntlProvider>{ui}</IntlProvider>
+        </Router>
+      </Provider>
+    </ThemeProvider>
   );
 }
 
@@ -32,11 +35,13 @@ export function renderAndReturnContext(
 ): { result: RenderResult; store: Store<AppState>; history: MemoryHistory } {
   return {
     result: render(
-      <Provider store={store}>
-        <Router history={history}>
-          <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
-        </Router>
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <Router history={history}>
+            <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
+          </Router>
+        </Provider>
+      </ThemeProvider>
     ),
     store,
     history,
@@ -45,6 +50,8 @@ export function renderAndReturnContext(
 
 export function renderWithIntl(ui: JSX.Element): RenderResult {
   return render(
-    <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
+    <ThemeProvider theme={theme}>
+      <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
+    </ThemeProvider>
   );
 }

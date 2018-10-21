@@ -1,8 +1,9 @@
+import { Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from 'react-router';
 import { BackButton } from '../../common';
-import { Card, CenterSection, FixedFooter } from '../../ui';
+import { CenterSection, FixedFooter } from '../../ui';
 import { ConnectedCreateUserForm } from '../create-user-form';
 
 export function CreateUser(props: RouteComponentProps): JSX.Element {

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
+import { Block, Card } from 'bricks-of-sand';
+import { ConnectedCreateCustomTransactionForm } from '.';
 import { AppState } from '../../store';
 import { Payment, getPayment } from '../../store/reducers';
 import { FormField } from '../ui';
-import { CreateCustomTransactionLink } from './create-custom-transaction-link';
 import { PaymentButtonList } from './payment-button-steps';
 
 interface OwnProps {
@@ -21,40 +21,31 @@ type Props = OwnProps & StateProps;
 
 export function Payment(props: Props): JSX.Element {
   return (
-    <>
+    <Card padding="0.5rem">
       <FormField>
         {props.payment.deposit.enabled && (
-          <>
-            <FormattedMessage id="PAYMENT_DEPOSIT_LABEL" />
-            <PaymentButtonList
-              isDeposit={true}
-              boundary={props.payment.boundary}
-              steps={props.payment.deposit.steps}
-              userId={props.userId}
-            />
-          </>
+          <PaymentButtonList
+            isDeposit={true}
+            boundary={props.payment.boundary}
+            steps={props.payment.deposit.steps}
+            userId={props.userId}
+          />
         )}
       </FormField>
-      <FormField>
-        <CreateCustomTransactionLink isDeposit={true} />
-      </FormField>
+      <Block margin="1rem">
+        <ConnectedCreateCustomTransactionForm userId={props.userId} />
+      </Block>
       <FormField>
         {props.payment.dispense.enabled && (
-          <>
-            <FormattedMessage id="PAYMENT_DISPENSE_LABEL" />
-            <PaymentButtonList
-              isDeposit={false}
-              boundary={props.payment.boundary}
-              steps={props.payment.dispense.steps}
-              userId={props.userId}
-            />
-          </>
+          <PaymentButtonList
+            isDeposit={false}
+            boundary={props.payment.boundary}
+            steps={props.payment.dispense.steps}
+            userId={props.userId}
+          />
         )}
       </FormField>
-      <FormField>
-        <CreateCustomTransactionLink isDeposit={false} />
-      </FormField>
-    </>
+    </Card>
   );
 }
 

@@ -45,10 +45,10 @@ export class CurrencyInput extends React.Component<Props, State> {
         <FormattedNumber
           minimumFractionDigits={2}
           value={this.state.value}
-          children={(test: string) => (
+          children={(formattedValue: string) => (
             <input
               placeholder={this.props.placeholder}
-              value={test}
+              value={formattedValue}
               onChange={this.updateValue}
               type="text"
               autoFocus={this.props.autoFocus}

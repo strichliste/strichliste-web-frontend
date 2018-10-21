@@ -1,7 +1,8 @@
+import { Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { BackButton } from '../../common';
-import { Card, FixedFooter } from '../../ui';
+import { FixedFooter } from '../../ui';
 import { ConnectedUserEditForm } from '../edit-user-form';
 
 export function UserEditView(

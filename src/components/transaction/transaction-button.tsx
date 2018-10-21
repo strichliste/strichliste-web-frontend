@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { Button } from 'bricks-of-sand';
 import { DefaultThunkAction } from '../../store';
 import {
   CreateTransactionParams,
   startCreatingTransaction,
 } from '../../store/reducers';
 import { Currency } from '../currency';
-import { Button } from '../ui';
 
 interface OwnProps {
   userId: number;
@@ -28,7 +28,7 @@ type Props = OwnProps & ActionProps;
 export function TransactionButton(props: Props): JSX.Element {
   return (
     <Button
-      color={props.color}
+      background={props.color}
       onClick={() =>
         props.startCreatingTransaction(props.userId, { amount: props.value })
       }

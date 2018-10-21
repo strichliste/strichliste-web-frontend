@@ -12,11 +12,14 @@ type Props = OwnProps;
 
 export function Currency(props: Props): JSX.Element {
   return (
-    <FormattedNumber
-      currency="EUR"
-      value={props.value / 100}
-      style="currency"
-    />
+    <>
+      {props.value > 0 ? '+' : ''}
+      <FormattedNumber
+        currency="EUR"
+        value={props.value / 100}
+        style="currency"
+      />
+    </>
   );
 }
 

@@ -1,11 +1,11 @@
+import { Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { AppState } from '../../store';
 import { User, getUser } from '../../store/reducers';
 import { ConnectedCurrency } from '../currency';
-import { AlertText, Ellipsis } from '../ui';
-import { Card } from '../ui/card';
+import { AlertText } from '../ui';
 
 interface OwnProps {
   id: number;
@@ -23,9 +23,15 @@ export function UserCard({ user }: UserCardProps): JSX.Element | null {
   }
 
   return (
-    <Card hover width="100%" height="6rem">
+    <Card
+      flex
+      justifyContent="space-between"
+      flexDirection="column"
+      hover="level3"
+      height="6rem"
+    >
+      <span>{user.name}</span>
       <AlertText value={user.balance}>
-        <Ellipsis>{user.name}</Ellipsis>
         <ConnectedCurrency value={user.balance} />
       </AlertText>
     </Card>

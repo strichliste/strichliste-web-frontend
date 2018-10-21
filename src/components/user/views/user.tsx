@@ -1,15 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
 
+import { AutoGrid, breakPoints } from 'bricks-of-sand';
+import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { AppState, ThunkAction } from '../../../store';
 import { startLoadingUsers } from '../../../store/reducers';
-import { AutoGrid, Card, Column } from '../../ui';
+import { Tabs } from '../../ui';
+import { ConnectedInlineCreateUserForm } from '../create-user-inline-form';
 import { ConnectedUserCard } from '../user-card';
 
 interface OwnProps {
   isActive: boolean;
+  showCreateUserForm?: boolean;
 }
 
 interface StateProps {
@@ -25,6 +29,22 @@ interface ActionProps {
 
 type UserProps = OwnProps & StateProps & ActionProps & RouteComponentProps;
 let lastStale: boolean;
+
+const GridWrapper = styled('div')({
+  marginLeft: '0rem',
+  [breakPoints.tablet]: {
+    marginLeft: '8rem',
+  },
+});
+
+const CreateUserPosition = styled('div')({
+  [breakPoints.tablet]: {
+    position: 'absolute',
+    zIndex: 10,
+    marginLeft: '-2rem',
+  },
+});
+
 export class User extends React.Component<UserProps> {
   public componentDidMount(): void {
     this.props.startLoadingUsers(this.props.isActive, false);
@@ -40,49 +60,28 @@ export class User extends React.Component<UserProps> {
   public render(): JSX.Element {
     return (
       <>
-        <Column margin="1rem">
-          <div>
-            <Link to="/user/search">
-              <FormattedMessage id="USER_SEARCH_LINK" />
-            </Link>
-          </div>
-          {this.props.isActive ? (
-            <Link to="/user/inactive">
-              <FormattedMessage id="USER_INACTIVE_LINK" />
-            </Link>
-          ) : (
-            <Link to="/active_users">
+        <GridWrapper>
+          <Tabs margin="2rem 1rem">
+            <NavLink activeClassName="active" to="/user/active">
               <FormattedMessage id="USER_ACTIVE_LINK" />
-            </Link>
-          )}
-        </Column>
-
-        <Column margin="1rem">
-          {!this.props.isActive ? (
-            <FormattedMessage id="USER_INACTIVE" />
-          ) : (
-            <FormattedMessage id="USER_ACTIVE" />
-          )}
-        </Column>
-        <AutoGrid rows="5rem" columns="10rem">
-          <Link to="/user/create">
-            <Card hover width="100%" height="6rem">
-              +
-            </Card>
-          </Link>
-
-          {this.props.users.map(id => (
-            <Link key={id} to={'/user/' + id}>
-              <ConnectedUserCard id={Number(id)} />
-            </Link>
-          ))}
-        </AutoGrid>
-
-        <Card margin="1rem">
-          <Link to="/articles">
-            <FormattedMessage id="ARTICLE_LINK" />
-          </Link>
-        </Card>
+            </NavLink>
+            <NavLink activeClassName="active" to="/user/inactive">
+              <FormattedMessage id="USER_INACTIVE_LINK" />
+            </NavLink>
+          </Tabs>
+          <CreateUserPosition>
+            <ConnectedInlineCreateUserForm
+              isActive={this.props.showCreateUserForm || false}
+            />
+          </CreateUserPosition>
+          <AutoGrid rows="5rem" columns="10rem">
+            {this.props.users.map(id => (
+              <Link key={id} to={'/user/' + id}>
+                <ConnectedUserCard id={Number(id)} />
+              </Link>
+            ))}
+          </AutoGrid>
+        </GridWrapper>
       </>
     );
   }

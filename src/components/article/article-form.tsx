@@ -1,3 +1,4 @@
+import { Button, theme } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -10,7 +11,7 @@ import {
 } from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { CurrencyInput } from '../currency';
-import { Button, FormField, theme } from '../ui';
+import { FormField } from '../ui';
 
 interface OwnProps {
   articleId?: number;

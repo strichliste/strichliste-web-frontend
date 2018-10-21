@@ -1,9 +1,10 @@
 {
   "name": "strichliste-web",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "private": true,
   "dependencies": {
-    "downshift": "^2.1.1",
+    "bricks-of-sand": "^0.0.10",
+    "downshift": "^3.1.0",
     "emotion": "^9.2.5",
     "history": "^4.7.2",
     "howler": "^2.0.15",
@@ -15,7 +16,7 @@
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts-ts": "2.17.0",
+    "react-scripts-ts": "3.1.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0"
   },
@@ -28,7 +29,7 @@
   "devDependencies": {
     "@types/fetch-mock": "^6.0.3",
     "@types/howler": "^2.0.5",
-    "@types/jest": "^23.3.1",
+    "@types/jest": "~22.0.0",
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.9.4",
     "@types/react": "^16.4.14",
@@ -38,17 +39,13 @@
     "@types/react-router": "^4.0.30",
     "@types/react-router-dom": "^4.2.4",
     "@types/redux-mock-store": "^1.0.0",
-    "@types/storybook__addon-info": "^3.4.1",
-    "@types/storybook__addon-knobs": "^3.4.1",
     "@types/storybook__react": "^3.0.9",
     "awesome-typescript-loader": "^5.2.0",
     "babel-core": "^6.26.3",
     "eslint": "^5.3.0",
-    "husky": "^0.14.3",
-    "jest": "~22.0.0",
+    "husky": "^1.1.2",
     "lint-staged": "^7.2.2",
     "prettier": "^1.14.2",
-    "react-docgen-typescript-webpack-plugin": "^1.1.0",
     "react-testing-library": "^5.0.0",
     "redux-mock-store": "^1.5.3",
     "storybook-addon-jsx": "^5.4.0",
@@ -81,12 +78,6 @@
         "prettier --write",
         "git add"
       ]
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn test",
-      "pre-push": "yarn test"
     }
   }
 }

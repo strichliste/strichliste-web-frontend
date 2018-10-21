@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { Button, theme } from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
 import { startCreatingUser } from '../../store/reducers';
-import { Button, FormField, theme } from '../ui';
-
+import { FormField } from '../ui';
 interface OwnProps {
   userCreated(id: number): void;
 }

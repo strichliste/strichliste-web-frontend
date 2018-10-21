@@ -22,7 +22,7 @@ export function ErrorMessage({ id }: ErrorMessageProps): JSX.Element | null {
   }
 
   return (
-    <FixedContainer top={0}>
+    <FixedContainer bottom={0}>
       <Toast type="error" fadeOutSeconds={5}>
         <FormattedMessage id={id} />
       </Toast>

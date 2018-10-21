@@ -28,9 +28,9 @@ export function TransactionValidator(
     ? props.value + props.balance
     : props.balance - props.value;
 
-  const isValid = props.isDeposit
-    ? newValue < boundaryValue
-    : newValue > boundaryValue;
+  const isValid =
+    (props.isDeposit ? newValue < boundaryValue : newValue > boundaryValue) &&
+    props.value !== 0;
   return <>{props.render(isValid)}</>;
 }
 

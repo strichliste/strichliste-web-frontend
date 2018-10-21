@@ -118,12 +118,12 @@ export const initialState = {
     deposit: {
       enabled: true,
       custom: true,
-      steps: [50, 100, 200, 500, 1000],
+      steps: [50, 100, 200, 500, 1000, 2000],
     },
     dispense: {
       enabled: true,
       custom: true,
-      steps: [50, 100, 200, 500, 1000],
+      steps: [50, 100, 200, 500, 1000, 2000],
     },
   },
 };

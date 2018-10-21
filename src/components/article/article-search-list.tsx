@@ -1,3 +1,4 @@
+import { Card, Column, MaterialInput } from 'bricks-of-sand';
 import Downshift from 'downshift';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -8,7 +9,7 @@ import {
   startLoadingArticles,
 } from '../../store/reducers';
 import { Currency } from '../currency';
-import { Card, Column, MaterialInput, Row } from '../ui';
+import { Flex } from '../ui';
 
 interface OwnProps {
   onSelect(article: Article): void;
@@ -63,12 +64,12 @@ export class ArticleSearchList extends React.Component<Props, State> {
                         item,
                       })}
                     >
-                      <Row>
+                      <Flex>
                         <Column width="75%">{item.name}</Column>
                         <Column width="25%">
                           <Currency value={item.amount} />
                         </Column>
-                      </Row>
+                      </Flex>
                     </Card>
                   ))}
               </div>

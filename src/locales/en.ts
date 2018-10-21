@@ -1,6 +1,6 @@
 export const en = {
   ARTICLE_HEADLINE: 'Articles',
-  ARTICLE_LINK: 'show article list',
+  ARTICLE_LINK: 'Article List',
   ARTICLE_ADD_LINK: 'add new articles',
   ARTICLE_ADD_FORM_NAME_LABEL: 'name',
   ARTICLE_ADD_FORM_BARCODE_LABEL: 'barcode',
@@ -13,7 +13,7 @@ export const en = {
     'Could not create the article maybe check your internet connection',
   ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE:
     'Could not load the article by barcode',
-  TALLY_HEADER: 'Tally',
+  TALLY_HEADER: 'Strichliste',
   USERS_LOADING_FAILED:
     'Oops could not load users :-( Maybe check your internet connection and try it again',
   USERS_CREATION_FAILED: 'Oops could not create this user',
@@ -25,9 +25,10 @@ export const en = {
   USER_SEARCH_HEADLINE: 'Find users',
   USER_ACTIVE: 'Active users',
   USER_INACTIVE: 'Inactive users',
-  USER_ACTIVE_LINK: 'Show active users only',
-  USER_INACTIVE_LINK: 'Show inactive users only',
+  USER_ACTIVE_LINK: 'active users',
+  USER_INACTIVE_LINK: 'inactive users',
   USER_TRANSACTIONS: 'Transactions',
+  USER_TRANSACTIONS_LINK: 'ALL TRANSACTIONS',
   USER_TRANSACTIONS_LOADING_ERROR: 'Could not load transactions',
   USER_TRANSACTION_CREATION_ERROR: 'Could not create transaction',
   USER_TRANSACTION_DELETION_ERROR: 'Could not undo transaction',
@@ -50,7 +51,7 @@ export const en = {
   USER_SELECTION_LIST_LABEL: 'Select a user by name',
   USER_CREATE_HEADLINE: 'Create new user',
   USER_CREATE_TRIGGER: 'Create user',
-  USER_CREATE_NAME_LABEL: 'Name',
+  USER_CREATE_NAME_LABEL: 'add new user',
   USER_EDIT_LINK: 'edit',
   USER_EDIT_HEADLINE: 'Edit',
   USER_EDIT_TRIGGER: 'save changes',
@@ -65,4 +66,5 @@ export const en = {
     'Could not load settings, falling back to default settings',
   PAGER_PREV: 'prev',
   PAGER_NEXT: 'next',
+  SEARCH: 'search',
 };

@@ -1,8 +1,9 @@
+import { Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { BackButton } from '../../common';
 import { ConnectedCreateCustomTransactionForm } from '../../transaction/create-custom-transaction-form';
-import { Card, FixedFooter, Section } from '../../ui';
+import { FixedFooter, Section } from '../../ui';
 
 export function CreateCustomTransaction(
   props: RouteComponentProps<{ id: string; deposit: string }>
@@ -13,7 +14,6 @@ export function CreateCustomTransaction(
         <Card>
           <ConnectedCreateCustomTransactionForm
             transactionCreated={() => props.history.goBack()}
-            isDeposit={props.match.params.deposit === 'deposit'}
             userId={Number(props.match.params.id)}
           />
         </Card>
