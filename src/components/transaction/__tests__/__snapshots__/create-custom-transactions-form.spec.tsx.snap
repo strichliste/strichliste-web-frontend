@@ -5,9 +5,9 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
   class="css-1aayd4f"
 >
   <button
+    class="css-8yq2qw"
     disabled=""
     type="submit"
-    class="css-8yq2qw"
   >
     -
   </button>
@@ -17,9 +17,9 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
     value="0.00"
   />
   <button
+    class="css-8yq2qw"
     disabled=""
     type="submit"
-    class="css-8yq2qw"
   >
     +
   </button>
