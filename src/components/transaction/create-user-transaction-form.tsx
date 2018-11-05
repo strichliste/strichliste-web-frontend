@@ -1,6 +1,5 @@
-import { Button, MaterialInput, theme } from 'bricks-of-sand';
+import { Button, theme } from 'bricks-of-sand';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { DefaultThunkAction } from '../../store';
@@ -68,54 +67,42 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   public render(): JSX.Element {
     return (
       <>
-        {!this.state.selectedUser.name &&
-          this.state.selectedAmount === 0 && (
-            <form onSubmit={e => this.submitAmount(e)}>
-              <label>
-                <FormattedMessage id="USER_TRANSACTION_FROM_AMOUNT_LABEL" />
-              </label>
-              <MaterialInput>
-                <CurrencyInput
-                  onChange={value => this.setState({ amount: value })}
-                />
-              </MaterialInput>
-            </form>
-          )}
-        {this.state.selectedAmount > 0 &&
-          this.state.selectedUser.name === '' && (
-            <ConnectedUserSelectionList
-              userId={Number(this.props.match.params.id)}
-              onSelect={this.submitUserId}
-            />
-          )}
+        <form onSubmit={e => this.submitAmount(e)}>
+          <CurrencyInput
+            autoFocus
+            onChange={value => this.setState({ amount: value })}
+          />
+        </form>
 
-        {this.state.selectedUser.name &&
-          this.state.selectedAmount && (
-            <>
-              <ConnectedUserToUserValidator
-                value={this.state.selectedAmount}
-                userId={Number(this.props.match.params.id)}
-                targetUserId={this.state.selectedUser.id}
-                render={isValid => (
-                  <>
-                    <div>
-                      Give {this.state.selectedUser.name}
-                      <Currency value={this.state.selectedAmount} />
-                    </div>
-                    <div>
-                      <Button
-                        disabled={!isValid}
-                        onClick={this.createTransaction}
-                        color={theme.primary}
-                      >
-                        +
-                      </Button>
-                    </div>
-                  </>
-                )}
-              />
-            </>
-          )}
+        <ConnectedUserSelectionList
+          userId={Number(this.props.match.params.id)}
+          onSelect={this.submitUserId}
+        />
+
+        <>
+          <ConnectedUserToUserValidator
+            value={this.state.selectedAmount}
+            userId={Number(this.props.match.params.id)}
+            targetUserId={this.state.selectedUser.id}
+            render={isValid => (
+              <>
+                <div>
+                  Give {this.state.selectedUser.name}
+                  <Currency value={this.state.selectedAmount} />
+                </div>
+                <div>
+                  <Button
+                    disabled={!isValid}
+                    onClick={this.createTransaction}
+                    color={theme.primary}
+                  >
+                    +
+                  </Button>
+                </div>
+              </>
+            )}
+          />
+        </>
       </>
     );
   }

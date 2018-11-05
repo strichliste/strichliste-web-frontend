@@ -2,7 +2,14 @@ import * as React from 'react';
 import styled from 'react-emotion';
 import { connect } from 'react-redux';
 
-import { Button, Card, Flex, PrimaryButton, withTheme } from 'bricks-of-sand';
+import {
+  Button,
+  Card,
+  Flex,
+  Input,
+  PrimaryButton,
+  withTheme,
+} from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { startCreatingUser } from '../../store/reducers';
@@ -105,7 +112,7 @@ export class InlineCreateUserForm extends React.Component<Props, State> {
             id="USER_CREATE_NAME_LABEL"
             children={text => (
               <Flex>
-                <input
+                <Input
                   value={name}
                   onChange={e =>
                     this.setState({

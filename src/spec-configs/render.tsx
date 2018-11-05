@@ -8,6 +8,8 @@ import { RenderResult, render } from 'react-testing-library';
 import { DeepPartial, Store, createStore } from 'redux';
 import { AppState, reducer } from '../store';
 
+const themeConfig = { light: theme, dark: theme };
+
 export function renderWithContext(
   ui: JSX.Element,
   initialState: DeepPartial<AppState>,
@@ -16,7 +18,7 @@ export function renderWithContext(
   history: MemoryHistory = createMemoryHistory()
 ): RenderResult {
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider themes={themeConfig}>
       <Provider store={store}>
         <Router history={history}>
           <IntlProvider>{ui}</IntlProvider>
@@ -35,7 +37,7 @@ export function renderAndReturnContext(
 ): { result: RenderResult; store: Store<AppState>; history: MemoryHistory } {
   return {
     result: render(
-      <ThemeProvider theme={theme}>
+      <ThemeProvider themes={themeConfig}>
         <Provider store={store}>
           <Router history={history}>
             <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
@@ -50,7 +52,7 @@ export function renderAndReturnContext(
 
 export function renderWithIntl(ui: JSX.Element): RenderResult {
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider themes={themeConfig}>
       <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
     </ThemeProvider>
   );

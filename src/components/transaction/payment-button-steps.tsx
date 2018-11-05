@@ -1,4 +1,4 @@
-import { ResponsiveGrid, theme } from 'bricks-of-sand';
+import { ResponsiveGrid } from 'bricks-of-sand';
 import * as React from 'react';
 import { ConnectedTransactionButton } from '.';
 import { Boundary } from '../../store/reducers';
@@ -24,7 +24,7 @@ export function PaymentButtonList(props: PaymentButtonListProps): JSX.Element {
           isDeposit={props.isDeposit}
           render={isValid => (
             <ConnectedTransactionButton
-              color={props.isDeposit ? theme.green : theme.red}
+              isDeposit={props.isDeposit}
               userId={props.userId}
               value={step * multiplier}
               disabled={!isValid}

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
 
-import { AutoGrid, breakPoints } from 'bricks-of-sand';
+import { AutoGrid, ThemeSwitcher, breakPoints } from 'bricks-of-sand';
 import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { AppState, ThunkAction } from '../../../store';
@@ -68,6 +68,7 @@ export class User extends React.Component<UserProps> {
             <NavLink activeClassName="active" to="/user/inactive">
               <FormattedMessage id="USER_INACTIVE_LINK" />
             </NavLink>
+            <ThemeSwitcher />
           </Tabs>
           <CreateUserPosition>
             <ConnectedInlineCreateUserForm

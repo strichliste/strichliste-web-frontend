@@ -1,3 +1,4 @@
+import { Input } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
 
@@ -46,7 +47,7 @@ export class CurrencyInput extends React.Component<Props, State> {
           minimumFractionDigits={2}
           value={this.state.value}
           children={(formattedValue: string) => (
-            <input
+            <Input
               placeholder={this.props.placeholder}
               value={formattedValue}
               onChange={this.updateValue}
