@@ -5,6 +5,8 @@ export const Tabs = withTheme(
   styled(Block)(
     {
       fontSize: '0.8rem',
+      display: 'flex',
+      alignContent: 'center',
     },
     props => ({
       textTransform: 'uppercase',

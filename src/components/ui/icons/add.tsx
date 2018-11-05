@@ -24,3 +24,6 @@ export const AddIcon = withTheme(
     fill: props.isPrimary ? props.theme.primary : props.theme.white,
   }))
 );
+export const CancelIcon = styled(Icon)<AddIconProps>({
+  transform: 'rotate(45deg)',
+});
