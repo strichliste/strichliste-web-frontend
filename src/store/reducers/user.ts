@@ -214,6 +214,11 @@ export function getUser(state: AppState, userId: number): User | undefined {
   return getUserState(state)[userId];
 }
 
+export function getUserBalance(state: AppState, userId: number): number {
+  const user = getUser(state, userId);
+  return user ? user.balance : 0;
+}
+
 export function getUserTransactionsArray(
   state: AppState,
   userId: number

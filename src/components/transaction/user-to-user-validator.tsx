@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
-import { Boundary } from '../../store/reducers';
+import { Boundary, getUserBalance } from '../../store/reducers';
 import { ConnectedTransactionValidator } from './validator';
 
 interface OwnProps {
@@ -46,8 +46,8 @@ export function UserToUserValidator(
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
-  ownBalance: state.user[props.userId].balance,
-  targetBalance: state.user[props.userId].balance,
+  ownBalance: getUserBalance(state, props.userId),
+  targetBalance: getUserBalance(state, props.userId),
   boundary: state.settings.account.boundary,
 });
 
