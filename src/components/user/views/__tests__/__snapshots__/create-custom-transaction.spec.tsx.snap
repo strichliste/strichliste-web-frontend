@@ -1,69 +1,105 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CreateCustomTransaction with deposit matches the snapshot 1`] = `
-<section
-  class="css-q5fqw0"
+<div
+  class="css-pmx9nk"
 >
-  <div
-    class="css-kmcglx"
+  <section
+    class="css-q5fqw0"
   >
     <div
-      class="css-1aayd4f"
+      class="css-1xusjsg"
     >
-      <button
-        class="css-8yq2qw"
-        disabled=""
-        type="submit"
+      <div
+        class="css-1aayd4f"
       >
-        -
-      </button>
-      <input
-        placeholder="CUSTOM AMOUNT"
-        type="text"
-        value="0.00"
-      />
-      <button
-        class="css-8yq2qw"
-        disabled=""
-        type="submit"
-      >
-        +
-      </button>
+        <button
+          class="css-5v0scm"
+          disabled=""
+          type="submit"
+        >
+          -
+        </button>
+        <input
+          class="css-1xg6j8s"
+          placeholder="CUSTOM AMOUNT"
+          type="text"
+          value="0.00"
+        />
+        <button
+          class="css-bck6s9"
+          disabled=""
+          type="submit"
+        >
+          +
+        </button>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+  <footer
+    class="css-1tj9kyk"
+  >
+    <button
+      class="css-y1os2t"
+      color="#64a4bd"
+      type="text"
+    >
+      <span>
+        BACK_BUTTON
+      </span>
+    </button>
+  </footer>
+</div>
 `;
 
 exports[`CreateCustomTransaction with dispense matches the snapshot 1`] = `
-<section
-  class="css-q5fqw0"
+<div
+  class="css-pmx9nk"
 >
-  <div
-    class="css-kmcglx"
+  <section
+    class="css-q5fqw0"
   >
     <div
-      class="css-1aayd4f"
+      class="css-1xusjsg"
     >
-      <button
-        class="css-8yq2qw"
-        disabled=""
-        type="submit"
+      <div
+        class="css-1aayd4f"
       >
-        -
-      </button>
-      <input
-        placeholder="CUSTOM AMOUNT"
-        type="text"
-        value="0.00"
-      />
-      <button
-        class="css-8yq2qw"
-        disabled=""
-        type="submit"
-      >
-        +
-      </button>
+        <button
+          class="css-5v0scm"
+          disabled=""
+          type="submit"
+        >
+          -
+        </button>
+        <input
+          class="css-1xg6j8s"
+          placeholder="CUSTOM AMOUNT"
+          type="text"
+          value="0.00"
+        />
+        <button
+          class="css-bck6s9"
+          disabled=""
+          type="submit"
+        >
+          +
+        </button>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+  <footer
+    class="css-1tj9kyk"
+  >
+    <button
+      class="css-y1os2t"
+      color="#64a4bd"
+      type="text"
+    >
+      <span>
+        BACK_BUTTON
+      </span>
+    </button>
+  </footer>
+</div>
 `;

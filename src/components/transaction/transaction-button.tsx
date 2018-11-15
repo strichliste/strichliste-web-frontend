@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Button } from 'bricks-of-sand';
+import { GreenButton, RedButton } from 'bricks-of-sand';
 import { DefaultThunkAction } from '../../store';
 import {
   CreateTransactionParams,
@@ -12,7 +12,7 @@ import { Currency } from '../currency';
 interface OwnProps {
   userId: number;
   value: number;
-  color?: string;
+  isDeposit?: boolean;
   disabled?: boolean;
 }
 
@@ -26,9 +26,10 @@ interface ActionProps {
 type Props = OwnProps & ActionProps;
 
 export function TransactionButton(props: Props): JSX.Element {
+  const Button = props.isDeposit ? GreenButton : RedButton;
+
   return (
     <Button
-      background={props.color}
       onClick={() =>
         props.startCreatingTransaction(props.userId, { amount: props.value })
       }

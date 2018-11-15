@@ -2,7 +2,13 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import { ThemeProvider, injectGlobal, resetCss, theme } from 'bricks-of-sand';
+import {
+  ThemeProvider,
+  dark,
+  injectGlobal,
+  light,
+  resetCss,
+} from 'bricks-of-sand';
 import { IntlProvider } from 'react-intl';
 import { ArticleRouter } from './components/article/article-router';
 import { ConnectedErrorMessage } from './components/common/error-message';
@@ -14,18 +20,10 @@ import { UserRouter } from './components/user/user-router';
 import { en } from './locales/en';
 import { store } from './store';
 
-theme.primary = '#343434';
-theme.red = '#E25766';
-theme.green = '#71EA73';
-theme.grey = '#badada';
-theme.lightGrey = '#F5F5F5';
-theme.textSubtile = '#5B687B';
-theme.borderRadius = '8px';
-
 // inject global non scoped css stylings
 // tslint:disable-next-line:no-unused-expression
 injectGlobal(resetCss);
-injectGlobal(baseCss(theme));
+injectGlobal(baseCss(light));
 
 class Layout extends React.Component {
   // tslint:disable-next-line:prefer-function-over-method
@@ -51,7 +49,7 @@ class App extends React.Component {
   // tslint:disable-next-line:prefer-function-over-method
   public render(): JSX.Element {
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider themes={{ light, dark }}>
         <Provider store={store}>
           <IntlProvider
             textComponent={React.Fragment}

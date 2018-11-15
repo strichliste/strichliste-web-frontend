@@ -19,7 +19,7 @@ interface StateProps {
 
 type Props = OwnProps & StateProps;
 
-export function Payment(props: Props): JSX.Element {
+export function PaymentComponent(props: Props): JSX.Element {
   return (
     <Card padding="0.5rem">
       <FormField>
@@ -54,4 +54,4 @@ const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
   payment: getPayment(state),
 });
 
-export const ConnectedPayment = connect(mapStateToProps)(Payment);
+export const ConnectedPayment = connect(mapStateToProps)(PaymentComponent);

@@ -1,5 +1,4 @@
 // tslint:disable no-any
-
 jest.mock('../../../services/api', () => ({
   get: jest.fn(),
   post: jest.fn(),

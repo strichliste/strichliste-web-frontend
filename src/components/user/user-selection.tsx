@@ -1,4 +1,4 @@
-import { AutoGrid, MaterialInput } from 'bricks-of-sand';
+import { AutoGrid, Input } from 'bricks-of-sand';
 import Downshift from 'downshift';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -38,35 +38,31 @@ export function UserSelection(props: Props): JSX.Element {
       }) => (
         <div>
           <FormattedMessage id="USER_SEARCH_HEADLINE" />
-          <MaterialInput>
-            <label {...getLabelProps()}>
-              <FormattedMessage id="USER_SELECTION_LIST_LABEL" />
-            </label>
-            <input {...getInputProps()} autoFocus={true} />
-            <ul {...getMenuProps()}>
-              {isOpen
-                ? items
-                    .filter(
-                      item =>
-                        !inputValue ||
-                        item.name
-                          .toLowerCase()
-                          .includes(inputValue.toLowerCase())
-                    )
-                    .map((item, index) => (
-                      <li
-                        {...getItemProps({
-                          key: item.name,
-                          index,
-                          item,
-                        })}
-                      >
-                        {item.name}
-                      </li>
-                    ))
-                : null}
-            </ul>
-          </MaterialInput>
+          <label {...getLabelProps()}>
+            <FormattedMessage id="USER_SELECTION_LIST_LABEL" />
+          </label>
+          <Input {...getInputProps()} autoFocus={true} />
+          <ul {...getMenuProps()}>
+            {isOpen
+              ? items
+                  .filter(
+                    item =>
+                      !inputValue ||
+                      item.name.toLowerCase().includes(inputValue.toLowerCase())
+                  )
+                  .map((item, index) => (
+                    <li
+                      {...getItemProps({
+                        key: item.name,
+                        index,
+                        item,
+                      })}
+                    >
+                      {item.name}
+                    </li>
+                  ))
+              : null}
+          </ul>
         </div>
       )}
     </Downshift>
@@ -93,9 +89,7 @@ function UserSelectionCards(props: Props): JSX.Element {
         <div>
           <FormattedMessage id="USER_SEARCH_HEADLINE" />
 
-          <MaterialInput>
-            <input {...getInputProps()} autoFocus={true} />
-          </MaterialInput>
+          <Input {...getInputProps()} autoFocus={true} />
           <div {...getMenuProps()}>
             <AutoGrid rows="5rem" columns="10rem">
               {items

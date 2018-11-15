@@ -24,7 +24,7 @@ import { TransactionIcon } from '../ui/icons/transactions';
 import { UserArticleTransactionLink } from './user-router';
 
 interface StateProps {
-  details: User;
+  details?: User;
 }
 
 interface ActionProps {

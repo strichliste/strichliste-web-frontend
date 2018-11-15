@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Button, ResponsiveGrid, theme } from 'bricks-of-sand';
+import { GreenButton, RedButton, ResponsiveGrid } from 'bricks-of-sand';
 import { AppState, Dispatch } from '../../store';
 import {
   Boundary,
@@ -70,15 +70,14 @@ export class CreateCustomTransactionForm extends React.Component<
           value={this.state.value}
           isDeposit={false}
           render={isValid => (
-            <Button
-              background={theme.red}
+            <RedButton
               onClick={() => this.submit(false)}
               isRound
               disabled={!isValid}
               type="submit"
             >
               -
-            </Button>
+            </RedButton>
           )}
         />
         <CurrencyInput
@@ -92,15 +91,14 @@ export class CreateCustomTransactionForm extends React.Component<
           value={this.state.value}
           isDeposit={true}
           render={isValid => (
-            <Button
-              background={theme.green}
+            <GreenButton
               onClick={() => this.submit(true)}
               isRound
               disabled={!isValid}
               type="submit"
             >
               +
-            </Button>
+            </GreenButton>
           )}
         />
       </ResponsiveGrid>

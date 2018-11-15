@@ -6,9 +6,7 @@ import {
   CreateTransactionParams,
   startCreatingTransaction,
 } from '../../../store/reducers';
-import { ConnectedArticleSearchList } from '../../article/article-search-list';
-import { BackButton } from '../../common';
-import { FixedFooter } from '../../ui';
+import { ConnectedArticleSelectionBubbles } from '../../article/article-selection-bubbles';
 
 interface ActionProps {
   startCreatingTransaction(
@@ -26,12 +24,9 @@ export function UserArticleTransaction(
 ): JSX.Element | null {
   return (
     <>
-      <ConnectedArticleSearchList
+      <ConnectedArticleSelectionBubbles
         onSelect={article => onSelect(article, props)}
       />
-      <FixedFooter>
-        <BackButton />
-      </FixedFooter>
     </>
   );
 }
