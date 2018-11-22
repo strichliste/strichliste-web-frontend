@@ -8,7 +8,7 @@ export const FixedFooter = styled('footer')({
   bottom: 0,
 });
 
-export const Footer = styled(FixedFooter)({
+export const Footer = styled('footer')({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',

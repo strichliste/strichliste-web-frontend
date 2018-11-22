@@ -3,6 +3,7 @@ import {
   ArticleActions,
   ErrorActions,
   LoaderActions,
+  SearchActions,
   SettingsActions,
   TransactionActions,
   UserActions,
@@ -13,6 +14,7 @@ export type Action =
   | ErrorActions
   | LoaderActions
   | SettingsActions
+  | SearchActions
   | TransactionActions
   | UserActions;
 

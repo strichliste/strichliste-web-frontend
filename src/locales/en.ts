@@ -66,5 +66,5 @@ export const en = {
     'Could not load settings, falling back to default settings',
   PAGER_PREV: 'prev',
   PAGER_NEXT: 'next',
-  SEARCH: 'search',
+  SEARCH: 'Search',
 };

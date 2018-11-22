@@ -6,6 +6,7 @@ import {
   article,
   error,
   loader,
+  search,
   settings,
   transaction,
   user,
@@ -18,6 +19,7 @@ const reducers = {
   user,
   transaction,
   settings,
+  search,
 };
 
 export type AppState = {

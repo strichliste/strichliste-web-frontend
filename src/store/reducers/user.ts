@@ -4,6 +4,7 @@ import { get, post } from '../../services/api';
 import { errorHandler } from '../../services/error-handler';
 import { DefaultThunkAction } from '../action';
 import { AppState, Dispatch, ThunkAction } from '../store';
+import { getSearchQuery } from './search';
 
 export interface GetUsersResponse {
   users: User[];
@@ -212,6 +213,23 @@ export function getUserArray(state: AppState): User[] {
 
 export function getUser(state: AppState, userId: number): User | undefined {
   return getUserState(state)[userId];
+}
+
+export function getFilteredUserIds(
+  state: AppState,
+  isActive: boolean
+): number[] {
+  const query = getSearchQuery(state);
+  const activeFilteredUsers = getUserArray(state).filter(
+    user => user.isActive === isActive && user.isDisabled === false
+  );
+  if (!query) {
+    activeFilteredUsers.map(user => user.id);
+  }
+
+  return activeFilteredUsers
+    .filter(user => user.name.toLowerCase().includes(query.toLowerCase()))
+    .map(user => user.id);
 }
 
 export function getUserBalance(state: AppState, userId: number): number {
