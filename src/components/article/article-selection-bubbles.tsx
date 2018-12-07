@@ -1,11 +1,4 @@
-import {
-  Card,
-  Flex,
-  GreenButton,
-  Input,
-  RedButton,
-  withTheme,
-} from 'bricks-of-sand';
+import { CancelButton, Card, Flex, Input } from 'bricks-of-sand';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { connect } from 'react-redux';
@@ -16,19 +9,6 @@ import {
   startLoadingArticles,
 } from '../../store/reducers';
 import { Currency } from '../currency';
-import { AcceptIcon } from '../ui/icons/accept';
-import { CancelIcon } from '../ui/icons/add';
-
-const Divider = withTheme(
-  styled('div')(
-    {
-      margin: '3rem 1rem',
-    },
-    ({ theme }) => ({
-      borderBottom: `solid 1px ${theme.border}`,
-    })
-  )
-);
 
 const InputSection = styled(Flex)({
   padding: '0 1rem',
@@ -41,6 +21,7 @@ const InputSection = styled(Flex)({
 
 interface OwnProps {
   onSelect(article: Article): void;
+  onCancel(): void;
 }
 
 interface StateProps {
@@ -78,15 +59,9 @@ export class ArticleSelectionBubbles extends React.Component<Props, State> {
             onChange={e => this.setState({ query: e.target.value })}
             autoFocus={true}
           />
-          <RedButton onClick={() => this.setState({ query: '' })} isRound>
-            <CancelIcon />
-          </RedButton>
-          <GreenButton isRound>
-            <AcceptIcon />
-          </GreenButton>
+          <CancelButton onClick={this.props.onCancel} />
         </InputSection>
-        <Divider />
-        <Flex flexWrap="wrap" justifyContent="center">
+        <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">
           {items
             .filter(
               item =>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Article, startCreatingTransaction } from '../../../store/reducers';
 import { ConnectedArticleSelectionBubbles } from '../../article/article-selection-bubbles';
+import { getUserDetailLink } from '../user-router';
 
 interface ActionProps {
   startCreatingTransaction: // tslint:disable-next-line:no-any
@@ -18,6 +19,9 @@ export function UserArticleTransaction(
   return (
     <>
       <ConnectedArticleSelectionBubbles
+        onCancel={() =>
+          props.history.push(getUserDetailLink(Number(props.match.params.id)))
+        }
         onSelect={article => onSelect(article, props)}
       />
     </>
