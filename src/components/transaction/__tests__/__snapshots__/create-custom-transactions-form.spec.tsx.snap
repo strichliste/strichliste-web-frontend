@@ -5,23 +5,25 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
   class="css-wc19cd"
 >
   <div
-    class="css-1aayd4f"
+    class="css-1e5tckv"
   >
     <button
-      class="css-5v0scm"
+      class="css-jkq7r1"
       disabled=""
       type="submit"
     >
       -
     </button>
-    <input
-      class="css-1f8yohd"
-      placeholder="CUSTOM AMOUNT"
-      type="text"
-      value="0.00"
-    />
+    <div>
+      <input
+        class="css-1f8yohd"
+        placeholder="CUSTOM AMOUNT"
+        type="text"
+        value="CUSTOM AMOUNT"
+      />
+    </div>
     <button
-      class="css-bck6s9"
+      class="css-16z8f29"
       disabled=""
       type="submit"
     >

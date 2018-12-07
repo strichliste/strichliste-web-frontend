@@ -5,6 +5,7 @@ import { FormattedNumber } from 'react-intl';
 interface State {
   lastPropValue: number | undefined;
   value: number;
+  hasFocus: boolean;
 }
 
 interface Props {
@@ -15,7 +16,11 @@ interface Props {
 }
 
 export class CurrencyInput extends React.Component<Props, State> {
-  public state = { lastPropValue: 0, value: this.getValueFromProps() };
+  public state = {
+    lastPropValue: 0,
+    value: this.getValueFromProps(),
+    hasFocus: false,
+  };
 
   public getValueFromProps(): number {
     return this.props.value ? this.props.value / 100 : 0;
@@ -47,18 +52,34 @@ export class CurrencyInput extends React.Component<Props, State> {
           minimumFractionDigits={2}
           value={this.state.value}
           children={(formattedValue: string) => (
-            <Input
-              placeholder={this.props.placeholder}
-              value={formattedValue}
-              onChange={this.updateValue}
-              type="text"
-              autoFocus={this.props.autoFocus}
-            />
+            <div>
+              <Input
+                placeholder={this.props.placeholder}
+                value={getPlaceholder(
+                  this.props.placeholder,
+                  formattedValue,
+                  this.state.hasFocus
+                )}
+                onFocus={() => this.setState({ hasFocus: true })}
+                onBlur={() => this.setState({ hasFocus: false })}
+                onChange={this.updateValue}
+                type="text"
+                autoFocus={this.props.autoFocus}
+              />
+            </div>
           )}
         />
       </>
     );
   }
+}
+
+function getPlaceholder(
+  placeholder: string | undefined,
+  value: string,
+  hasFocus: boolean
+): string {
+  return !placeholder || value !== '0.00' || hasFocus ? value : placeholder;
 }
 
 export function convertFormattedNumberToCents(rawValue: string): number {
