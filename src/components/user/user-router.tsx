@@ -84,3 +84,9 @@ export function UserArticleTransactionLink(props: { id: number }): JSX.Element {
     </Link>
   );
 }
+
+export function getUserDetailLink(id: number): string {
+  return `/user/${id}`;
+}
+
+export type UserRouteProps = RouteComponentProps<{ id: string }>;

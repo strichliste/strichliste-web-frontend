@@ -11,7 +11,11 @@ import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailRouter } from './user-details-router';
 
-const LinkTab = Tab(NavLink);
+const LinkTab = styled(Tab(NavLink))({
+  svg: {
+    marginRight: '0.5rem',
+  },
+});
 
 const UserHeader = withTheme(
   styled('div')(
@@ -54,10 +58,7 @@ export function UserDetailsHeader({
         </AlertText>
       </h1>
 
-      <Menu label="test" breakPoint={600}>
-        <LinkTab activeClassName="active" to={`/user/${user.id}/edit`}>
-          <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
-        </LinkTab>
+      <Menu justifyMenu="space-between" label="USER ACTIONS" breakPoint={600}>
         <LinkTab
           activeClassName="active"
           to={`/user/${user.id}/send_money_to_a_friend`}
@@ -67,6 +68,9 @@ export function UserDetailsHeader({
         </LinkTab>
         <LinkTab activeClassName="active" to={`/user/${user.id}/article`}>
           <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
+        </LinkTab>
+        <LinkTab activeClassName="active" to={`/user/${user.id}/edit`}>
+          <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
         </LinkTab>
       </Menu>
       <UserDetailRouter />

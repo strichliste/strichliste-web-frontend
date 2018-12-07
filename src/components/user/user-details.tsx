@@ -17,6 +17,7 @@ import { ConnectedArticleScanner } from '../article/article-scanner';
 import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
+import { UserDetailsSeparator } from '../user-details/user-details-separator';
 
 interface StateProps {
   details?: User;
@@ -64,6 +65,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
       <>
         <ConnectedArticleScanner userId={user.id} />
         <UserDetailsHeader user={user} />
+        <UserDetailsSeparator />
         <ResponsiveGrid tabletColumns="24rem 1fr">
           <div>
             <ConnectedPayment userId={user.id} />

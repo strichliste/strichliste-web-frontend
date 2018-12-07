@@ -93,7 +93,7 @@ export class UserEditForm extends React.Component<
             />
           </Block>
           <Block margin="1rem 0">
-            <Flex justifyContent="space-between">
+            <Flex alignContent="center" justifyContent="space-between">
               <label>
                 <input
                   checked={this.state.isDisabled}
@@ -105,7 +105,7 @@ export class UserEditForm extends React.Component<
                 <FormattedMessage id="USER_EDIT_ACTIVE_LABEL" />
               </label>
               <div>
-                <CancelButton onClick={this.props.onCancel} />
+                <CancelButton margin="0 1rem" onClick={this.props.onCancel} />
                 <AcceptButton />
               </div>
             </Flex>
