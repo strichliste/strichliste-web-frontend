@@ -18,6 +18,7 @@ import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
 import { UserDetailsSeparator } from '../user-details/user-details-separator';
+import { getUserTransactionsLink } from './user-router';
 
 interface StateProps {
   details?: User;
@@ -38,6 +39,10 @@ const StyledTransactionWrapper = withTheme(
   styled('div')({}, props => ({
     [props.theme.breakPoints.tablet]: {
       margin: '0 0 0 3rem',
+    },
+    a: {
+      textAlign: 'right',
+      display: 'block',
     },
   }))
 );
@@ -66,7 +71,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
         <ConnectedArticleScanner userId={user.id} />
         <UserDetailsHeader user={user} />
         <UserDetailsSeparator />
-        <ResponsiveGrid tabletColumns="24rem 1fr">
+        <ResponsiveGrid margin="1rem" tabletColumns="24rem 1fr">
           <div>
             <ConnectedPayment userId={user.id} />
           </div>
@@ -75,7 +80,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
             {transactions.map(id => (
               <ConnectedTransactionListItem key={id} id={id} />
             ))}
-            <Link to={this.props.match.url + '/transactions/0'}>
+            <Link to={getUserTransactionsLink(user.id)}>
               <TransactionIcon />{' '}
               <FormattedMessage id="USER_TRANSACTIONS_LINK" />
             </Link>

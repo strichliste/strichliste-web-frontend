@@ -7,6 +7,7 @@ import {
   startLoadingTransactions,
 } from '../../store/reducers';
 import { Pager } from '../common/pager';
+import { getUserTransactionsLink } from '../user/user-router';
 import { ConnectedTransactionListItem } from './transaction-list-item';
 
 interface OwnProps {
@@ -57,7 +58,7 @@ export class TransactionTable extends React.Component<
   }
 
   public next = (nextPage: number) => {
-    const url = `/user/${this.props.userId}/transactions/${nextPage}`;
+    const url = getUserTransactionsLink(this.props.userId, nextPage);
 
     this.props.onPageChange(url);
   };

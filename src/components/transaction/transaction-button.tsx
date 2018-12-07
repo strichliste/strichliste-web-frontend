@@ -24,6 +24,7 @@ export function TransactionButton(props: Props): JSX.Element {
 
   return (
     <Button
+      padding="0.8rem 0.5rem"
       onClick={() =>
         props.startCreatingTransaction(props.userId, { amount: props.value })
       }
