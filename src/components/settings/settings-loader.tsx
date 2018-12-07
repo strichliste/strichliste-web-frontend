@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { DefaultThunkAction } from '../../store';
 import { startLoadingSettings } from '../../store/reducers';
 interface ActionProps {
-  startLoadingSettings(): DefaultThunkAction;
+  // tslint:disable-next-line:no-any
+  startLoadingSettings: any;
 }
 export class SettingsLoader extends React.Component<ActionProps> {
   public componentDidMount(): void {

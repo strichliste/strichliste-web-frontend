@@ -1,18 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import {
-  Article,
-  CreateTransactionParams,
-  startCreatingTransaction,
-} from '../../../store/reducers';
+import { Article, startCreatingTransaction } from '../../../store/reducers';
 import { ConnectedArticleSelectionBubbles } from '../../article/article-selection-bubbles';
 
 interface ActionProps {
-  startCreatingTransaction(
-    userId: number,
-    params: CreateTransactionParams
-  ): // tslint:disable-next-line:no-any
+  startCreatingTransaction: // tslint:disable-next-line:no-any
   any;
 }
 

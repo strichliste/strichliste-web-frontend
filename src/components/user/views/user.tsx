@@ -11,9 +11,8 @@ import {
 } from 'bricks-of-sand';
 import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
-import { AppState, ThunkAction } from '../../../store';
+import { AppState } from '../../../store';
 import {
-  UpdateSearch,
   getFilteredUserIds,
   startLoadingUsers,
   updateSearch,
@@ -32,11 +31,10 @@ interface StateProps {
 }
 
 interface ActionProps {
-  updateSearch: UpdateSearch;
-  startLoadingUsers(
-    isActive?: boolean,
-    isDisabled?: boolean
-  ): ThunkAction<Promise<void>>;
+  // tslint:disable-next-line:no-any
+  updateSearch: any;
+  // tslint:disable-next-line:no-any
+  startLoadingUsers: any;
 }
 
 type UserProps = OwnProps & StateProps & ActionProps & RouteComponentProps;

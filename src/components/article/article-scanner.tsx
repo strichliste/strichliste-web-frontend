@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { DefaultThunkAction } from '../../store';
 import {
   Article,
-  CreateTransactionParams,
   getArticleByBarcode,
   startCreatingTransaction,
 } from '../../store/reducers';
@@ -23,11 +21,9 @@ interface OwnProps {
 
 interface ActionProps {
   // tslint:disable-next-line:no-any
+  startCreatingTransaction: any;
+  // tslint:disable-next-line:no-any
   getArticleByBarcode(barcode: string): any;
-  startCreatingTransaction(
-    userId: number,
-    params: CreateTransactionParams
-  ): DefaultThunkAction;
 }
 
 type Props = ActionProps & OwnProps;

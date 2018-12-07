@@ -1,6 +1,7 @@
 {
   "extends": "ts-config",
   "rules": {
+    "no-implicit-dependencies": false,
     "promise-function-async": false,
     "no-shadowed-variable": false,
     "no-floating-promises": false,

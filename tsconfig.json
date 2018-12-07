@@ -4,11 +4,7 @@
     "outDir": "build/dist",
     "module": "esnext",
     "target": "es5",
-    "lib": [
-      "es2017",
-      "es6",
-      "dom"
-    ],
+    "lib": ["es2017", "es6", "dom"],
     "sourceMap": true,
     "allowJs": true,
     "jsx": "preserve",
@@ -27,12 +23,10 @@
     "strict": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "skipLibCheck": true
   },
-  "include": [
-    "src/**/*",
-    "types/**/*"
-  ],
+  "include": ["src/**/*", "types/**/*"],
   "exclude": [
     "node_modules",
     "build",

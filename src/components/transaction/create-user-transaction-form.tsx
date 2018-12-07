@@ -2,12 +2,7 @@ import { Button, theme } from 'bricks-of-sand';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { DefaultThunkAction } from '../../store';
-import {
-  CreateTransactionParams,
-  User,
-  startCreatingTransaction,
-} from '../../store/reducers';
+import { User, startCreatingTransaction } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
 import { ConnectedUserSelectionList } from '../user';
 import { ConnectedUserToUserValidator } from './user-to-user-validator';
@@ -26,10 +21,8 @@ const initialState = {
 };
 
 interface ActionProps {
-  startCreatingTransaction(
-    userId: number,
-    params: CreateTransactionParams
-  ): DefaultThunkAction;
+  // tslint:disable-next-line:no-any
+  startCreatingTransaction: any;
 }
 
 interface State {

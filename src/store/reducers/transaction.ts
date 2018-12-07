@@ -79,6 +79,7 @@ export interface CreateTransactionParams {
   recipientId?: number;
   comment?: string;
 }
+export type StartCreatingTransaction = typeof startCreatingTransaction;
 export function startCreatingTransaction(
   userId: number,
   params: CreateTransactionParams

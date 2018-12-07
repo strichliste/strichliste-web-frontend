@@ -19,7 +19,8 @@ interface StateProps {
 }
 
 interface ActionProps {
-  loadArticles(): void;
+  // tslint:disable-next-line:no-any
+  loadArticles: any;
 }
 
 type Props = ActionProps & StateProps & OwnProps;

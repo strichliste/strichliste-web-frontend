@@ -57,7 +57,7 @@ export const en = {
   USER_EDIT_TRIGGER: 'save changes',
   USER_EDIT_NAME_LABEL: 'name',
   USER_EDIT_MAIL_LABEL: 'e-mail',
-  USER_EDIT_ACTIVE_LABEL: 'is disabled',
+  USER_EDIT_ACTIVE_LABEL: 'User is inactive',
   USER_EDIT_ACTIVE_WARNING: 'you can not enable a disabled user. So take care',
   PAYMENT_DEPOSIT_LABEL: 'Charge your wallet',
   PAYMENT_DISPENSE_LABEL: 'What you have to pay',

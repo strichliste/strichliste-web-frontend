@@ -7,10 +7,7 @@ import { ConnectedIdleTimer } from '../common/idle-timer';
 import { CreateCustomTransaction } from './views/create-custom-transaction';
 import { TransactionOverview } from './views/transaction-overview';
 import { ConnectedUser } from './views/user';
-import { ConnectedUserArticleTransaction } from './views/user-article-transaction';
-import { UserEditView } from './views/user-edit-view';
 import { ConnectedUserSearch } from './views/user-search';
-import { ConnectedUserTransaction } from './views/user-transaction';
 
 export interface UserRouterProps {}
 
@@ -63,18 +60,7 @@ export function UserRouter(props: Props): JSX.Element {
           exact={true}
           component={ConnectedUserSearch}
         />
-        <Route path="/user/:id" exact={true} component={ConnectedUserDetails} />
-        <Route path="/user/:id/edit" exact={true} component={UserEditView} />
-        <Route
-          path="/user/:id/article"
-          exact={true}
-          component={ConnectedUserArticleTransaction}
-        />
-        <Route
-          path="/user/:id/send_money_to_a_friend"
-          exact={true}
-          component={ConnectedUserTransaction}
-        />
+        <Route path="/user/:id" component={ConnectedUserDetails} />
         <Route
           path="/user/:id/transactions/:page"
           exact={true}

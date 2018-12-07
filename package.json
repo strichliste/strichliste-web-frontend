@@ -3,7 +3,6 @@
   "version": "0.2.2",
   "private": true,
   "dependencies": {
-    "bricks-of-sand": "^0.0.15",
     "downshift": "^3.1.0",
     "emotion": "^9.2.5",
     "history": "^4.7.2",
@@ -42,6 +41,7 @@
     "@types/redux-mock-store": "^1.0.0",
     "awesome-typescript-loader": "^5.2.0",
     "babel-core": "^6.26.3",
+    "babel-preset-jest": "^23.2.0",
     "husky": "^1.1.2",
     "lint-staged": "^8.0.4",
     "prettier": "^1.14.2",

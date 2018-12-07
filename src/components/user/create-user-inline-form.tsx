@@ -22,7 +22,7 @@ interface OwnProps {
 
 interface ActionProps {
   // tslint:disable-next-line:no-any
-  startCreatingUser(name: string): any;
+  startCreatingUser: any;
 }
 
 interface State {
