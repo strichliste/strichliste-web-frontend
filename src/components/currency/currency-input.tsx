@@ -54,6 +54,16 @@ export class CurrencyInput extends React.Component<Props, State> {
           children={(formattedValue: string) => (
             <div>
               <Input
+                style={{
+                  color:
+                    getPlaceholder(
+                      this.props.placeholder,
+                      formattedValue,
+                      this.state.hasFocus
+                    ) === this.props.placeholder
+                      ? '#8e8e8e'
+                      : undefined,
+                }}
                 placeholder={this.props.placeholder}
                 value={getPlaceholder(
                   this.props.placeholder,
@@ -61,7 +71,11 @@ export class CurrencyInput extends React.Component<Props, State> {
                   this.state.hasFocus
                 )}
                 onFocus={() => this.setState({ hasFocus: true })}
-                onBlur={() => this.setState({ hasFocus: false })}
+                onBlur={() =>
+                  this.setState({
+                    hasFocus: false,
+                  })
+                }
                 onChange={this.updateValue}
                 type="text"
                 autoFocus={this.props.autoFocus}

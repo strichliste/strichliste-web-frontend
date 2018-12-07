@@ -23,25 +23,23 @@ export function UserToUserValidator(
   props: UserToUserValidatorProps
 ): JSX.Element | null {
   return (
-    <>
-      <ConnectedTransactionValidator
-        boundary={props.boundary}
-        userId={props.userId}
-        value={props.value}
-        isDeposit={false}
-        render={userHasTheMoney => (
-          <ConnectedTransactionValidator
-            boundary={props.boundary}
-            userId={props.targetUserId}
-            value={props.value}
-            isDeposit={true}
-            render={receiverCanAcceptTheMoney => (
-              <>{props.render(userHasTheMoney && receiverCanAcceptTheMoney)} </>
-            )}
-          />
-        )}
-      />
-    </>
+    <ConnectedTransactionValidator
+      boundary={props.boundary}
+      userId={props.userId}
+      value={props.value}
+      isDeposit={false}
+      render={userHasTheMoney => (
+        <ConnectedTransactionValidator
+          boundary={props.boundary}
+          userId={props.targetUserId}
+          value={props.value}
+          isDeposit={true}
+          render={receiverCanAcceptTheMoney => (
+            <>{props.render(userHasTheMoney && receiverCanAcceptTheMoney)} </>
+          )}
+        />
+      )}
+    />
   );
 }
 

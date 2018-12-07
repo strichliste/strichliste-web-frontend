@@ -1,14 +1,20 @@
-import { AutoGrid, Input } from 'bricks-of-sand';
+import {
+  DropDownCard,
+  DropDownCardItem,
+  Input,
+  Relative,
+} from 'bricks-of-sand';
 import Downshift from 'downshift';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { User, getUserArray } from '../../store/reducers';
-import { ConnectedUserCard } from './user-card';
 
 interface OwnProps {
   userId?: number;
+  autoFocus?: boolean;
+  placeholder?: string;
   onSelect(user: User): void;
 }
 
@@ -18,18 +24,23 @@ interface StateProps {
 
 type Props = StateProps & OwnProps;
 
+const mapStateToProps = (state: AppState): StateProps => ({
+  users: getUserArray(state),
+});
+
+export const connectUser = connect(mapStateToProps);
+
 export function UserSelection(props: Props): JSX.Element {
   const items = props.users;
 
   return (
     <Downshift
       onChange={selection => props.onSelect(selection)}
-      itemToString={item => (item ? item.value : '')}
+      itemToString={item => (item ? item.name : '')}
     >
       {({
         getInputProps,
         getItemProps,
-        getLabelProps,
         getMenuProps,
         isOpen,
         inputValue,
@@ -37,86 +48,46 @@ export function UserSelection(props: Props): JSX.Element {
         selectedItem,
       }) => (
         <div>
-          <FormattedMessage id="USER_SEARCH_HEADLINE" />
-          <label {...getLabelProps()}>
-            <FormattedMessage id="USER_SELECTION_LIST_LABEL" />
-          </label>
-          <Input {...getInputProps()} autoFocus={true} />
-          <ul {...getMenuProps()}>
-            {isOpen
-              ? items
-                  .filter(
-                    item =>
-                      !inputValue ||
-                      item.name.toLowerCase().includes(inputValue.toLowerCase())
-                  )
-                  .map((item, index) => (
-                    <li
-                      {...getItemProps({
-                        key: item.name,
-                        index,
-                        item,
-                      })}
-                    >
-                      {item.name}
-                    </li>
-                  ))
-              : null}
-          </ul>
-        </div>
-      )}
-    </Downshift>
-  );
-}
-
-const mapStateToProps = (state: AppState): StateProps => ({
-  users: getUserArray(state),
-});
-
-export const ConnectedUserSelectionList = connect(mapStateToProps)(
-  UserSelection
-);
-
-function UserSelectionCards(props: Props): JSX.Element {
-  const items = props.users;
-
-  return (
-    <Downshift
-      onChange={selection => props.onSelect(selection)}
-      itemToString={item => (item ? item.value : '')}
-    >
-      {({ getInputProps, getItemProps, getMenuProps, isOpen, inputValue }) => (
-        <div>
-          <FormattedMessage id="USER_SEARCH_HEADLINE" />
-
-          <Input {...getInputProps()} autoFocus={true} />
-          <div {...getMenuProps()}>
-            <AutoGrid rows="5rem" columns="10rem">
-              {items
-                .filter(
-                  item =>
-                    !inputValue ||
-                    item.name.toLowerCase().includes(inputValue.toLowerCase())
-                )
-                .map((item, index) => (
-                  <div
-                    {...getItemProps({
-                      key: item.name,
-                      index,
-                      item,
+          <Relative>
+            <FormattedMessage
+              id="USER_SELECTION_LIST_LABEL"
+              children={placeholder => (
+                <>
+                  <Input
+                    {...getInputProps({
+                      placeholder: placeholder as string,
                     })}
-                  >
-                    <ConnectedUserCard id={item.id} />
-                  </div>
-                ))}
-            </AutoGrid>
-          </div>
+                  />
+                  {isOpen && (
+                    <DropDownCard {...getMenuProps()}>
+                      {items
+                        .filter(
+                          item =>
+                            !inputValue ||
+                            item.name
+                              .toLowerCase()
+                              .includes(inputValue.toLowerCase())
+                        )
+                        .map((item, index) => (
+                          <DropDownCardItem
+                            isHovered={highlightedIndex === index}
+                            isSelected={selectedItem === item}
+                            {...getItemProps({ item, index })}
+                            key={item}
+                          >
+                            {item.name}
+                          </DropDownCardItem>
+                        ))}
+                    </DropDownCard>
+                  )}
+                </>
+              )}
+            />
+          </Relative>
         </div>
       )}
     </Downshift>
   );
 }
 
-export const ConnectedUserSelectionCards = connect(mapStateToProps)(
-  UserSelectionCards
-);
+export const ConnectedUserSelectionList = connectUser(UserSelection);

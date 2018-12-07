@@ -7,7 +7,6 @@ import {
 } from 'bricks-of-sand';
 import styled from 'bricks-of-sand/node_modules/react-emotion';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { Transaction } from '../../store/reducers';
@@ -48,32 +47,26 @@ export function TransactionListItem(props: Props): JSX.Element | null {
             </AlertText>
             <Ellipsis>
               {props.transaction.sender && (
-                <>
-                  <FormattedMessage id="USER_TRANSACTIONS_SENDER" />:{' '}
-                  {props.transaction.sender.name}
-                </>
+                <>&#8592; {props.transaction.sender.name}</>
               )}
               {props.transaction.recipient && (
-                <>
-                  <FormattedMessage id="USER_TRANSACTIONS_RECIPIENT" />:{' '}
-                  {props.transaction.recipient.name}
-                </>
+                <>&#8594; {props.transaction.recipient.name}</>
               )}
               {props.transaction.article && (
                 <>{props.transaction.article.name}</>
               )}
             </Ellipsis>
           </ResponsiveGrid>
-          {props.transaction.isDeletable ? (
-            <ConnectedTransactionUndoButton
-              transactionId={props.transaction.id}
-              userId={props.transaction.user.id}
-            />
-          ) : (
-            <TextRight>
+          <TextRight>
+            {props.transaction.isDeletable ? (
+              <ConnectedTransactionUndoButton
+                transactionId={props.transaction.id}
+                userId={props.transaction.user.id}
+              />
+            ) : (
               <Ellipsis>{props.transaction.created}</Ellipsis>
-            </TextRight>
-          )}
+            )}
+          </TextRight>
         </ResponsiveGrid>
       </LineThrough>
     </ListItem>

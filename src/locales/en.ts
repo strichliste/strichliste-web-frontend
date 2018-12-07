@@ -67,4 +67,5 @@ export const en = {
   PAGER_PREV: 'prev',
   PAGER_NEXT: 'next',
   SEARCH: 'Search',
+  CREATE_USER_TO_USER_TRANSACTION_SUCCESS: 'You sent User',
 };

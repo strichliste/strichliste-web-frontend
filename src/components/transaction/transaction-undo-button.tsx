@@ -10,6 +10,7 @@ import {
 interface OwnProps {
   userId?: number;
   transactionId: number;
+  onSuccess?(): void;
 }
 
 interface StateProps {
@@ -36,9 +37,12 @@ export function TransactionUndoButton(
 
   return (
     <div
-      onClick={() =>
-        props.startDeletingTransaction(props.userId || 0, props.transactionId)
-      }
+      onClick={() => {
+        if (typeof props.onSuccess === 'function') {
+          props.onSuccess();
+        }
+        props.startDeletingTransaction(props.userId || 0, props.transactionId);
+      }}
     >
       <FormattedMessage id="USER_TRANSACTION_UNDO" />
     </div>
