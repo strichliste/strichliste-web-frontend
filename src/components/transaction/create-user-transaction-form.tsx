@@ -17,11 +17,11 @@ import { ConnectedUserSelectionList } from '../user';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
 import { ConnectedUserToUserValidator } from './user-to-user-validator';
 
-const AcceptWrapper = withTheme(
+export const AcceptWrapper = withTheme(
   styled('div')({}, props => ({
     svg: {
       marginRight: '2rem',
-      fill: props.theme.green,
+      fill: props.theme.greenText,
     },
   }))
 );
