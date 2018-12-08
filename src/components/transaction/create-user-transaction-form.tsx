@@ -125,7 +125,11 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
           />
           &#8594;
           <ConnectedUserSelectionList
-            userId={Number(this.props.match.params.id)}
+            placeholder={this.props.intl.formatMessage({
+              id: 'CREATE_USER_TO_USER_TRANSACTION_USER',
+              defaultMessage: 'Username',
+            })}
+            getString={user => user.name}
             onSelect={this.submitUserId}
           />
           <ConnectedUserToUserValidator
