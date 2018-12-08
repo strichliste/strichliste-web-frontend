@@ -1,16 +1,13 @@
-import { Card } from 'bricks-of-sand';
+import { Block } from 'bricks-of-sand';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { AppState } from '../../store';
 import {
   Article,
   getArticleList,
   startLoadingArticles,
 } from '../../store/reducers';
-import { Currency } from '../currency';
-import { Column, ListItem, Row } from '../ui';
+import { ConnectedArticleForm } from './article-form';
 
 interface OwnProps {}
 
@@ -19,7 +16,8 @@ interface StateProps {
 }
 
 interface ActionProps {
-  loadArticles(): void;
+  // tslint:disable-next-line:no-any
+  loadArticles: any;
 }
 
 type Props = ActionProps & StateProps & OwnProps;
@@ -35,30 +33,20 @@ export class ArticleList extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <>
-        <Card>
-          <Link to="articles/add">
-            <FormattedMessage id="ARTICLE_ADD_LINK" />
-          </Link>
-        </Card>
-        <Card margin="2rem 0 0 0">
-          {this.props.articles.map(article => (
-            <ListItem key={article.id}>
-              <Row>
-                <Column width="50%">
-                  <Link to={`/articles/${article.id}/edit`}>
-                    {article.name}
-                  </Link>
-                </Column>
-                <Column width="25%">{article.barcode}</Column>
-                <Column width="25%">
-                  <Currency value={article.amount} />
-                </Column>
-              </Row>
-            </ListItem>
-          ))}
-        </Card>
-      </>
+      <Block margin="1rem">
+        <ConnectedArticleForm onCreated={() => ''}>
+          Articles
+        </ConnectedArticleForm>
+        {this.props.articles.map(article => (
+          <>
+            <ConnectedArticleForm
+              articleId={article.id}
+              key={article.id}
+              onCreated={() => ''}
+            />
+          </>
+        ))}
+      </Block>
     );
   }
 }

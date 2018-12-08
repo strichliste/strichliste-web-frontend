@@ -4,13 +4,8 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ConnectedUserDetails } from '.';
 import { ConnectedIdleTimer } from '../common/idle-timer';
-import { CreateCustomTransaction } from './views/create-custom-transaction';
 import { TransactionOverview } from './views/transaction-overview';
 import { ConnectedUser } from './views/user';
-import { ConnectedUserArticleTransaction } from './views/user-article-transaction';
-import { UserEditView } from './views/user-edit-view';
-import { ConnectedUserSearch } from './views/user-search';
-import { ConnectedUserTransaction } from './views/user-transaction';
 
 export interface UserRouterProps {}
 
@@ -59,32 +54,11 @@ export function UserRouter(props: Props): JSX.Element {
           render={props => <ConnectedUser {...props} isActive={false} />}
         />
         <Route
-          path="/user/search"
-          exact={true}
-          component={ConnectedUserSearch}
-        />
-        <Route path="/user/:id" exact={true} component={ConnectedUserDetails} />
-        <Route path="/user/:id/edit" exact={true} component={UserEditView} />
-        <Route
-          path="/user/:id/article"
-          exact={true}
-          component={ConnectedUserArticleTransaction}
-        />
-        <Route
-          path="/user/:id/send_money_to_a_friend"
-          exact={true}
-          component={ConnectedUserTransaction}
-        />
-        <Route
-          path="/user/:id/transactions/:page"
+          path="/user/transactions/:id/:page"
           exact={true}
           component={TransactionOverview}
         />
-        <Route
-          path="/user/:id/:deposit"
-          exact={true}
-          component={CreateCustomTransaction}
-        />
+        <Route path="/user/:id" component={ConnectedUserDetails} />
         <Redirect from="/" to="/user/active" />
       </Switch>
     </>
@@ -98,3 +72,13 @@ export function UserArticleTransactionLink(props: { id: number }): JSX.Element {
     </Link>
   );
 }
+
+export function getUserDetailLink(id: number): string {
+  return `/user/${id}`;
+}
+
+export function getUserTransactionsLink(id: number, page: number = 0): string {
+  return `/user/transactions/${id}/${page}`;
+}
+
+export type UserRouteProps = RouteComponentProps<{ id: string }>;

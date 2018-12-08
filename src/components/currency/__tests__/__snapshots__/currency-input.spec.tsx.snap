@@ -1,17 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CurrencyInput matches the snapshot 1`] = `
-<input
-  class="css-pv4xnv"
-  type="text"
-  value="0.00"
-/>
+<div>
+  <input
+    class="css-pv4xnv"
+    type="text"
+    value="0.00"
+  />
+</div>
 `;
 
 exports[`CurrencyInput with a default value matches the snapshot 1`] = `
-<input
-  class="css-pv4xnv"
-  type="text"
-  value="1,234.56"
-/>
+<div>
+  <input
+    class="css-pv4xnv"
+    type="text"
+    value="1,234.56"
+  />
+</div>
 `;

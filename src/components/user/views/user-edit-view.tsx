@@ -1,24 +1,19 @@
-import { Card } from 'bricks-of-sand';
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { BackButton } from '../../common';
-import { FixedFooter } from '../../ui';
 import { ConnectedUserEditForm } from '../edit-user-form';
+import { UserRouteProps, getUserDetailLink } from '../user-router';
 
-export function UserEditView(
-  props: RouteComponentProps<{ id: string }>
-): JSX.Element {
+export function UserEditView(props: UserRouteProps): JSX.Element {
+  const id = props.match.params.id;
   return (
     <>
-      <Card margin="1rem">
-        <ConnectedUserEditForm
-          onSave={props.history.goBack}
-          userId={Number(props.match.params.id)}
-        />
-      </Card>
-      <FixedFooter>
-        <BackButton />
-      </FixedFooter>
+      <ConnectedUserEditForm
+        onCancel={navigateToUserDetails(props, id)}
+        onSave={navigateToUserDetails(props, id)}
+        userId={Number(id)}
+      />
     </>
   );
+}
+function navigateToUserDetails(props: UserRouteProps, id: string): () => void {
+  return () => props.history.push(getUserDetailLink(Number(id)));
 }

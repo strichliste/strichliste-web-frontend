@@ -1,11 +1,10 @@
-import { Card } from 'bricks-of-sand';
+import { AlertText, Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { AppState } from '../../store';
 import { User, getUser } from '../../store/reducers';
 import { ConnectedCurrency } from '../currency';
-import { AlertText } from '../ui';
 
 interface OwnProps {
   id: number;

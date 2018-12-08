@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { AppState, DefaultThunkAction } from '../../store';
+import { AppState } from '../../store';
 import {
   isTransactionDeletable,
   startDeletingTransaction,
@@ -10,6 +10,7 @@ import {
 interface OwnProps {
   userId?: number;
   transactionId: number;
+  onSuccess?(): void;
 }
 
 interface StateProps {
@@ -17,10 +18,8 @@ interface StateProps {
 }
 
 interface ActionProps {
-  startDeletingTransaction(
-    userId: number,
-    transactionId: number
-  ): DefaultThunkAction;
+  // tslint:disable-next-line:no-any
+  startDeletingTransaction: any;
 }
 
 export type TransactionUndoButtonProps = ActionProps & StateProps & OwnProps;
@@ -38,9 +37,12 @@ export function TransactionUndoButton(
 
   return (
     <div
-      onClick={() =>
-        props.startDeletingTransaction(props.userId || 0, props.transactionId)
-      }
+      onClick={() => {
+        if (typeof props.onSuccess === 'function') {
+          props.onSuccess();
+        }
+        props.startDeletingTransaction(props.userId || 0, props.transactionId);
+      }}
     >
       <FormattedMessage id="USER_TRANSACTION_UNDO" />
     </div>

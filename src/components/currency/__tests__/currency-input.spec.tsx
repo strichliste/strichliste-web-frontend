@@ -40,6 +40,20 @@ describe('CurrencyInput', () => {
       expect(changeMock).toHaveBeenCalledWith(150);
       expect((input as HTMLInputElement).value).toBe('1.50');
     });
+
+    it('should handle the visibility of placeholder', () => {
+      const { getByPlaceholderText } = render(
+        <IntlProvider defaultLocale="en">
+          <CurrencyInput placeholder="the placeholder" onChange={jest.fn()} />
+        </IntlProvider>
+      );
+      const input = getByPlaceholderText('the placeholder');
+      expect((input as HTMLInputElement).value).toBe('the placeholder');
+      fireEvent.change(input, { target: { value: '150' } });
+      expect((input as HTMLInputElement).value).toBe('1.50');
+      fireEvent.change(input, { target: { value: '0' } });
+      expect((input as HTMLInputElement).value).toBe('the placeholder');
+    });
   });
 });
 

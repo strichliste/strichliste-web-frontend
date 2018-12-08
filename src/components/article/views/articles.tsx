@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { BackButton } from '../../common';
-import { FixedFooter, Section } from '../../ui';
+import { Section } from '../../ui';
 import { ConnectedArticleList } from '../article-list';
 
 export function Articles(): JSX.Element {
@@ -9,9 +8,6 @@ export function Articles(): JSX.Element {
       <Section>
         <ConnectedArticleList />
       </Section>
-      <FixedFooter>
-        <BackButton />
-      </FixedFooter>
     </>
   );
 }

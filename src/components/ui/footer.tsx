@@ -1,19 +1,6 @@
+import { Footer } from 'bricks-of-sand';
 import * as React from 'react';
-import styled from 'react-emotion';
 import { GitHubIcon } from '../ui/icons/git-hub';
-
-export const FixedFooter = styled('footer')({
-  position: 'fixed',
-  width: '100%',
-  bottom: 0,
-});
-
-export const Footer = styled('footer')({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '1.5rem',
-});
 
 export interface MainFooterProps {}
 

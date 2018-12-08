@@ -22,7 +22,7 @@ interface OwnProps {
 
 interface ActionProps {
   // tslint:disable-next-line:no-any
-  startCreatingUser(name: string): any;
+  startCreatingUser: any;
 }
 
 interface State {
@@ -65,7 +65,7 @@ const RedBlackButton = withTheme(
     },
     props => ({
       svg: {
-        fill: props.theme.white,
+        fill: props.theme.themedWhite,
       },
       background: props.isActive ? props.theme.red : props.theme.primary,
     })

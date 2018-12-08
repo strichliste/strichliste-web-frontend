@@ -2,11 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { GreenButton, RedButton } from 'bricks-of-sand';
-import { DefaultThunkAction } from '../../store';
-import {
-  CreateTransactionParams,
-  startCreatingTransaction,
-} from '../../store/reducers';
+import { startCreatingTransaction } from '../../store/reducers';
 import { Currency } from '../currency';
 
 interface OwnProps {
@@ -17,10 +13,8 @@ interface OwnProps {
 }
 
 interface ActionProps {
-  startCreatingTransaction(
-    userId: number,
-    params: CreateTransactionParams
-  ): DefaultThunkAction;
+  // tslint:disable-next-line:no-any
+  startCreatingTransaction: any;
 }
 
 type Props = OwnProps & ActionProps;
@@ -30,6 +24,7 @@ export function TransactionButton(props: Props): JSX.Element {
 
   return (
     <Button
+      padding="0.8rem 0.5rem"
       onClick={() =>
         props.startCreatingTransaction(props.userId, { amount: props.value })
       }

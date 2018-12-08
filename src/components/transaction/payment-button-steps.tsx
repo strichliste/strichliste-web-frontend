@@ -14,7 +14,7 @@ export interface PaymentButtonListProps {
 export function PaymentButtonList(props: PaymentButtonListProps): JSX.Element {
   const multiplier = props.isDeposit ? 1 : -1;
   return (
-    <ResponsiveGrid columns="1fr 1fr 1fr">
+    <ResponsiveGrid gridGap="1rem" columns="1fr 1fr 1fr">
       {props.steps.map(step => (
         <ConnectedTransactionValidator
           key={step}
