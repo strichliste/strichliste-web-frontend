@@ -2,9 +2,9 @@ export const en = {
   ARTICLE_HEADLINE: 'Articles',
   ARTICLE_LINK: 'Article List',
   ARTICLE_ADD_LINK: 'add new articles',
-  ARTICLE_ADD_FORM_NAME_LABEL: 'name',
-  ARTICLE_ADD_FORM_BARCODE_LABEL: 'barcode',
-  ARTICLE_ADD_FORM_SUBMIT: 'submit',
+  ARTICLE_ADD_FORM_NAME_LABEL: 'Name:',
+  ARTICLE_ADD_FORM_BARCODE_LABEL: 'Barcode:',
+  ARTICLE_ADD_FORM_AMOUNT_LABEL: 'Price:',
   ARTICLE_LOADING_BY_BARCODE: 'fetching article by barcode',
   ARTICLE_FETCHED_BY_BARCODE: 'you just scanned:',
   ARTICLES_COULD_NOT_BE_LOADED:
