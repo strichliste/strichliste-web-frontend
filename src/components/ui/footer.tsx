@@ -1,25 +1,16 @@
+import { ResponsiveGrid } from 'bricks-of-sand';
 import * as React from 'react';
-import styled from 'react-emotion';
 import { GitHubIcon } from '../ui/icons/git-hub';
-
-export const FixedFooter = styled('footer')({
-  position: 'fixed',
-  width: '100%',
-  bottom: 0,
-});
-
-export const Footer = styled('footer')({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '1.5rem',
-});
 
 export interface MainFooterProps {}
 
 export function MainFooter(props: MainFooterProps): JSX.Element {
   return (
-    <Footer>
+    <ResponsiveGrid
+      justifyItems="center"
+      alignItems="center"
+      tabletColumns="4fr 1fr"
+    >
       <div>
         strichliste-web (MIT License, by{' '}
         <a target="_blank" href="https://github.com/strichliste">
@@ -36,6 +27,6 @@ export function MainFooter(props: MainFooterProps): JSX.Element {
           <GitHubIcon /> Code
         </a>
       </div>
-    </Footer>
+    </ResponsiveGrid>
   );
 }
