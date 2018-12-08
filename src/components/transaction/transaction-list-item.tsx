@@ -5,8 +5,8 @@ import {
   ListItem,
   ResponsiveGrid,
 } from 'bricks-of-sand';
-import styled from 'bricks-of-sand/node_modules/react-emotion';
 import * as React from 'react';
+import styled from 'react-emotion';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { Transaction } from '../../store/reducers';
