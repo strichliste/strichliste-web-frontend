@@ -28,12 +28,7 @@ export function HeaderMenu(props: HeaderMenuProps): JSX.Element {
     <HeaderNavBar>
       <Flex width="100%" alignItems="center" justifyContent="space-between">
         <HeaderLeft>
-          <Icon
-            width="1rem"
-            height="1rem"
-            margin="0 0.5rem 0 1rem"
-            src={Logo}
-          />
+          <Icon width="1rem" margin="0 0.5rem 0 1rem" src={Logo} />
           <Menu breakPoint={500} label={<FormattedMessage id="TALLY_HEADER" />}>
             <NavLink activeClassName="active" to="/user">
               <FormattedMessage id="TALLY_HEADER" />
