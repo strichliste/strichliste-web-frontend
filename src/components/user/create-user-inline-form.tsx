@@ -65,7 +65,7 @@ const RedBlackButton = withTheme(
     },
     props => ({
       svg: {
-        fill: props.theme.white,
+        fill: props.theme.themedWhite,
       },
       background: props.isActive ? props.theme.red : props.theme.primary,
     })

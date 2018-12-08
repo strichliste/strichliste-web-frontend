@@ -1,11 +1,10 @@
-import { Menu, Tab, withTheme } from 'bricks-of-sand';
+import { AlertText, Menu, Tab, withTheme } from 'bricks-of-sand';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { User } from '../../store/reducers';
 import { Currency } from '../currency';
-import { AlertText } from '../ui';
 import { ProductIcon } from '../ui/icons/product';
 import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { TransactionIcon } from '../ui/icons/transactions';

@@ -4,8 +4,10 @@ import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
 
 import {
   AutoGrid,
+  Flex,
   HideByBreakPoint,
   Menu,
+  Tab,
   ThemeSwitcher,
   breakPoints,
 } from 'bricks-of-sand';
@@ -17,9 +19,10 @@ import {
   startLoadingUsers,
   updateSearch,
 } from '../../../store/reducers';
-import { Tabs } from '../../ui';
 import { ConnectedInlineCreateUserForm } from '../create-user-inline-form';
 import { ConnectedUserCard } from '../user-card';
+
+const Tabs = Tab(NavLink);
 
 interface OwnProps {
   isActive: boolean;
@@ -62,11 +65,6 @@ const CreateUserGridPosition = styled('div')({
   },
 });
 
-const SplitTabs = styled(Tabs)({
-  display: 'flex',
-  justifyContent: 'space-between',
-});
-
 export class User extends React.Component<UserProps> {
   public componentDidMount(): void {
     this.props.startLoadingUsers(this.props.isActive, false);
@@ -84,20 +82,20 @@ export class User extends React.Component<UserProps> {
     return (
       <>
         <GridWrapper>
-          <SplitTabs margin="2rem 1rem">
+          <Flex justifyContent="space-between" margin="2rem 1rem">
             <Menu
               breakPoint={768}
               label={<FormattedMessage id="USER_ACTIVE_LINK" />}
             >
-              <NavLink activeClassName="active" to="/user/active">
+              <Tabs activeClassName="active" to="/user/active">
                 <FormattedMessage id="USER_ACTIVE_LINK" />
-              </NavLink>
-              <NavLink activeClassName="active" to="/user/inactive">
+              </Tabs>
+              <Tabs activeClassName="active" to="/user/inactive">
                 <FormattedMessage id="USER_INACTIVE_LINK" />
-              </NavLink>
+              </Tabs>
             </Menu>
             <ThemeSwitcher height="1rem" />
-          </SplitTabs>
+          </Flex>
           <HideByBreakPoint min={768} max={Infinity}>
             <CreateUserPosition>
               <ConnectedInlineCreateUserForm

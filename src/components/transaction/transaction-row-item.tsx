@@ -1,9 +1,9 @@
+import { AlertText, Ellipsis } from 'bricks-of-sand';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { Transaction } from '../../store/reducers';
 import { Currency } from '../currency';
-import { AlertText, Ellipsis } from '../ui';
 
 interface OwnProps {
   id: number | string;
