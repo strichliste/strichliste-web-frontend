@@ -6,6 +6,7 @@ import {
   Card,
   Column,
   Flex,
+  HoverCard,
   Input,
   PrimaryButton,
 } from 'bricks-of-sand';
@@ -162,7 +163,7 @@ export class ArticleForm extends React.Component<Props, State> {
             </Card>
           )}
           {!this.state.isVisible && this.props.articleId && (
-            <Card padding="0.5rem" background="transparent">
+            <HoverCard padding="0.5rem">
               <ArticleGrid
                 onClick={this.toggleIsVisible}
                 justifyContent="space-between"
@@ -172,7 +173,7 @@ export class ArticleForm extends React.Component<Props, State> {
                 <Column width="8rem">{this.state.params.barcode}</Column>
                 <Currency value={this.state.params.amount} />
               </ArticleGrid>
-            </Card>
+            </HoverCard>
           )}
           {!this.state.isVisible &&
             !this.props.articleId &&
