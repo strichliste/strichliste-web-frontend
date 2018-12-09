@@ -50,6 +50,9 @@ const ArticleGrid = styled(Flex)({
   input: {
     marginRight: '1rem',
   },
+  label: {
+    marginRight: '0.5rem',
+  },
 });
 
 interface OwnProps {
