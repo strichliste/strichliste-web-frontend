@@ -1,4 +1,4 @@
-import { Block, Flex, HeaderNavBar, Menu, withTheme } from 'bricks-of-sand';
+import { Flex, HeaderNavBar, Menu, withTheme } from 'bricks-of-sand';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
@@ -15,6 +15,11 @@ const HeaderLeft = styled(Flex)({
   },
   '.active': {
     padding: 0,
+  },
+  svg: {
+    width: '1rem',
+    height: '1rem',
+    marginRight: '0.5rem',
   },
 });
 
@@ -34,9 +39,7 @@ export function HeaderMenu(props: HeaderMenuProps): JSX.Element {
         justifyContent="space-between"
       >
         <HeaderLeft>
-          <Block margin="0 0.5rem 0 0">
-            <Logo width="1rem" />
-          </Block>
+          <Logo />
           <Menu breakPoint={500} label={<FormattedMessage id="TALLY_HEADER" />}>
             <NavLink activeClassName="active" to="/user">
               <FormattedMessage id="TALLY_HEADER" />
