@@ -1,9 +1,9 @@
+import { FixedContainer } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { getGlobalError } from '../../store/reducers';
-import { FixedContainer } from '../ui';
 import { Toast } from './toast';
 
 interface OwnProps {}

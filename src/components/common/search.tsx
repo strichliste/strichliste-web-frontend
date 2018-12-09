@@ -1,56 +1,58 @@
-import { IconInput } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { AppState } from '../../store';
-import {
-  UpdateSearch,
-  getSearchQuery,
-  updateSearch,
-} from '../../store/reducers';
-import { SearchIcon } from '../ui/icons/search';
+import { User, getUserArray, startLoadingUsers } from '../../store/reducers';
+import { getUserDetailLink } from '../user/user-router';
+import { ConnectedUserSearch } from '../user/user-selection';
 
 interface StateProps {
-  query: string;
+  users: User[];
 }
 
 interface ActionProps {
-  updateSearch: UpdateSearch;
+  // tslint:disable-next-line:no-any
+  startLoadingUsers: any;
 }
 
-export type SearchInputProps = ActionProps & StateProps;
+export type Props = ActionProps & StateProps & RouteComponentProps;
 
-export function SearchInput({
-  query,
-  updateSearch,
-}: SearchInputProps): JSX.Element | null {
-  return (
-    <IconInput activeWidth="8rem" inactiveWidth="4rem">
+interface State {}
+
+export class SearchInput extends React.Component<Props, State> {
+  public componentDidMount(): void {
+    this.props.startLoadingUsers();
+  }
+
+  public render(): JSX.Element {
+    return (
       <FormattedMessage
         id="SEARCH"
         children={placeholder => (
-          <input
-            value={query}
-            onChange={e => updateSearch({ query: e.target.value })}
+          <ConnectedUserSearch
             placeholder={placeholder as string}
-            type="text"
+            onSelect={user =>
+              this.props.history.push(getUserDetailLink(user.id))
+            }
           />
         )}
       />
-      <SearchIcon />
-    </IconInput>
-  );
+    );
+  }
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  query: getSearchQuery(state),
+  users: getUserArray(state),
 });
 
 const mapDispatchToProps = {
-  updateSearch,
+  startLoadingUsers,
 };
 
-export const ConnectedSearchInput = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchInput);
+export const ConnectedSearchInput = withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SearchInput)
+);

@@ -5,7 +5,6 @@ import { Block, Card } from 'bricks-of-sand';
 import { ConnectedCreateCustomTransactionForm } from '.';
 import { AppState } from '../../store';
 import { Payment, getPayment } from '../../store/reducers';
-import { FormField } from '../ui';
 import { PaymentButtonList } from './payment-button-steps';
 
 interface OwnProps {
@@ -22,29 +21,25 @@ type Props = OwnProps & StateProps;
 export function PaymentComponent(props: Props): JSX.Element {
   return (
     <Card padding="0.5rem">
-      <FormField>
-        {props.payment.deposit.enabled && (
-          <PaymentButtonList
-            isDeposit={true}
-            boundary={props.payment.boundary}
-            steps={props.payment.deposit.steps}
-            userId={props.userId}
-          />
-        )}
-      </FormField>
+      {props.payment.deposit.enabled && (
+        <PaymentButtonList
+          isDeposit={true}
+          boundary={props.payment.boundary}
+          steps={props.payment.deposit.steps}
+          userId={props.userId}
+        />
+      )}
       <Block margin="1rem">
         <ConnectedCreateCustomTransactionForm userId={props.userId} />
       </Block>
-      <FormField>
-        {props.payment.dispense.enabled && (
-          <PaymentButtonList
-            isDeposit={false}
-            boundary={props.payment.boundary}
-            steps={props.payment.dispense.steps}
-            userId={props.userId}
-          />
-        )}
-      </FormField>
+      {props.payment.dispense.enabled && (
+        <PaymentButtonList
+          isDeposit={false}
+          boundary={props.payment.boundary}
+          steps={props.payment.dispense.steps}
+          userId={props.userId}
+        />
+      )}
     </Card>
   );
 }
