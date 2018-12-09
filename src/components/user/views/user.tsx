@@ -1,16 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
-import {
-  AutoGrid,
-  Flex,
-  HideByBreakPoint,
-  Menu,
-  Tab,
-  ThemeSwitcher,
-  breakPoints,
-} from 'bricks-of-sand';
+import { AutoGrid, HideByBreakPoint, breakPoints } from 'bricks-of-sand';
 import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { AppState } from '../../../store';
@@ -19,10 +11,9 @@ import {
   startLoadingUsers,
   updateSearch,
 } from '../../../store/reducers';
+import { NavTabMenus } from '../../common/nav-tab-menu';
 import { ConnectedInlineCreateUserForm } from '../create-user-inline-form';
 import { ConnectedUserCard } from '../user-card';
-
-const Tabs = Tab(NavLink);
 
 interface OwnProps {
   isActive: boolean;
@@ -82,20 +73,21 @@ export class User extends React.Component<UserProps> {
     return (
       <>
         <GridWrapper>
-          <Flex justifyContent="space-between" margin="2rem 1rem">
-            <Menu
-              breakPoint={768}
-              label={<FormattedMessage id="USER_ACTIVE_LINK" />}
-            >
-              <Tabs activeClassName="active" to="/user/active">
-                <FormattedMessage id="USER_ACTIVE_LINK" />
-              </Tabs>
-              <Tabs activeClassName="active" to="/user/inactive">
-                <FormattedMessage id="USER_INACTIVE_LINK" />
-              </Tabs>
-            </Menu>
-            <ThemeSwitcher height="1rem" />
-          </Flex>
+          <NavTabMenus
+            margin="2rem 1rem"
+            breakpoint={768}
+            label={<FormattedMessage id="USER_ACTIVE_LINK" />}
+            tabs={[
+              {
+                to: '/user/active',
+                message: <FormattedMessage id="USER_ACTIVE_LINK" />,
+              },
+              {
+                to: '/user/inactive',
+                message: <FormattedMessage id="USER_INACTIVE_LINK" />,
+              },
+            ]}
+          />
           <HideByBreakPoint min={768} max={Infinity}>
             <CreateUserPosition>
               <ConnectedInlineCreateUserForm

@@ -1,5 +1,6 @@
 import { Block } from 'bricks-of-sand';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import {
@@ -7,6 +8,7 @@ import {
   getArticleList,
   startLoadingArticles,
 } from '../../store/reducers';
+import { NavTabMenus } from '../common/nav-tab-menu';
 import { ConnectedArticleForm } from './article-form';
 
 interface OwnProps {}
@@ -35,16 +37,24 @@ export class ArticleList extends React.Component<Props, State> {
     return (
       <Block margin="1rem">
         <ConnectedArticleForm onCreated={() => ''}>
-          Articles
+          <NavTabMenus
+            margin="0.5rem 0"
+            breakpoint={0}
+            label={<FormattedMessage id="ARTICLE_HEADLINE" />}
+            tabs={[
+              {
+                to: '/articles',
+                message: <FormattedMessage id="ARTICLE_HEADLINE" />,
+              },
+            ]}
+          />
         </ConnectedArticleForm>
         {this.props.articles.map(article => (
-          <>
-            <ConnectedArticleForm
-              articleId={article.id}
-              key={article.id}
-              onCreated={() => ''}
-            />
-          </>
+          <ConnectedArticleForm
+            articleId={article.id}
+            key={article.id}
+            onCreated={() => ''}
+          />
         ))}
       </Block>
     );
