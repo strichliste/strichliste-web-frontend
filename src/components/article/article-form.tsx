@@ -101,6 +101,7 @@ export class ArticleForm extends React.Component<Props, State> {
     const maybeArticle = await this.props.addArticle(this.state.params);
     if (maybeArticle) {
       this.props.onCreated();
+      this.setState({ isVisible: false });
     }
   };
 
