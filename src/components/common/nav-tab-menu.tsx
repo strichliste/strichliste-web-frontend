@@ -18,7 +18,7 @@ export function NavTabMenus({
   margin,
 }: NavTabMenusProps): JSX.Element {
   return (
-    <Flex width="100%" justifyContent="space-between" margin={margin}>
+    <Flex justifyContent="space-between" margin={margin}>
       <Menu inlineMargin="0 2rem 0 0" breakPoint={breakpoint} label={label}>
         {tabs.map(tab => (
           <Tabs key={tab.to} activeClassName="active" to={tab.to}>

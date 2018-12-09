@@ -21,7 +21,7 @@ export const AcceptWrapper = withTheme(
   styled('div')({}, props => ({
     svg: {
       marginRight: '2rem',
-      fill: props.theme.greenText,
+      fill: props.theme.green,
     },
   }))
 );
