@@ -64,6 +64,9 @@ const RedBlackButton = withTheme(
       backgroundColor: 'none',
     },
     props => ({
+      '&:hover': {
+        background: props.isActive ? props.theme.red : props.theme.primary,
+      },
       svg: {
         fill: props.theme.themedWhite,
       },
