@@ -2,10 +2,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
-import { ResponsiveGrid, withTheme } from 'bricks-of-sand';
+import { Button, Flex, ResponsiveGrid, withTheme } from 'bricks-of-sand';
 import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 import { AppState } from '../../store';
 import {
   User,
@@ -80,10 +79,16 @@ export class UserDetails extends React.Component<UserDetailsProps> {
             {transactions.map(id => (
               <ConnectedTransactionListItem key={id} id={id} />
             ))}
-            <Link to={getUserTransactionsLink(user.id)}>
-              <TransactionIcon />{' '}
-              <FormattedMessage id="USER_TRANSACTIONS_LINK" />
-            </Link>
+            <Flex justifyContent="flex-end">
+              <Button
+                onClick={() =>
+                  this.props.history.push(getUserTransactionsLink(user.id))
+                }
+              >
+                <TransactionIcon />{' '}
+                <FormattedMessage id="USER_TRANSACTIONS_LINK" />
+              </Button>
+            </Flex>
           </StyledTransactionWrapper>
         </ResponsiveGrid>
       </>

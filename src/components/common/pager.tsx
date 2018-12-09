@@ -1,7 +1,6 @@
-import { Button } from 'bricks-of-sand';
+import { Button, Flex } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { CenterSection } from '../ui';
 
 export interface PagerProps {
   currentPage: number;
@@ -12,14 +11,22 @@ export interface PagerProps {
 
 export function Pager(props: PagerProps): JSX.Element {
   return (
-    <CenterSection>
-      <Button onClick={() => pageDown(props)} disabled={isPrevDisabled(props)}>
+    <Flex margin="1rem 0" alignContent="center" justifyContent="space-between">
+      <Button
+        fontSize="1rem"
+        onClick={() => pageDown(props)}
+        disabled={isPrevDisabled(props)}
+      >
         <FormattedMessage id="PAGER_PREV" />
       </Button>
-      <Button onClick={() => pageUp(props)} disabled={isNextDisabled(props)}>
+      <Button
+        fontSize="1rem"
+        onClick={() => pageUp(props)}
+        disabled={isNextDisabled(props)}
+      >
         <FormattedMessage id="PAGER_NEXT" />
       </Button>
-    </CenterSection>
+    </Flex>
   );
 }
 
