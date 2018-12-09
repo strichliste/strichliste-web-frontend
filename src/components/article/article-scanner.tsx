@@ -1,3 +1,4 @@
+import { AcceptIcon, Flex } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -9,6 +10,7 @@ import {
 import { Scanner } from '../common/scanner';
 import { Toast } from '../common/toast';
 import { Currency } from '../currency';
+import { AcceptWrapper } from '../transaction/create-user-transaction-form';
 
 interface State {
   message: string;
@@ -28,7 +30,10 @@ interface ActionProps {
 
 type Props = ActionProps & OwnProps;
 
-const initialState = { message: '', article: null };
+const initialState = {
+  message: '',
+  article: null,
+};
 export class ArticleScanner extends React.Component<Props, State> {
   public state = initialState;
 
@@ -82,10 +87,13 @@ function ToastContent({ article, message }: State): JSX.Element {
     return <>{message}</>;
   }
   return (
-    <>
-      <FormattedMessage id="ARTICLE_FETCHED_BY_BARCODE" />
-      <p>{article.name}</p>
-      <Currency value={article.amount} />
-    </>
+    <AcceptWrapper>
+      <Flex justifyContent="center" alignContent="center">
+        <AcceptIcon />
+        <FormattedMessage id="ARTICLE_FETCHED_BY_BARCODE" />
+        &#8594; {article.name}
+        <Currency value={article.amount} />
+      </Flex>
+    </AcceptWrapper>
   );
 }
