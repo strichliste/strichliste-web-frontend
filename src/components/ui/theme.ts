@@ -2,7 +2,7 @@ import { Theme } from 'bricks-of-sand';
 
 export const baseCss = (theme: Theme) => `
 :root{
-  font-size: 18px;
+  font-size: 16px;
 }
 
 label {
@@ -11,7 +11,7 @@ label {
 
 @media only screen and (min-width: ${theme.laptop}) {
   :root{
-    font-size: 24px;
+    font-size: 20px;
   }
 }
 body {
