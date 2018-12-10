@@ -2,7 +2,7 @@ import { AlertText, Menu, Tab, withTheme } from 'bricks-of-sand';
 import * as React from 'react';
 import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
-import { NavLink } from 'react-router-dom';
+import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
 import { User } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ProductIcon } from '../ui/icons/product';
@@ -39,18 +39,24 @@ const UserHeader = withTheme(
   )
 );
 
-export interface UserDetailsHeaderProps {
+const toggleTab = (
+  url: string,
+  currentUrl: string,
+  userUrl: string
+): string => {
+  return url === currentUrl ? userUrl : url;
+};
+
+export interface UserDetailsHeaderProps extends RouteComponentProps {
   user: User;
 }
 
-export function UserDetailsHeader({
-  user,
-}: UserDetailsHeaderProps): JSX.Element {
+const component = ({ user, location }: UserDetailsHeaderProps) => {
+  const currentUrl = location.pathname;
+  const userUrl = `/user/${user.id}`;
   return (
     <UserHeader>
-      <NavLink to={`/user/${user.id}/`}>
-        <h1>{user.name}</h1>
-      </NavLink>
+      <h1>{user.name}</h1>
       <h1>
         <AlertText value={user.balance}>
           <Currency value={user.balance} />
@@ -60,19 +66,31 @@ export function UserDetailsHeader({
       <Menu justifyMenu="space-between" label="USER ACTIONS" breakPoint={600}>
         <LinkTab
           activeClassName="active"
-          to={`/user/${user.id}/send_money_to_a_friend`}
+          to={toggleTab(
+            `/user/${user.id}/send_money_to_a_friend`,
+            currentUrl,
+            userUrl
+          )}
         >
           <TransactionIcon />{' '}
           <FormattedMessage id="USER_TRANSACTION_CREATE_LINK" />
         </LinkTab>
-        <LinkTab activeClassName="active" to={`/user/${user.id}/article`}>
+        <LinkTab
+          activeClassName="active"
+          to={toggleTab(`/user/${user.id}/article`, currentUrl, userUrl)}
+        >
           <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
         </LinkTab>
-        <LinkTab activeClassName="active" to={`/user/${user.id}/edit`}>
+        <LinkTab
+          activeClassName="active"
+          to={toggleTab(`/user/${user.id}/edit`, currentUrl, userUrl)}
+        >
           <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
         </LinkTab>
       </Menu>
       <UserDetailRouter />
     </UserHeader>
   );
-}
+};
+
+export const UserDetailsHeader = withRouter(component);
