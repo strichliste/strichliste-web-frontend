@@ -46,6 +46,13 @@ const StyledTransactionWrapper = withTheme(
   }))
 );
 
+const EmptyState = styled('div')({
+  textAlign: 'center',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
 export class UserDetails extends React.Component<UserDetailsProps> {
   public componentDidMount(): void {
     this.props.startLoadingUserDetails(Number(this.props.match.params.id));
@@ -74,22 +81,27 @@ export class UserDetails extends React.Component<UserDetailsProps> {
           <div>
             <ConnectedPayment userId={user.id} />
           </div>
-
-          <StyledTransactionWrapper>
-            {transactions.map(id => (
-              <ConnectedTransactionListItem key={id} id={id} />
-            ))}
-            <Flex justifyContent="flex-end">
-              <Button
-                onClick={() =>
-                  this.props.history.push(getUserTransactionsLink(user.id))
-                }
-              >
-                <TransactionIcon />{' '}
-                <FormattedMessage id="USER_TRANSACTIONS_LINK" />
-              </Button>
-            </Flex>
-          </StyledTransactionWrapper>
+          {transactions.length ? (
+            <StyledTransactionWrapper>
+              {transactions.map(id => (
+                <ConnectedTransactionListItem key={id} id={id} />
+              ))}
+              <Flex justifyContent="flex-end">
+                <Button
+                  onClick={() =>
+                    this.props.history.push(getUserTransactionsLink(user.id))
+                  }
+                >
+                  <TransactionIcon />{' '}
+                  <FormattedMessage id="USER_TRANSACTIONS_LINK" />
+                </Button>
+              </Flex>
+            </StyledTransactionWrapper>
+          ) : (
+            <EmptyState>
+              <FormattedMessage id="TRANSACTION_EMPTY_STATE" />
+            </EmptyState>
+          )}
         </ResponsiveGrid>
       </>
     );
