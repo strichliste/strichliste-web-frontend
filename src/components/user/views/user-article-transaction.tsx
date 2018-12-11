@@ -39,7 +39,7 @@ async function onSelect(
     }
   );
   if (result) {
-    props.history.goBack();
+    props.history.push(getUserDetailLink(Number(props.match.params.id)));
   }
 }
 
