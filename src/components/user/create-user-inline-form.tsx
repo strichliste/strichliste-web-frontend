@@ -43,6 +43,8 @@ const Trigger = styled('div')<OwnProps>(
       transition: TRANSITION,
       input: {
         border: 'none',
+        minWidth: '7rem',
+        marginRight: '1rem',
       },
     },
   },
@@ -53,7 +55,7 @@ const Trigger = styled('div')<OwnProps>(
       transform: props.isActive ? 'rotate(45deg)' : 'rotate(0deg)',
     },
     form: {
-      width: props.isActive ? '9rem' : '0rem',
+      width: props.isActive ? 'auto' : '0rem',
     },
   })
 );
