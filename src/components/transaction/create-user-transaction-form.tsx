@@ -6,6 +6,7 @@ import {
   withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'react-emotion';
 import { FormattedMessage, InjectedIntl, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
@@ -59,9 +60,14 @@ type Props = RouteComponentProps<{ id: string }> &
 
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;
-
+  // tslint:disable-next-line:no-any
+  public submitButtonRef: any = React.createRef();
   public submitUserId = (user: User): void => {
     this.setState(() => ({ selectedUser: user }));
+    const button = ReactDOM.findDOMNode(this.submitButtonRef.current);
+    if (button) {
+      (button as HTMLInputElement).focus();
+    }
   };
 
   public createTransaction = async () => {
@@ -138,9 +144,10 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
             targetUserId={this.state.selectedUser.id}
             render={isValid => (
               <PrimaryButton
+                isRound
+                ref={this.submitButtonRef}
                 disabled={!isValid}
                 onClick={this.createTransaction}
-                isRound
               >
                 <AddIcon />
               </PrimaryButton>
