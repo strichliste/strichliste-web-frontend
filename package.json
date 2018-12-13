@@ -3,7 +3,7 @@
   "version": "0.3.2",
   "private": true,
   "dependencies": {
-    "bricks-of-sand": "^0.0.18",
+    "bricks-of-sand": "^0.0.19",
     "downshift": "^3.1.0",
     "emotion": "^9.2.5",
     "history": "^4.7.2",
