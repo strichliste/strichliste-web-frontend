@@ -46,6 +46,16 @@ const ToggleArticleButton: React.SFC<ButtonProps> = props => {
 };
 
 const ArticleGrid = styled(Flex)({
+  '@media(max-width: 30em)': {
+    display: 'block',
+    textAlign: 'left',
+    div: {
+      width: '100%!important',
+    },
+    input: {
+      margin: '0 0 1rem 0',
+    },
+  },
   fontSize: '0.8rem',
   input: {
     marginRight: '1rem',
@@ -167,12 +177,8 @@ export class ArticleForm extends React.Component<Props, State> {
             </Card>
           )}
           {!this.state.isVisible && this.props.articleId && (
-            <HoverCard padding="0.5rem">
-              <ArticleGrid
-                onClick={this.toggleIsVisible}
-                justifyContent="space-between"
-                alignItems="center"
-              >
+            <HoverCard padding="0.5rem" onClick={this.toggleIsVisible}>
+              <ArticleGrid justifyContent="space-between" alignItems="center">
                 <Column flex="1 0 0">{this.state.params.name}</Column>
                 <Column width="8rem">{this.state.params.barcode}</Column>
                 <Currency value={this.state.params.amount} />
