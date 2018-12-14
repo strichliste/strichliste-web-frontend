@@ -55,6 +55,7 @@ export function TransactionListItem(props: Props): JSX.Element | null {
               {props.transaction.article && (
                 <>{props.transaction.article.name}</>
               )}
+              {props.transaction.comment && <>: {props.transaction.comment}</>}
             </Ellipsis>
           </ResponsiveGrid>
           <TextRight>

@@ -69,5 +69,6 @@ export const en = {
   SEARCH: 'Search',
   CREATE_USER_TO_USER_TRANSACTION_SUCCESS: 'You sent User',
   CREATE_USER_TO_USER_TRANSACTION_USER: 'Username',
+  CREATE_USER_TO_USER_TRANSACTION_COMMENT: 'Add notes to your transaction',
   TRANSACTION_EMPTY_STATE: 'You have no transactions yet :,(',
 };

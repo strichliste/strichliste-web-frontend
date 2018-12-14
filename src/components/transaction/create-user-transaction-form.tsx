@@ -1,6 +1,7 @@
 import {
   AcceptIcon,
   Card,
+  Input,
   PrimaryButton,
   ResponsiveGrid,
   withTheme,
@@ -40,6 +41,7 @@ const initialState = {
   },
   amount: 0,
   createdTransactionId: 0,
+  comment: '',
 };
 
 interface ActionProps {
@@ -53,6 +55,7 @@ interface State {
   hasSelectionReady: boolean;
   selectedAmount: number;
   selectedUser: User;
+  comment: string;
 }
 
 type Props = RouteComponentProps<{ id: string }> &
@@ -77,6 +80,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
         {
           amount: this.state.selectedAmount * -1,
           recipientId: this.state.selectedUser.id,
+          comment: this.state.comment,
         }
       );
       if (res && res.id) {
@@ -86,6 +90,10 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
         });
       }
     }
+  };
+
+  public setComment = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ comment: event.target.value });
   };
 
   public render(): JSX.Element {
@@ -111,49 +119,59 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
       );
     } else {
       return (
-        <ResponsiveGrid
-          margin="1rem 0"
-          gridGap="1rem"
-          alignItems="center"
-          tabletColumns="4fr 1fr 4fr 1fr"
-        >
-          <CurrencyInput
+        <>
+          <ResponsiveGrid
+            margin="1rem 0"
+            gridGap="1rem"
+            alignItems="center"
+            tabletColumns="4fr 1fr 4fr 1fr"
+          >
+            <CurrencyInput
+              placeholder={this.props.intl.formatMessage({
+                id: 'SEND_MOONEY_TO_A_FRIEND_INPUT',
+                defaultMessage: 'AMOUNT',
+              })}
+              autoFocus
+              onChange={value =>
+                this.setState({
+                  selectedAmount: value,
+                })
+              }
+            />
+            &#8594;
+            <ConnectedUserSelectionList
+              placeholder={this.props.intl.formatMessage({
+                id: 'CREATE_USER_TO_USER_TRANSACTION_USER',
+                defaultMessage: 'Username',
+              })}
+              getString={user => user.name}
+              onSelect={this.submitUserId}
+            />
+            <ConnectedUserToUserValidator
+              value={this.state.selectedAmount}
+              userId={Number(this.props.match.params.id)}
+              targetUserId={this.state.selectedUser.id}
+              render={isValid => (
+                <PrimaryButton
+                  isRound
+                  ref={this.submitButtonRef}
+                  disabled={!isValid}
+                  onClick={this.createTransaction}
+                >
+                  <AddIcon />
+                </PrimaryButton>
+              )}
+            />
+          </ResponsiveGrid>
+          <Input
+            value={this.state.comment}
+            onChange={this.setComment}
             placeholder={this.props.intl.formatMessage({
-              id: 'SEND_MOONEY_TO_A_FRIEND_INPUT',
-              defaultMessage: 'AMOUNT',
-            })}
-            autoFocus
-            onChange={value =>
-              this.setState({
-                selectedAmount: value,
-              })
-            }
-          />
-          &#8594;
-          <ConnectedUserSelectionList
-            placeholder={this.props.intl.formatMessage({
-              id: 'CREATE_USER_TO_USER_TRANSACTION_USER',
+              id: 'CREATE_USER_TO_USER_TRANSACTION_COMMENT',
               defaultMessage: 'Username',
             })}
-            getString={user => user.name}
-            onSelect={this.submitUserId}
           />
-          <ConnectedUserToUserValidator
-            value={this.state.selectedAmount}
-            userId={Number(this.props.match.params.id)}
-            targetUserId={this.state.selectedUser.id}
-            render={isValid => (
-              <PrimaryButton
-                isRound
-                ref={this.submitButtonRef}
-                disabled={!isValid}
-                onClick={this.createTransaction}
-              >
-                <AddIcon />
-              </PrimaryButton>
-            )}
-          />
-        </ResponsiveGrid>
+        </>
       );
     }
   }
