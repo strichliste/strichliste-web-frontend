@@ -73,6 +73,8 @@ export class UserEditForm extends React.Component<
                       name: e.target.value,
                     })
                   }
+                  minLength={1}
+                  maxLength={100}
                   required
                   type="text"
                 />
