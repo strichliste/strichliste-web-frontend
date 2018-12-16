@@ -1,4 +1,4 @@
-import { AlertText, Card } from 'bricks-of-sand';
+import { AlertText, Card, Ellipsis } from 'bricks-of-sand';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -29,7 +29,7 @@ export function UserCard({ user }: UserCardProps): JSX.Element | null {
       hover="level3"
       height="6rem"
     >
-      <span>{user.name}</span>
+      <Ellipsis>{user.name}</Ellipsis>
       <AlertText value={user.balance}>
         <ConnectedCurrency value={user.balance} />
       </AlertText>
