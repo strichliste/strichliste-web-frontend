@@ -15,7 +15,7 @@ label {
   }
 }
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Inter UI';
   color: ${theme.font};
 }
 h1,h2,h3{

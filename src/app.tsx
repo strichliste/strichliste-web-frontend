@@ -21,6 +21,8 @@ import { UserRouter } from './components/user/user-router';
 import { en } from './locales/en';
 import { store } from './store';
 
+// tslint:disable-next-line:no-import-side-effect
+import 'inter-ui';
 // inject global non scoped css stylings
 // tslint:disable-next-line:no-unused-expression
 injectGlobal(resetCss);
