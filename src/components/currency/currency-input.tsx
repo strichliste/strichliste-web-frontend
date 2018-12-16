@@ -9,6 +9,7 @@ interface State {
 }
 
 interface Props {
+  noNegative?: boolean;
   placeholder?: string;
   value?: number;
   autoFocus?: boolean;
@@ -38,7 +39,9 @@ export class CurrencyInput extends React.Component<Props, State> {
   }
 
   public updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleanedNumber = convertFormattedNumberToCents(e.target.value);
+    const cleanedNumber = this.props.noNegative
+      ? Math.abs(convertFormattedNumberToCents(e.target.value))
+      : convertFormattedNumberToCents(e.target.value);
     this.setState({ value: cleanedNumber / 100 });
     if (this.props.onChange) {
       this.props.onChange(cleanedNumber);

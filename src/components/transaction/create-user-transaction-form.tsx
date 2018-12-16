@@ -127,6 +127,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
             tabletColumns="4fr 1fr 4fr 1fr"
           >
             <CurrencyInput
+              noNegative
               placeholder={this.props.intl.formatMessage({
                 id: 'SEND_MOONEY_TO_A_FRIEND_INPUT',
                 defaultMessage: 'AMOUNT',

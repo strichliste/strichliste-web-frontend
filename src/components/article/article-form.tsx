@@ -169,6 +169,7 @@ export class ArticleForm extends React.Component<Props, State> {
                   <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
                 </label>
                 <CurrencyInput
+                  noNegative
                   value={this.state.params.amount}
                   onChange={amount => this.updateParams({ amount })}
                 />
