@@ -128,7 +128,7 @@ export class InlineCreateUserForm extends React.Component<Props, State> {
                   type="text"
                   required
                   minLength={1}
-                  maxLength={100}
+                  maxLength={64}
                   autoFocus={true}
                 />
                 <PrimaryButton type="submit" isRound>
