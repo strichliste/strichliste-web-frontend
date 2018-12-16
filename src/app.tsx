@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'react-emotion';
 import { Provider } from 'react-redux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
@@ -25,11 +26,17 @@ import { store } from './store';
 injectGlobal(resetCss);
 injectGlobal(baseCss(light));
 
+const Grid = styled('div')({
+  display: 'grid',
+  gridTemplateRows: '4rem 1fr 4rem',
+  minHeight: '100vh',
+});
+
 class Layout extends React.Component {
   // tslint:disable-next-line:prefer-function-over-method
   public render(): JSX.Element {
     return (
-      <>
+      <Grid>
         <GlobalLoadingIndicator />
         <ConnectedErrorMessage />
         <ConnectedSettingsLoader />
@@ -40,7 +47,7 @@ class Layout extends React.Component {
           <Redirect from="/" to="/user/active" />
         </Switch>
         <MainFooter />
-      </>
+      </Grid>
     );
   }
 }

@@ -73,7 +73,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
       : [];
 
     return (
-      <>
+      <div>
         <ConnectedArticleScanner userId={user.id} />
         <UserDetailsHeader user={user} />
         <UserDetailsSeparator />
@@ -103,7 +103,7 @@ export class UserDetails extends React.Component<UserDetailsProps> {
             </EmptyState>
           )}
         </ResponsiveGrid>
-      </>
+      </div>
     );
   }
 }
