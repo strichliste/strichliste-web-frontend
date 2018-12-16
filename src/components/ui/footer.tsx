@@ -9,17 +9,29 @@ export function MainFooter(props: MainFooterProps): JSX.Element {
     <Footer>
       <div>
         strichliste-web (MIT License, by{' '}
-        <a target="_blank" href="https://github.com/strichliste">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://github.com/schinken"
+        >
           schinken
         </a>{' '}
         and{' '}
-        <a target="_blank" href="https://github.com/strichliste">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://github.com/sanderdrummer"
+        >
           sanderdrummer
         </a>
         )
       </div>
       <div>
-        <a target="_blank" href="https://github.com/strichliste">
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://github.com/strichliste"
+        >
           <GitHubIcon /> Code
         </a>
       </div>
