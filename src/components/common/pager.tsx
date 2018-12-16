@@ -17,14 +17,14 @@ export function Pager(props: PagerProps): JSX.Element {
         onClick={() => pageDown(props)}
         disabled={isPrevDisabled(props)}
       >
-        <FormattedMessage id="PAGER_PREV" />
+        &#8592; <FormattedMessage id="PAGER_PREV" />
       </Button>
       <Button
         fontSize="1rem"
         onClick={() => pageUp(props)}
         disabled={isNextDisabled(props)}
       >
-        <FormattedMessage id="PAGER_NEXT" />
+        <FormattedMessage id="PAGER_NEXT" /> &#8594;
       </Button>
     </Flex>
   );
