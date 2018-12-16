@@ -15,6 +15,7 @@ const HeaderLeft = styled(Flex)({
   },
   '.active': {
     padding: 0,
+    background: 'transparent!important',
   },
   svg: {
     width: '1rem',
