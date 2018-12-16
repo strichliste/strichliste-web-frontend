@@ -4,6 +4,8 @@ import {
   LineThrough,
   ListItem,
   ResponsiveGrid,
+  Theme,
+  withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
 import styled from 'react-emotion';
@@ -13,6 +15,12 @@ import { Transaction } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
+
+const ArticleIcon = withTheme(
+  styled('span')({}, ({ theme }) => ({
+    fill: (theme as Theme).primary,
+  }))
+);
 
 interface OwnProps {
   id: number | string;
@@ -54,7 +62,10 @@ export function TransactionListItem(props: Props): JSX.Element | null {
               )}
               {props.transaction.article && (
                 <>
-                  <ShoppingBagIcon /> {props.transaction.article.name}
+                  <ArticleIcon>
+                    <ShoppingBagIcon />
+                  </ArticleIcon>{' '}
+                  {props.transaction.article.name}
                 </>
               )}
               {props.transaction.comment && <>: {props.transaction.comment}</>}
