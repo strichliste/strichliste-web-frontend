@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { Transaction } from '../../store/reducers';
 import { Currency } from '../currency';
-import {} from '../ui';
+import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
 
 interface OwnProps {
@@ -53,7 +53,9 @@ export function TransactionListItem(props: Props): JSX.Element | null {
                 <>&#8594; {props.transaction.recipient.name}</>
               )}
               {props.transaction.article && (
-                <>{props.transaction.article.name}</>
+                <>
+                  <ShoppingBagIcon /> {props.transaction.article.name}
+                </>
               )}
               {props.transaction.comment && <>: {props.transaction.comment}</>}
             </Ellipsis>
