@@ -39,7 +39,7 @@ export function HeaderMenu(props: HeaderMenuProps): JSX.Element {
         alignItems="center"
         justifyContent="space-between"
       >
-        <HeaderLeft>
+        <HeaderLeft alignItems="center">
           <Logo />
           <Menu breakPoint={500} label={<FormattedMessage id="TALLY_HEADER" />}>
             <NavLink activeClassName="active" to="/user">
