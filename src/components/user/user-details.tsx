@@ -59,6 +59,12 @@ export class UserDetails extends React.Component<UserDetailsProps> {
     this.props.startLoadingTransactions(Number(this.props.match.params.id));
   }
 
+  public componentDidUpdate(prevProps: UserDetailsProps): void {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      this.props.startLoadingTransactions(Number(this.props.match.params.id));
+    }
+  }
+
   public render(): JSX.Element {
     const user = this.props.details;
     if (!user) {
