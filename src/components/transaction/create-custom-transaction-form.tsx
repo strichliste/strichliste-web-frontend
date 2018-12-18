@@ -11,7 +11,7 @@ import {
 import { CurrencyInput } from '../currency';
 import { ConnectedTransactionValidator } from './validator';
 
-interface OwnProps {
+export interface OwnProps {
   userId: number;
   transactionCreated?(): void;
 }
@@ -32,7 +32,8 @@ interface ActionProps {
   Promise<any>;
 }
 
-type Props = ActionProps & OwnProps & MapStateProps;
+// tslint:disable-next-line:no-any
+type Props = any;
 
 export class CreateCustomTransactionForm extends React.Component<
   Props,

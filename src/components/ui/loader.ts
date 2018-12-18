@@ -1,5 +1,4 @@
-import { theme } from 'bricks-of-sand';
-import styled from 'react-emotion';
+import { styled, theme } from 'bricks-of-sand';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { getGlobalLoader } from '../../store/reducers';

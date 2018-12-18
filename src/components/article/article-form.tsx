@@ -9,9 +9,9 @@ import {
   HoverCard,
   Input,
   PrimaryButton,
+  styled,
 } from 'bricks-of-sand';
 import * as React from 'react';
-import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
@@ -23,6 +23,9 @@ import {
 } from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
+
+// tslint:disable-next-line:no-any
+const AnyInput: any = Input;
 
 interface ButtonProps {
   isVisible: boolean;
@@ -143,9 +146,12 @@ export class ArticleForm extends React.Component<Props, State> {
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
                 </label>
-                <Input
+                <AnyInput
                   value={this.state.params.name}
-                  onChange={e => this.updateParams({ name: e.target.value })}
+                  // tslint:disable-next-line:no-any
+                  onChange={(e: any) =>
+                    this.updateParams({ name: e.target.value })
+                  }
                   type="text"
                   required
                 />
@@ -159,9 +165,12 @@ export class ArticleForm extends React.Component<Props, State> {
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_BARCODE_LABEL" />
                 </label>
-                <Input
+                <AnyInput
                   value={this.state.params.barcode}
-                  onChange={e => this.updateParams({ barcode: e.target.value })}
+                  // tslint:disable-next-line:no-any
+                  onChange={(e: any) =>
+                    this.updateParams({ barcode: e.target.value })
+                  }
                   type="text"
                   required
                 />

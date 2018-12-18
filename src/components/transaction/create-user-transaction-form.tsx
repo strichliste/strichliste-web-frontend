@@ -1,14 +1,13 @@
 import {
   AcceptIcon,
   Card,
-  Input,
   PrimaryButton,
   ResponsiveGrid,
+  styled,
   withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import styled from 'react-emotion';
 import { FormattedMessage, InjectedIntl, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -18,6 +17,8 @@ import { AddIcon } from '../ui/icons/add';
 import { ConnectedUserSelectionList } from '../user';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
 import { ConnectedUserToUserValidator } from './user-to-user-validator';
+
+import { Input } from '../ui/input';
 
 export const AcceptWrapper = withTheme(
   styled('div')({}, props => ({

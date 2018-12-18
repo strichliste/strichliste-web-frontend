@@ -1,6 +1,5 @@
-import { CancelButton, Card, Flex, Input } from 'bricks-of-sand';
+import { CancelButton, Card, Flex, Input, styled } from 'bricks-of-sand';
 import * as React from 'react';
-import styled from 'react-emotion';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import {
@@ -56,7 +55,8 @@ export class ArticleSelectionBubbles extends React.Component<Props, State> {
         <InputSection>
           <Input
             value={this.state.query}
-            onChange={e => this.setState({ query: e.target.value })}
+            // tslint:disable-next-line:no-any
+            onChange={(e: any) => this.setState({ query: e.target.value })}
             autoFocus={true}
           />
           <CancelButton onClick={this.props.onCancel} />

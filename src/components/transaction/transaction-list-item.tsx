@@ -5,10 +5,10 @@ import {
   ListItem,
   ResponsiveGrid,
   Theme,
+  styled,
   withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
-import styled from 'react-emotion';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { Transaction } from '../../store/reducers';

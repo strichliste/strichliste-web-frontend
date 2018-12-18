@@ -1,21 +1,14 @@
 import * as React from 'react';
-import styled from 'react-emotion';
 import { Provider } from 'react-redux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import {
-  ThemeProvider,
-  dark,
-  injectGlobal,
-  light,
-  resetCss,
-} from 'bricks-of-sand';
+import { ThemeProvider, dark, light, styled } from 'bricks-of-sand';
 import { IntlProvider } from 'react-intl';
 import { ArticleRouter } from './components/article/article-router';
 import { ConnectedErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
 import { ConnectedSettingsLoader } from './components/settings';
-import { MainFooter, baseCss } from './components/ui';
+import { MainFooter } from './components/ui';
 import { GlobalLoadingIndicator } from './components/ui/loader';
 import { UserRouter } from './components/user/user-router';
 import { en } from './locales/en';
@@ -25,8 +18,8 @@ import { store } from './store';
 import 'inter-ui';
 // inject global non scoped css stylings
 // tslint:disable-next-line:no-unused-expression
-injectGlobal(resetCss);
-injectGlobal(baseCss(light));
+// injectGlobal(resetCss);
+// injectGlobal(baseCss(light));
 
 const Grid = styled('div')({
   display: 'grid',
