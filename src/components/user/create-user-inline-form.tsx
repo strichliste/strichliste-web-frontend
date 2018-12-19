@@ -95,6 +95,7 @@ export class InlineCreateUserForm extends React.Component<Props, State> {
   public toggle = () => {
     if (this.props.isActive) {
       this.props.history.goBack();
+      this.setState({ name: '' });
     } else {
       this.props.history.push(this.props.history.location.pathname + '/add');
     }
