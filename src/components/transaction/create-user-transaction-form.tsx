@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { User, startCreatingTransaction } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
-import { AddIcon } from '../ui/icons/add';
 import { ConnectedUserSelectionList } from '../user';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
 import { ConnectedUserToUserValidator } from './user-to-user-validator';
@@ -141,6 +140,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
             />
             &#8594;
             <ConnectedUserSelectionList
+              userId={Number(this.props.match.params.id)}
               placeholder={this.props.intl.formatMessage({
                 id: 'CREATE_USER_TO_USER_TRANSACTION_USER',
                 defaultMessage: 'Username',
@@ -159,7 +159,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                   disabled={!isValid}
                   onClick={this.createTransaction}
                 >
-                  <AddIcon />
+                  <AcceptIcon />
                 </PrimaryButton>
               )}
             />
