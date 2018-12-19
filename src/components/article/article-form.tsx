@@ -95,6 +95,12 @@ export class ArticleForm extends React.Component<Props, State> {
   public componentDidMount(): void {
     if (this.props.article) {
       this.updateParams(this.props.article);
+      this.resetState();
+    }
+  }
+
+  public resetState = () => {
+    if (this.props.article) {
       this.setState({
         params: {
           name: this.props.article.name,
@@ -104,8 +110,18 @@ export class ArticleForm extends React.Component<Props, State> {
           precursor: this.props.article,
         },
       });
+    } else {
+      this.setState({
+        params: {
+          name: '',
+          barcode: '',
+          amount: 0,
+          active: true,
+          precursor: null,
+        },
+      });
     }
-  }
+  };
 
   public submit = async () => {
     const maybeArticle = await this.props.addArticle(this.state.params);
@@ -126,6 +142,7 @@ export class ArticleForm extends React.Component<Props, State> {
 
   public toggleIsVisible = () => {
     this.setState(state => ({ isVisible: !state.isVisible }));
+    this.resetState();
   };
 
   public render(): JSX.Element {
