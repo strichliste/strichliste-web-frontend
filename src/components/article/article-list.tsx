@@ -35,7 +35,7 @@ export class ArticleList extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <Block margin="1rem">
+      <Block margin="1.5rem 1rem">
         <ConnectedArticleForm onCreated={() => ''}>
           <NavTabMenus
             margin="0.5rem 0"

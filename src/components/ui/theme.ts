@@ -15,6 +15,7 @@ label {
   }
 }
 body {
+  overflow: scroll;
   font-family: 'Inter UI';
   color: ${theme.font};
 }

@@ -147,7 +147,7 @@ export class ArticleForm extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <Flex alignItems="center" padding="0.3rem">
+      <Flex alignItems="center" margin="0 0 0.5rem">
         <ToggleArticleButton
           idArticle={this.props.articleId}
           isVisible={this.state.isVisible}
