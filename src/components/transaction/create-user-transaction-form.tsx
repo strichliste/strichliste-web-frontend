@@ -128,8 +128,8 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
             <CurrencyInput
               noNegative
               placeholder={this.props.intl.formatMessage({
-                id: 'SEND_MOONEY_TO_A_FRIEND_INPUT',
-                defaultMessage: 'AMOUNT',
+                id: 'USER_TRANSACTION_FROM_AMOUNT_LABEL',
+                defaultMessage: 'Amount',
               })}
               autoFocus
               onChange={value =>
