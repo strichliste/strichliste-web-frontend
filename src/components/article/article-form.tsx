@@ -123,11 +123,12 @@ export class ArticleForm extends React.Component<Props, State> {
     }
   };
 
-  public submit = async () => {
+  public submit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const maybeArticle = await this.props.addArticle(this.state.params);
     if (maybeArticle) {
-      this.props.onCreated();
       this.setState({ isVisible: false });
+      this.props.onCreated();
     }
   };
 
@@ -185,11 +186,13 @@ export class ArticleForm extends React.Component<Props, State> {
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
                 </label>
-                <CurrencyInput
-                  noNegative
-                  value={this.state.params.amount}
-                  onChange={amount => this.updateParams({ amount })}
-                />
+                <form onSubmit={this.submit}>
+                  <CurrencyInput
+                    noNegative
+                    value={this.state.params.amount}
+                    onChange={amount => this.updateParams({ amount })}
+                  />
+                </form>
                 <AcceptButton onClick={this.submit} />
               </ArticleGrid>
             </Card>
