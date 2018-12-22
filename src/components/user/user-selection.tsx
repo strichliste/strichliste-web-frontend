@@ -75,7 +75,7 @@ export function UserSelection(props: Props): JSX.Element {
                       isHovered={highlightedIndex === index}
                       isSelected={selectedItem === item}
                       {...getItemProps({ item, index })}
-                      key={item}
+                      key={item.name}
                     >
                       {item.name}
                     </DropDownCardItem>
