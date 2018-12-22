@@ -30,4 +30,8 @@ h1,h2,h3{
     width: 100%;
     border-radius: 2px;
   }
+  input,button {
+    align-items: center;
+    align-content:center;
+  }
 `;
