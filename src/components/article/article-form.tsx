@@ -1,5 +1,5 @@
 import {
-  AcceptButton,
+  AcceptIcon,
   AddIcon,
   Block,
   CancelButton,
@@ -142,6 +142,9 @@ export class ArticleForm extends React.Component<Props, State> {
 
   public submit = async (e: React.FormEvent, isValid: boolean) => {
     e.preventDefault();
+    if (!isValid) {
+      return;
+    }
     const maybeArticle = await this.props.addArticle(this.state.params);
     if (maybeArticle) {
       this.setState({ isVisible: false });
@@ -207,7 +210,7 @@ export class ArticleForm extends React.Component<Props, State> {
                   <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
                 </label>
                 <ConnectedTransactionValidator
-                  isDeposit
+                  isDeposit={false}
                   value={this.state.params.amount}
                   render={isValid => (
                     <>
@@ -218,11 +221,15 @@ export class ArticleForm extends React.Component<Props, State> {
                           onChange={amount => this.updateParams({ amount })}
                         />
                       </form>
-                      <AcceptButton
+                      <PrimaryButton
+                        isRound
+                        disabled={!isValid}
                         onClick={(e: React.FormEvent) =>
                           this.submit(e, isValid)
                         }
-                      />
+                      >
+                        <AcceptIcon />
+                      </PrimaryButton>
                     </>
                   )}
                 />
