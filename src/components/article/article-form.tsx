@@ -23,6 +23,7 @@ import {
 } from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
+import { Ellipsis } from '../ui';
 
 interface ButtonProps {
   isVisible: boolean;
@@ -45,7 +46,7 @@ const ToggleArticleButton: React.SFC<ButtonProps> = props => {
   );
 };
 
-const ArticleGrid = styled(Flex)({
+const ArticleFormGrid = styled(Flex)({
   '@media(max-width: 30em)': {
     display: 'block',
     textAlign: 'left',
@@ -62,6 +63,21 @@ const ArticleGrid = styled(Flex)({
   },
   label: {
     marginRight: '0.5rem',
+  },
+});
+
+const ArticleGrid = styled('div')({
+  cursor: 'pointer',
+  display: 'grid',
+  gridGap: '1rem',
+  '@media screen and (min-width: 500px)': {
+    gridTemplateColumns: '1fr 9rem 5rem',
+  },
+});
+
+const TextRight = styled('div')({
+  '@media screen and (min-width: 500px)': {
+    textAlign: 'right',
   },
 });
 
@@ -157,7 +173,10 @@ export class ArticleForm extends React.Component<Props, State> {
         <Column margin="0 0 0 1rem" flex="1">
           {this.state.isVisible && (
             <Card padding="0.5rem" level={'level3'}>
-              <ArticleGrid justifyContent="space-between" alignItems="center">
+              <ArticleFormGrid
+                justifyContent="space-between"
+                alignItems="center"
+              >
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
                 </label>
@@ -194,15 +213,19 @@ export class ArticleForm extends React.Component<Props, State> {
                   />
                 </form>
                 <AcceptButton onClick={this.submit} />
-              </ArticleGrid>
+              </ArticleFormGrid>
             </Card>
           )}
           {!this.state.isVisible && this.props.articleId && (
             <HoverCard padding="0.5rem" onClick={this.toggleIsVisible}>
-              <ArticleGrid justifyContent="space-between" alignItems="center">
-                <Column flex="1 0 0">{this.state.params.name}</Column>
-                <Column width="8rem">{this.state.params.barcode}</Column>
-                <Currency value={this.state.params.amount} />
+              <ArticleGrid>
+                <Column>{this.state.params.name}</Column>
+                <TextRight>
+                  <Ellipsis>{this.state.params.barcode}</Ellipsis>
+                </TextRight>
+                <TextRight>
+                  <Currency value={this.state.params.amount} />
+                </TextRight>
               </ArticleGrid>
             </HoverCard>
           )}
