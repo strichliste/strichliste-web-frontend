@@ -23,6 +23,7 @@ import {
 } from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
+import { ConnectedTransactionValidator } from '../transaction/validator';
 import { Ellipsis } from '../ui';
 
 interface ButtonProps {
@@ -139,7 +140,7 @@ export class ArticleForm extends React.Component<Props, State> {
     }
   };
 
-  public submit = async (e: React.FormEvent) => {
+  public submit = async (e: React.FormEvent, isValid: boolean) => {
     e.preventDefault();
     const maybeArticle = await this.props.addArticle(this.state.params);
     if (maybeArticle) {
@@ -205,14 +206,26 @@ export class ArticleForm extends React.Component<Props, State> {
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
                 </label>
-                <form onSubmit={this.submit}>
-                  <CurrencyInput
-                    noNegative
-                    value={this.state.params.amount}
-                    onChange={amount => this.updateParams({ amount })}
-                  />
-                </form>
-                <AcceptButton onClick={this.submit} />
+                <ConnectedTransactionValidator
+                  isDeposit
+                  value={this.state.params.amount}
+                  render={isValid => (
+                    <>
+                      <form onSubmit={e => this.submit(e, isValid)}>
+                        <CurrencyInput
+                          noNegative
+                          value={this.state.params.amount}
+                          onChange={amount => this.updateParams({ amount })}
+                        />
+                      </form>
+                      <AcceptButton
+                        onClick={(e: React.FormEvent) =>
+                          this.submit(e, isValid)
+                        }
+                      />
+                    </>
+                  )}
+                />
               </ArticleFormGrid>
             </Card>
           )}

@@ -148,3 +148,7 @@ export function getSettings(state: AppState): Settings {
 export function getPayment(state: AppState): Payment {
   return getSettings(state).payment;
 }
+
+export function getSettingsBalance(state: AppState): number {
+  return getSettings(state).payment.boundary.upper;
+}

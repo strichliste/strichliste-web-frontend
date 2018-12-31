@@ -1,18 +1,22 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
-import { Boundary, getUserBalance } from '../../store/reducers';
+import {
+  Boundary,
+  getSettingsBalance,
+  getUserBalance,
+} from '../../store/reducers';
 
 interface OwnProps {
-  userId: number;
+  userId?: number;
   value: number;
   isDeposit: boolean;
-  boundary: Boundary;
   render(isValid: boolean): JSX.Element;
 }
 
 interface StateProps {
   balance: number;
+  boundary: Boundary;
 }
 
 interface ActionProps {}
@@ -35,7 +39,10 @@ export function TransactionValidator(
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
-  balance: getUserBalance(state, props.userId),
+  balance: props.userId
+    ? getUserBalance(state, props.userId)
+    : getSettingsBalance(state),
+  boundary: state.settings.payment.boundary,
 });
 
 export const ConnectedTransactionValidator = connect(mapStateToProps)(
