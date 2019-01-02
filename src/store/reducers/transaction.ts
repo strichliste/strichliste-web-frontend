@@ -59,7 +59,7 @@ export function startLoadingTransactions(
     const params =
       offset !== undefined && limit !== undefined
         ? `?offset=${offset}&limit=${limit}`
-        : '?offset=0&limit=15';
+        : '?offset=0&limit=5';
     const promise = get(`user/${userId}/transaction${params}`);
     const data = await errorHandler<TransactionsResponse>(dispatch, {
       promise,

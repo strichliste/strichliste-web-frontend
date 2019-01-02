@@ -24,7 +24,6 @@ export function PaymentComponent(props: Props): JSX.Element {
       {props.payment.deposit.enabled && (
         <PaymentButtonList
           isDeposit={true}
-          boundary={props.payment.boundary}
           steps={props.payment.deposit.steps}
           userId={props.userId}
         />
@@ -35,7 +34,6 @@ export function PaymentComponent(props: Props): JSX.Element {
       {props.payment.dispense.enabled && (
         <PaymentButtonList
           isDeposit={false}
-          boundary={props.payment.boundary}
           steps={props.payment.dispense.steps}
           userId={props.userId}
         />

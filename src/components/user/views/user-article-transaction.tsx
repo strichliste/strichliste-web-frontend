@@ -19,6 +19,7 @@ export function UserArticleTransaction(
   return (
     <>
       <ConnectedArticleSelectionBubbles
+        userId={Number(props.match.params.id)}
         onCancel={() =>
           props.history.push(getUserDetailLink(Number(props.match.params.id)))
         }

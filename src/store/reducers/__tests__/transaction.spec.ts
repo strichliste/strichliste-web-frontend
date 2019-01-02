@@ -85,7 +85,7 @@ describe('action creators', () => {
       const store = getMockStore();
       await store.dispatch(startLoadingTransactions(2));
 
-      expect(get).toHaveBeenCalledWith('user/2/transaction?offset=0&limit=15');
+      expect(get).toHaveBeenCalledWith('user/2/transaction?offset=0&limit=5');
       expect(store.getActions()).toMatchSnapshot();
     });
 

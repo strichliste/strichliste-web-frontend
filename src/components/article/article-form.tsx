@@ -1,5 +1,5 @@
 import {
-  AcceptButton,
+  AcceptIcon,
   AddIcon,
   Block,
   CancelButton,
@@ -24,6 +24,7 @@ import {
 import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
 import { Ellipsis } from '../ui';
+import { ConnectedArticleValidator } from './validator';
 
 interface ButtonProps {
   isVisible: boolean;
@@ -139,8 +140,11 @@ export class ArticleForm extends React.Component<Props, State> {
     }
   };
 
-  public submit = async (e: React.FormEvent) => {
+  public submit = async (e: React.FormEvent, isValid: boolean) => {
     e.preventDefault();
+    if (!isValid) {
+      return;
+    }
     const maybeArticle = await this.props.addArticle(this.state.params);
     if (maybeArticle) {
       this.setState({ isVisible: false });
@@ -205,14 +209,29 @@ export class ArticleForm extends React.Component<Props, State> {
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
                 </label>
-                <form onSubmit={this.submit}>
-                  <CurrencyInput
-                    noNegative
-                    value={this.state.params.amount}
-                    onChange={amount => this.updateParams({ amount })}
-                  />
-                </form>
-                <AcceptButton onClick={this.submit} />
+                <ConnectedArticleValidator
+                  value={this.state.params.amount}
+                  render={isValid => (
+                    <>
+                      <form onSubmit={e => this.submit(e, isValid)}>
+                        <CurrencyInput
+                          noNegative
+                          value={this.state.params.amount}
+                          onChange={amount => this.updateParams({ amount })}
+                        />
+                      </form>
+                      <PrimaryButton
+                        isRound
+                        disabled={!isValid}
+                        onClick={(e: React.FormEvent) =>
+                          this.submit(e, isValid)
+                        }
+                      >
+                        <AcceptIcon />
+                      </PrimaryButton>
+                    </>
+                  )}
+                />
               </ArticleFormGrid>
             </Card>
           )}
