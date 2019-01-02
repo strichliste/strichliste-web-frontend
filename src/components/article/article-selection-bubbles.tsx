@@ -9,6 +9,7 @@ import {
   startLoadingArticles,
 } from '../../store/reducers';
 import { Currency } from '../currency';
+import { ConnectedArticleValidator } from './validator';
 
 const InputSection = styled(Flex)({
   padding: '0 1rem',
@@ -20,6 +21,7 @@ const InputSection = styled(Flex)({
 });
 
 interface OwnProps {
+  userId: number;
   onSelect(article: Article): void;
   onCancel(): void;
 }
@@ -69,14 +71,27 @@ export class ArticleSelectionBubbles extends React.Component<Props, State> {
                 item.name.toLowerCase().includes(this.state.query.toLowerCase())
             )
             .map(item => (
-              <Card
-                onClick={() => this.props.onSelect(item)}
-                padding="0.5rem"
-                margin="0.3rem"
+              <ConnectedArticleValidator
                 key={item.name}
-              >
-                {item.name} | <Currency value={item.amount} />
-              </Card>
+                userId={this.props.userId}
+                value={item.amount}
+                render={isValid => (
+                  <Card
+                    style={{
+                      opacity: isValid ? 1 : 0.5,
+                    }}
+                    onClick={() => {
+                      if (isValid) {
+                        this.props.onSelect(item);
+                      }
+                    }}
+                    padding="0.5rem"
+                    margin="0.3rem"
+                  >
+                    {item.name} | <Currency value={item.amount} />
+                  </Card>
+                )}
+              />
             ))}
         </Flex>
       </div>

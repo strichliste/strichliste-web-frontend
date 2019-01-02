@@ -23,8 +23,8 @@ import {
 } from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
-import { ConnectedTransactionValidator } from '../transaction/validator';
 import { Ellipsis } from '../ui';
+import { ConnectedArticleValidator } from './validator';
 
 interface ButtonProps {
   isVisible: boolean;
@@ -209,8 +209,7 @@ export class ArticleForm extends React.Component<Props, State> {
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
                 </label>
-                <ConnectedTransactionValidator
-                  isDeposit={false}
+                <ConnectedArticleValidator
                   value={this.state.params.amount}
                   render={isValid => (
                     <>
