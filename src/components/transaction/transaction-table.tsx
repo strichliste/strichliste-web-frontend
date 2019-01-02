@@ -40,7 +40,7 @@ export class TransactionTable extends React.Component<
   State
 > {
   public state = {
-    limit: 5,
+    limit: 15,
     offset: 0,
     itemCount: 0,
     transactions: [],
