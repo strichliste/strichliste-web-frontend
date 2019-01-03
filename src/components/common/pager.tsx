@@ -1,4 +1,4 @@
-import { Button, Flex } from 'bricks-of-sand';
+import { Flex, PrimaryButton } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -12,20 +12,20 @@ export interface PagerProps {
 export function Pager(props: PagerProps): JSX.Element {
   return (
     <Flex margin="1rem 0" alignContent="center" justifyContent="space-between">
-      <Button
+      <PrimaryButton
         fontSize="1rem"
         onClick={() => pageDown(props)}
         disabled={isPrevDisabled(props)}
       >
         &#8592; <FormattedMessage id="PAGER_PREV" />
-      </Button>
-      <Button
+      </PrimaryButton>
+      <PrimaryButton
         fontSize="1rem"
         onClick={() => pageUp(props)}
         disabled={isNextDisabled(props)}
       >
         <FormattedMessage id="PAGER_NEXT" /> &#8594;
-      </Button>
+      </PrimaryButton>
     </Flex>
   );
 }

@@ -34,7 +34,13 @@ const mapStateToProps = (state: AppState): StateProps => ({
 export const connectUser = connect(mapStateToProps);
 
 export function UserSelection(props: Props): JSX.Element {
-  const items = props.users;
+  const items = props.users.filter(user => {
+    if (!props.userId) {
+      return true;
+    } else {
+      return user.id !== props.userId;
+    }
+  });
   return (
     <Downshift
       onChange={selection => props.onSelect(selection)}
@@ -69,7 +75,7 @@ export function UserSelection(props: Props): JSX.Element {
                       isHovered={highlightedIndex === index}
                       isSelected={selectedItem === item}
                       {...getItemProps({ item, index })}
-                      key={item}
+                      key={item.name}
                     >
                       {item.name}
                     </DropDownCardItem>
@@ -129,7 +135,7 @@ export function UserSearch(props: Props): JSX.Element {
                       isHovered={highlightedIndex === index}
                       isSelected={selectedItem === item}
                       {...getItemProps({ item, index })}
-                      key={item}
+                      key={item.name}
                     >
                       {item.name}
                     </DropDownCardItem>

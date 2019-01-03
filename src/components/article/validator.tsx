@@ -10,7 +10,6 @@ import {
 interface OwnProps {
   userId?: number;
   value: number;
-  isDeposit: boolean;
   render(isValid: boolean): JSX.Element;
 }
 
@@ -21,21 +20,22 @@ interface StateProps {
 
 interface ActionProps {}
 
-export type TransactionValidatorProps = ActionProps & StateProps & OwnProps;
+export type ArticleValidatorProps = ActionProps & StateProps & OwnProps;
 
-export function TransactionValidator(
-  props: TransactionValidatorProps
+export function ArticleValidator(
+  props: ArticleValidatorProps
 ): JSX.Element | null {
-  const boundary = props.boundary;
-  const boundaryValue = props.isDeposit ? boundary.upper : boundary.lower;
-  const newValue = props.isDeposit
-    ? props.value + props.balance
-    : props.balance - props.value;
+  const userBuysArticles = props.userId;
+  if (userBuysArticles) {
+    const newValue = props.balance - props.value;
+    const buyArticleIsValid = props.boundary.lower < newValue;
 
-  const isValid =
-    (props.isDeposit ? newValue < boundaryValue : newValue > boundaryValue) &&
-    props.value !== 0;
-  return <>{props.render(isValid)}</>;
+    return <>{props.render(buyArticleIsValid)}</>;
+  } else {
+    const createArticleIsValid =
+      props.value > 0 && props.value * -1 > props.boundary.lower;
+    return <>{props.render(createArticleIsValid)}</>;
+  }
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
@@ -45,6 +45,6 @@ const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
   boundary: state.settings.payment.boundary,
 });
 
-export const ConnectedTransactionValidator = connect(mapStateToProps)(
-  TransactionValidator
+export const ConnectedArticleValidator = connect(mapStateToProps)(
+  ArticleValidator
 );

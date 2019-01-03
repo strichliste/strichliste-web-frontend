@@ -7,13 +7,11 @@ import {
   withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import { FormattedMessage, InjectedIntl, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { User, startCreatingTransaction } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
-import { AddIcon } from '../ui/icons/add';
 import { ConnectedUserSelectionList } from '../user';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
 import { ConnectedUserToUserValidator } from './user-to-user-validator';
@@ -65,13 +63,8 @@ type Props = RouteComponentProps<{ id: string }> &
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;
   // tslint:disable-next-line:no-any
-  public submitButtonRef: any = React.createRef();
   public submitUserId = (user: User): void => {
-    this.setState(() => ({ selectedUser: user }));
-    const button = ReactDOM.findDOMNode(this.submitButtonRef.current);
-    if (button) {
-      (button as HTMLInputElement).focus();
-    }
+    this.setState(() => ({ selectedUser: user }), this.createTransaction);
   };
 
   public createTransaction = async () => {
@@ -130,8 +123,8 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
             <CurrencyInput
               noNegative
               placeholder={this.props.intl.formatMessage({
-                id: 'SEND_MOONEY_TO_A_FRIEND_INPUT',
-                defaultMessage: 'AMOUNT',
+                id: 'USER_TRANSACTION_FROM_AMOUNT_LABEL',
+                defaultMessage: 'Amount',
               })}
               autoFocus
               onChange={value =>
@@ -142,6 +135,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
             />
             &#8594;
             <ConnectedUserSelectionList
+              userId={Number(this.props.match.params.id)}
               placeholder={this.props.intl.formatMessage({
                 id: 'CREATE_USER_TO_USER_TRANSACTION_USER',
                 defaultMessage: 'Username',
@@ -156,11 +150,10 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
               render={isValid => (
                 <PrimaryButton
                   isRound
-                  ref={this.submitButtonRef}
                   disabled={!isValid}
                   onClick={this.createTransaction}
                 >
-                  <AddIcon />
+                  <AcceptIcon />
                 </PrimaryButton>
               )}
             />

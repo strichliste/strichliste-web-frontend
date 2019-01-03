@@ -15,16 +15,23 @@ label {
   }
 }
 body {
+  overflow: scroll;
   font-family: 'Inter UI';
   color: ${theme.font};
 }
 h1,h2,h3{
   text-transform: uppercase;
+  font-family: 'Inter UI';
   font-weight: lighter;
 }
   input {
     padding: 0.5rem;
+    font-family: 'Inter UI';
     width: 100%;
     border-radius: 2px;
+  }
+  input,button {
+    align-items: center;
+    align-content:center;
   }
 `;

@@ -62,7 +62,6 @@ const CreateUserGridPosition = styled('div')({
 
 export class User extends React.Component<UserProps> {
   public componentDidMount(): void {
-    this.props.startLoadingUsers(this.props.isActive, false);
     this.props.updateSearch({ query: '' });
   }
 

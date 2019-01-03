@@ -1,5 +1,5 @@
 import {
-  AcceptButton,
+  AcceptIcon,
   AddIcon,
   Block,
   CancelButton,
@@ -23,6 +23,8 @@ import {
 } from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
+import { Ellipsis } from '../ui';
+import { ConnectedArticleValidator } from './validator';
 
 // tslint:disable-next-line:no-any
 const AnyInput: any = Input;
@@ -48,7 +50,7 @@ const ToggleArticleButton: React.SFC<ButtonProps> = props => {
   );
 };
 
-const ArticleGrid = styled(Flex)({
+const ArticleFormGrid = styled(Flex)({
   '@media(max-width: 30em)': {
     display: 'block',
     textAlign: 'left',
@@ -65,6 +67,21 @@ const ArticleGrid = styled(Flex)({
   },
   label: {
     marginRight: '0.5rem',
+  },
+});
+
+const ArticleGrid = styled('div')({
+  cursor: 'pointer',
+  display: 'grid',
+  gridGap: '1rem',
+  '@media screen and (min-width: 500px)': {
+    gridTemplateColumns: '1fr 9rem 5rem',
+  },
+});
+
+const TextRight = styled('div')({
+  '@media screen and (min-width: 500px)': {
+    textAlign: 'right',
   },
 });
 
@@ -98,6 +115,12 @@ export class ArticleForm extends React.Component<Props, State> {
   public componentDidMount(): void {
     if (this.props.article) {
       this.updateParams(this.props.article);
+      this.resetState();
+    }
+  }
+
+  public resetState = () => {
+    if (this.props.article) {
       this.setState({
         params: {
           name: this.props.article.name,
@@ -107,14 +130,28 @@ export class ArticleForm extends React.Component<Props, State> {
           precursor: this.props.article,
         },
       });
+    } else {
+      this.setState({
+        params: {
+          name: '',
+          barcode: '',
+          amount: 0,
+          active: true,
+          precursor: null,
+        },
+      });
     }
-  }
+  };
 
-  public submit = async () => {
+  public submit = async (e: React.FormEvent, isValid: boolean) => {
+    e.preventDefault();
+    if (!isValid) {
+      return;
+    }
     const maybeArticle = await this.props.addArticle(this.state.params);
     if (maybeArticle) {
-      this.props.onCreated();
       this.setState({ isVisible: false });
+      this.props.onCreated();
     }
   };
 
@@ -129,11 +166,12 @@ export class ArticleForm extends React.Component<Props, State> {
 
   public toggleIsVisible = () => {
     this.setState(state => ({ isVisible: !state.isVisible }));
+    this.resetState();
   };
 
   public render(): JSX.Element {
     return (
-      <Flex alignItems="center" padding="0.3rem">
+      <Flex alignItems="center" margin="0 0 0.5rem">
         <ToggleArticleButton
           idArticle={this.props.articleId}
           isVisible={this.state.isVisible}
@@ -142,7 +180,10 @@ export class ArticleForm extends React.Component<Props, State> {
         <Column margin="0 0 0 1rem" flex="1">
           {this.state.isVisible && (
             <Card padding="0.5rem" level={'level3'}>
-              <ArticleGrid justifyContent="space-between" alignItems="center">
+              <ArticleFormGrid
+                justifyContent="space-between"
+                alignItems="center"
+              >
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
                 </label>
@@ -177,21 +218,42 @@ export class ArticleForm extends React.Component<Props, State> {
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
                 </label>
-                <CurrencyInput
-                  noNegative
+                <ConnectedArticleValidator
                   value={this.state.params.amount}
-                  onChange={amount => this.updateParams({ amount })}
+                  render={isValid => (
+                    <>
+                      <form onSubmit={e => this.submit(e, isValid)}>
+                        <CurrencyInput
+                          noNegative
+                          value={this.state.params.amount}
+                          onChange={amount => this.updateParams({ amount })}
+                        />
+                      </form>
+                      <PrimaryButton
+                        isRound
+                        disabled={!isValid}
+                        onClick={(e: React.FormEvent) =>
+                          this.submit(e, isValid)
+                        }
+                      >
+                        <AcceptIcon />
+                      </PrimaryButton>
+                    </>
+                  )}
                 />
-                <AcceptButton onClick={this.submit} />
-              </ArticleGrid>
+              </ArticleFormGrid>
             </Card>
           )}
           {!this.state.isVisible && this.props.articleId && (
             <HoverCard padding="0.5rem" onClick={this.toggleIsVisible}>
-              <ArticleGrid justifyContent="space-between" alignItems="center">
-                <Column flex="1 0 0">{this.state.params.name}</Column>
-                <Column width="8rem">{this.state.params.barcode}</Column>
-                <Currency value={this.state.params.amount} />
+              <ArticleGrid>
+                <Column>{this.state.params.name}</Column>
+                <TextRight>
+                  <Ellipsis>{this.state.params.barcode}</Ellipsis>
+                </TextRight>
+                <TextRight>
+                  <Currency value={this.state.params.amount} />
+                </TextRight>
               </ArticleGrid>
             </HoverCard>
           )}

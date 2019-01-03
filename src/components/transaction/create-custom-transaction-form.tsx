@@ -2,9 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { GreenButton, RedButton, ResponsiveGrid } from 'bricks-of-sand';
-import { AppState, Dispatch } from '../../store';
+import { Dispatch } from '../../store';
 import {
-  Boundary,
   CreateTransactionParams,
   startCreatingTransaction,
 } from '../../store/reducers';
@@ -14,10 +13,6 @@ import { ConnectedTransactionValidator } from './validator';
 export interface OwnProps {
   userId: number;
   transactionCreated?(): void;
-}
-
-interface MapStateProps {
-  boundary: Boundary;
 }
 
 interface StateProps {
@@ -62,12 +57,11 @@ export class CreateCustomTransactionForm extends React.Component<
   };
 
   public render(): JSX.Element {
-    const { userId, boundary } = this.props;
+    const { userId } = this.props;
     return (
       <ResponsiveGrid gridGap="1rem" columns="3rem 1fr 3rem">
         <ConnectedTransactionValidator
           userId={userId}
-          boundary={boundary}
           value={this.state.value}
           isDeposit={false}
           render={isValid => (
@@ -88,7 +82,6 @@ export class CreateCustomTransactionForm extends React.Component<
         />
         <ConnectedTransactionValidator
           userId={userId}
-          boundary={boundary}
           value={this.state.value}
           isDeposit={true}
           render={isValid => (
@@ -107,16 +100,12 @@ export class CreateCustomTransactionForm extends React.Component<
   }
 }
 
-const mapStateToProps = (state: AppState): MapStateProps => ({
-  boundary: state.settings.payment.boundary,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch): ActionProps => ({
   createTransaction: (userId: number, params: CreateTransactionParams) =>
     dispatch(startCreatingTransaction(userId, params)),
 });
 
 export const ConnectedCreateCustomTransactionForm = connect(
-  mapStateToProps,
+  undefined,
   mapDispatchToProps
 )(CreateCustomTransactionForm);
