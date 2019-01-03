@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "private": true,
   "dependencies": {
-    "bricks-of-sand": "^0.1.1",
+    "bricks-of-sand": "^0.1.2",
     "downshift": "^3.1.8",
     "history": "^4.7.2",
     "howler": "^2.1.1",
@@ -27,6 +27,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@types/node": "^10.12.18",
     "@types/fetch-mock": "^7.2.1",
     "@types/howler": "^2.0.5",
     "@types/jest": "23.3.11",
@@ -49,7 +50,7 @@
     "ts-config": "^20.4.0",
     "ts-jest": "~23.10.4",
     "tslint": "^5.11.0",
-    "typescript": "3.1.6"
+    "typescript": "3.2.2"
   },
   "eslintConfig": {
     "extends": "react-app"

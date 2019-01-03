@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store';
 
 interface State {
-  timerId: number | undefined;
+  timerId: NodeJS.Timer | number | undefined;
 }
 interface StateProps {
   idleTimer: number;
