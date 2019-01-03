@@ -2,8 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
-import { Button, Flex, ResponsiveGrid, withTheme } from 'bricks-of-sand';
-import styled from 'react-emotion';
+import {
+  Button,
+  Flex,
+  ResponsiveGrid,
+  styled,
+  withTheme,
+} from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
 import { AppState } from '../../store';
 import {

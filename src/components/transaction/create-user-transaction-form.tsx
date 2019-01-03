@@ -4,10 +4,10 @@ import {
   Input,
   PrimaryButton,
   ResponsiveGrid,
+  styled,
   withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
-import styled from 'react-emotion';
 import { FormattedMessage, InjectedIntl, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';

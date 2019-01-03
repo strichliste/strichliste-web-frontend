@@ -1,6 +1,5 @@
-import { withTheme } from 'bricks-of-sand';
+import { styled, withTheme } from 'bricks-of-sand';
 import * as React from 'react';
-import styled from 'react-emotion';
 
 export interface AddIconProps {
   isPrimary?: boolean;

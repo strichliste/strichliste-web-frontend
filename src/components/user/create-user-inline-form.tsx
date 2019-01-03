@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from 'react-emotion';
 import { connect } from 'react-redux';
 
 import {
@@ -8,6 +7,7 @@ import {
   Flex,
   Input,
   PrimaryButton,
+  styled,
   withTheme,
 } from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';

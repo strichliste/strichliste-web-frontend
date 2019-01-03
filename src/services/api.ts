@@ -1,4 +1,6 @@
 // tslint:disable no-any
+declare const process: any;
+
 const API_URL = process.env.REACT_APP_API;
 
 export async function fetchJson(

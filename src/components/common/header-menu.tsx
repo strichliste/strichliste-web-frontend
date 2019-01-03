@@ -1,6 +1,5 @@
-import { Flex, HeaderNavBar, Menu, withTheme } from 'bricks-of-sand';
+import { Flex, HeaderNavBar, Menu, styled, withTheme } from 'bricks-of-sand';
 import * as React from 'react';
-import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { Logo } from '../ui/icons/logo';

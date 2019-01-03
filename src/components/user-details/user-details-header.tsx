@@ -1,6 +1,5 @@
-import { AlertText, Menu, Tab, withTheme } from 'bricks-of-sand';
+import { AlertText, Menu, Tab, styled, withTheme } from 'bricks-of-sand';
 import * as React from 'react';
-import styled from 'react-emotion';
 import { FormattedMessage } from 'react-intl';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
 import { User } from '../../store/reducers';
@@ -10,7 +9,8 @@ import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailRouter } from './user-details-router';
 
-const LinkTab = styled(Tab(NavLink))({
+// tslint:disable-next-line:no-any
+const LinkTab: any = styled(Tab(NavLink))({
   svg: {
     marginRight: '0.5rem',
   },

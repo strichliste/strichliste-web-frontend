@@ -2,8 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
-import { AutoGrid, HideByBreakPoint, breakPoints } from 'bricks-of-sand';
-import styled from 'react-emotion';
+import {
+  AutoGrid,
+  HideByBreakPoint,
+  breakPoints,
+  styled,
+} from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
 import { AppState } from '../../../store';
 import {
@@ -49,7 +53,7 @@ const CreateUserPosition = styled('div')({
 
 const CreateUserGridPosition = styled('div')({
   position: 'relative',
-  ['>div']: {
+  '>div': {
     zIndex: 10,
     position: 'absolute',
     minWidth: '100%',

@@ -1,14 +1,14 @@
 import * as React from 'react';
-import styled from 'react-emotion';
 import { Provider } from 'react-redux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import {
+  Global,
   ThemeProvider,
   dark,
-  injectGlobal,
   light,
   resetCss,
+  styled,
 } from 'bricks-of-sand';
 import { IntlProvider } from 'react-intl';
 import { ArticleRouter } from './components/article/article-router';
@@ -23,10 +23,6 @@ import { store } from './store';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
-// inject global non scoped css stylings
-// tslint:disable-next-line:no-unused-expression
-injectGlobal(resetCss);
-injectGlobal(baseCss(light));
 
 const Grid = styled('div')({
   display: 'grid',
@@ -39,6 +35,8 @@ class Layout extends React.Component {
   public render(): JSX.Element {
     return (
       <Grid>
+        <Global styles={resetCss} />
+        <Global styles={baseCss} />
         <GlobalLoadingIndicator />
         <ConnectedErrorMessage />
         <ConnectedSettingsLoader />

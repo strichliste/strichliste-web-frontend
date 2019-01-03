@@ -2,7 +2,8 @@ import { Flex, Menu, Tab, ThemeSwitcher } from 'bricks-of-sand';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Tabs = Tab(NavLink);
+// tslint:disable-next-line:no-any
+const Tabs: any = Tab(NavLink);
 
 export interface NavTabMenusProps {
   breakpoint: number;
