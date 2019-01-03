@@ -2,13 +2,20 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import { ThemeProvider, dark, light, styled } from 'bricks-of-sand';
+import {
+  Global,
+  ThemeProvider,
+  dark,
+  light,
+  resetCss,
+  styled,
+} from 'bricks-of-sand';
 import { IntlProvider } from 'react-intl';
 import { ArticleRouter } from './components/article/article-router';
 import { ConnectedErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
 import { ConnectedSettingsLoader } from './components/settings';
-import { MainFooter } from './components/ui';
+import { MainFooter, baseCss } from './components/ui';
 import { GlobalLoadingIndicator } from './components/ui/loader';
 import { UserRouter } from './components/user/user-router';
 import { en } from './locales/en';
@@ -16,10 +23,6 @@ import { store } from './store';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
-// inject global non scoped css stylings
-// tslint:disable-next-line:no-unused-expression
-// injectGlobal(resetCss);
-// injectGlobal(baseCss(light));
 
 const Grid = styled('div')({
   display: 'grid',
@@ -32,6 +35,8 @@ class Layout extends React.Component {
   public render(): JSX.Element {
     return (
       <Grid>
+        <Global styles={resetCss} />
+        <Global styles={baseCss} />
         <GlobalLoadingIndicator />
         <ConnectedErrorMessage />
         <ConnectedSettingsLoader />

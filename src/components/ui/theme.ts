@@ -1,6 +1,4 @@
-import { Theme } from 'bricks-of-sand';
-
-export const baseCss = (theme: Theme) => `
+export const baseCss = `
 :root{
   font-size: 16px;
 }
@@ -9,7 +7,7 @@ label {
   display: block;
 }
 
-@media only screen and (min-width: ${theme.laptop}) {
+@media only screen and (min-width: 30em) {
   :root{
     font-size: 20px;
   }
@@ -17,7 +15,6 @@ label {
 body {
   overflow: scroll;
   font-family: 'Inter UI';
-  color: ${theme.font};
 }
 h1,h2,h3{
   text-transform: uppercase;
