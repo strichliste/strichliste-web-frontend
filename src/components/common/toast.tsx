@@ -3,7 +3,7 @@ import * as React from 'react';
 
 interface State {
   isVisible: boolean;
-  timeoutId: number | NodeJS.Timer;
+  timeoutId: number;
 }
 
 interface Props {

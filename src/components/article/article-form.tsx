@@ -5,6 +5,7 @@ import {
   CancelButton,
   Card,
   Column,
+  Ellipsis,
   Flex,
   HoverCard,
   Input,
@@ -23,7 +24,6 @@ import {
 } from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
-import { Ellipsis } from '../ui';
 import { ConnectedArticleValidator } from './validator';
 
 // tslint:disable-next-line:no-any

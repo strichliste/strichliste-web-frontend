@@ -1,6 +1,7 @@
 import {
   AcceptIcon,
   Card,
+  Input,
   PrimaryButton,
   ResponsiveGrid,
   styled,
@@ -15,8 +16,6 @@ import { Currency, CurrencyInput } from '../currency';
 import { ConnectedUserSelectionList } from '../user';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
 import { ConnectedUserToUserValidator } from './user-to-user-validator';
-
-import { Input } from '../ui/input';
 
 export const AcceptWrapper = withTheme(
   styled('div')({}, props => ({

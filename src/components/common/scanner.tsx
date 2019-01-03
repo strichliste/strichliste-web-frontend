@@ -3,7 +3,7 @@ import * as React from 'react';
 interface State {
   barcode: string;
   maybeBarcode: string;
-  timeout?: NodeJS.Timer | number;
+  timeout?: number;
 }
 
 interface Props {
