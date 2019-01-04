@@ -15,6 +15,7 @@ import { ArticleRouter } from './components/article/article-router';
 import { ConnectedErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
 import { ConnectedSettingsLoader } from './components/settings';
+import { SplitInvoiceForm } from './components/transaction';
 import { MainFooter, baseCss } from './components/ui';
 import { GlobalLoadingIndicator } from './components/ui/loader';
 import { UserRouter } from './components/user/user-router';
@@ -44,6 +45,7 @@ class Layout extends React.Component {
         <Switch>
           <Route path="/articles" component={ArticleRouter} />
           <Route path="/user" component={UserRouter} />
+          <Route path="/split-invoice" component={SplitInvoiceForm} />
           <Redirect from="/" to="/user/active" />
         </Switch>
         <MainFooter />

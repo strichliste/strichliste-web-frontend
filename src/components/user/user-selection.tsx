@@ -44,7 +44,9 @@ export function UserSelection(props: Props): JSX.Element {
   return (
     <Downshift
       onChange={selection => props.onSelect(selection)}
-      itemToString={item => (item ? item.name : '')}
+      itemToString={
+        props.getString ? props.getString : item => (item ? item.name : '')
+      }
     >
       {({
         getInputProps,
