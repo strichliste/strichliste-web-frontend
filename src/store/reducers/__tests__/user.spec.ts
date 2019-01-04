@@ -1,9 +1,4 @@
 // tslint:disable no-any
-jest.mock('../../../services/api', () => ({
-  get: jest.fn(),
-  post: jest.fn(),
-}));
-
 import { DeepPartial } from 'redux';
 import { user } from '..';
 import { get, post } from '../../../services/api';
@@ -21,6 +16,11 @@ import {
   startUpdateUser,
   userDetailsLoaded,
 } from '../user';
+
+jest.mock('../../../services/api', () => ({
+  get: jest.fn(),
+  post: jest.fn(),
+}));
 
 describe('user reducer', () => {
   let action: DeepPartial<Action>;
@@ -132,7 +132,7 @@ describe('action creators', () => {
 
       const store = getMockStore();
       await store.dispatch(startLoadingUsers(true));
-      expect(get).toHaveBeenCalledWith('user?active=true');
+      expect(get).toHaveBeenCalledWith('user?deleted=true&active=true');
       expect(store.getActions()).toMatchSnapshot();
     });
   });

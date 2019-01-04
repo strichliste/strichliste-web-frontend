@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { AppState } from '../../store';
 
 interface State {
@@ -8,8 +9,8 @@ interface State {
 interface StateProps {
   idleTimer: number;
 }
-interface OwnProps {
-  onTimeOut(): void;
+interface OwnProps extends RouteComponentProps {
+  onTimeOut?(): void;
 }
 
 type Props = StateProps & OwnProps;
@@ -35,9 +36,17 @@ export class IdleTimer extends React.Component<Props, State> {
     clearTimeout(this.state.timerId);
   }
 
+  public handleTimeOut = () => {
+    if (typeof this.props.onTimeOut === 'function') {
+      this.props.onTimeOut();
+    } else {
+      this.props.history.push('/');
+    }
+  };
+
   public resetTimer = () => {
     clearTimeout(this.state.timerId);
-    const id = setTimeout(this.props.onTimeOut, this.props.idleTimer);
+    const id = setTimeout(this.handleTimeOut, this.props.idleTimer);
     this.setState({ timerId: id });
   };
 
@@ -51,4 +60,6 @@ const mapStateToProps = (state: AppState): StateProps => ({
   idleTimer: state.settings.idleTimer,
 });
 
-export const ConnectedIdleTimer = connect(mapStateToProps)(IdleTimer);
+export const ConnectedIdleTimer = withRouter(
+  connect(mapStateToProps)(IdleTimer)
+);

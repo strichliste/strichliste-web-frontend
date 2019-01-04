@@ -40,12 +40,18 @@ export function HeaderMenu(props: HeaderMenuProps): JSX.Element {
       >
         <HeaderLeft alignItems="center">
           <Logo />
-          <Menu breakPoint={500} label={<FormattedMessage id="TALLY_HEADER" />}>
+          <Menu breakPoint={600} label={<FormattedMessage id="TALLY_HEADER" />}>
             <NavLink activeClassName="active" to="/user">
               <FormattedMessage id="TALLY_HEADER" />
             </NavLink>
             <NavLink activeClassName="active" to="/articles">
               <FormattedMessage id="ARTICLE_LINK" />
+            </NavLink>
+            <NavLink activeClassName="active" to="/split-invoice">
+              <FormattedMessage
+                id="SPLIT_INVOICE_LINK"
+                defaultMessage="Split Invoice"
+              />
             </NavLink>
           </Menu>
         </HeaderLeft>
