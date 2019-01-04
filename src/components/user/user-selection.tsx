@@ -17,6 +17,7 @@ interface OwnProps {
   userId?: number;
   autoFocus?: boolean;
   placeholder: string;
+  disabled?: boolean;
   getString?(user: User): string;
   onSelect(user: User): void;
 }
@@ -62,6 +63,7 @@ export function UserSelection(props: Props): JSX.Element {
             <Input
               {...getInputProps({
                 placeholder: props.placeholder,
+                disabled: props.disabled,
               })}
             />
             {isOpen && (
@@ -118,6 +120,7 @@ export function UserSearch(props: Props): JSX.Element {
                   <input
                     {...getInputProps({
                       placeholder: placeholder as string,
+                      disabled: props.disabled,
                     })}
                   />
                 )}

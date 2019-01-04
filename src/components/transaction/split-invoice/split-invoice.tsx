@@ -1,7 +1,8 @@
 import {
+  AlertText,
   Block,
   CancelButton,
-  Flex,
+  Card,
   Input,
   PrimaryButton,
   ResponsiveGrid,
@@ -226,9 +227,10 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
         />
         <Block margin="1rem 0">
           <ConnectedUserSelectionList
+            disabled={!(this.state.amount > 0 && this.state.recipient)}
             userId={this.getRecipientUserId(this.state.recipient)}
             getString={() => ''}
-            placeholder="select participant"
+            placeholder="add participant"
             autoFocus
             onSelect={this.addParticipant}
           />
@@ -245,7 +247,8 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
                 />
               </>
             ) : (
-              <Flex
+              <Card
+                flex
                 justifyContent="space-between"
                 alignContent="center"
                 alignItems="center"
@@ -267,7 +270,7 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
                   value={this.getSplitAmount()}
                   render={isValid => (
                     <>
-                      {!isValid && (
+                      {!isValid && this.state.amount > 0 && (
                         <FormattedMessage
                           id="SPLIT_INVOICE_USER_INVALID"
                           defaultMessage="You can't afford it"
@@ -276,8 +279,13 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
                     </>
                   )}
                 />{' '}
-                {participant.name}
-              </Flex>
+                {participant.name}{' '}
+                <AlertText value={participant.balance - this.getSplitAmount()}>
+                  <Currency
+                    value={participant.balance - this.getSplitAmount()}
+                  />
+                </AlertText>
+              </Card>
             )}
           </Block>
         ))}
