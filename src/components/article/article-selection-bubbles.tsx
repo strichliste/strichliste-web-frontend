@@ -59,7 +59,6 @@ export class ArticleSelectionBubbles extends React.Component<Props, State> {
             value={this.state.query}
             // tslint:disable-next-line:no-any
             onChange={(e: any) => this.setState({ query: e.target.value })}
-            autoFocus={true}
           />
           <CancelButton onClick={this.props.onCancel} />
         </InputSection>
