@@ -2,7 +2,7 @@ import { MultiSelectionBox } from 'bricks-of-sand';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
-import { User, UsersState } from '../../store/reducers';
+import { UsersState } from '../../store/reducers';
 
 interface OwnProps {
   placeholder: string;
