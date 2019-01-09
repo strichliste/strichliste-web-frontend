@@ -184,12 +184,12 @@ describe('action creators', () => {
 
 describe('selectors', () => {
   describe('getUserArray', () => {
-    it('returns the current user map as an arry', () => {
+    it('returns the current user map as an array', () => {
       expect(
         getUserArray({
-          user: { 1: { id: 1 }, 2: { id: 2 } },
+          user: { 1: { id: 1, name: 'a' }, 2: { id: 2, name: 'b' } },
         } as any)
-      ).toEqual([{ id: 1 }, { id: 2 }]);
+      ).toEqual([{ id: 1, name: 'a' }, { id: 2, name: 'b' }]);
     });
   });
   describe('getUser', () => {

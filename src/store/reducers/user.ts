@@ -206,7 +206,9 @@ export function getUserState(state: AppState): UsersState {
 }
 
 export function getUserArray(state: AppState): User[] {
-  return Object.values(getUserState(state));
+  return Object.values(getUserState(state)).sort((a: User, b: User) =>
+    a.name.localeCompare(b.name)
+  );
 }
 
 export function getUser(state: AppState, userId: number): User | undefined {
