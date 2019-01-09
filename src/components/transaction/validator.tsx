@@ -7,6 +7,27 @@ import {
   getUserBalance,
 } from '../../store/reducers';
 
+interface TransactionArguments {
+  boundary: Boundary;
+  isDeposit: boolean;
+  balance: number;
+  value: number;
+}
+export const isTransactionValid = ({
+  boundary,
+  isDeposit,
+  balance,
+  value,
+}: TransactionArguments): boolean => {
+  const boundaryValue = isDeposit ? boundary.upper : boundary.lower;
+  const newValue = isDeposit ? value + balance : balance - value;
+
+  return (
+    (isDeposit ? newValue < boundaryValue : newValue > boundaryValue) &&
+    value !== 0
+  );
+};
+
 interface OwnProps {
   userId?: number;
   value: number;
@@ -19,22 +40,17 @@ interface StateProps {
   boundary: Boundary;
 }
 
-interface ActionProps {}
-
-export type TransactionValidatorProps = ActionProps & StateProps & OwnProps;
+export type TransactionValidatorProps = StateProps & OwnProps;
 
 export function TransactionValidator(
   props: TransactionValidatorProps
 ): JSX.Element | null {
-  const boundary = props.boundary;
-  const boundaryValue = props.isDeposit ? boundary.upper : boundary.lower;
-  const newValue = props.isDeposit
-    ? props.value + props.balance
-    : props.balance - props.value;
-
-  const isValid =
-    (props.isDeposit ? newValue < boundaryValue : newValue > boundaryValue) &&
-    props.value !== 0;
+  const isValid = isTransactionValid({
+    isDeposit: props.isDeposit,
+    value: props.value,
+    boundary: props.boundary,
+    balance: props.balance,
+  });
   return <>{props.render(isValid)}</>;
 }
 
