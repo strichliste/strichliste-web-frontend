@@ -1,8 +1,5 @@
 import {
-  AlertText,
   Block,
-  CancelButton,
-  Card,
   Input,
   PrimaryButton,
   ResponsiveGrid,
@@ -16,13 +13,14 @@ import {
   CreateTransactionParams,
   Transaction,
   User,
+  UsersState,
   startCreatingTransaction,
 } from '../../../store/reducers';
 import { ConnectedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
 import { ConnectedUserSelectionList } from '../../user';
-import { ConnectedTransactionListItem } from '../transaction-list-item';
-import { ConnectedTransactionValidator } from '../validator';
+import { ConnectedUserMultiSelection } from '../../user/user-multi-selection';
+import { isTransactionValid } from '../validator';
 
 interface State {
   recipient: User | undefined;
@@ -30,6 +28,7 @@ interface State {
   comment: string;
   amount: number;
   responseState: { [userId: number]: Transaction | 'error' };
+  validation: { [userId: number]: string };
 }
 
 interface Props {}
@@ -40,6 +39,7 @@ const initialState: State = {
   comment: '',
   amount: 0,
   responseState: {},
+  validation: {},
 };
 
 const GridContainer = styled('div')({
@@ -96,16 +96,18 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
 
   public setAmount = (amount: number) => {
     this.setState({ amount });
+    this.updateValidation();
   };
 
   public setComment = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ comment: e.target.value });
   };
 
-  public addParticipant = (user: User) => {
-    this.setState(state => ({
-      participants: [...(state.participants || []), user],
-    }));
+  public addParticipant = (user: UsersState) => {
+    this.setState({
+      participants: Object.values(user),
+    });
+    this.updateValidation();
   };
 
   public removeParticipant = (userToRemove: User) => {
@@ -138,7 +140,8 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
     return (
       this.state.recipient &&
       this.state.participants.length &&
-      this.state.amount > 0
+      this.state.amount > 0 &&
+      this.formIsValid()
     );
   };
 
@@ -154,6 +157,33 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
   public hasErrorState = (participant: User): boolean => {
     const transactionState = this.state.responseState[participant.id];
     return transactionState === 'error';
+  };
+
+  public updateValidation = () => {
+    const value = this.getSplitAmount();
+    const boundary = store.getState().settings.payment.boundary;
+    const initialValue: { [key: number]: string } = {};
+    const validation = Object.values(this.state.participants).reduce(
+      (acc, participant) => {
+        return {
+          ...acc,
+          [participant.id]: isTransactionValid({
+            value,
+            isDeposit: true,
+            boundary,
+            balance: participant.balance,
+          })
+            ? ''
+            : `can't afford it`,
+        };
+      },
+      initialValue
+    );
+    this.setState({ validation });
+  };
+
+  public formIsValid = () => {
+    return Object.values(this.state.validation).every(item => item === '');
   };
 
   public render(): JSX.Element {
@@ -226,70 +256,12 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
           )}
         />
         <Block margin="1rem 0">
-          <ConnectedUserSelectionList
-            disabled={!(this.state.amount > 0 && this.state.recipient)}
-            userId={this.getRecipientUserId(this.state.recipient)}
-            getString={() => ''}
-            placeholder="add participant"
-            autoFocus
+          <ConnectedUserMultiSelection
+            validation={this.state.validation}
             onSelect={this.addParticipant}
+            placeholder="add participant"
           />
         </Block>
-
-        {this.state.participants.map(participant => (
-          <Block margin="0.5rem 0" key={participant.name}>
-            {this.getTransactionId(participant) ? (
-              <>
-                {participant.name}{' '}
-                <FormattedMessage id="PAYED" defaultMessage="payed" />
-                <ConnectedTransactionListItem
-                  id={this.getTransactionId(participant)}
-                />
-              </>
-            ) : (
-              <Card
-                flex
-                justifyContent="space-between"
-                alignContent="center"
-                alignItems="center"
-              >
-                {this.hasErrorState(participant) ? (
-                  <PrimaryButton
-                    onClick={() => this.createTransaction(participant)}
-                  >
-                    <FormattedMessage id="RETRY" defaultMessage="retry" />
-                  </PrimaryButton>
-                ) : (
-                  <CancelButton
-                    onClick={() => this.removeParticipant(participant)}
-                  />
-                )}
-                <ConnectedTransactionValidator
-                  userId={participant.id}
-                  isDeposit
-                  value={this.getSplitAmount()}
-                  render={isValid => (
-                    <>
-                      {!isValid && this.state.amount > 0 && (
-                        <FormattedMessage
-                          id="SPLIT_INVOICE_USER_INVALID"
-                          defaultMessage="You can't afford it"
-                        />
-                      )}
-                    </>
-                  )}
-                />{' '}
-                {participant.name}{' '}
-                <AlertText value={participant.balance - this.getSplitAmount()}>
-                  <Currency
-                    value={participant.balance - this.getSplitAmount()}
-                  />
-                </AlertText>
-              </Card>
-            )}
-          </Block>
-        ))}
-        <div />
       </GridContainer>
     );
   }
