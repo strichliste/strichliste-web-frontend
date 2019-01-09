@@ -130,7 +130,9 @@ export function getArticleById(
 }
 
 export function getArticleList(state: AppState): Article[] {
-  return Object.values(getArticle(state)).filter(article => article.isActive);
+  return Object.values(getArticle(state))
+    .filter(article => article.isActive)
+    .sort((a: Article, b: Article) => a.name.localeCompare(b.name));
 }
 
 export function getPopularArticles(state: AppState): Article[] {
