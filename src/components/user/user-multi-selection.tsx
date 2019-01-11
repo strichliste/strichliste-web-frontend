@@ -5,6 +5,7 @@ import { AppState } from '../../store';
 import { UsersState } from '../../store/reducers';
 
 interface OwnProps {
+  excludeUserId: number;
   placeholder: string;
   validation: { [userId: number]: string };
   onSelect(selection: UsersState): void;
@@ -14,18 +15,18 @@ interface StateProps {
   users: UsersState;
 }
 
-interface ActionProps {}
-
-export type UserMultiSelectionProps = ActionProps & StateProps & OwnProps;
+export type UserMultiSelectionProps = StateProps & OwnProps;
 
 export function UserMultiSelection({
   placeholder,
+  excludeUserId,
   onSelect,
   users,
   validation,
 }: UserMultiSelectionProps): JSX.Element | null {
   return (
     <MultiSelectionBox
+      excludeIds={[excludeUserId]}
       errorMessageMap={validation}
       getItemIndex={user => (user ? user.id : 0)}
       itemToString={user => user.name}
@@ -40,9 +41,6 @@ const mapStateToProps = (state: AppState): StateProps => ({
   users: state.user,
 });
 
-const mapDispatchToProps = {};
-
-export const ConnectedUserMultiSelection = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserMultiSelection);
+export const ConnectedUserMultiSelection = connect(mapStateToProps)(
+  UserMultiSelection
+);
