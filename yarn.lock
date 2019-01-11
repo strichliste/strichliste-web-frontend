@@ -2148,9 +2148,9 @@ braces@^2.3.0, braces@^2.3.1:
     to-regex "^3.0.1"
 
 bricks-of-sand@^0.1.2:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.1.3.tgz#330c86635b2c83980613911e799f0ae0589b4d13"
-  integrity sha512-cMO5lMyPqnQF6db5NpxnOUy4mEb2YT6DamSYUhschS5LYzLc2KMiGeUims8Zh2Ru0yxcbSdvyibm0BWwp4iLgw==
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.1.4.tgz#df0f104c9634f1e0f45fa1cfdb26dd3f1c8e5c81"
+  integrity sha512-DdymWuOqTE6WEX56izDLTs6XvwX2WydSw3vmeVoZDlTObsS+psgICHEJyvZqrfgzVeOGGX1k5zy2vP+lLW+dDA==
   dependencies:
     "@emotion/core" "^10.0.5"
     "@emotion/styled" "^10.0.5"
