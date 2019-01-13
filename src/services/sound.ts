@@ -1,18 +1,10 @@
 import { Howl } from 'howler';
 import { CreateTransactionParams } from '../store/reducers';
 
-const deposit = new Howl({
-  src: ['deposit.wav'],
-});
-
 const dispense = new Howl({
-  src: ['dispense.wav'],
+  src: ['ka-ching.wav'],
 });
 
 export function playCashSound(params: CreateTransactionParams): void {
-  if (params && params.amount && params.amount > 0 && !params.articleId) {
-    deposit.play();
-  } else {
     dispense.play();
-  }
 }
