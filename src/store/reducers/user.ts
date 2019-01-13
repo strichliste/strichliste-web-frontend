@@ -78,7 +78,7 @@ export function startLoadingUsers(
 ): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     const params: { deleted?: string; active?: string } = {};
-    params.deleted = 'true';
+    params.deleted = 'false';
     if (isActive !== undefined) {
       params.active = isActive.toString();
     }

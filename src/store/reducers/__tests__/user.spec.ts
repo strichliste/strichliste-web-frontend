@@ -132,7 +132,7 @@ describe('action creators', () => {
 
       const store = getMockStore();
       await store.dispatch(startLoadingUsers(true));
-      expect(get).toHaveBeenCalledWith('user?deleted=true&active=true');
+      expect(get).toHaveBeenCalledWith('user?deleted=false&active=true');
       expect(store.getActions()).toMatchSnapshot();
     });
   });
