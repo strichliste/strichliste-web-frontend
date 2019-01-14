@@ -34,3 +34,8 @@ yarn build
 ```
 
 the output will be copied to the dist folder.
+
+## Contributing / FAQ
+
+where are the components from ? All basic building bricks are extracted to their
+own repo -> [bricks-of-sand](https://github.com/sanderdrummer/bricks-of-sand)
