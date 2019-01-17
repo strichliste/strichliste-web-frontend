@@ -25,7 +25,7 @@ describe('UserToUserValidator', () => {
     expect(getByTestId('result').innerHTML).toBe('yes');
   });
 
-  it('returns false if the user does not hav the money', () => {
+  it('returns false if the user does not have the money', () => {
     const { getByTestId } = renderWithContext(
       <ConnectedUserToUserValidator
         render={isValid => (
@@ -36,9 +36,10 @@ describe('UserToUserValidator', () => {
         value={100}
       />,
       {
-        user: { 1: { balance: -19900 }, 2: { balance: 100 } },
+        user: { 1: { balance: -250000 }, 2: { balance: 100 } },
       }
     );
+    console.log(getByTestId('result').innerHTML, 'THE CONTENT');
 
     expect(getByTestId('result').innerHTML).toBe('no');
   });
@@ -54,7 +55,7 @@ describe('UserToUserValidator', () => {
         value={100}
       />,
       {
-        user: { 1: { balance: 400 }, 2: { balance: 19900 } },
+        user: { 1: { balance: 400 }, 2: { balance: 19999 } },
       }
     );
 

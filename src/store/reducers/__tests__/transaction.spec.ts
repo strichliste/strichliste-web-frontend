@@ -1,11 +1,5 @@
 // tslint:disable no-any
 
-jest.mock('../../../services/api', () => ({
-  get: jest.fn(),
-  post: jest.fn(),
-  restDelete: jest.fn(),
-}));
-
 import { DeepPartial } from 'redux';
 import { TransactionTypes, startCreatingTransaction, transaction } from '..';
 import { Action } from '../..';
@@ -17,6 +11,13 @@ import {
   startDeletingTransaction,
   startLoadingTransactions,
 } from '../transaction';
+
+jest.mock('../../../services/api', () => ({
+  get: jest.fn(),
+  post: jest.fn(),
+  restDelete: jest.fn(),
+}));
+jest.mock('../../../services/sound', () => ({ playCashSound: jest.fn() }));
 
 describe('transaction reducer', () => {
   let action: DeepPartial<Action>;

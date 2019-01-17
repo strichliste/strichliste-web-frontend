@@ -42,8 +42,8 @@ interface Account {
 }
 
 export interface Boundary {
-  upper: number;
-  lower: number;
+  upper: number | boolean;
+  lower: number | boolean;
 }
 
 // tslint:disable-next-line:interface-name
@@ -149,6 +149,6 @@ export function getPayment(state: AppState): Payment {
   return getSettings(state).payment;
 }
 
-export function getSettingsBalance(state: AppState): number {
+export function getSettingsBalance(state: AppState): number | boolean {
   return getSettings(state).payment.boundary.upper;
 }

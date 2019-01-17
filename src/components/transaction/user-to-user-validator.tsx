@@ -31,9 +31,13 @@ export function UserToUserValidator(
           userId={props.targetUserId}
           value={props.value}
           isDeposit={true}
-          render={receiverCanAcceptTheMoney => (
-            <>{props.render(userHasTheMoney && receiverCanAcceptTheMoney)} </>
-          )}
+          render={receiverCanAcceptTheMoney => {
+            console.log({ userHasTheMoney, receiverCanAcceptTheMoney });
+
+            return (
+              <>{props.render(userHasTheMoney && receiverCanAcceptTheMoney)} </>
+            );
+          }}
         />
       )}
     />
