@@ -14,7 +14,7 @@ interface OwnProps {
 }
 
 interface StateProps {
-  balance: number;
+  balance: number | boolean;
   boundary: Boundary;
 }
 
@@ -27,7 +27,8 @@ export function ArticleValidator(
 ): JSX.Element | null {
   const userBuysArticles = props.userId;
   if (userBuysArticles) {
-    const newValue = props.balance - props.value;
+    const newValue =
+      (typeof props.balance === 'boolean' ? 0 : props.balance) - props.value;
     const buyArticleIsValid = props.boundary.lower < newValue;
 
     return <>{props.render(buyArticleIsValid)}</>;

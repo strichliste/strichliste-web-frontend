@@ -8,25 +8,90 @@ import {
 } from '../../store/reducers';
 
 interface TransactionArguments {
-  boundary: Boundary;
+  accountBoundary: Boundary;
+  paymentBoundary: Boundary;
   isDeposit: boolean;
-  balance: number;
+  balance: number | boolean;
   value: number;
 }
+
 export const isTransactionValid = ({
-  boundary,
+  accountBoundary,
+  paymentBoundary,
   isDeposit,
   balance,
   value,
 }: TransactionArguments): boolean => {
-  const boundaryValue = isDeposit ? boundary.upper : boundary.lower;
-  const newValue = isDeposit ? value + balance : balance - value;
-
-  return (
-    (isDeposit ? newValue < boundaryValue : newValue > boundaryValue) &&
-    value !== 0
-  );
+  if (value === 0) {
+    return false;
+  }
+  if (isDeposit) {
+    return checkDepositIsValid({
+      accountBoundaryValue: accountBoundary.upper,
+      paymentBoundaryValue: paymentBoundary.upper,
+      value,
+      balance,
+    });
+  } else {
+    return checkDispenseIsValid({
+      accountBoundaryValue: accountBoundary.lower,
+      paymentBoundaryValue: paymentBoundary.lower,
+      value,
+      balance,
+    });
+  }
 };
+
+interface CheckValidProps {
+  accountBoundaryValue: number | boolean;
+  paymentBoundaryValue: number | boolean;
+  balance: number | boolean;
+  value: number;
+}
+
+function checkDepositIsValid({
+  accountBoundaryValue,
+  paymentBoundaryValue,
+  balance,
+  value,
+}: CheckValidProps): boolean {
+  if (
+    typeof paymentBoundaryValue === 'number' &&
+    value > paymentBoundaryValue
+  ) {
+    return false;
+  }
+
+  if (
+    typeof accountBoundaryValue === 'boolean' ||
+    typeof balance === 'boolean'
+  ) {
+    return true;
+  }
+  return value + balance < accountBoundaryValue;
+}
+
+function checkDispenseIsValid({
+  accountBoundaryValue,
+  paymentBoundaryValue,
+  balance,
+  value,
+}: CheckValidProps): boolean {
+  if (
+    typeof paymentBoundaryValue === 'number' &&
+    value > paymentBoundaryValue * -1
+  ) {
+    return false;
+  }
+
+  if (
+    typeof accountBoundaryValue === 'boolean' ||
+    typeof balance === 'boolean'
+  ) {
+    return true;
+  }
+  return balance - value > accountBoundaryValue;
+}
 
 interface OwnProps {
   userId?: number;
@@ -36,8 +101,9 @@ interface OwnProps {
 }
 
 interface StateProps {
-  balance: number;
-  boundary: Boundary;
+  balance: number | boolean;
+  accountBoundary: Boundary;
+  paymentBoundary: Boundary;
 }
 
 export type TransactionValidatorProps = StateProps & OwnProps;
@@ -48,7 +114,8 @@ export function TransactionValidator(
   const isValid = isTransactionValid({
     isDeposit: props.isDeposit,
     value: props.value,
-    boundary: props.boundary,
+    accountBoundary: props.accountBoundary,
+    paymentBoundary: props.paymentBoundary,
     balance: props.balance,
   });
   return <>{props.render(isValid)}</>;
@@ -58,7 +125,8 @@ const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
   balance: props.userId
     ? getUserBalance(state, props.userId)
     : getSettingsBalance(state),
-  boundary: state.settings.payment.boundary,
+  accountBoundary: state.settings.account.boundary,
+  paymentBoundary: state.settings.payment.boundary,
 });
 
 export const ConnectedTransactionValidator = connect(mapStateToProps)(

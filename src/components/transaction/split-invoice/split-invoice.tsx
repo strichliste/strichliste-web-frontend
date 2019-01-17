@@ -173,7 +173,8 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
 
   public updateValidation = () => {
     const value = this.getSplitAmount();
-    const boundary = store.getState().settings.payment.boundary;
+    const accountBoundary = store.getState().settings.account.boundary;
+    const paymentBoundary = store.getState().settings.payment.boundary;
     const initialValue: { [key: number]: string } = {};
     const validation = Object.values(this.state.participants).reduce(
       (acc, participant) => {
@@ -182,7 +183,8 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
           [participant.id]: isTransactionValid({
             value,
             isDeposit: false,
-            boundary,
+            accountBoundary,
+            paymentBoundary,
             balance: participant.balance,
           })
             ? ''
