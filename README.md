@@ -37,5 +37,12 @@ the output will be copied to the dist folder.
 
 ## Contributing / FAQ
 
+### Commit Messages
+
+please follow the
+[angular commit message guidlines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines)
+
+### Ui Component Framework
+
 where are the components from ? All basic building bricks are extracted to their
 own repo -> [bricks-of-sand](https://github.com/sanderdrummer/bricks-of-sand)
