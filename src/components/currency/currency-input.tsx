@@ -80,7 +80,7 @@ export class CurrencyInput extends React.Component<Props, State> {
                   })
                 }
                 onChange={this.updateValue}
-                type="text"
+                type="tel"
                 autoFocus={this.props.autoFocus}
               />
             </div>
