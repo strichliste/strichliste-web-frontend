@@ -4,7 +4,7 @@ exports[`CurrencyInput matches the snapshot 1`] = `
 <div>
   <input
     class="css-f1jp27"
-    type="text"
+    type="tel"
     value="0.00"
   />
 </div>
@@ -14,7 +14,7 @@ exports[`CurrencyInput with a default value matches the snapshot 1`] = `
 <div>
   <input
     class="css-f1jp27"
-    type="text"
+    type="tel"
     value="1,234.56"
   />
 </div>
