@@ -39,8 +39,6 @@ describe('UserToUserValidator', () => {
         user: { 1: { balance: -250000 }, 2: { balance: 100 } },
       }
     );
-    console.log(getByTestId('result').innerHTML, 'THE CONTENT');
-
     expect(getByTestId('result').innerHTML).toBe('no');
   });
 
