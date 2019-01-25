@@ -4,6 +4,7 @@ import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import {
   Global,
+  Theme,
   ThemeProvider,
   dark,
   light,
@@ -24,6 +25,12 @@ import { store } from './store';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
+
+const newLight: Theme = {
+  ...light,
+  greenLight: '#D4E8D3',
+  greenText: '#6F9C7A',
+};
 
 const Grid = styled('div')({
   display: 'grid',
@@ -58,7 +65,7 @@ class App extends React.Component {
   // tslint:disable-next-line:prefer-function-over-method
   public render(): JSX.Element {
     return (
-      <ThemeProvider themes={{ light, dark }}>
+      <ThemeProvider themes={{ light: newLight, dark }}>
         <Provider store={store}>
           <IntlProvider
             textComponent={React.Fragment}
