@@ -2,6 +2,19 @@ import { Input } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
 
+// tslint:disable-next-line:no-any
+function moveCursorToEnd(el: any): void {
+  window.setTimeout(() => {
+    if (typeof el.selectionStart === 'number') {
+      el.selectionStart = el.selectionEnd = el.value.length;
+    } else if (typeof el.createTextRange !== 'undefined') {
+      const range = el.createTextRange();
+      range.collapse(false);
+      range.select();
+    }
+  }, 1);
+}
+
 interface State {
   lastPropValue: number | undefined;
   value: number;
@@ -17,6 +30,7 @@ interface Props {
 }
 
 export class CurrencyInput extends React.Component<Props, State> {
+  public inputRef = React.createRef();
   public state = {
     lastPropValue: 0,
     value: this.getValueFromProps(),
@@ -42,7 +56,11 @@ export class CurrencyInput extends React.Component<Props, State> {
     const cleanedNumber = this.props.noNegative
       ? Math.abs(convertFormattedNumberToCents(e.target.value))
       : convertFormattedNumberToCents(e.target.value);
-    this.setState({ value: cleanedNumber / 100 });
+    this.setState({ value: cleanedNumber / 100 }, () => {
+      if (this.inputRef && this.inputRef.current) {
+        moveCursorToEnd(this.inputRef.current);
+      }
+    });
     if (this.props.onChange) {
       this.props.onChange(cleanedNumber);
     }
@@ -57,6 +75,8 @@ export class CurrencyInput extends React.Component<Props, State> {
           children={(formattedValue: string) => (
             <div>
               <Input
+                // @ts-ignore
+                ref={this.inputRef}
                 style={{
                   color:
                     getPlaceholder(
@@ -80,7 +100,7 @@ export class CurrencyInput extends React.Component<Props, State> {
                   })
                 }
                 onChange={this.updateValue}
-                type="text"
+                type="tel"
                 autoFocus={this.props.autoFocus}
               />
             </div>

@@ -1,17 +1,30 @@
 export const baseCss = `
 :root{
-  font-size: 16px;
+  font-size: 14px;
 }
 
 label {
   display: block;
 }
 
-@media only screen and (min-width: 30em) {
+@media only screen and (min-width: 40em) {
   :root{
-    font-size: 20px;
+    font-size: 16px;
   }
 }
+
+@media only screen and (min-width: 100em) {
+  :root{
+    font-size: 22px;
+  }
+}
+
+@media only screen and (min-width: 130em) {
+  :root{
+    font-size: 28px;
+  }
+}
+
 body {
   overflow: scroll;
   font-family: 'Inter UI';
