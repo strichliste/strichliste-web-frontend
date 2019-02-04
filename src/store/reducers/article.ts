@@ -36,7 +36,7 @@ export function articlesLoaded(payload: Article[]): ArticlesLoadedAction {
 
 export function startLoadingArticles(): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
-    const promise = get(`article`);
+    const promise = get(`article?limit=999`);
     const data = await errorHandler<ArticleResponse>(dispatch, {
       promise,
       defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
