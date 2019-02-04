@@ -160,11 +160,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 userId={Number(this.props.match.params.id)}
                 targetUserId={this.state.selectedUser.id}
                 render={isValid => (
-                  <PrimaryButton
-                    isRound
-                    disabled={!isValid}
-                    onClick={this.createTransaction}
-                  >
+                  <PrimaryButton isRound disabled={!isValid} type="submit">
                     <AcceptIcon />
                   </PrimaryButton>
                 )}
