@@ -40,6 +40,7 @@ interface State {
   query: string;
 }
 
+const ARTICLE_BUBBLE_LIMIT = 10;
 export class ArticleSelectionBubbles extends React.Component<Props, State> {
   public state = {
     query: '',
@@ -69,6 +70,7 @@ export class ArticleSelectionBubbles extends React.Component<Props, State> {
                 !this.state.query ||
                 item.name.toLowerCase().includes(this.state.query.toLowerCase())
             )
+            .slice(0, ARTICLE_BUBBLE_LIMIT)
             .map(item => (
               <ConnectedArticleValidator
                 key={item.name}
