@@ -61,9 +61,12 @@ type Props = RouteComponentProps<{ id: string }> &
 
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;
-  // tslint:disable-next-line:no-any
   public submitUserId = (user: User): void => {
-    this.setState(() => ({ selectedUser: user }), this.createTransaction);
+    if (!this.state.selectedUser.id) {
+      this.setState(() => ({ selectedUser: user }));
+    } else {
+      this.handleSubmit();
+    }
   };
 
   public createTransaction = async () => {
@@ -82,6 +85,15 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
           createdTransactionId: res.id,
         });
       }
+    }
+  };
+
+  public handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
+    if (e) {
+      e.preventDefault();
+    }
+    if (this.state.selectedUser.id && this.state.selectedAmount) {
+      this.createTransaction();
     }
   };
 
@@ -113,58 +125,60 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
     } else {
       return (
         <>
-          <ResponsiveGrid
-            margin="1rem 0"
-            gridGap="1rem"
-            alignItems="center"
-            tabletColumns="4fr 1fr 4fr 1fr"
-          >
-            <CurrencyInput
-              noNegative
+          <form onSubmit={this.handleSubmit}>
+            <ResponsiveGrid
+              margin="1rem 0"
+              gridGap="1rem"
+              alignItems="center"
+              tabletColumns="4fr 1fr 4fr 1fr"
+            >
+              <CurrencyInput
+                noNegative
+                placeholder={this.props.intl.formatMessage({
+                  id: 'USER_TRANSACTION_FROM_AMOUNT_LABEL',
+                  defaultMessage: 'Amount',
+                })}
+                autoFocus
+                onChange={value =>
+                  this.setState({
+                    selectedAmount: value,
+                  })
+                }
+              />
+              &#8594;
+              <ConnectedUserSelectionList
+                userId={Number(this.props.match.params.id)}
+                placeholder={this.props.intl.formatMessage({
+                  id: 'CREATE_USER_TO_USER_TRANSACTION_USER',
+                  defaultMessage: 'Username',
+                })}
+                getString={user => user.name}
+                onSelect={this.submitUserId}
+              />
+              <ConnectedUserToUserValidator
+                value={this.state.selectedAmount}
+                userId={Number(this.props.match.params.id)}
+                targetUserId={this.state.selectedUser.id}
+                render={isValid => (
+                  <PrimaryButton
+                    isRound
+                    disabled={!isValid}
+                    onClick={this.createTransaction}
+                  >
+                    <AcceptIcon />
+                  </PrimaryButton>
+                )}
+              />
+            </ResponsiveGrid>
+            <Input
+              value={this.state.comment}
+              onChange={this.setComment}
               placeholder={this.props.intl.formatMessage({
-                id: 'USER_TRANSACTION_FROM_AMOUNT_LABEL',
-                defaultMessage: 'Amount',
-              })}
-              autoFocus
-              onChange={value =>
-                this.setState({
-                  selectedAmount: value,
-                })
-              }
-            />
-            &#8594;
-            <ConnectedUserSelectionList
-              userId={Number(this.props.match.params.id)}
-              placeholder={this.props.intl.formatMessage({
-                id: 'CREATE_USER_TO_USER_TRANSACTION_USER',
+                id: 'CREATE_USER_TO_USER_TRANSACTION_COMMENT',
                 defaultMessage: 'Username',
               })}
-              getString={user => user.name}
-              onSelect={this.submitUserId}
             />
-            <ConnectedUserToUserValidator
-              value={this.state.selectedAmount}
-              userId={Number(this.props.match.params.id)}
-              targetUserId={this.state.selectedUser.id}
-              render={isValid => (
-                <PrimaryButton
-                  isRound
-                  disabled={!isValid}
-                  onClick={this.createTransaction}
-                >
-                  <AcceptIcon />
-                </PrimaryButton>
-              )}
-            />
-          </ResponsiveGrid>
-          <Input
-            value={this.state.comment}
-            onChange={this.setComment}
-            placeholder={this.props.intl.formatMessage({
-              id: 'CREATE_USER_TO_USER_TRANSACTION_COMMENT',
-              defaultMessage: 'Username',
-            })}
-          />
+          </form>
         </>
       );
     }
