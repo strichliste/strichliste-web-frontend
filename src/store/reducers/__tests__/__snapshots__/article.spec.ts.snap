@@ -61,34 +61,3 @@ Array [
   },
 ]
 `;
-
-exports[`article reducer with non matching action returns initial state 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "GLOBAL_LOADER": true,
-    },
-    "type": "SET_LOADER",
-  },
-  Object {
-    "payload": Object {
-      "GLOBAL_ERROR": "",
-    },
-    "type": "SET_ERROR",
-  },
-  Object {
-    "payload": Object {
-      "GLOBAL_LOADER": false,
-    },
-    "type": "SET_LOADER",
-  },
-  Object {
-    "payload": Array [
-      Object {
-        "id": 1,
-      },
-    ],
-    "type": "articlesLoaded",
-  },
-]
-`;
