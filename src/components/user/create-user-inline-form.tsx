@@ -86,9 +86,14 @@ export class InlineCreateUserForm extends React.Component<Props, State> {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-    const user = await this.props.startCreatingUser(this.state.name);
-    if (user && user.id) {
-      this.props.history.push(`/user/${user.id}`);
+    const name = this.state.name.trim();
+    if (name) {
+      const user = await this.props.startCreatingUser(this.state.name);
+      if (user && user.id) {
+        this.props.history.push(`/user/${user.id}`);
+      }
+    } else {
+      this.setState({ name: '' });
     }
   };
 
@@ -120,11 +125,7 @@ export class InlineCreateUserForm extends React.Component<Props, State> {
               <Flex>
                 <Input
                   value={name}
-                  onChange={e =>
-                    this.setState({
-                      name: e.target.value,
-                    })
-                  }
+                  onChange={this.setUserName}
                   placeholder={text as string}
                   type="text"
                   required
@@ -151,6 +152,13 @@ export class InlineCreateUserForm extends React.Component<Props, State> {
       </Trigger>
     );
   }
+
+  public setUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.value;
+    this.setState({
+      name,
+    });
+  };
 }
 
 const mapDispatchToProps = {
