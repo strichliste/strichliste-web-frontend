@@ -14,6 +14,7 @@ interface OwnProps {
   userId: number;
   onSave(): void;
   onCancel(): void;
+  onDisabled(): void;
 }
 
 interface StateProps {
@@ -47,11 +48,16 @@ export class UserEditForm extends React.Component<
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
+
     const user = await this.props.startUpdateUser(
       this.props.userId,
       this.state
     );
 
+    if (user && user.isDisabled) {
+      this.props.onDisabled();
+      return;
+    }
     if (user && user.id) {
       this.props.onSave();
     }

@@ -1,4 +1,11 @@
-import { AlertText, Menu, Tab, styled, withTheme } from 'bricks-of-sand';
+import {
+  AlertText,
+  Ellipsis,
+  Menu,
+  Tab,
+  styled,
+  withTheme,
+} from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -20,11 +27,13 @@ const UserHeader = withTheme(
   styled('div')(
     {
       margin: '0 auto',
+      maxWidth: '100%',
+
       h1: {
         textTransform: 'none',
         fontSize: '2rem',
         textAlign: 'center',
-        margin: '1rem 0',
+        margin: '1rem auto',
       },
     },
     props => ({
@@ -34,6 +43,7 @@ const UserHeader = withTheme(
       },
       h1: {
         color: props.theme.primary,
+        maxWidth: '400px',
       },
     })
   )
@@ -56,7 +66,9 @@ const component = ({ user, location }: UserDetailsHeaderProps) => {
   const userUrl = `/user/${user.id}`;
   return (
     <UserHeader>
-      <h1>{user.name}</h1>
+      <h1>
+        <Ellipsis>{user.name}</Ellipsis>
+      </h1>
       <h1>
         <AlertText value={user.balance}>
           <Currency value={user.balance} />

@@ -7,13 +7,17 @@ export function UserEditView(props: UserRouteProps): JSX.Element {
   return (
     <>
       <ConnectedUserEditForm
-        onCancel={navigateToUserDetails(props, id)}
-        onSave={navigateToUserDetails(props, id)}
+        onCancel={() => navigateToUserDetails(props, id)}
+        onSave={() => navigateToUserDetails(props, id)}
+        onDisabled={() => navigateHome(props)}
         userId={Number(id)}
       />
     </>
   );
 }
-function navigateToUserDetails(props: UserRouteProps, id: string): () => void {
-  return () => props.history.push(getUserDetailLink(Number(id)));
+function navigateToUserDetails(props: UserRouteProps, id: string): void {
+  props.history.push(getUserDetailLink(Number(id)));
+}
+function navigateHome(props: UserRouteProps): void {
+  props.history.push('/user/active');
 }
