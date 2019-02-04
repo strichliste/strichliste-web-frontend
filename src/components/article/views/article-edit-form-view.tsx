@@ -8,13 +8,11 @@ export function ArticleEditFormView({
   history,
 }: RouteComponentProps<{ id: string }>): JSX.Element {
   return (
-    <>
-      <Card>
-        <ConnectedArticleForm
-          onCreated={history.goBack}
-          articleId={Number(match.params.id)}
-        />
-      </Card>
-    </>
+    <Card>
+      <ConnectedArticleForm
+        onCreated={history.goBack}
+        articleId={Number(match.params.id)}
+      />
+    </Card>
   );
 }

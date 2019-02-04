@@ -4,6 +4,7 @@ import {
   Block,
   CancelButton,
   Card,
+  ClickOutside,
   Column,
   Ellipsis,
   Flex,
@@ -179,70 +180,72 @@ export class ArticleForm extends React.Component<Props, State> {
         />
         <Column margin="0 0 0 1rem" flex="1">
           {this.state.isVisible && (
-            <Card padding="0.5rem" level={'level3'}>
-              <ArticleFormGrid
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <label>
-                  <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
-                </label>
-                <AnyInput
-                  value={this.state.params.name}
-                  // tslint:disable-next-line:no-any
-                  onChange={(e: any) =>
-                    this.updateParams({ name: e.target.value })
-                  }
-                  type="text"
-                  required
-                />
-                <Scanner
-                  onChange={barcode =>
-                    this.updateParams({
-                      barcode,
-                    })
-                  }
-                />
-                <label>
-                  <FormattedMessage id="ARTICLE_ADD_FORM_BARCODE_LABEL" />
-                </label>
-                <AnyInput
-                  value={this.state.params.barcode}
-                  // tslint:disable-next-line:no-any
-                  onChange={(e: any) =>
-                    this.updateParams({ barcode: e.target.value })
-                  }
-                  type="text"
-                  required
-                />
-                <label>
-                  <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
-                </label>
-                <ConnectedArticleValidator
-                  value={this.state.params.amount}
-                  render={isValid => (
-                    <>
-                      <form onSubmit={e => this.submit(e, isValid)}>
-                        <CurrencyInput
-                          noNegative
-                          value={this.state.params.amount}
-                          onChange={amount => this.updateParams({ amount })}
-                        />
-                      </form>
-                      <PrimaryButton
-                        isRound
-                        disabled={!isValid}
-                        onClick={(e: React.FormEvent) =>
-                          this.submit(e, isValid)
-                        }
-                      >
-                        <AcceptIcon />
-                      </PrimaryButton>
-                    </>
-                  )}
-                />
-              </ArticleFormGrid>
-            </Card>
+            <ClickOutside onClick={this.toggleIsVisible}>
+              <Card padding="0.5rem" level={'level3'}>
+                <ArticleFormGrid
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <label>
+                    <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
+                  </label>
+                  <AnyInput
+                    value={this.state.params.name}
+                    // tslint:disable-next-line:no-any
+                    onChange={(e: any) =>
+                      this.updateParams({ name: e.target.value })
+                    }
+                    type="text"
+                    required
+                  />
+                  <Scanner
+                    onChange={barcode =>
+                      this.updateParams({
+                        barcode,
+                      })
+                    }
+                  />
+                  <label>
+                    <FormattedMessage id="ARTICLE_ADD_FORM_BARCODE_LABEL" />
+                  </label>
+                  <AnyInput
+                    value={this.state.params.barcode}
+                    // tslint:disable-next-line:no-any
+                    onChange={(e: any) =>
+                      this.updateParams({ barcode: e.target.value })
+                    }
+                    type="text"
+                    required
+                  />
+                  <label>
+                    <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
+                  </label>
+                  <ConnectedArticleValidator
+                    value={this.state.params.amount}
+                    render={isValid => (
+                      <>
+                        <form onSubmit={e => this.submit(e, isValid)}>
+                          <CurrencyInput
+                            noNegative
+                            value={this.state.params.amount}
+                            onChange={amount => this.updateParams({ amount })}
+                          />
+                        </form>
+                        <PrimaryButton
+                          isRound
+                          disabled={!isValid}
+                          onClick={(e: React.FormEvent) =>
+                            this.submit(e, isValid)
+                          }
+                        >
+                          <AcceptIcon />
+                        </PrimaryButton>
+                      </>
+                    )}
+                  />
+                </ArticleFormGrid>
+              </Card>
+            </ClickOutside>
           )}
           {!this.state.isVisible && this.props.articleId && (
             <HoverCard padding="0.5rem" onClick={this.toggleIsVisible}>

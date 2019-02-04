@@ -2147,10 +2147,10 @@ braces@^2.3.0, braces@^2.3.1:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-bricks-of-sand@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.1.6.tgz#bfd319e7bb29d16bc99a2c8de4e9c1255deff3aa"
-  integrity sha512-fe1Kv74JRsh/GeE4JkKCwTBKnD7C0nrLvTTVPIKNmzmXwtmikGP1Qi0hiXnHixqVyq1ng018nXfiVUjxkPrGrw==
+bricks-of-sand@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.1.8.tgz#068d2ba59324db49216130941e429fb41ece4727"
+  integrity sha512-XgGxfPuYN7pjDu0bJ8pZv4mO8MNsI6G7LoTXkwOS1G6LliLhHSHhCtEUjK69ZzvDxkRcuSdosAcl44QIGOMwEQ==
   dependencies:
     "@emotion/core" "^10.0.5"
     "@emotion/styled" "^10.0.5"
