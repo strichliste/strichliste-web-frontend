@@ -1,11 +1,4 @@
-import {
-  AlertText,
-  Ellipsis,
-  Menu,
-  Tab,
-  styled,
-  withTheme,
-} from 'bricks-of-sand';
+import { AlertText, Menu, Tab, styled, withTheme } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -14,6 +7,7 @@ import { Currency } from '../currency';
 import { ProductIcon } from '../ui/icons/product';
 import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { TransactionIcon } from '../ui/icons/transactions';
+import { UserName } from '../user/user-name';
 import { UserDetailRouter } from './user-details-router';
 
 // tslint:disable-next-line:no-any
@@ -27,7 +21,6 @@ const UserHeader = withTheme(
   styled('div')(
     {
       margin: '0 auto',
-      maxWidth: '100%',
 
       h1: {
         textTransform: 'none',
@@ -43,7 +36,6 @@ const UserHeader = withTheme(
       },
       h1: {
         color: props.theme.primary,
-        maxWidth: '400px',
       },
     })
   )
@@ -67,7 +59,7 @@ const component = ({ user, location }: UserDetailsHeaderProps) => {
   return (
     <UserHeader>
       <h1>
-        <Ellipsis>{user.name}</Ellipsis>
+        <UserName center name={user.name} />
       </h1>
       <h1>
         <AlertText value={user.balance}>

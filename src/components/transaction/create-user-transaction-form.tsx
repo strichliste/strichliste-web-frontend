@@ -14,6 +14,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { User, startCreatingTransaction } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
 import { ConnectedUserSelectionList } from '../user';
+import { UserName } from '../user/user-name';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
 import { ConnectedUserToUserValidator } from './user-to-user-validator';
 
@@ -104,11 +105,12 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   public render(): JSX.Element {
     if (this.state.hasSelectionReady) {
       return (
-        <Card margin="1rem 0" flex justifyContent="space-between">
+        <Card width="100%" margin="1rem 0" flex justifyContent="space-between">
           <AcceptWrapper>
             <AcceptIcon />
             <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_SUCCESS" />{' '}
-            {this.state.selectedUser.name} &#8594;
+            <UserName width="120px" name={this.state.selectedUser.name} />
+            &#8594;
             <Currency value={this.state.selectedAmount} />
           </AcceptWrapper>
           <ConnectedTransactionUndoButton

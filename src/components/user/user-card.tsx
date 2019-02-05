@@ -1,10 +1,11 @@
-import { AlertText, Card, Ellipsis } from 'bricks-of-sand';
+import { AlertText, Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { AppState } from '../../store';
 import { User, getUser } from '../../store/reducers';
 import { ConnectedCurrency } from '../currency';
+import { UserName } from './user-name';
 
 interface OwnProps {
   id: number;
@@ -29,7 +30,7 @@ export function UserCard({ user }: UserCardProps): JSX.Element | null {
       hover="level3"
       height="6rem"
     >
-      <Ellipsis>{user.name}</Ellipsis>
+      <UserName name={user.name} />
       <AlertText value={user.balance}>
         <ConnectedCurrency value={user.balance} />
       </AlertText>

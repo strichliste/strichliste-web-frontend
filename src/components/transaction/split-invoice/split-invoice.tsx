@@ -22,6 +22,7 @@ import { Currency, CurrencyInput } from '../../currency';
 import { AcceptIcon } from '../../ui/icons/accept';
 import { ConnectedUserSelectionList } from '../../user';
 import { ConnectedUserMultiSelection } from '../../user/user-multi-selection';
+import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
 
 interface State {
@@ -235,18 +236,20 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
                     id="SPLIT_INVOICE_ERROR_MESSAGE"
                     defaultMessage="Failed to create Transaction for"
                   />{' '}
-                  {userName}
+                  <UserName name={userName} />
                 </Block>
               );
             }
             return (
               <Block margin="1rem 0" key={userId}>
                 <AcceptIcon />
-                {userName}{' '}
-                <FormattedMessage
-                  id="SPLIT_INVOICE_SUCCESS_MESSAGE"
-                  defaultMessage="payed the money"
-                />
+                <UserName name={userName} />
+                <p>
+                  <FormattedMessage
+                    id="SPLIT_INVOICE_SUCCESS_MESSAGE"
+                    defaultMessage="payed the money"
+                  />
+                </p>
               </Block>
             );
           })}
@@ -338,11 +341,13 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
                 />{' '}
                 <Currency value={this.getSplitAmount()} />
                 {this.state.recipient && (
-                  <FormattedMessage
-                    id="SPLIT_INVOICE_RECIPIENT_NOTE"
-                    defaultMessage=" to {name}"
-                    values={{ name: this.state.recipient.name }}
-                  />
+                  <>
+                    <FormattedMessage
+                      id="SPLIT_INVOICE_RECIPIENT_NOTE"
+                      defaultMessage=" to "
+                    />
+                    <UserName name={this.state.recipient.name} />
+                  </>
                 )}
               </P>
               <PrimaryButton
