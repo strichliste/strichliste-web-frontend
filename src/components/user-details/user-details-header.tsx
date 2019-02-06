@@ -2,6 +2,7 @@ import { AlertText, Menu, Tab, styled, withTheme } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
+import { usePayPalSettings } from '../../store';
 import { User } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ProductIcon } from '../ui/icons/product';
@@ -56,6 +57,7 @@ export interface UserDetailsHeaderProps extends RouteComponentProps {
 const component = ({ user, location }: UserDetailsHeaderProps) => {
   const currentUrl = location.pathname;
   const userUrl = `/user/${user.id}`;
+  const paypal = usePayPalSettings();
   return (
     <UserHeader>
       <h1>
@@ -91,6 +93,15 @@ const component = ({ user, location }: UserDetailsHeaderProps) => {
         >
           <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
         </LinkTab>
+        {paypal.enabled && (
+          <LinkTab
+            activeClassName="active"
+            to={toggleTab(`/user/${user.id}/paypal`, currentUrl, userUrl)}
+          >
+            <ProductIcon />{' '}
+            <FormattedMessage id="PAYPAL_LINK" defaultMessage="Paypal" />
+          </LinkTab>
+        )}
       </Menu>
       <UserDetailRouter />
     </UserHeader>

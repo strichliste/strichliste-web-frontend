@@ -94,6 +94,7 @@ export interface Paypal {
   enabled: boolean;
   recipient: string;
   fee: number;
+  sandbox: boolean;
 }
 
 interface User {
@@ -129,6 +130,7 @@ export const initialState = {
     enabled: false,
     recipient: '',
     fee: 0,
+    sandbox: true,
   },
   user: { stalePeriod: '10 day' },
   i18n: {
@@ -170,4 +172,8 @@ export function getPayment(state: AppState): Payment {
 
 export function getSettingsBalance(state: AppState): number | boolean {
   return getSettings(state).payment.boundary.upper;
+}
+
+export function getPayPal(state: AppState): Paypal {
+  return getSettings(state).paypal;
 }

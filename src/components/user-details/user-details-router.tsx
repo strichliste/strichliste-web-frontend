@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, RouteComponentProps, Switch } from 'react-router';
+
+import { PayPalTransaction } from '../paypal/paypal-transaction';
 import { ConnectedUserArticleTransaction } from '../user/views/user-article-transaction';
 import { UserEditView } from '../user/views/user-edit-view';
 import { ConnectedUserTransaction } from '../user/views/user-transaction';
@@ -17,6 +19,18 @@ export function UserDetailRouter(): JSX.Element {
         exact={true}
         component={ConnectedUserTransaction}
       />
+      <Route
+        path="/user/:id/paypal"
+        exact={true}
+        component={PayPalTransaction}
+      />
+      <Route
+        path="/user/:id/paypal/:amount"
+        exact={true}
+        component={PayPalTransaction}
+      />
     </Switch>
   );
 }
+
+export type UserRouteParams = RouteComponentProps<{ id: string }>;

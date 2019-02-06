@@ -841,7 +841,7 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.1.5":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.1.5", "@babel/runtime@^7.3.1":
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.3.1.tgz#574b03e8e8a9898eaf4a872a92ea20b7846f6f2a"
   integrity sha512-7jGW8ppV0ant637pIqAcFfQDDH1orEPGJb8aXfUozuCU3QqX7rX4DA8iwrbPrR1hcH0FTTHz47yQnk+bl5xHQA==
@@ -896,7 +896,7 @@
     "@emotion/utils" "0.11.1"
     "@emotion/weak-memoize" "0.2.2"
 
-"@emotion/core@^10.0.5":
+"@emotion/core@^10.0.7":
   version "10.0.7"
   resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.0.7.tgz#a894324b944cb06dcd36813afe35f07b0ed8d20d"
   integrity sha512-f5ZeA8R5mTiD2VDFCy6kRTXrQXN/1s79WPvEZZSwROJIyy9mHBB0/Lxg9BSIXfFdXryVw76kHNehTcBkgDYS7A==
@@ -959,7 +959,7 @@
     "@emotion/utils" "0.11.1"
     object-assign "^4.1.1"
 
-"@emotion/styled@^10.0.5":
+"@emotion/styled@^10.0.7":
   version "10.0.7"
   resolved "https://registry.yarnpkg.com/@emotion/styled/-/styled-10.0.7.tgz#e36c84bf14435127481a1ea0b038d64a15c13995"
   integrity sha512-H/7wi2bFYl6GdxBPYef0FNYay1ay5iKFGYxmkuH8WJZnDc/bf1Bx+lH9IQ+QujAMgmAtUHwJsgO2vwj0LEIYcg==
@@ -2164,14 +2164,14 @@ braces@^2.3.1, braces@^2.3.2:
     to-regex "^3.0.1"
 
 bricks-of-sand@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.1.8.tgz#068d2ba59324db49216130941e429fb41ece4727"
-  integrity sha512-XgGxfPuYN7pjDu0bJ8pZv4mO8MNsI6G7LoTXkwOS1G6LliLhHSHhCtEUjK69ZzvDxkRcuSdosAcl44QIGOMwEQ==
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.1.9.tgz#a8e7f57d7c225e618a7f5fc7ce01a67c393c4dc2"
+  integrity sha512-/nnzAdDRQr5twXj1wpDjguSr6zw0nqgC8fFJnRbEJVbexuOq4kmXmTrEh0RMkb2n8aEPKjs8zncA9+Pm1LIe3A==
   dependencies:
-    "@emotion/core" "^10.0.5"
-    "@emotion/styled" "^10.0.5"
-    downshift "3.1.2"
-    emotion-theming "^10.0.5"
+    "@emotion/core" "^10.0.7"
+    "@emotion/styled" "^10.0.7"
+    downshift "3.2.2"
+    emotion-theming "^10.0.7"
 
 brorand@^1.0.1:
   version "1.1.0"
@@ -3558,16 +3558,7 @@ dotenv@6.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
   integrity sha512-FlWbnhgjtwD+uNLUGHbMykMOYQaTivdHEmYwAKFjn6GKe/CqY0fNae93ZHTd20snh9ZLr8mTzIL9m0APQ1pjQg==
 
-downshift@3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/downshift/-/downshift-3.1.2.tgz#3a8238b7595796ae2f63a47bf7e2b619fa972dc1"
-  integrity sha512-OdeGRCfUTNL/eR8dLPmV6c9ytS6md1uwX2z0WGcOJaaArpV4DIdIwkmmvKH/U4NrZgXNV6J6iQAOZ/rayfQnGA==
-  dependencies:
-    "@babel/runtime" "^7.1.2"
-    compute-scroll-into-view "^1.0.9"
-    prop-types "^15.6.0"
-
-downshift@^3.2.2:
+downshift@3.2.2, downshift@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/downshift/-/downshift-3.2.2.tgz#5a51112cb19c4d2d611c27d5d27ff4d6fcdb1f69"
   integrity sha512-z4rkPnfC/ax1LnZkipQOlEu8WSDKduPudRjurlU85Qxy39eeY1ArAi0xU24qXcxd27bMS81mBMgkH7X/pEH2GA==
@@ -3650,7 +3641,7 @@ emojis-list@^2.0.0:
   resolved "https://registry.yarnpkg.com/emojis-list/-/emojis-list-2.1.0.tgz#4daa4d9db00f9819880c79fa457ae5b09a1fd389"
   integrity sha1-TapNnbAPmBmIDHn6RXrlsJof04k=
 
-emotion-theming@^10.0.5:
+emotion-theming@^10.0.7:
   version "10.0.7"
   resolved "https://registry.yarnpkg.com/emotion-theming/-/emotion-theming-10.0.7.tgz#0629740840f2ff6b929a7c3d52811187768e91c9"
   integrity sha512-/dqXTvPA8pRQJRrW6/wpGqu0s0tmtwC27Pk0IOrxDV2F/knbKcd7J/G3T2385NjE+aJO4XJJ7JCNWQkwcjuX0Q==
@@ -8776,14 +8767,14 @@ react-dev-utils@^7.0.1:
     text-table "0.2.0"
 
 react-dom@^16.8.0:
-  version "16.8.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.0.tgz#18f28d4be3571ed206672a267c66dd083145a9c4"
-  integrity sha512-dBzoAGYZpW9Yggp+CzBPC7q1HmWSeRc93DWrwbskmG1eHJWznZB/p0l/Sm+69leIGUS91AXPB/qB3WcPnKx8Sw==
+  version "16.8.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.1.tgz#ec860f98853d09d39bafd3a6f1e12389d283dbb4"
+  integrity sha512-N74IZUrPt6UiDjXaO7UbDDFXeUXnVhZzeRLy/6iqqN1ipfjrhR60Bp5NuBK+rv3GMdqdIuwIl22u1SYwf330bg==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.0"
+    scheduler "^0.13.1"
 
 react-error-overlay@^5.1.2:
   version "5.1.2"
@@ -8905,21 +8896,22 @@ react-scripts@2.1.3:
     fsevents "1.2.4"
 
 react-testing-library@^5.4.4:
-  version "5.4.4"
-  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-5.4.4.tgz#3fa787999492be94b228e4540a7211556bf4fd94"
-  integrity sha512-/TiERZ+URSNhZQfjrUXh0VLsiLSmhqP1WP+2e2wWqWqrRIWpcAxrfuBxzlT75LYMDNmicEikaXJqRDi/pqCEDg==
+  version "5.5.3"
+  resolved "https://registry.yarnpkg.com/react-testing-library/-/react-testing-library-5.5.3.tgz#cfd32da95b29e475003df4f66bd96e34eb5624bd"
+  integrity sha512-67jMsSJHbbm9M0NWvEzjNikDAKRdxivhP6vnpa9xPg/fYh19zkE4rMsFh5YWLpyoomm+e49fg+ubcXaEBYartA==
   dependencies:
+    "@babel/runtime" "^7.3.1"
     dom-testing-library "^3.13.1"
 
 react@^16.8.0:
-  version "16.8.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.8.0.tgz#8533f0e4af818f448a276eae71681d09e8dd970a"
-  integrity sha512-g+nikW2D48kqgWSPwNo0NH9tIGG3DsQFlrtrQ1kj6W77z5ahyIHG0w8kPpz4Sdj6gyLnz0lEd/xsjOoGge2MYQ==
+  version "16.8.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.8.1.tgz#ae11831f6cb2a05d58603a976afc8a558e852c4a"
+  integrity sha512-wLw5CFGPdo7p/AgteFz7GblI2JPOos0+biSoxf1FPsGxWQZdN/pj6oToJs1crn61DL3Ln7mN86uZ4j74p31ELQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.0"
+    scheduler "^0.13.1"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
@@ -9027,9 +9019,9 @@ redux-mock-store@^1.5.3:
     lodash.isplainobject "^4.0.6"
 
 redux-react-hook@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/redux-react-hook/-/redux-react-hook-3.0.4.tgz#6fc5cbb7c6ad6388185aea7d63ff230196cb6bfc"
-  integrity sha512-IOLYfIHSp2wK+SULGSk5K8iAkBh3g9VOAJn9rEP587IWlrsBG5oq9dA1AgWT3FUWsTxYVL0LZVJIBIN3Kj7u8Q==
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/redux-react-hook/-/redux-react-hook-3.1.0.tgz#cafc0fb4b2bf8512791ee2efb965cb9babca69d7"
+  integrity sha512-uey8v7ZXFcWon9zthM01HPNdg6C3Twn1WctCb7XRFO47iGbQnX/NUpcKMKpTKNC9DC+Dx6IjfYiOwI+11zHeaw==
 
 redux-thunk@^2.3.0:
   version "2.3.0"
@@ -9435,10 +9427,10 @@ saxes@^3.1.5:
   dependencies:
     xmlchars "^1.3.1"
 
-scheduler@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.0.tgz#e701f62e1b3e78d2bbb264046d4e7260f12184dd"
-  integrity sha512-w7aJnV30jc7OsiZQNPVmBc+HooZuvQZIZIShKutC3tnMFMkcwVN9CZRRSSNw03OnSCKmEkK8usmwcw6dqBaLzw==
+scheduler@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.1.tgz#1a217df1bfaabaf4f1b92a9127d5d732d85a9591"
+  integrity sha512-VJKOkiKIN2/6NOoexuypwSrybx13MY7NSy9RNt8wPvZDMRT1CW6qlpF5jXRToXNHz3uWzbm2elNpZfXfGPqP9A==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"

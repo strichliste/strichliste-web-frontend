@@ -79,6 +79,7 @@ Array [
         "enabled": false,
         "fee": 0,
         "recipient": "",
+        "sandbox": true,
       },
       "user": Object {
         "stalePeriod": "10 day",
