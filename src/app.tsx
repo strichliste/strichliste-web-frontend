@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { StoreContext } from 'redux-react-hook';
 
 import {
   Global,
@@ -66,17 +67,19 @@ class App extends React.Component {
   public render(): JSX.Element {
     return (
       <ThemeProvider themes={{ light: newLight, dark }}>
-        <Provider store={store}>
-          <IntlProvider
-            textComponent={React.Fragment}
-            locale="en"
-            messages={en}
-          >
-            <HashRouter hashType="hashbang">
-              <Layout />
-            </HashRouter>
-          </IntlProvider>
-        </Provider>
+        <StoreContext.Provider value={store}>
+          <Provider store={store}>
+            <IntlProvider
+              textComponent={React.Fragment}
+              locale="en"
+              messages={en}
+            >
+              <HashRouter hashType="hashbang">
+                <Layout />
+              </HashRouter>
+            </IntlProvider>
+          </Provider>
+        </StoreContext.Provider>
       </ThemeProvider>
     );
   }

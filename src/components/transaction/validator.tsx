@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { AppState } from '../../store';
+import { AppState, useSettings, useUserBalance } from '../../store';
 import {
   Boundary,
   getSettingsBalance,
@@ -132,3 +132,20 @@ const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
 export const ConnectedTransactionValidator = connect(mapStateToProps)(
   TransactionValidator
 );
+
+export function useTransactionValidator(
+  value: number,
+  userId: number
+): boolean {
+  const settings = useSettings();
+  const balance = useUserBalance(userId);
+  return isTransactionValid({
+    value,
+    balance,
+    isDeposit: true,
+    accountBoundary: settings.account.boundary,
+    paymentBoundary: settings.payment.boundary,
+  });
+
+  return true;
+}
