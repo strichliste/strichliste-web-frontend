@@ -53,7 +53,6 @@ Array [
             200,
             500,
             1000,
-            2000,
           ],
         },
         "dispense": Object {
@@ -65,14 +64,25 @@ Array [
             200,
             500,
             1000,
-            2000,
           ],
         },
         "transactions": Object {
           "enabled": true,
         },
+        "undo": Object {
+          "delete": false,
+          "enabled": true,
+          "timeout": "5 minute",
+        },
       },
-      "staleUserPeriod": "10 day",
+      "paypal": Object {
+        "enabled": false,
+        "fee": 0,
+        "recipient": "",
+      },
+      "user": Object {
+        "stalePeriod": "10 day",
+      },
     },
     "type": "SETTINGS_LOADED",
   },
