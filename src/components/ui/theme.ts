@@ -26,7 +26,6 @@ label {
 }
 
 body {
-  overflow: scroll;
   font-family: 'Inter UI';
 }
 h1,h2,h3{
