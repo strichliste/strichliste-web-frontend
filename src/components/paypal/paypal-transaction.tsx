@@ -1,4 +1,4 @@
-import { Block, PrimaryButton } from 'bricks-of-sand';
+import { Block } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -8,8 +8,7 @@ import { useUserName } from '../../store';
 import { Transaction, startCreatingTransaction } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from '../transaction/validator';
-import { AcceptIcon } from '../ui/icons/accept';
-import { getUserDetailLink } from '../user/user-router';
+import { getUserDetailLink, getUserPayPalLink } from '../user/user-router';
 import { PayPalTransactionButton } from './paypal-transaction-button';
 
 export interface PayPalTransactionProps
@@ -35,6 +34,8 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
       ).then((response: Transaction | undefined) => {
         if (response && response) {
           props.history.push(getUserDetailLink(userId));
+        } else {
+          props.history.push(`${getUserPayPalLink(userId)}/error`);
         }
       });
     }
@@ -42,23 +43,26 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
 
   return (
     <Block padding="2rem">
-      <FormattedMessage id="PAYPAL_HEADING" defaultMessage="Charge by paypal" />
+      <h2>
+        <FormattedMessage
+          id="PAYPAL_HEADING"
+          defaultMessage="Charge by paypal"
+        />
+      </h2>
       {props.match.params.amount === 'error' ? (
-        <>Something went wrong :(</>
+        <FormattedMessage
+          id="PAYPAL_ERROR"
+          defaultMessage="Could not create the STRICHLISTE Transaction :("
+        />
       ) : (
         <>
           <CurrencyInput value={value} onChange={setValue} />
           <Block margin="1rem 0 0 0">
-            {isValid ? (
-              <PayPalTransactionButton
-                amount={value / 100}
-                userName={userName}
-              />
-            ) : (
-              <PrimaryButton isRound disabled>
-                <AcceptIcon />
-              </PrimaryButton>
-            )}
+            <PayPalTransactionButton
+              amount={value / 100}
+              userName={userName}
+              disabled={!isValid}
+            />
           </Block>
         </>
       )}

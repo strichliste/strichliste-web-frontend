@@ -5,6 +5,7 @@ import { useSettings } from '../../store';
 interface Props {
   userName: string;
   amount: number;
+  disabled?: boolean;
 }
 
 export const PayPalTransactionButton = React.memo((props: Props) => {
@@ -40,7 +41,7 @@ export const PayPalTransactionButton = React.memo((props: Props) => {
           name="currency_code"
           value={settings.i18n.currency.alpha3}
         />
-        <AcceptButton />
+        <AcceptButton disabled={props.disabled} />
       </form>
     </div>
   );
