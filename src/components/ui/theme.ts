@@ -44,3 +44,7 @@ h1,h2,h3{
     align-content:center;
   }
 `;
+
+export const mobileStyles = `
+  body { user-select: none;}
+`;
