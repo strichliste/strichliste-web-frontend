@@ -13,11 +13,12 @@ export interface SettingsResponse extends MaybeResponse {
 }
 
 export interface Settings {
+  i18n: I18N;
   idleTimer: number;
-  staleUserPeriod: string;
-  i18n: I18n;
   account: Account;
   payment: Payment;
+  paypal: Paypal;
+  user: User;
 }
 
 export interface Payment {
@@ -27,42 +28,77 @@ export interface Payment {
   dispense: Deposit;
 }
 
-interface Deposit {
-  enabled: boolean;
-  custom: boolean;
-  steps: number[];
-}
-
-interface Transactions {
-  enabled: boolean;
-}
-
-interface Account {
-  boundary: Boundary;
-}
-
 export interface Boundary {
   upper: number | boolean;
   lower: number | boolean;
 }
 
+export interface SettingsLoadedAction {
+  type: SettingsTypes.SettingsLoaded;
+  payload: Settings;
+}
+
+export interface Setting {
+  settings: Settings;
+}
+
+export interface Settings {
+  i18n: I18N;
+  account: Account;
+  payment: Payment;
+}
+
+export interface Account {
+  boundary: Boundary;
+}
+
 // tslint:disable-next-line:interface-name
-interface I18n {
+export interface I18N {
   dateFormat: string;
   timezone: string;
   language: string;
   currency: Currency;
 }
 
-interface Currency {
+export interface Currency {
   name: string;
   symbol: string;
   alpha3: string;
 }
 
-export interface SettingsLoadedAction {
-  type: SettingsTypes.SettingsLoaded;
-  payload: Settings;
+export interface Payment {
+  undo: Undo;
+  boundary: Boundary;
+  transactions: Transactions;
+  deposit: Deposit;
+  dispense: Deposit;
+}
+
+export interface Deposit {
+  enabled: boolean;
+  custom: boolean;
+  steps: number[];
+}
+
+export interface Transactions {
+  enabled: boolean;
+}
+
+export interface Undo {
+  enabled: boolean;
+  delete: boolean;
+  timeout: string;
+}
+
+export interface Paypal {
+  enabled: boolean;
+  recipient: string;
+  fee: number;
+  sandbox: boolean;
+}
+
+interface User {
+  stalePeriod: string;
 }
 
 export type SettingsActions = SettingsLoadedAction;
@@ -90,41 +126,26 @@ export function startLoadingSettings(): DefaultThunkAction {
 
 export const initialState = {
   idleTimer: 150000,
-  staleUserPeriod: '10 day',
+  paypal: {
+    enabled: false,
+    recipient: '',
+    fee: 0,
+    sandbox: true,
+  },
+  user: { stalePeriod: '10 day' },
   i18n: {
     dateFormat: 'YYYY-MM-DD HH:mm:ss',
     timezone: 'auto',
     language: 'en',
-    currency: {
-      name: 'Euro',
-      symbol: '€',
-      alpha3: 'EUR',
-    },
+    currency: { name: 'Euro', symbol: '\u20ac', alpha3: 'EUR' },
   },
-  account: {
-    boundary: {
-      upper: 20000,
-      lower: -20000,
-    },
-  },
+  account: { boundary: { upper: 20000, lower: -20000 } },
   payment: {
-    boundary: {
-      upper: 15000,
-      lower: -2000,
-    },
-    transactions: {
-      enabled: true,
-    },
-    deposit: {
-      enabled: true,
-      custom: true,
-      steps: [50, 100, 200, 500, 1000, 2000],
-    },
-    dispense: {
-      enabled: true,
-      custom: true,
-      steps: [50, 100, 200, 500, 1000, 2000],
-    },
+    undo: { enabled: true, delete: false, timeout: '5 minute' },
+    boundary: { upper: 15000, lower: -2000 },
+    transactions: { enabled: true },
+    deposit: { enabled: true, custom: true, steps: [50, 100, 200, 500, 1000] },
+    dispense: { enabled: true, custom: true, steps: [50, 100, 200, 500, 1000] },
   },
 };
 
@@ -151,4 +172,8 @@ export function getPayment(state: AppState): Payment {
 
 export function getSettingsBalance(state: AppState): number | boolean {
   return getSettings(state).payment.boundary.upper;
+}
+
+export function getPayPal(state: AppState): Paypal {
+  return getSettings(state).paypal;
 }

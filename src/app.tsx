@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { StoreContext } from 'redux-react-hook';
 
 import {
   Global,
@@ -17,7 +18,7 @@ import { ConnectedErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
 import { ConnectedSettingsLoader } from './components/settings';
 import { SplitInvoiceForm } from './components/transaction';
-import { MainFooter, baseCss } from './components/ui';
+import { MainFooter, baseCss, mobileStyles } from './components/ui';
 import { GlobalLoadingIndicator } from './components/ui/loader';
 import { UserRouter } from './components/user/user-router';
 import { en } from './locales/en';
@@ -38,6 +39,14 @@ const Grid = styled('div')({
   minHeight: '100vh',
 });
 
+const TouchStyles = () => {
+  const isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+  if (isTouchDevice) {
+    return <Global styles={mobileStyles} />;
+  }
+  return null;
+};
+
 class Layout extends React.Component {
   // tslint:disable-next-line:prefer-function-over-method
   public render(): JSX.Element {
@@ -45,6 +54,7 @@ class Layout extends React.Component {
       <Grid>
         <Global styles={resetCss} />
         <Global styles={baseCss} />
+        <TouchStyles />
         <GlobalLoadingIndicator />
         <ConnectedErrorMessage />
         <ConnectedSettingsLoader />
@@ -66,17 +76,19 @@ class App extends React.Component {
   public render(): JSX.Element {
     return (
       <ThemeProvider themes={{ light: newLight, dark }}>
-        <Provider store={store}>
-          <IntlProvider
-            textComponent={React.Fragment}
-            locale="en"
-            messages={en}
-          >
-            <HashRouter hashType="hashbang">
-              <Layout />
-            </HashRouter>
-          </IntlProvider>
-        </Provider>
+        <StoreContext.Provider value={store}>
+          <Provider store={store}>
+            <IntlProvider
+              textComponent={React.Fragment}
+              locale="en"
+              messages={en}
+            >
+              <HashRouter hashType="hashbang">
+                <Layout />
+              </HashRouter>
+            </IntlProvider>
+          </Provider>
+        </StoreContext.Provider>
       </ThemeProvider>
     );
   }

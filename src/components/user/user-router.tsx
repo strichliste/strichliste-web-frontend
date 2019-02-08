@@ -81,4 +81,8 @@ export function getUserTransactionsLink(id: number, page: number = 0): string {
   return `/user/transactions/${id}/${page}`;
 }
 
+export function getUserPayPalLink(id: number): string {
+  return `${getUserDetailLink(id)}/paypal`;
+}
+
 export type UserRouteProps = RouteComponentProps<{ id: string }>;

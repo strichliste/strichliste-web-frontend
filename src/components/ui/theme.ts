@@ -26,16 +26,16 @@ label {
 }
 
 body {
-  font-family: 'Inter UI';
+  font-family: 'Inter';
 }
 h1,h2,h3{
   text-transform: uppercase;
-  font-family: 'Inter UI';
+  font-family: 'Inter';
   font-weight: lighter;
 }
   input {
     padding: 0.5rem;
-    font-family: 'Inter UI';
+    font-family: 'Inter';
     width: 100%;
     border-radius: 2px;
   }
@@ -43,4 +43,8 @@ h1,h2,h3{
     align-items: center;
     align-content:center;
   }
+`;
+
+export const mobileStyles = `
+  body { user-select: none;}
 `;
