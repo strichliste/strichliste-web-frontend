@@ -1,18 +1,18 @@
 language: node_js
 node_js:
-  - node
+- node
 before_install:
-  - nvm install-latest-npm
+- nvm install-latest-npm
 install: yarn
 script:
-  - yarn test
-  - yarn build
-  - mv build strichliste-web-frontend
-  - tar cvfz strichliste-web-frontend.tar.gz strichliste-web-frontend/
+- yarn test
+- yarn build
+- mv build strichliste-web-frontend
+- tar cvfz strichliste-web-frontend.tar.gz strichliste-web-frontend/
 deploy:
   provider: releases
   api_key:
-    secure: fZ746ZT9Z9gHdAQCC9wLS6jfzghSdVp9MZJSuQgZsG7rk+YlNAlPcyoyjJddzodHFZZ6N4taYZQELCTEkYrO2oGl27U33eGfVYwDE1SJf1v+ystEBrBMIe7cmLy97EdeDPHMtqyNUAghSME9CtevznGOPuQHato5vId/KI5HduiuAZFB0uOc2g3h74Wk/PRo9T3LZ+i8v8wzxzBNID6DF6ofnXW0fxsZRpDIUYlsHlClLtfaSMMHQG/N1GQrZJk3lIjy9+eB3+7jbPqnan8zficqP4jDMUW9oQZt+1xB3v1DSAN2GEnwzZH0WjrpicfoeG15sQBwfBRS2hqj+a1Uh4PCHwUlmnUGDGu3xNwTd0B6vQXjVozC4jGhF+iPZw0DM+ttZDNDUg55z5I4jAfD5j6UIGhygFWNtAPAchwdQUJB1FrOc6rqVLBY6ZHbONbl+dMcDtS789/xVQGdtJeWW1mjhIkJG3waO8Q5lgLDDWGp7rarKVZPAKm0FMHo/AEiRumF5np6ejE7kmIB480Gf+cz8ot/M1oH3nhYeD/DX1N/dx8+llRakUjyQlmtbhi5Y9SxS+Zvgh1cpOvGkihslWoRbzrK+w784C1tgbYhAdne5a5iHixIV6xlpwCMx7Gwn9ZXiWMdlcl7JHylSFGMyFOdkespDnBJof/loJ71XXU=
+    secure: 0xxU8j1HUn5OevC+e44ZJ+Mp6udGrnWplqts7IG8nKSQQRgmC4UuN5rZrdxatgULe1ESdli0gt6YEixRjEwVrdk7MTFL37RlUQFjEdH5tLtEfbQUczn28HhPPD3vA0kDRpXfQ6jvdYCykDvk72QVYMxeB0NLyqUTDfLxzXTxIqbThuWF9haQJUq9uYtx8wUECirkawVSUml57kWrvy/QtKOEkI9G8IsJju0WyIG24KSMLrFf0rNk0UyjZql8WYeQzJ2uHxXhZv5kobabeEsoHDsl0nN9gjzRmLrhpXrfY2YHnQjCpss0pC8EID91w34WqJfY4gaoOCnvNgz7JDZ9mGlzgmZpSGN/GCjfWFIzkNdMJBBsVJ9sArMiv9D+jelv1LbRkyJ9uLQBWtjBGkjZZ1eJmCGXBhqDLv19aiiZcqnOjR5TY0SZrHecaUP6hUCwd28XSIS2geZyO2h8Ek0Jgkxy3BcKI7NKYCJGCNBloSDgIc4yv98B7vCbHe4oaTcrNo4J0GD4eneEy6fW3lskcetwHo3ORqTTCHv9C8hUdEHH5RvppFlosJBoaQULG8grWtq7XzJ/kyGXQOypZU0lednMH7II+g/O3WCWRLIn4HfPbFY/VaGuQspbLWJcda13etCuR+NkJFOhKj0B5z3rtr63Y9fkKmaKJl4h06NtVc4=
   file: strichliste-web-frontend.tar.gz
   skip_cleanup: true
   on:
