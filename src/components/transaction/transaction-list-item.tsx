@@ -55,10 +55,10 @@ export function TransactionListItem(props: Props): JSX.Element | null {
             </AlertText>
             <Ellipsis>
               {props.transaction.sender && (
-                <>&#8592; {props.transaction.sender.name}</>
+                <>&#8592; {props.transaction.sender.name} :</>
               )}
               {props.transaction.recipient && (
-                <>&#8594; {props.transaction.recipient.name}</>
+                <>&#8594; {props.transaction.recipient.name} :</>
               )}
               {props.transaction.article && (
                 <>
@@ -68,7 +68,7 @@ export function TransactionListItem(props: Props): JSX.Element | null {
                   {props.transaction.article.name}
                 </>
               )}
-              {props.transaction.comment && <>: {props.transaction.comment}</>}
+              {props.transaction.comment && <> {props.transaction.comment}</>}
             </Ellipsis>
           </ResponsiveGrid>
           <TextRight>
