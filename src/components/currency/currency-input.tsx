@@ -73,37 +73,35 @@ export class CurrencyInput extends React.Component<Props, State> {
           minimumFractionDigits={2}
           value={this.state.value}
           children={(formattedValue: string) => (
-            <div>
-              <Input
-                // @ts-ignore
-                ref={this.inputRef}
-                style={{
-                  color:
-                    getPlaceholder(
-                      this.props.placeholder,
-                      formattedValue,
-                      this.state.hasFocus
-                    ) === this.props.placeholder
-                      ? '#8e8e8e'
-                      : undefined,
-                }}
-                placeholder={this.props.placeholder}
-                value={getPlaceholder(
-                  this.props.placeholder,
-                  formattedValue,
-                  this.state.hasFocus
-                )}
-                onFocus={() => this.setState({ hasFocus: true })}
-                onBlur={() =>
-                  this.setState({
-                    hasFocus: false,
-                  })
-                }
-                onChange={this.updateValue}
-                type="tel"
-                autoFocus={this.props.autoFocus}
-              />
-            </div>
+            <Input
+              // @ts-ignore
+              ref={this.inputRef}
+              style={{
+                color:
+                  getPlaceholder(
+                    this.props.placeholder,
+                    formattedValue,
+                    this.state.hasFocus
+                  ) === this.props.placeholder
+                    ? '#8e8e8e'
+                    : undefined,
+              }}
+              placeholder={this.props.placeholder}
+              value={getPlaceholder(
+                this.props.placeholder,
+                formattedValue,
+                this.state.hasFocus
+              )}
+              onFocus={() => this.setState({ hasFocus: true })}
+              onBlur={() =>
+                this.setState({
+                  hasFocus: false,
+                })
+              }
+              onChange={this.updateValue}
+              type="tel"
+              autoFocus={this.props.autoFocus}
+            />
           )}
         />
       </>
