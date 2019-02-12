@@ -78,7 +78,7 @@ export class User extends React.Component<UserProps> {
         <GridWrapper>
           <NavTabMenus
             margin="2rem 1rem"
-            breakpoint={768}
+            breakpoint={320}
             label={<FormattedMessage id="USER_ACTIVE_LINK" />}
             tabs={[
               {

@@ -1,21 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CurrencyInput matches the snapshot 1`] = `
-<div>
-  <input
-    class="css-f1jp27"
-    type="tel"
-    value="0.00"
-  />
-</div>
+<input
+  class="css-f1jp27"
+  type="tel"
+  value="0.00"
+/>
 `;
 
 exports[`CurrencyInput with a default value matches the snapshot 1`] = `
-<div>
-  <input
-    class="css-f1jp27"
-    type="tel"
-    value="1,234.56"
-  />
-</div>
+<input
+  class="css-f1jp27"
+  type="tel"
+  value="1,234.56"
+/>
 `;
