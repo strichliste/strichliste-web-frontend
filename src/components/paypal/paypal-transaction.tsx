@@ -1,4 +1,4 @@
-import { Block } from 'bricks-of-sand';
+import { Block, styled } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -6,10 +6,13 @@ import { useDispatch } from 'redux-react-hook';
 
 import { useUserName } from '../../store';
 import { Transaction, startCreatingTransaction } from '../../store/reducers';
-import { CurrencyInput } from '../currency';
-import { useTransactionValidator } from '../transaction/validator';
 import { getUserDetailLink, getUserPayPalLink } from '../user/user-router';
-import { PayPalTransactionButton } from './paypal-transaction-button';
+import { PayPalTransactionForm } from './paypal-transaction-form';
+
+const H2 = styled('h2')({
+  textAlign: 'center',
+  marginBottom: '1rem',
+});
 
 export interface PayPalTransactionProps
   extends RouteComponentProps<{ id: string; state: string; amount: string }> {}
@@ -18,9 +21,7 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
   const userId = Number(props.match.params.id);
   const paidAmount = Number(props.match.params.amount);
 
-  const [value, setValue] = React.useState(0);
   const userName = useUserName(userId);
-  const isValid = useTransactionValidator(value, userId);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -42,29 +43,20 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
   }, [paidAmount]);
 
   return (
-    <Block padding="2rem">
-      <h2>
+    <Block padding="2rem 0">
+      <H2>
         <FormattedMessage
           id="PAYPAL_HEADING"
           defaultMessage="Charge by paypal"
         />
-      </h2>
+      </H2>
       {props.match.params.amount === 'error' ? (
         <FormattedMessage
           id="PAYPAL_ERROR"
           defaultMessage="Could not create the STRICHLISTE Transaction :("
         />
       ) : (
-        <>
-          <CurrencyInput value={value} onChange={setValue} />
-          <Block margin="1rem 0 0 0">
-            <PayPalTransactionButton
-              amount={value / 100}
-              userName={userName}
-              disabled={!isValid}
-            />
-          </Block>
-        </>
+        <PayPalTransactionForm userName={userName} userId={userId} />
       )}
     </Block>
   );

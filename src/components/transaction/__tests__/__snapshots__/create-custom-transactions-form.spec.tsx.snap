@@ -14,15 +14,13 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
     >
       -
     </button>
-    <div>
-      <input
-        class="css-1mnge6h"
-        placeholder="CUSTOM AMOUNT"
-        style="color: rgb(142, 142, 142);"
-        type="tel"
-        value="CUSTOM AMOUNT"
-      />
-    </div>
+    <input
+      class="css-1mnge6h"
+      placeholder="CUSTOM AMOUNT"
+      style="color: rgb(142, 142, 142);"
+      type="tel"
+      value="CUSTOM AMOUNT"
+    />
     <button
       class="css-m3fq00"
       disabled=""
