@@ -35,7 +35,6 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
   const returnCancelUrl = location.href;
   const fee = numberAmount * (settings.paypal.fee / 100) || null;
   const amount = fee ? numberAmount + fee : numberAmount;
-
   return (
     <>
       <Wrapper>
@@ -52,7 +51,6 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
             name="item_name"
             value={`STRICHLISTE: ${props.userName}`}
           />
-          <input type="hidden" name="rm" value="1" />
           <input type="hidden" name="no_shipping" value="1" />
           <input type="hidden" name="no_note" value="1" />
           <input type="hidden" name="amount" value={amount} />
@@ -69,7 +67,7 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
       {fee && (
         <p>
           <FormattedMessage id="PAY_PAL_FEE_LABEL" defaultMessage="fee: " />
-          <Currency value={fee} />
+          <Currency value={fee * 100} />
         </p>
       )}
     </>
