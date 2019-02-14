@@ -1,7 +1,3 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-
 import {
   Button,
   Flex,
@@ -9,7 +5,11 @@ import {
   styled,
   withTheme,
 } from 'bricks-of-sand';
+import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
+
 import { AppState } from '../../store';
 import {
   User,
@@ -22,7 +22,7 @@ import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
 import { UserDetailsSeparator } from '../user-details/user-details-separator';
-import { getUserTransactionsLink } from './user-router';
+import { getUserDetailLink, getUserTransactionsLink } from './user-router';
 
 interface StateProps {
   details?: User;
@@ -114,6 +114,15 @@ export class UserDetails extends React.Component<UserDetailsProps> {
             </EmptyState>
           )}
         </ResponsiveGrid>
+        <Flex justifyContent="flex-end" margin="1rem">
+          <Button
+            onClick={() =>
+              this.props.history.push(`${getUserDetailLink(user.id)}/metrics`)
+            }
+          >
+            <TransactionIcon /> <FormattedMessage id="METRICS_HEADLINE" />
+          </Button>
+        </Flex>
       </div>
     );
   }
