@@ -51,7 +51,7 @@
     "ts-config": "^20.4.0",
     "ts-jest": "~23.10.4",
     "tslint": "^5.12.1",
-    "typescript": "3.3.1"
+    "typescript": "3.3.3"
   },
   "eslintConfig": {
     "extends": "react-app"

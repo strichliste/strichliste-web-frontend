@@ -4,7 +4,7 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ConnectedUserDetails } from '.';
 import { ConnectedIdleTimer } from '../common/idle-timer';
-import { MetricsView } from '../metrics/metrics';
+import { UserMetricsView } from '../metrics';
 import { TransactionOverview } from './views/transaction-overview';
 import { ConnectedUser } from './views/user';
 
@@ -59,7 +59,7 @@ export function UserRouter(props: Props): JSX.Element {
           exact={true}
           component={TransactionOverview}
         />
-        <Route path="/user/:id/metrics" component={MetricsView} />
+        <Route path="/user/:id/metrics" component={UserMetricsView} />
         <Route path="/user/:id" component={ConnectedUserDetails} />
         <Redirect from="/" to="/user/active" />
       </Switch>

@@ -35,7 +35,7 @@ interface ButtonProps {
   idArticle?: number;
   onClick(): void;
 }
-const ToggleArticleButton: React.SFC<ButtonProps> = props => {
+const ToggleArticleButton: React.FC<ButtonProps> = props => {
   if (props.isVisible) {
     return <CancelButton onClick={props.onClick} />;
   }
