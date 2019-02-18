@@ -84,7 +84,7 @@ describe('action creators', () => {
 
     it('pushes the transaction and dispatches the new transaction and updated user', async () => {
       const store = getMockStore();
-      await store.dispatch(startLoadingTransactions(2));
+      await startLoadingTransactions(store.dispatch, 2);
 
       expect(get).toHaveBeenCalledWith('user/2/transaction?offset=0&limit=5');
       expect(store.getActions()).toMatchSnapshot();
@@ -92,7 +92,7 @@ describe('action creators', () => {
 
     it('sets the given params', async () => {
       const store = getMockStore();
-      await store.dispatch(startLoadingTransactions(2, 50, 12));
+      await startLoadingTransactions(store.dispatch, 2, 50, 12);
 
       expect(get).toHaveBeenCalledWith('user/2/transaction?offset=50&limit=12');
     });

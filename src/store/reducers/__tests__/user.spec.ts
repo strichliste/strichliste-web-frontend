@@ -144,7 +144,7 @@ describe('action creators', () => {
       );
 
       const store = getMockStore();
-      await store.dispatch(startLoadingUserDetails(1));
+      await startLoadingUserDetails(store.dispatch, 1);
       expect(get).toHaveBeenCalledWith('user/1');
       expect(store.getActions()).toEqual([
         userDetailsLoaded([{ id: 1 }] as any),

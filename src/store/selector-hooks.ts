@@ -14,9 +14,16 @@ import {
   getUserState,
 } from './reducers';
 
+export function useUser(id: number) {
+  const user = useMappedState<AppState, User | undefined>(
+    useCallback(state => getUser(state, id), [id])
+  );
+  return user;
+}
+
 export function useUserName(id: number): string {
   const user = useMappedState<AppState, User | undefined>(
-    useCallback(state => getUser(state, id), [])
+    useCallback(state => getUser(state, id), [id])
   );
   return user ? user.name : '';
 }
@@ -24,7 +31,7 @@ export function useUserName(id: number): string {
 export function useUserBalance(id: number): number {
   return (
     useMappedState<AppState, number | undefined>(
-      useCallback(state => getUserBalance(state, id), [])
+      useCallback(state => getUserBalance(state, id), [id])
     ) || 0
   );
 }
@@ -36,7 +43,7 @@ export function useArticles(): Article[] {
 export function useArticle(id: number | undefined) {
   if (id) {
     return useMappedState<AppState, Article | undefined>(
-      useCallback((state: AppState) => getArticleById(state, id), [])
+      useCallback((state: AppState) => getArticleById(state, id), [id])
     );
   }
   return undefined;

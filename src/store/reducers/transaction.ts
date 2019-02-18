@@ -50,27 +50,26 @@ export function transactionsLoaded(
 
 export type TransactionActions = TransactionsLoadedAction;
 
-export function startLoadingTransactions(
+export async function startLoadingTransactions(
+  dispatch: Dispatch,
   userId: number,
   offset?: number,
   limit?: number
-): ThunkAction<Promise<TransactionsResponse | undefined>> {
-  return async (dispatch: Dispatch) => {
-    const params =
-      offset !== undefined && limit !== undefined
-        ? `?offset=${offset}&limit=${limit}`
-        : '?offset=0&limit=5';
-    const promise = get(`user/${userId}/transaction${params}`);
-    const data = await errorHandler<TransactionsResponse>(dispatch, {
-      promise,
-      defaultError: 'USER_TRANSACTIONS_LOADING_ERROR',
-    });
-    if (data && data.transactions) {
-      dispatch(transactionsLoaded(data.transactions));
-      return data;
-    }
-    return undefined;
-  };
+): Promise<TransactionsResponse | undefined> {
+  const params =
+    offset !== undefined && limit !== undefined
+      ? `?offset=${offset}&limit=${limit}`
+      : '?offset=0&limit=5';
+  const promise = get(`user/${userId}/transaction${params}`);
+  const data = await errorHandler<TransactionsResponse>(dispatch, {
+    promise,
+    defaultError: 'USER_TRANSACTIONS_LOADING_ERROR',
+  });
+  if (data && data.transactions) {
+    dispatch(transactionsLoaded(data.transactions));
+    return data;
+  }
+  return undefined;
 }
 
 export interface CreateTransactionParams {

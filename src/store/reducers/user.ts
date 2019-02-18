@@ -54,11 +54,12 @@ export function userDetailsLoaded(payload: User): UserDetailsLoadedAction {
   };
 }
 
-export function startLoadingUserDetails(id: number): DefaultThunkAction {
-  return async (dispatch: Dispatch) => {
-    const details = await get(`user/${id}`);
-    dispatch(userDetailsLoaded(details.user));
-  };
+export async function startLoadingUserDetails(
+  dispatch: Dispatch,
+  id: number
+): Promise<void> {
+  const details = await get(`user/${id}`);
+  dispatch(userDetailsLoaded(details.user));
 }
 
 export interface UsersLoadedAction {

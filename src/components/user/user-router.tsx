@@ -2,9 +2,9 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
-import { ConnectedUserDetails } from '.';
 import { ConnectedIdleTimer } from '../common/idle-timer';
 import { UserMetricsView } from '../metrics';
+import { UserDetails } from './user-details';
 import { TransactionOverview } from './views/transaction-overview';
 import { ConnectedUser } from './views/user';
 
@@ -60,7 +60,7 @@ export function UserRouter(props: Props): JSX.Element {
           component={TransactionOverview}
         />
         <Route path="/user/:id/metrics" component={UserMetricsView} />
-        <Route path="/user/:id" component={ConnectedUserDetails} />
+        <Route path="/user/:id" component={UserDetails} />
         <Redirect from="/" to="/user/active" />
       </Switch>
     </>

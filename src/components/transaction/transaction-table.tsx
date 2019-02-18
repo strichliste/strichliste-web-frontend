@@ -100,7 +100,7 @@ export class TransactionTable extends React.Component<
 
 const mapDispatchToProps = (dispatch: Dispatch): ActionProps => ({
   loadTransactions: (id: number, offset: number, limit: number) =>
-    dispatch(startLoadingTransactions(id, offset, limit)),
+    startLoadingTransactions(dispatch, id, offset, limit),
 });
 
 export const ConnectedTransactionTable = connect(
