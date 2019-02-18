@@ -3,16 +3,15 @@ import { useMappedState } from 'redux-react-hook';
 import { AppState } from '.';
 import {
   Article,
-  Paypal,
-  Settings,
   User,
   getArticleById,
   getArticleList,
   getPayPal,
   getSettings,
   getUser,
+  getUserArray,
+  getUserBalance,
 } from './reducers';
-import { getUserBalance } from './reducers/user';
 
 export function useUserName(id: number): string {
   const user = useMappedState<AppState, User | undefined>(
@@ -33,7 +32,7 @@ export function useArticles(): Article[] {
   return useMappedState<AppState, Article[]>(getArticleList);
 }
 
-export function useArticle(id: number | undefined): Article | undefined {
+export function useArticle(id: number | undefined) {
   if (id) {
     return useMappedState<AppState, Article | undefined>(
       useCallback((state: AppState) => getArticleById(state, id), [])
@@ -42,10 +41,14 @@ export function useArticle(id: number | undefined): Article | undefined {
   return undefined;
 }
 
-export function usePayPalSettings(): Paypal {
+export function usePayPalSettings() {
   return useMappedState(getPayPal);
 }
 
-export function useSettings(): Settings {
+export function useSettings() {
   return useMappedState(getSettings);
+}
+
+export function useUserArray() {
+  return useMappedState(getUserArray);
 }

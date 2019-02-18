@@ -20,7 +20,7 @@ import {
 import { ConnectedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
 import { AcceptIcon } from '../../ui/icons/accept';
-import { ConnectedUserSelectionList } from '../../user';
+import { UserSelection } from '../../user';
 import { ConnectedUserMultiSelection } from '../../user/user-multi-selection';
 import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
@@ -292,7 +292,7 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
             id="SELECT_RECIPIENT"
             defaultMessage="select recipient"
             children={placeholder => (
-              <ConnectedUserSelectionList
+              <UserSelection
                 placeholder={placeholder as string}
                 autoFocus
                 onSelect={this.setRecipient}

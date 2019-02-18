@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { AppState } from '../../store';
 import { User, getUserArray, startLoadingUsers } from '../../store/reducers';
 import { getUserDetailLink } from '../user/user-router';
-import { ConnectedUserSearch } from '../user/user-selection';
+import { UserSearch } from '../user/user-selection';
 
 interface StateProps {
   users: User[];
@@ -30,7 +30,7 @@ export class SearchInput extends React.Component<Props, State> {
       <FormattedMessage
         id="SEARCH"
         children={placeholder => (
-          <ConnectedUserSearch
+          <UserSearch
             placeholder={placeholder as string}
             onSelect={user =>
               this.props.history.push(getUserDetailLink(user.id))

@@ -8,12 +8,11 @@ import {
 import Downshift from 'downshift';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
-import { AppState } from '../../store';
-import { User, getUserArray } from '../../store/reducers';
+import { useUserArray } from '../../store';
+import { User } from '../../store/reducers';
 import { SearchIcon } from '../ui/icons/search';
 
-interface OwnProps {
+interface Props {
   userId?: number;
   autoFocus?: boolean;
   placeholder: string;
@@ -22,20 +21,9 @@ interface OwnProps {
   onSelect(user: User): void;
 }
 
-interface StateProps {
-  users: User[];
-}
-
-type Props = StateProps & OwnProps;
-
-const mapStateToProps = (state: AppState): StateProps => ({
-  users: getUserArray(state),
-});
-
-export const connectUser = connect(mapStateToProps);
-
 export function UserSelection(props: Props): JSX.Element {
-  const items = props.users.filter(user => {
+  const users = useUserArray();
+  const items = users.filter(user => {
     if (!props.userId) {
       return true;
     } else {
@@ -93,10 +81,9 @@ export function UserSelection(props: Props): JSX.Element {
   );
 }
 
-export const ConnectedUserSelectionList = connectUser(UserSelection);
-
 export function UserSearch(props: Props): JSX.Element {
-  const items = props.users;
+  const users = useUserArray();
+
   return (
     <Downshift
       onChange={selection => props.onSelect(selection)}
@@ -129,7 +116,7 @@ export function UserSearch(props: Props): JSX.Element {
             </IconInput>
             {isOpen && (
               <DropDownCard {...getMenuProps()}>
-                {items
+                {users
                   .filter(
                     item =>
                       !inputValue ||
@@ -153,5 +140,3 @@ export function UserSearch(props: Props): JSX.Element {
     </Downshift>
   );
 }
-
-export const ConnectedUserSearch = connectUser(UserSearch);
