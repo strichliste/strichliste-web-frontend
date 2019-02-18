@@ -8,7 +8,7 @@ import {
   startLoadingArticles,
 } from '../../store/reducers';
 import { Currency } from '../currency';
-import { ConnectedArticleValidator } from './validator';
+import { ArticleValidator } from './validator';
 
 const InputSection = styled(Flex)({
   padding: '0 1rem',
@@ -72,7 +72,7 @@ export class ArticleSelectionBubbles extends React.Component<Props, State> {
             )
             .slice(0, ARTICLE_BUBBLE_LIMIT)
             .map(item => (
-              <ConnectedArticleValidator
+              <ArticleValidator
                 key={item.name}
                 userId={this.props.userId}
                 value={item.amount}

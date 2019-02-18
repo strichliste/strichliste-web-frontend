@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import { RenderResult, render } from 'react-testing-library';
 import { DeepPartial, Store, createStore } from 'redux';
+import { StoreContext } from 'redux-react-hook';
+
 import { AppState, reducer } from '../store';
 
 const themeConfig = { light: theme, dark: theme };
@@ -19,11 +21,13 @@ export function renderWithContext(
 ): RenderResult {
   return render(
     <ThemeProvider themes={themeConfig}>
-      <Provider store={store}>
-        <Router history={history}>
-          <IntlProvider>{ui}</IntlProvider>
-        </Router>
-      </Provider>
+      <StoreContext.Provider value={store}>
+        <Provider store={store}>
+          <Router history={history}>
+            <IntlProvider>{ui}</IntlProvider>
+          </Router>
+        </Provider>
+      </StoreContext.Provider>
     </ThemeProvider>
   );
 }

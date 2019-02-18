@@ -21,7 +21,7 @@ import { useArticle } from '../../store';
 import { Article, startAddArticle } from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
-import { ConnectedArticleValidator } from './validator';
+import { useArticleValidator } from './validator';
 
 interface ButtonProps {
   isVisible: boolean;
@@ -111,6 +111,8 @@ const resetArticle = (article: Article | undefined, setParams: any) => {
 export const ArticleForm: React.FC<Props> = props => {
   const { toggle, updateToggle } = useToggle(false);
   const [params, setParams] = React.useState(initialParams);
+  const isValidArticle = useArticleValidator(params.amount);
+
   // tslint:disable-next-line:no-any
   const dispatch: any = useDispatch();
   const article = useArticle(props.articleId);
@@ -179,27 +181,20 @@ export const ArticleForm: React.FC<Props> = props => {
                 <label>
                   <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
                 </label>
-                <ConnectedArticleValidator
-                  value={params.amount}
-                  render={isValid => (
-                    <>
-                      <form onSubmit={e => submit(e, isValid)}>
-                        <CurrencyInput
-                          noNegative
-                          value={params.amount}
-                          onChange={amount => setParams({ ...params, amount })}
-                        />
-                      </form>
-                      <PrimaryButton
-                        isRound
-                        disabled={!isValid}
-                        onClick={(e: React.FormEvent) => submit(e, isValid)}
-                      >
-                        <AcceptIcon />
-                      </PrimaryButton>
-                    </>
-                  )}
-                />
+                <form onSubmit={e => submit(e, isValidArticle)}>
+                  <CurrencyInput
+                    noNegative
+                    value={params.amount}
+                    onChange={amount => setParams({ ...params, amount })}
+                  />
+                </form>
+                <PrimaryButton
+                  isRound
+                  disabled={!isValidArticle}
+                  onClick={(e: React.FormEvent) => submit(e, isValidArticle)}
+                >
+                  <AcceptIcon />
+                </PrimaryButton>
               </ArticleFormGrid>
             </Card>
           </ClickOutside>
