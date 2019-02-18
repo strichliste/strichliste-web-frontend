@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { GreenButton, RedButton, ResponsiveGrid } from 'bricks-of-sand';
+import { GreenButton, RedButton, ResponsiveGrid, styled } from 'bricks-of-sand';
 import { Dispatch } from '../../store';
 import {
   CreateTransactionParams,
@@ -9,6 +9,12 @@ import {
 } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { ConnectedTransactionValidator } from './validator';
+
+const ButtonText = styled('div')({
+  fontSize: '1rem',
+  fontWeight: 'bold',
+  lineHeight: 0,
+});
 
 export interface OwnProps {
   userId: number;
@@ -71,7 +77,7 @@ export class CreateCustomTransactionForm extends React.Component<
               disabled={!isValid}
               type="submit"
             >
-              -
+              <ButtonText>-</ButtonText>
             </RedButton>
           )}
         />
@@ -91,7 +97,7 @@ export class CreateCustomTransactionForm extends React.Component<
               disabled={!isValid}
               type="submit"
             >
-              +
+              <ButtonText>+</ButtonText>
             </GreenButton>
           )}
         />

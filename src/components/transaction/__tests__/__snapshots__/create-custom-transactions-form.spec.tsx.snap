@@ -12,7 +12,11 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
       disabled=""
       type="submit"
     >
-      -
+      <div
+        class="css-19nvorq"
+      >
+        -
+      </div>
     </button>
     <input
       class="css-1mnge6h"
@@ -26,7 +30,11 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
       disabled=""
       type="submit"
     >
-      +
+      <div
+        class="css-19nvorq"
+      >
+        +
+      </div>
     </button>
   </div>
 </div>
