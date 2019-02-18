@@ -7,6 +7,7 @@ import {
   Settings,
   User,
   getArticleById,
+  getArticleList,
   getPayPal,
   getSettings,
   getUser,
@@ -26,6 +27,10 @@ export function useUserBalance(id: number): number {
       useCallback(state => getUserBalance(state, id), [])
     ) || 0
   );
+}
+
+export function useArticles(): Article[] {
+  return useMappedState<AppState, Article[]>(getArticleList);
 }
 
 export function useArticle(id: number | undefined): Article | undefined {

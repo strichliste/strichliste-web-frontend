@@ -1,9 +1,4 @@
 // tslint:disable no-any
-jest.mock('../../../services/api', () => ({
-  get: jest.fn(),
-  post: jest.fn(),
-}));
-
 import { DeepPartial } from 'redux';
 import { get, post } from '../../../services/api';
 import { getMockStore } from '../../../spec-configs/mock-store';
@@ -17,6 +12,11 @@ import {
   startAddArticle,
   startLoadingArticles,
 } from '../article';
+
+jest.mock('../../../services/api', () => ({
+  get: jest.fn(),
+  post: jest.fn(),
+}));
 
 describe('article reducer', () => {
   let action: DeepPartial<Action>;
@@ -109,7 +109,7 @@ describe('action creators', () => {
     );
 
     const store = getMockStore();
-    await store.dispatch(startLoadingArticles());
+    await startLoadingArticles(store.dispatch);
     expect(get).toHaveBeenCalledWith('article');
     expect(store.getActions()).toMatchSnapshot();
   });

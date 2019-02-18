@@ -1,6 +1,6 @@
 import { get, post } from '../../services/api';
 import { MaybeResponse, errorHandler } from '../../services/error-handler';
-import { Action, DefaultThunkAction } from '../action';
+import { Action } from '../action';
 import { AppState, Dispatch, ThunkAction } from '../store';
 
 export interface ArticleResponse extends MaybeResponse {
@@ -34,17 +34,15 @@ export function articlesLoaded(payload: Article[]): ArticlesLoadedAction {
   };
 }
 
-export function startLoadingArticles(): DefaultThunkAction {
-  return async (dispatch: Dispatch) => {
-    const promise = get(`article?limit=999`);
-    const data = await errorHandler<ArticleResponse>(dispatch, {
-      promise,
-      defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
-    });
-    if (data && data.articles && data.articles.length) {
-      dispatch(articlesLoaded(data.articles));
-    }
-  };
+export async function startLoadingArticles(dispatch: Dispatch): Promise<void> {
+  const promise = get(`article?limit=999`);
+  const data = await errorHandler<ArticleResponse>(dispatch, {
+    promise,
+    defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
+  });
+  if (data && data.articles && data.articles.length) {
+    dispatch(articlesLoaded(data.articles));
+  }
 }
 
 export function getArticleByBarcode(

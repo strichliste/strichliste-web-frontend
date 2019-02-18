@@ -1,75 +1,42 @@
 import { Block } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
-import { AppState } from '../../store';
-import {
-  Article,
-  getArticleList,
-  startLoadingArticles,
-} from '../../store/reducers';
+import { useDispatch } from 'redux-react-hook';
+import { useArticles } from '../../store';
+import { startLoadingArticles } from '../../store/reducers';
 import { NavTabMenus } from '../common/nav-tab-menu';
 import { ArticleForm } from './article-form';
 
-interface OwnProps {}
+export const ArticleList: React.FC = () => {
+  const articles = useArticles();
+  const dispatch = useDispatch();
 
-interface StateProps {
-  articles: Article[];
-}
+  React.useEffect(() => {
+    startLoadingArticles(dispatch);
+  }, []);
 
-interface ActionProps {
-  // tslint:disable-next-line:no-any
-  loadArticles: any;
-}
-
-type Props = ActionProps & StateProps & OwnProps;
-
-interface State {}
-
-export class ArticleList extends React.Component<Props, State> {
-  public state = {};
-
-  public componentDidMount(): void {
-    this.props.loadArticles();
-  }
-
-  public render(): JSX.Element {
-    return (
-      <Block margin="1.5rem 1rem">
-        <ArticleForm onCreated={() => ''}>
-          <NavTabMenus
-            margin="0.5rem 0"
-            breakpoint={0}
-            label={<FormattedMessage id="ARTICLE_HEADLINE" />}
-            tabs={[
-              {
-                to: '/articles',
-                message: <FormattedMessage id="ARTICLE_HEADLINE" />,
-              },
-            ]}
-          />
-        </ArticleForm>
-        {this.props.articles.map(article => (
-          <ArticleForm
-            articleId={article.id}
-            key={article.id}
-            onCreated={() => ''}
-          />
-        ))}
-      </Block>
-    );
-  }
-}
-
-const mapStateToProps = (state: AppState): StateProps => ({
-  articles: getArticleList(state),
-});
-
-const mapDispatchToProps = {
-  loadArticles: startLoadingArticles,
+  return (
+    <Block margin="1.5rem 1rem">
+      <ArticleForm onCreated={() => ''}>
+        <NavTabMenus
+          margin="0.5rem 0"
+          breakpoint={0}
+          label={<FormattedMessage id="ARTICLE_HEADLINE" />}
+          tabs={[
+            {
+              to: '/articles',
+              message: <FormattedMessage id="ARTICLE_HEADLINE" />,
+            },
+          ]}
+        />
+      </ArticleForm>
+      {articles.map(article => (
+        <ArticleForm
+          articleId={article.id}
+          key={article.id}
+          onCreated={() => ''}
+        />
+      ))}
+    </Block>
+  );
 };
-
-export const ConnectedArticleList = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ArticleList);
