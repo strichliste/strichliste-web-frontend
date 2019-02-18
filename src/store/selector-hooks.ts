@@ -2,9 +2,11 @@ import { useCallback } from 'react';
 import { useMappedState } from 'redux-react-hook';
 import { AppState } from '.';
 import {
+  Article,
   Paypal,
   Settings,
   User,
+  getArticleById,
   getPayPal,
   getSettings,
   getUser,
@@ -24,6 +26,15 @@ export function useUserBalance(id: number): number {
       useCallback(state => getUserBalance(state, id), [])
     ) || 0
   );
+}
+
+export function useArticle(id: number | undefined): Article | undefined {
+  if (id) {
+    return useMappedState<AppState, Article | undefined>(
+      useCallback((state: AppState) => getArticleById(state, id), [])
+    );
+  }
+  return undefined;
 }
 
 export function usePayPalSettings(): Paypal {

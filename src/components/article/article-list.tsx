@@ -9,7 +9,7 @@ import {
   startLoadingArticles,
 } from '../../store/reducers';
 import { NavTabMenus } from '../common/nav-tab-menu';
-import { ConnectedArticleForm } from './article-form';
+import { ArticleForm } from './article-form';
 
 interface OwnProps {}
 
@@ -36,7 +36,7 @@ export class ArticleList extends React.Component<Props, State> {
   public render(): JSX.Element {
     return (
       <Block margin="1.5rem 1rem">
-        <ConnectedArticleForm onCreated={() => ''}>
+        <ArticleForm onCreated={() => ''}>
           <NavTabMenus
             margin="0.5rem 0"
             breakpoint={0}
@@ -48,9 +48,9 @@ export class ArticleList extends React.Component<Props, State> {
               },
             ]}
           />
-        </ConnectedArticleForm>
+        </ArticleForm>
         {this.props.articles.map(article => (
-          <ConnectedArticleForm
+          <ArticleForm
             articleId={article.id}
             key={article.id}
             onCreated={() => ''}
