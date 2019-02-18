@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-
 import {
   AutoGrid,
   HideByBreakPoint,
   breakPoints,
   styled,
 } from 'bricks-of-sand';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { Link, RouteComponentProps } from 'react-router-dom';
+
 import { AppState } from '../../../store';
 import {
   getFilteredUserIds,
@@ -16,7 +16,7 @@ import {
   updateSearch,
 } from '../../../store/reducers';
 import { NavTabMenus } from '../../common/nav-tab-menu';
-import { ConnectedInlineCreateUserForm } from '../create-user-inline-form';
+import { CreateUserInlineFormView } from '../create-user-inline-form';
 import { ConnectedUserCard } from '../user-card';
 
 interface OwnProps {
@@ -93,7 +93,7 @@ export class User extends React.Component<UserProps> {
           />
           <HideByBreakPoint min={768} max={Infinity}>
             <CreateUserPosition>
-              <ConnectedInlineCreateUserForm
+              <CreateUserInlineFormView
                 isActive={this.props.showCreateUserForm || false}
               />
             </CreateUserPosition>
@@ -101,7 +101,7 @@ export class User extends React.Component<UserProps> {
           <AutoGrid rows="5rem" columns="8rem">
             <HideByBreakPoint min={0} max={767}>
               <CreateUserGridPosition>
-                <ConnectedInlineCreateUserForm
+                <CreateUserInlineFormView
                   isActive={this.props.showCreateUserForm || false}
                 />
               </CreateUserGridPosition>

@@ -100,28 +100,27 @@ export function startLoadingUsers(
   };
 }
 
-export function startCreatingUser(
+export async function startCreatingUser(
+  dispatch: Dispatch,
   name: string
-): ThunkAction<Promise<User | undefined>> {
-  return async (dispatch: Dispatch) => {
-    const promise = post('user', {
-      name,
-    });
-    const data = await errorHandler(dispatch, {
-      promise,
-      defaultError: 'USERS_CREATION_FAILED',
-      errors: {
-        UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
-      },
-    });
+): Promise<User | undefined> {
+  const promise = post('user', {
+    name,
+  });
+  const data = await errorHandler(dispatch, {
+    promise,
+    defaultError: 'USERS_CREATION_FAILED',
+    errors: {
+      UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
+    },
+  });
 
-    if (data && data.user) {
-      dispatch(userDetailsLoaded(data.user));
-      return data.user;
-    }
+  if (data && data.user) {
+    dispatch(userDetailsLoaded(data.user));
+    return data.user;
+  }
 
-    return undefined;
-  };
+  return undefined;
 }
 export interface UserUpdateParams {
   name: string;

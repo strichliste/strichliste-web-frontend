@@ -158,7 +158,7 @@ describe('action creators', () => {
         Promise.resolve({ user: [{ id: 1 }] })
       );
       const store = getMockStore();
-      await store.dispatch(startCreatingUser('test'));
+      await startCreatingUser(store.dispatch, 'test');
       expect(post).toHaveBeenCalledWith('user', { name: 'test' });
       expect(store.getActions()).toMatchSnapshot();
     });
