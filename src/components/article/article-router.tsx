@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router';
 import { ConnectedIdleTimer } from '../common/idle-timer';
+import { ArticleEditFormView } from './article-edit-form-view';
 import { ArticleList } from './article-list';
-import { ArticleEditFormView } from './views/article-edit-form-view';
 
 export function ArticleRouter(props: RouteComponentProps): JSX.Element {
   return (
