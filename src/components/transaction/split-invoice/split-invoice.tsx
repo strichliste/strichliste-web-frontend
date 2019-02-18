@@ -21,7 +21,7 @@ import { ConnectedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
 import { AcceptIcon } from '../../ui/icons/accept';
 import { UserSelection } from '../../user';
-import { ConnectedUserMultiSelection } from '../../user/user-multi-selection';
+import { UserMultiSelection } from '../../user/user-multi-selection';
 import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
 
@@ -314,7 +314,7 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
           <FormattedMessage id="AND" defaultMessage="and" />
         </TextCenter>
         <Block margin="1rem 0">
-          <ConnectedUserMultiSelection
+          <UserMultiSelection
             excludeUserId={this.state.recipient ? this.state.recipient.id : 0}
             validation={this.state.validation}
             onSelect={this.addParticipant}

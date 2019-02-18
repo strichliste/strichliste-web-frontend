@@ -11,6 +11,7 @@ import {
   getUser,
   getUserArray,
   getUserBalance,
+  getUserState,
 } from './reducers';
 
 export function useUserName(id: number): string {
@@ -51,4 +52,8 @@ export function useSettings() {
 
 export function useUserArray() {
   return useMappedState(getUserArray);
+}
+
+export function useUserState() {
+  return useMappedState(getUserState);
 }
