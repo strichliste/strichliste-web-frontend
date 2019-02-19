@@ -85,7 +85,7 @@ describe('action creators', () => {
         Promise.resolve({ articles: [{ id: 1 }] })
       );
       const store = getMockStore();
-      await store.dispatch(getArticleByBarcode('asdf'));
+      await getArticleByBarcode(store.dispatch, 'asdf');
       expect(get).toHaveBeenCalledWith('article?barcode=asdf');
       expect(store.getActions()).toMatchSnapshot();
     });
@@ -96,7 +96,7 @@ describe('action creators', () => {
       );
       const store = getMockStore();
       try {
-        await store.dispatch(getArticleByBarcode('asdf'));
+        await getArticleByBarcode(store.dispatch, 'asdf');
       } catch (error) {
         expect(error.message).toBe('no articles are matching the barcode');
       }

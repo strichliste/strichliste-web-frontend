@@ -15,7 +15,7 @@ import {
   startLoadingTransactions,
   startLoadingUserDetails,
 } from '../../store/reducers';
-import { ConnectedArticleScanner } from '../article/article-scanner';
+import { ArticleScanner } from '../article/article-scanner';
 import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
@@ -64,7 +64,7 @@ export const UserDetails = (props: UserDetailsProps) => {
     : [];
   return (
     <div>
-      <ConnectedArticleScanner userId={user.id} />
+      <ArticleScanner userId={user.id} />
       <UserDetailsHeader user={user} />
       <UserDetailsSeparator />
       <ResponsiveGrid margin="1rem" tabletColumns="24rem 1fr">

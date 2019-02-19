@@ -1,7 +1,6 @@
 import { AcceptIcon, Flex } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
 import {
   Article,
   getArticleByBarcode,
@@ -11,79 +10,56 @@ import { Scanner } from '../common/scanner';
 import { Toast } from '../common/toast';
 import { Currency } from '../currency';
 import { AcceptWrapper } from '../transaction/create-user-transaction-form';
+import { useDispatch } from 'redux-react-hook';
 
-interface State {
-  message: string;
-  article: Article | null;
-}
-
-interface OwnProps {
+interface Props {
   userId: number;
 }
 
-interface ActionProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  startCreatingTransaction: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getArticleByBarcode(barcode: string): any;
-}
+export const ArticleScanner = (props: Props) => {
+  const [message, setMessage] = React.useState('');
+  const [article, setArticle] = React.useState<Article | undefined>(undefined);
+  const dispatch = useDispatch();
 
-type Props = ActionProps & OwnProps;
-
-const initialState = {
-  message: '',
-  article: null,
-};
-export class ArticleScanner extends React.Component<Props, State> {
-  public state = initialState;
-
-  public resetState = () => {
-    this.setState(initialState);
-  };
-
-  public handleChange = async (barcode: string) => {
-    this.setState({ message: barcode });
+  const handleChange = async (barcode: string) => {
+    setMessage(barcode);
     try {
-      const article: Article = await this.props.getArticleByBarcode(barcode);
-      this.setState({ message: 'ARTICLE_FETCHED_BY_BARCODE', article });
-      this.createTransaction(article);
+      const article = await getArticleByBarcode(dispatch, barcode);
+      setMessage('ARTICLE_FETCHED_BY_BARCODE');
+      setArticle(article);
+      if (article) {
+        startCreatingTransaction(dispatch, props.userId, {
+          articleId: article.id,
+        });
+      }
     } catch (error) {
-      this.setState({ message: ':(' });
+      setMessage(':(');
     }
   };
-
-  public createTransaction = (article: Article): void => {
-    this.props.startCreatingTransaction(this.props.userId, {
-      articleId: article.id,
-    });
+  const resetState = () => {
+    setMessage('');
+    setArticle(undefined);
   };
 
-  public render(): JSX.Element | null {
-    return (
-      <>
-        {this.state.message && (
-          <Toast onFadeOut={this.resetState} fadeOutSeconds={6}>
-            <ToastContent {...this.state} />
-          </Toast>
-        )}
-        <Scanner onChange={this.handleChange} />
-      </>
-    );
-  }
-}
-
-const mapDispatchToProps: ActionProps = {
-  getArticleByBarcode,
-  startCreatingTransaction,
+  return (
+    <>
+      {message && (
+        <Toast onFadeOut={resetState} fadeOutSeconds={6}>
+          <ToastContent article={article} message={message} />
+        </Toast>
+      )}
+      <Scanner onChange={handleChange} />
+    </>
+  );
 };
 
-export const ConnectedArticleScanner = connect(
-  undefined,
-  mapDispatchToProps
-)(ArticleScanner);
+interface ToastProps {
+  message: string;
+  article: Article | undefined;
+}
 
-function ToastContent({ article, message }: State): JSX.Element {
-  if (article === null) {
+function ToastContent({ article, message }: ToastProps): JSX.Element {
+  if (article === undefined) {
     return <>{message}</>;
   }
   return (

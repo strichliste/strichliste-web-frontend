@@ -35,11 +35,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
   return (
     <div>
       <InputSection>
-        <Input
-          value={query}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(e: any) => setQuery(e.target.value)}
-        />
+        <Input value={query} onChange={e => setQuery(e.target.value)} />
         <CancelButton onClick={props.onCancel} />
       </InputSection>
       <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">

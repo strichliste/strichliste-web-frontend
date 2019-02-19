@@ -45,22 +45,21 @@ export async function startLoadingArticles(dispatch: Dispatch): Promise<void> {
   }
 }
 
-export function getArticleByBarcode(
+export async function getArticleByBarcode(
+  dispatch: Dispatch,
   barcode: string
-): ThunkAction<Promise<Article | undefined>> {
-  return async (dispatch: Dispatch) => {
-    const promise = get(`article?barcode=${barcode}`);
-    const data = await errorHandler<ArticleResponse>(dispatch, {
-      promise,
-      defaultError: 'ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE',
-    });
-    if (data && data.articles && data.articles.length) {
-      dispatch(articlesLoaded(data.articles));
-      return data.articles[0];
-    } else {
-      throw Error('no articles are matching the barcode');
-    }
-  };
+): Promise<Article | undefined> {
+  const promise = get(`article?barcode=${barcode}`);
+  const data = await errorHandler<ArticleResponse>(dispatch, {
+    promise,
+    defaultError: 'ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE',
+  });
+  if (data && data.articles && data.articles.length) {
+    dispatch(articlesLoaded(data.articles));
+    return data.articles[0];
+  } else {
+    throw Error('no articles are matching the barcode');
+  }
 }
 
 export interface AddArticleParams {
