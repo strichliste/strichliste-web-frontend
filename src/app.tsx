@@ -32,6 +32,13 @@ const newLight: Theme = {
   greenLight: '#D4E8D3',
   greenText: '#6F9C7A',
 };
+const newDark: Theme = {
+  ...dark,
+  red: '#FFBAC2',
+  green: '#C2FFCD',
+  greenLight: 'rgba(36,200,65,0.20)',
+  redLight: ' rgba(226,87,102,0.20)',
+};
 
 const Grid = styled('div')({
   display: 'grid',
@@ -75,7 +82,7 @@ class App extends React.Component {
   // tslint:disable-next-line:prefer-function-over-method
   public render(): JSX.Element {
     return (
-      <ThemeProvider themes={{ light: newLight, dark }}>
+      <ThemeProvider themes={{ light: newLight, dark: newDark }}>
         <StoreContext.Provider value={store}>
           <Provider store={store}>
             <IntlProvider

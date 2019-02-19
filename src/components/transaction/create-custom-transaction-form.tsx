@@ -1,12 +1,18 @@
 import React from 'react';
 
-import { GreenButton, RedButton, ResponsiveGrid } from 'bricks-of-sand';
+import { GreenButton, RedButton, ResponsiveGrid, styled } from 'bricks-of-sand';
 import { useDispatch } from 'redux-react-hook';
 import { startCreatingTransaction } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
 
-export interface Props {
+const ButtonText = styled('div')({
+  fontSize: '1rem',
+  fontWeight: 'bold',
+  lineHeight: 0,
+});
+
+interface Props {
   userId: number;
   transactionCreated?(): void;
 }
@@ -43,7 +49,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
         disabled={!dispenseIsValid}
         type="submit"
       >
-        -
+        <ButtonText>-</ButtonText>
       </RedButton>
       <CurrencyInput
         value={value}
@@ -56,7 +62,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
         disabled={!depositIsValid}
         type="submit"
       >
-        +
+        <ButtonText>+</ButtonText>
       </GreenButton>
     </ResponsiveGrid>
   );
