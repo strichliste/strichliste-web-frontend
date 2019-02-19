@@ -1,10 +1,10 @@
+import { Block, Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Block, Card } from 'bricks-of-sand';
-import { ConnectedCreateCustomTransactionForm } from '.';
 import { AppState } from '../../store';
 import { Payment, getPayment } from '../../store/reducers';
+import { CreateCustomTransactionForm } from './create-custom-transaction-form';
 import { PaymentButtonList } from './payment-button-steps';
 
 interface OwnProps {
@@ -29,7 +29,7 @@ export function PaymentComponent(props: Props): JSX.Element {
         />
       )}
       <Block margin="1rem">
-        <ConnectedCreateCustomTransactionForm userId={props.userId} />
+        <CreateCustomTransactionForm userId={props.userId} />
       </Block>
       {props.payment.dispense.enabled && (
         <PaymentButtonList

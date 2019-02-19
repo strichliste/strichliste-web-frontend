@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Article, startCreatingTransaction } from '../../../store/reducers';
-import { ConnectedArticleSelectionBubbles } from '../../article/article-selection-bubbles';
+import { ArticleSelectionBubbles } from '../../article/article-selection-bubbles';
 import { getUserDetailLink } from '../user-router';
 
 interface ActionProps {
@@ -17,15 +17,13 @@ export function UserArticleTransaction(
   props: UserArticleTransactionProps
 ): JSX.Element | null {
   return (
-    <>
-      <ConnectedArticleSelectionBubbles
-        userId={Number(props.match.params.id)}
-        onCancel={() =>
-          props.history.push(getUserDetailLink(Number(props.match.params.id)))
-        }
-        onSelect={article => onSelect(article, props)}
-      />
-    </>
+    <ArticleSelectionBubbles
+      userId={Number(props.match.params.id)}
+      onCancel={() =>
+        props.history.push(getUserDetailLink(Number(props.match.params.id)))
+      }
+      onSelect={article => onSelect(article, props)}
+    />
   );
 }
 

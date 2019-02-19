@@ -170,9 +170,10 @@ describe('action creators', () => {
         Promise.resolve({ user: [{ id: 1 }] })
       );
       const store = getMockStore();
-      await store.dispatch(
-        startUpdateUser(1, { name: 'test', isDisabled: true })
-      );
+      await startUpdateUser(store.dispatch, 1, {
+        name: 'test',
+        isDisabled: true,
+      });
       expect(post).toHaveBeenCalledWith('user/1', {
         name: 'test',
         isDisabled: true,

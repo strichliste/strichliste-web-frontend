@@ -84,9 +84,12 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
       this.setState({ isLoading: true });
       const userId = participant.id;
       const params = this.getParams(this.state.recipient);
-      const result = await store.dispatch(
-        startCreatingTransaction(userId, params)
+      const result = await startCreatingTransaction(
+        store.dispatch,
+        userId,
+        params
       );
+
       this.setState(state => ({
         responseState: {
           ...state.responseState,

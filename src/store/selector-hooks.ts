@@ -7,6 +7,7 @@ import {
   getArticleById,
   getArticleList,
   getPayPal,
+  getPopularArticles,
   getSettings,
   getUser,
   getUserArray,
@@ -38,6 +39,10 @@ export function useUserBalance(id: number): number {
 
 export function useArticles(): Article[] {
   return useMappedState<AppState, Article[]>(getArticleList);
+}
+
+export function usePopularArticles(): Article[] {
+  return useMappedState<AppState, Article[]>(getPopularArticles);
 }
 
 export function useArticle(id: number | undefined) {

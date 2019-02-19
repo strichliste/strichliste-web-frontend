@@ -135,14 +135,15 @@ export const ConnectedTransactionValidator = connect(mapStateToProps)(
 
 export function useTransactionValidator(
   value: number,
-  userId: number
+  userId: number,
+  isDeposit: boolean = true
 ): boolean {
   const settings = useSettings();
   const balance = useUserBalance(userId);
   return isTransactionValid({
     value,
     balance,
-    isDeposit: true,
+    isDeposit,
     accountBoundary: settings.account.boundary,
     paymentBoundary: settings.payment.boundary,
   });

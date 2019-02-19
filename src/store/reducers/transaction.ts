@@ -3,7 +3,7 @@ import { get, post, restDelete } from '../../services/api';
 import { MaybeResponse, errorHandler } from '../../services/error-handler';
 import { playCashSound } from '../../services/sound';
 import { Action, DefaultThunkAction } from '../action';
-import { AppState, Dispatch, ThunkAction } from '../store';
+import { AppState, Dispatch } from '../store';
 import { Article } from './article';
 import { userDetailsLoaded } from './user';
 
@@ -79,25 +79,23 @@ export interface CreateTransactionParams {
   comment?: string;
 }
 export type StartCreatingTransaction = typeof startCreatingTransaction;
-export function startCreatingTransaction(
+export async function startCreatingTransaction(
+  dispatch: Dispatch,
   userId: number,
   params: CreateTransactionParams
-  // tslint:disable-next-line:no-any
-): ThunkAction<Promise<any>> {
-  return async (dispatch: Dispatch) => {
-    playCashSound(params);
-    const promise = post(`user/${userId}/transaction`, params);
-    const data = await errorHandler<TransactionResponse>(dispatch, {
-      promise,
-      defaultError: 'USER_TRANSACTION_CREATION_ERROR',
-    });
-    if (data && data.transaction) {
-      dispatch(userDetailsLoaded(data.transaction.user));
-      dispatch(transactionsLoaded([data.transaction]));
-      return data.transaction;
-    }
-    return undefined;
-  };
+): Promise<Transaction | undefined> {
+  playCashSound(params);
+  const promise = post(`user/${userId}/transaction`, params);
+  const data = await errorHandler<TransactionResponse>(dispatch, {
+    promise,
+    defaultError: 'USER_TRANSACTION_CREATION_ERROR',
+  });
+  if (data && data.transaction) {
+    dispatch(userDetailsLoaded(data.transaction.user));
+    dispatch(transactionsLoaded([data.transaction]));
+    return data.transaction;
+  }
+  return undefined;
 }
 
 export function startDeletingTransaction(

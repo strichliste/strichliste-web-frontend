@@ -3,7 +3,7 @@ import { Action } from '..';
 import { get, post } from '../../services/api';
 import { errorHandler } from '../../services/error-handler';
 import { DefaultThunkAction } from '../action';
-import { AppState, Dispatch, ThunkAction } from '../store';
+import { AppState, Dispatch } from '../store';
 import { getSearchQuery } from './search';
 
 export interface GetUsersResponse {
@@ -128,26 +128,25 @@ export interface UserUpdateParams {
   email?: string;
   isDisabled: boolean;
 }
-export function startUpdateUser(
+export async function startUpdateUser(
+  dispatch: Dispatch,
   userId: number,
   params: UserUpdateParams
-): ThunkAction<Promise<User | undefined>> {
-  return async (dispatch: Dispatch) => {
-    const promise = post(`user/${userId}`, params);
-    const data = await errorHandler(dispatch, {
-      promise,
-      defaultError: 'USER_EDIT_USER_FAILED',
-      errors: {
-        UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
-      },
-    });
-    if (data && data.user) {
-      dispatch(userDetailsLoaded(data.user));
-      return data.user;
-    }
+): Promise<User | undefined> {
+  const promise = post(`user/${userId}`, params);
+  const data = await errorHandler(dispatch, {
+    promise,
+    defaultError: 'USER_EDIT_USER_FAILED',
+    errors: {
+      UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
+    },
+  });
+  if (data && data.user) {
+    dispatch(userDetailsLoaded(data.user));
+    return data.user;
+  }
 
-    return undefined;
-  };
+  return undefined;
 }
 
 export type UserActions = UsersLoadedAction | UserDetailsLoadedAction;

@@ -54,7 +54,7 @@ describe('action creators', () => {
 
     it('pushes the transaction and dispatches the new transaction and updated user', async () => {
       const store = getMockStore();
-      await store.dispatch(startCreatingTransaction(2, { amount: 1 }));
+      await startCreatingTransaction(store.dispatch, 2, { amount: 1 });
 
       expect(post).toHaveBeenCalledWith('user/2/transaction', { amount: 1 });
       expect(store.getActions()).toMatchSnapshot();
