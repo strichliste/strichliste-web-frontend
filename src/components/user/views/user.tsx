@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AutoGrid,
   HideByBreakPoint,
@@ -29,9 +30,7 @@ interface StateProps {
 }
 
 interface ActionProps {
-  // tslint:disable-next-line:no-any
   updateSearch: any;
-  // tslint:disable-next-line:no-any
   startLoadingUsers: any;
 }
 

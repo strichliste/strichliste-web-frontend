@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface EditIconProps {}
-
-export function EditIcon(props: EditIconProps): JSX.Element {
+export function EditIcon(): JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

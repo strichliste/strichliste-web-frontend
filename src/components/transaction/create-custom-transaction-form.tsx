@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { GreenButton, RedButton, ResponsiveGrid } from 'bricks-of-sand';
 import { useDispatch } from 'redux-react-hook';

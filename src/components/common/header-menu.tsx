@@ -5,8 +5,6 @@ import { NavLink } from 'react-router-dom';
 import { Logo } from '../ui/icons/logo';
 import { ConnectedSearchInput } from './search';
 
-export interface HeaderMenuProps {}
-
 const HeaderLeft = styled(Flex)({
   a: {
     display: 'inline-flex',
@@ -29,7 +27,7 @@ const HeaderRight = withTheme(
   })
 );
 
-export function HeaderMenu(props: HeaderMenuProps): JSX.Element {
+export function HeaderMenu(): JSX.Element {
   return (
     <HeaderNavBar>
       <Flex

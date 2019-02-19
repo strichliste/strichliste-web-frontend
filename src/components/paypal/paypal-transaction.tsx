@@ -14,8 +14,11 @@ const H2 = styled('h2')({
   marginBottom: '1rem',
 });
 
-export interface PayPalTransactionProps
-  extends RouteComponentProps<{ id: string; state: string; amount: string }> {}
+export type PayPalTransactionProps = RouteComponentProps<{
+  id: string;
+  state: string;
+  amount: string;
+}>;
 
 export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
   const userId = Number(props.match.params.id);

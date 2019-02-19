@@ -78,7 +78,6 @@ export interface CreateTransactionParams {
   recipientId?: number;
   comment?: string;
 }
-export type StartCreatingTransaction = typeof startCreatingTransaction;
 export async function startCreatingTransaction(
   dispatch: Dispatch,
   userId: number,
@@ -97,6 +96,7 @@ export async function startCreatingTransaction(
   }
   return undefined;
 }
+export type StartCreatingTransaction = typeof startCreatingTransaction;
 
 export function startDeletingTransaction(
   userId: number,

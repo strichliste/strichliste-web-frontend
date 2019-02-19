@@ -60,7 +60,6 @@ export function getArticleByBarcode(
     } else {
       throw Error('no articles are matching the barcode');
     }
-    return undefined;
   };
 }
 

@@ -35,8 +35,6 @@ interface State {
   validation: { [userId: number]: string };
 }
 
-interface Props {}
-
 const initialState: State = {
   isLoading: false,
   recipient: undefined,
@@ -66,7 +64,7 @@ const TextCenter = styled(Block)({
   textAlign: 'center',
 });
 
-export class SplitInvoiceForm extends React.Component<Props, State> {
+export class SplitInvoiceForm extends React.Component<{}, State> {
   public state = initialState;
 
   public resetState = () => {

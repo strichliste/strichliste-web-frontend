@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface MinusIconProps {}
-
-export function MinusIcon(props: MinusIconProps): JSX.Element {
+export function MinusIcon(): JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

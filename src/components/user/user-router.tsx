@@ -8,9 +8,7 @@ import { UserDetails } from './user-details';
 import { TransactionOverview } from './views/transaction-overview';
 import { ConnectedUser } from './views/user';
 
-export interface UserRouterProps {}
-
-type Props = UserRouterProps & RouteComponentProps;
+type Props = RouteComponentProps;
 
 export function UserRouter(props: Props): JSX.Element {
   return (

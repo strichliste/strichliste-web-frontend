@@ -5,9 +5,24 @@ import { Article, startCreatingTransaction } from '../../../store/reducers';
 import { ArticleSelectionBubbles } from '../../article/article-selection-bubbles';
 import { getUserDetailLink } from '../user-router';
 
+async function onSelect(
+  article: Article,
+  props: UserArticleTransactionProps
+): Promise<void> {
+  const result = await props.startCreatingTransaction(
+    Number(props.match.params.id),
+    {
+      articleId: article.id,
+    }
+  );
+  if (result) {
+    props.history.push(getUserDetailLink(Number(props.match.params.id)));
+  }
+}
+
 interface ActionProps {
-  startCreatingTransaction: // tslint:disable-next-line:no-any
-  any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  startCreatingTransaction: any;
 }
 
 export type UserArticleTransactionProps = ActionProps &
@@ -25,21 +40,6 @@ export function UserArticleTransaction(
       onSelect={article => onSelect(article, props)}
     />
   );
-}
-
-async function onSelect(
-  article: Article,
-  props: UserArticleTransactionProps
-): Promise<void> {
-  const result = await props.startCreatingTransaction(
-    Number(props.match.params.id),
-    {
-      articleId: article.id,
-    }
-  );
-  if (result) {
-    props.history.push(getUserDetailLink(Number(props.match.params.id)));
-  }
 }
 
 const mapDispatchToProps = {

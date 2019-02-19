@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface TransactionIconProps {}
-
-export function TransactionIcon(props: TransactionIconProps): JSX.Element {
+export function TransactionIcon(): JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

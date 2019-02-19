@@ -5,6 +5,7 @@ const dispense = new Howl({
   src: ['ka-ching.wav'],
 });
 
-export function playCashSound(params: CreateTransactionParams): void {
-    dispense.play();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function playCashSound(_params?: CreateTransactionParams): void {
+  dispense.play();
 }

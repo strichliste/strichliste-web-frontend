@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { get } from '../../services/api';
 import { Article } from '../../store/reducers';
 
-// tslint:disable-next-line: no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function useEffectAsync(effect: any, inputs: any): void {
   useEffect(() => {
     effect();

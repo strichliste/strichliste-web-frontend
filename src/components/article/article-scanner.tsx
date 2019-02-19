@@ -22,9 +22,9 @@ interface OwnProps {
 }
 
 interface ActionProps {
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   startCreatingTransaction: any;
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getArticleByBarcode(barcode: string): any;
 }
 

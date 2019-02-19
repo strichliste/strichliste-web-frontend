@@ -16,7 +16,6 @@ export function renderWithContext(
   ui: JSX.Element,
   initialState: DeepPartial<AppState>,
   store: Store<AppState> = createStore(reducer, initialState),
-  _route: string = '/',
   history: MemoryHistory = createMemoryHistory()
 ): RenderResult {
   return render(
@@ -36,7 +35,6 @@ export function renderAndReturnContext(
   ui: JSX.Element,
   initialState: DeepPartial<AppState>,
   store: Store<AppState> = createStore(reducer, initialState),
-  _route: string = '/',
   history: MemoryHistory = createMemoryHistory()
 ): { result: RenderResult; store: Store<AppState>; history: MemoryHistory } {
   return {

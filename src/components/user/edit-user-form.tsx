@@ -1,5 +1,6 @@
+import React from 'react';
+
 import { AcceptButton, Block, CancelButton, Flex, Input } from 'bricks-of-sand';
-import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
 import { useUser } from '../../store';
@@ -13,28 +14,28 @@ interface Props {
 }
 
 export const UserEditForm = (props: Props) => {
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [isDisabled, setDisabled] = React.useState(false);
-  const user = useUser(props.userId);
-  const dispatch = useDispatch();
-  const submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
+  const [name, setName] = React.useState(''),
+    [email, setEmail] = React.useState(''),
+    [isDisabled, setDisabled] = React.useState(false),
+    user = useUser(props.userId),
+    dispatch = useDispatch(),
+    submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+      e.preventDefault();
 
-    const user = await startUpdateUser(dispatch, props.userId, {
-      name,
-      email,
-      isDisabled,
-    });
+      const user = await startUpdateUser(dispatch, props.userId, {
+        name,
+        email,
+        isDisabled,
+      });
 
-    if (user && user.isDisabled) {
-      props.onDisabled();
-      return;
-    }
-    if (user && user.id) {
-      props.onSave();
-    }
-  };
+      if (user && user.isDisabled) {
+        props.onDisabled();
+        return;
+      }
+      if (user && user.id) {
+        props.onSave();
+      }
+    };
 
   React.useEffect(() => {
     if (user) {

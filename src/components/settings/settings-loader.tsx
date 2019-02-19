@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { startLoadingSettings } from '../../store/reducers';
 interface ActionProps {
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   startLoadingSettings: any;
 }
 export class SettingsLoader extends React.Component<ActionProps> {

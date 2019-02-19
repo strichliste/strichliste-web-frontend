@@ -101,9 +101,8 @@ export function UserSearch(props: Props): JSX.Element {
         <div>
           <Relative>
             <IconInput activeWidth="8rem" inactiveWidth="4rem">
-              <FormattedMessage
-                id="SEARCH"
-                children={placeholder => (
+              <FormattedMessage id="SEARCH">
+                {placeholder => (
                   <input
                     {...getInputProps({
                       placeholder: placeholder as string,
@@ -111,7 +110,7 @@ export function UserSearch(props: Props): JSX.Element {
                     })}
                   />
                 )}
-              />
+              </FormattedMessage>
               <SearchIcon />
             </IconInput>
             {isOpen && (

@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface ProductIconProps {}
-
-export function ProductIcon(props: ProductIconProps): JSX.Element {
+export function ProductIcon(): JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

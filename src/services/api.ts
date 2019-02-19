@@ -1,4 +1,4 @@
-// tslint:disable no-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare const process: any;
 
 const API_URL = process.env.REACT_APP_API;

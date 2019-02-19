@@ -15,33 +15,6 @@ interface TransactionArguments {
   value: number;
 }
 
-export const isTransactionValid = ({
-  accountBoundary,
-  paymentBoundary,
-  isDeposit,
-  balance,
-  value,
-}: TransactionArguments): boolean => {
-  if (value === 0) {
-    return false;
-  }
-  if (isDeposit) {
-    return checkDepositIsValid({
-      accountBoundaryValue: accountBoundary.upper,
-      paymentBoundaryValue: paymentBoundary.upper,
-      value,
-      balance,
-    });
-  } else {
-    return checkDispenseIsValid({
-      accountBoundaryValue: accountBoundary.lower,
-      paymentBoundaryValue: paymentBoundary.lower,
-      value,
-      balance,
-    });
-  }
-};
-
 interface CheckValidProps {
   accountBoundaryValue: number | boolean;
   paymentBoundaryValue: number | boolean;
@@ -92,6 +65,33 @@ function checkDispenseIsValid({
   }
   return balance - value > accountBoundaryValue;
 }
+
+export const isTransactionValid = ({
+  accountBoundary,
+  paymentBoundary,
+  isDeposit,
+  balance,
+  value,
+}: TransactionArguments): boolean => {
+  if (value === 0) {
+    return false;
+  }
+  if (isDeposit) {
+    return checkDepositIsValid({
+      accountBoundaryValue: accountBoundary.upper,
+      paymentBoundaryValue: paymentBoundary.upper,
+      value,
+      balance,
+    });
+  } else {
+    return checkDispenseIsValid({
+      accountBoundaryValue: accountBoundary.lower,
+      paymentBoundaryValue: paymentBoundary.lower,
+      value,
+      balance,
+    });
+  }
+};
 
 interface OwnProps {
   userId?: number;
@@ -147,6 +147,4 @@ export function useTransactionValidator(
     accountBoundary: settings.account.boundary,
     paymentBoundary: settings.payment.boundary,
   });
-
-  return true;
 }

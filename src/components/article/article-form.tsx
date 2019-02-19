@@ -93,7 +93,8 @@ const initialParams = {
   active: true,
   precursor: null,
 };
-// tslint:disable-next-line:no-any
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const resetArticle = (article: Article | undefined, setParams: any) => {
   if (article) {
     setParams({
@@ -113,7 +114,7 @@ export const ArticleForm: React.FC<Props> = props => {
   const [params, setParams] = React.useState(initialParams);
   const isValidArticle = useArticleValidator(params.amount);
 
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch: any = useDispatch();
   const article = useArticle(props.articleId);
 

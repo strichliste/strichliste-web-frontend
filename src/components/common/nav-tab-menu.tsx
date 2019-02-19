@@ -2,7 +2,7 @@ import { Flex, Menu, Tab, ThemeSwitcher } from 'bricks-of-sand';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Tabs: any = Tab(NavLink);
 
 export interface NavTabMenusProps {

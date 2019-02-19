@@ -12,15 +12,13 @@ interface StateProps {
 }
 
 interface ActionProps {
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   startLoadingUsers: any;
 }
 
 export type Props = ActionProps & StateProps & RouteComponentProps;
 
-interface State {}
-
-export class SearchInput extends React.Component<Props, State> {
+export class SearchInput extends React.Component<Props, {}> {
   public componentDidMount(): void {
     this.props.startLoadingUsers();
   }

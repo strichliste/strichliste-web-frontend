@@ -73,10 +73,7 @@ export function usersLoaded(payload: GetUsersResponse): UsersLoadedAction {
   };
 }
 
-export function startLoadingUsers(
-  isActive?: boolean,
-  isDeleted?: boolean
-): DefaultThunkAction {
+export function startLoadingUsers(isActive?: boolean): DefaultThunkAction {
   return async (dispatch: Dispatch) => {
     const params: { deleted?: string; active?: string } = {};
     params.deleted = 'false';
@@ -149,6 +146,18 @@ export async function startUpdateUser(
   return undefined;
 }
 
+function getUserFromStateOrPayload(
+  state: UsersState,
+  transaction?: Transaction
+): User | undefined {
+  if (!transaction) {
+    return undefined;
+  }
+
+  const userId = transaction.user.id;
+  return state[userId] ? state[userId] : transaction.user;
+}
+
 export type UserActions = UsersLoadedAction | UserDetailsLoadedAction;
 
 export function user(state: UsersState = {}, action: Action): UsersState {
@@ -167,6 +176,7 @@ export function user(state: UsersState = {}, action: Action): UsersState {
         [action.payload.id]: { ...state[action.payload.id], ...action.payload },
       };
     case TransactionTypes.TransactionsLoaded:
+      // eslint-disable-next-line no-case-declarations
       const user = getUserFromStateOrPayload(state, action.payload[0]);
       if (!user) {
         return state;
@@ -186,18 +196,6 @@ export function user(state: UsersState = {}, action: Action): UsersState {
     default:
       return state;
   }
-}
-
-function getUserFromStateOrPayload(
-  state: UsersState,
-  transaction?: Transaction
-): User | undefined {
-  if (!transaction) {
-    return undefined;
-  }
-
-  const userId = transaction.user.id;
-  return state[userId] ? state[userId] : transaction.user;
 }
 
 export function getUserState(state: AppState): UsersState {
