@@ -2,18 +2,16 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
-import { ConnectedIdleTimer } from '../common/idle-timer';
+import { WrappedIdleTimer } from '../common/idle-timer';
 import { UserMetricsView } from '../metrics';
 import { UserDetails } from './user-details';
 import { TransactionOverview } from './views/transaction-overview';
 import { ConnectedUser } from './views/user';
 
-type Props = RouteComponentProps;
-
-export function UserRouter(props: Props): JSX.Element {
+export function UserRouter(): JSX.Element {
   return (
     <>
-      <ConnectedIdleTimer onTimeOut={() => props.history.push('/')} />
+      <WrappedIdleTimer />
       <Switch>
         <Route
           path="/user/active"

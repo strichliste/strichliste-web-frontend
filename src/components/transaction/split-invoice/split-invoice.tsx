@@ -17,7 +17,7 @@ import {
   UsersState,
   startCreatingTransaction,
 } from '../../../store/reducers';
-import { ConnectedIdleTimer } from '../../common/idle-timer';
+import { WrappedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
 import { AcceptIcon } from '../../ui/icons/accept';
 import { UserSelection } from '../../user';
@@ -261,7 +261,7 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
 
     return (
       <GridContainer>
-        <ConnectedIdleTimer />
+        <WrappedIdleTimer />
         <TextCenter margin="3rem">
           <h1>
             <FormattedMessage
