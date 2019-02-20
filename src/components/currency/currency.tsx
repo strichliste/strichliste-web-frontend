@@ -1,14 +1,9 @@
 import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
-import { connect } from 'react-redux';
 
-interface OwnProps {
+interface Props {
   value: number;
 }
-
-// interface StateProps
-
-type Props = OwnProps;
 
 export function Currency(props: Props): JSX.Element {
   return (
@@ -22,5 +17,3 @@ export function Currency(props: Props): JSX.Element {
     </>
   );
 }
-
-export const ConnectedCurrency = connect()(Currency);

@@ -13,7 +13,7 @@ import { useFilteredUsers } from '../../../store';
 import { startLoadingUsers } from '../../../store/reducers';
 import { NavTabMenus } from '../../common/nav-tab-menu';
 import { CreateUserInlineFormView } from '../create-user-inline-form';
-import { ConnectedUserCard } from '../user-card';
+import { UserCard } from '../user-card';
 import { useDispatch } from 'redux-react-hook';
 
 interface OwnProps {
@@ -88,7 +88,7 @@ export const User = (props: UserProps) => {
           </HideByBreakPoint>
           {userIds.map(id => (
             <Link key={id} to={`/user/${id}`}>
-              <ConnectedUserCard id={id} />
+              <UserCard id={id} />
             </Link>
           ))}
         </AutoGrid>

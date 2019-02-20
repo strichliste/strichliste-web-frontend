@@ -1,23 +1,16 @@
 import { AlertText, Card } from 'bricks-of-sand';
 import * as React from 'react';
-import { connect } from 'react-redux';
 
-import { AppState } from '../../store';
-import { User, getUser } from '../../store/reducers';
-import { ConnectedCurrency } from '../currency';
+import { useUser } from '../../store';
+import { Currency } from '../currency';
 import { UserName } from './user-name';
 
-interface OwnProps {
+interface Props {
   id: number;
 }
 
-interface StateProps {
-  user?: User;
-}
-
-type UserCardProps = OwnProps & StateProps;
-
-export function UserCard({ user }: UserCardProps): JSX.Element | null {
+export function UserCard({ id }: Props): JSX.Element | null {
+  const user = useUser(id);
   if (!user) {
     return null;
   }
@@ -32,14 +25,8 @@ export function UserCard({ user }: UserCardProps): JSX.Element | null {
     >
       <UserName name={user.name} />
       <AlertText value={user.balance}>
-        <ConnectedCurrency value={user.balance} />
+        <Currency value={user.balance} />
       </AlertText>
     </Card>
   );
 }
-
-const mapStateToProps = (state: AppState, { id }: OwnProps) => ({
-  user: getUser(state, id),
-});
-
-export const ConnectedUserCard = connect(mapStateToProps)(UserCard);

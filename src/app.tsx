@@ -18,7 +18,6 @@ import { ErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
 import { SplitInvoiceForm } from './components/transaction';
 import { MainFooter, baseCss, mobileStyles } from './components/ui';
-import { GlobalLoadingIndicator } from './components/ui/loader';
 import { UserRouter } from './components/user/user-router';
 import { en } from './locales/en';
 import { store } from './store';
@@ -65,7 +64,6 @@ const Layout = () => {
       <Global styles={resetCss} />
       <Global styles={baseCss} />
       <TouchStyles />
-      <GlobalLoadingIndicator />
       <ErrorMessage />
       <HeaderMenu />
       <Switch>
