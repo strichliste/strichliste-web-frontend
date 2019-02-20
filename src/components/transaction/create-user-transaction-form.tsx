@@ -8,7 +8,7 @@ import {
   withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
-import { FormattedMessage, InjectedIntl, injectIntl } from 'react-intl';
+import { FormattedMessage, InjectedIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { User, startCreatingTransaction } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
@@ -129,29 +129,34 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
               alignItems="center"
               tabletColumns="4fr 1fr 4fr 1fr"
             >
-              <CurrencyInput
-                noNegative
-                placeholder={this.props.intl.formatMessage({
-                  id: 'USER_TRANSACTION_FROM_AMOUNT_LABEL',
-                  defaultMessage: 'Amount',
-                })}
-                autoFocus
-                onChange={value =>
-                  this.setState({
-                    selectedAmount: value,
-                  })
-                }
-              />
+              <FormattedMessage
+                defaultMessage="Amount"
+                id="USER_TRANSACTION_FROM_AMOUNT_LABEL"
+              >
+                {text => (
+                  <CurrencyInput
+                    noNegative
+                    placeholder={text as string}
+                    autoFocus
+                    onChange={value =>
+                      this.setState({
+                        selectedAmount: value,
+                      })
+                    }
+                  />
+                )}
+              </FormattedMessage>
               &#8594;
-              <UserSelection
-                userId={Number(this.props.match.params.id)}
-                placeholder={this.props.intl.formatMessage({
-                  id: 'CREATE_USER_TO_USER_TRANSACTION_USER',
-                  defaultMessage: 'Username',
-                })}
-                getString={user => user.name}
-                onSelect={this.submitUserId}
-              />
+              <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_USER">
+                {text => (
+                  <UserSelection
+                    userId={Number(this.props.match.params.id)}
+                    placeholder={text as string}
+                    getString={user => user.name}
+                    onSelect={this.submitUserId}
+                  />
+                )}
+              </FormattedMessage>
               <UserToUserValidator
                 value={this.state.selectedAmount}
                 userId={Number(this.props.match.params.id)}
@@ -163,14 +168,15 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 )}
               />
             </ResponsiveGrid>
-            <Input
-              value={this.state.comment}
-              onChange={this.setComment}
-              placeholder={this.props.intl.formatMessage({
-                id: 'CREATE_USER_TO_USER_TRANSACTION_COMMENT',
-                defaultMessage: 'Username',
-              })}
-            />
+            <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_COMMENT">
+              {text => (
+                <Input
+                  value={this.state.comment}
+                  onChange={this.setComment}
+                  placeholder={text as string}
+                />
+              )}
+            </FormattedMessage>
           </form>
         </>
       );
@@ -178,6 +184,6 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   }
 }
 
-export const ConnectedCreateCustomTransactionForm = injectIntl(
-  withRouter(CreateUserTransactionForm)
+export const ConnectedCreateCustomTransactionForm = withRouter(
+  CreateUserTransactionForm
 );
