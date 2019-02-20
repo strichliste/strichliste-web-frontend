@@ -1,7 +1,6 @@
 import { ResponsiveGrid } from 'bricks-of-sand';
 import * as React from 'react';
-import { ConnectedTransactionButton } from '.';
-import { ConnectedTransactionValidator } from './validator';
+import { TransactionButton } from './transaction-button';
 
 export interface PaymentButtonListProps {
   steps: number[];
@@ -14,19 +13,11 @@ export function PaymentButtonList(props: PaymentButtonListProps): JSX.Element {
   return (
     <ResponsiveGrid gridGap="1rem" columns="1fr 1fr 1fr">
       {props.steps.map(step => (
-        <ConnectedTransactionValidator
+        <TransactionButton
           key={step}
-          userId={props.userId}
-          value={step}
           isDeposit={props.isDeposit}
-          render={isValid => (
-            <ConnectedTransactionButton
-              isDeposit={props.isDeposit}
-              userId={props.userId}
-              value={step * multiplier}
-              disabled={!isValid}
-            />
-          )}
+          userId={props.userId}
+          value={step * multiplier}
         />
       ))}
     </ResponsiveGrid>

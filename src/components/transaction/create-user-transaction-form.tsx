@@ -16,7 +16,7 @@ import { Currency, CurrencyInput } from '../currency';
 import { UserSelection } from '../user';
 import { UserName } from '../user/user-name';
 import { ConnectedTransactionUndoButton } from './transaction-undo-button';
-import { ConnectedUserToUserValidator } from './user-to-user-validator';
+import { UserToUserValidator } from './user-to-user-validator';
 
 export const AcceptWrapper = withTheme(
   styled('div')({}, props => ({
@@ -157,7 +157,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 getString={user => user.name}
                 onSelect={this.submitUserId}
               />
-              <ConnectedUserToUserValidator
+              <UserToUserValidator
                 value={this.state.selectedAmount}
                 userId={Number(this.props.match.params.id)}
                 targetUserId={this.state.selectedUser.id}
