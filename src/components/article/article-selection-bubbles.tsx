@@ -30,7 +30,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
 
   React.useEffect(() => {
     startLoadingArticles(dispatch);
-  });
+  }, []);
 
   return (
     <div>
