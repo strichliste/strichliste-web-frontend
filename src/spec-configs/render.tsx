@@ -2,7 +2,6 @@ import { ThemeProvider, theme } from 'bricks-of-sand';
 import { MemoryHistory, createMemoryHistory } from 'history';
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
-import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import { RenderResult, render } from 'react-testing-library';
 import { DeepPartial, Store, createStore } from 'redux';
@@ -21,11 +20,9 @@ export function renderWithContext(
   return render(
     <ThemeProvider themes={themeConfig}>
       <StoreContext.Provider value={store}>
-        <Provider store={store}>
-          <Router history={history}>
-            <IntlProvider>{ui}</IntlProvider>
-          </Router>
-        </Provider>
+        <Router history={history}>
+          <IntlProvider>{ui}</IntlProvider>
+        </Router>
       </StoreContext.Provider>
     </ThemeProvider>
   );
@@ -40,11 +37,11 @@ export function renderAndReturnContext(
   return {
     result: render(
       <ThemeProvider themes={themeConfig}>
-        <Provider store={store}>
+        <StoreContext.Provider value={store}>
           <Router history={history}>
             <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
           </Router>
-        </Provider>
+        </StoreContext.Provider>
       </ThemeProvider>
     ),
     store,

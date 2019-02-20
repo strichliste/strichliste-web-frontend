@@ -1,7 +1,7 @@
 import { get, post } from '../../services/api';
 import { MaybeResponse, errorHandler } from '../../services/error-handler';
 import { Action } from '../action';
-import { AppState, Dispatch, ThunkAction } from '../store';
+import { AppState, Dispatch } from '../store';
 
 export interface ArticleResponse extends MaybeResponse {
   articles: Article[];
@@ -69,27 +69,24 @@ export interface AddArticleParams {
   active: boolean;
   precursor: Article | null;
 }
-export function startAddArticle(
+export async function startAddArticle(
+  dispatch: Dispatch,
   article: AddArticleParams
-): ThunkAction<Promise<Article | undefined>> {
-  return async (dispatch: Dispatch) => {
-    const url = article.precursor
-      ? `article/${article.precursor.id}`
-      : 'article';
-    const promise = post(url, article);
-    const data = await errorHandler(dispatch, {
-      promise,
-      defaultError: 'ARTICLE_COULD_NOT_BE_CREATED',
-    });
-    if (data && data.article) {
-      dispatch(articlesLoaded([data.article]));
-      if (data.article.precursor) {
-        dispatch(articlesLoaded([data.article.precursor]));
-      }
-      return data.article;
+): Promise<Article | undefined> {
+  const url = article.precursor ? `article/${article.precursor.id}` : 'article';
+  const promise = post(url, article);
+  const data = await errorHandler(dispatch, {
+    promise,
+    defaultError: 'ARTICLE_COULD_NOT_BE_CREATED',
+  });
+  if (data && data.article) {
+    dispatch(articlesLoaded([data.article]));
+    if (data.article.precursor) {
+      dispatch(articlesLoaded([data.article.precursor]));
     }
-    return undefined;
-  };
+    return data.article;
+  }
+  return undefined;
 }
 
 export type ArticleActions = ArticlesLoadedAction;

@@ -114,8 +114,7 @@ export const ArticleForm: React.FC<Props> = props => {
   const [params, setParams] = React.useState(initialParams);
   const isValidArticle = useArticleValidator(params.amount);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const article = useArticle(props.articleId);
 
   React.useEffect(() => {
@@ -128,7 +127,7 @@ export const ArticleForm: React.FC<Props> = props => {
       return;
     }
 
-    const maybeArticle = await dispatch(startAddArticle(params));
+    const maybeArticle = await startAddArticle(dispatch, params);
 
     if (maybeArticle) {
       updateToggle();

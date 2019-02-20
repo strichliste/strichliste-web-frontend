@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Provider } from 'react-redux';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { StoreContext, useDispatch } from 'redux-react-hook';
 
@@ -83,17 +82,15 @@ class App extends React.Component {
     return (
       <ThemeProvider themes={{ light: newLight, dark: newDark }}>
         <StoreContext.Provider value={store}>
-          <Provider store={store}>
-            <IntlProvider
-              textComponent={React.Fragment}
-              locale="en"
-              messages={en}
-            >
-              <HashRouter hashType="hashbang">
-                <Layout />
-              </HashRouter>
-            </IntlProvider>
-          </Provider>
+          <IntlProvider
+            textComponent={React.Fragment}
+            locale="en"
+            messages={en}
+          >
+            <HashRouter hashType="hashbang">
+              <Layout />
+            </HashRouter>
+          </IntlProvider>
         </StoreContext.Provider>
       </ThemeProvider>
     );

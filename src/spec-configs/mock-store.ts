@@ -3,7 +3,6 @@ import { DeepPartial } from 'redux';
 import createMockStore, {
   MockStore as OriginalMockStore,
 } from 'redux-mock-store';
-import thunk from 'redux-thunk';
 
 import { Action, AppState, Dispatch, reducer } from '../store';
 
@@ -15,7 +14,7 @@ export type MockStore = Omit<OriginalMockStore<PartialAppState>, 'dispatch'> & {
 export const getMockStore = (...states: PartialAppState[]): MockStore => {
   const action = {};
   const initialState = reducer(undefined, action as Action);
-  return createMockStore([thunk])(merge(initialState, ...states));
+  return createMockStore([])(merge(initialState, ...states));
 };
 
 export interface MockStoreProps {
