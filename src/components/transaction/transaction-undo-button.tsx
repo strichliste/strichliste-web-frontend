@@ -1,33 +1,18 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
-import { AppState } from '../../store';
-import {
-  isTransactionDeletable,
-  startDeletingTransaction,
-} from '../../store/reducers';
+import { useIsTransactionDeletable, store } from '../../store';
+import { startDeletingTransaction } from '../../store/reducers';
 
-interface OwnProps {
+interface Props {
   userId?: number;
   transactionId: number;
   onSuccess?(): void;
 }
 
-interface StateProps {
-  canBeDeleted: boolean;
-}
+export function TransactionUndoButton(props: Props) {
+  const isDeletable = useIsTransactionDeletable(props.transactionId);
 
-interface ActionProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  startDeletingTransaction: any;
-}
-
-export type TransactionUndoButtonProps = ActionProps & StateProps & OwnProps;
-
-export function TransactionUndoButton(
-  props: TransactionUndoButtonProps
-): JSX.Element | null {
-  if (!props.canBeDeleted) {
+  if (!isDeletable) {
     return null;
   }
 
@@ -41,23 +26,14 @@ export function TransactionUndoButton(
         if (typeof props.onSuccess === 'function') {
           props.onSuccess();
         }
-        props.startDeletingTransaction(props.userId || 0, props.transactionId);
+        startDeletingTransaction(
+          store.dispatch,
+          props.userId || 0,
+          props.transactionId
+        );
       }}
     >
       <FormattedMessage id="USER_TRANSACTION_UNDO" />
     </div>
   );
 }
-
-const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
-  canBeDeleted: isTransactionDeletable(state, props.transactionId),
-});
-
-const mapDispatchToProps = {
-  startDeletingTransaction,
-};
-
-export const ConnectedTransactionUndoButton = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TransactionUndoButton);

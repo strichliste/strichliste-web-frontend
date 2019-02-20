@@ -15,6 +15,8 @@ import {
   getUserState,
   getFilteredUserIds,
   getGlobalError,
+  isTransactionDeletable,
+  Transaction,
 } from './reducers';
 
 export function useFilteredUsers(isActive: boolean) {
@@ -80,4 +82,16 @@ export function useUserState() {
 
 export function useGlobalError() {
   return useMappedState(getGlobalError);
+}
+
+export function useIsTransactionDeletable(id: number) {
+  return useMappedState<AppState, boolean>(
+    useCallback((state: AppState) => isTransactionDeletable(state, id), [id])
+  );
+}
+
+export function useTransaction(id: number) {
+  return useMappedState<AppState, Transaction | undefined>(
+    useCallback((state: AppState) => state.transaction[id], [id])
+  );
 }

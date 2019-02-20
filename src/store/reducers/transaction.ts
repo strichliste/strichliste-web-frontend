@@ -2,7 +2,7 @@ import { User } from '.';
 import { get, post, restDelete } from '../../services/api';
 import { MaybeResponse, errorHandler } from '../../services/error-handler';
 import { playCashSound } from '../../services/sound';
-import { Action, DefaultThunkAction } from '../action';
+import { Action } from '../action';
 import { AppState, Dispatch } from '../store';
 import { Article } from './article';
 import { userDetailsLoaded } from './user';
@@ -98,21 +98,20 @@ export async function startCreatingTransaction(
 }
 export type StartCreatingTransaction = typeof startCreatingTransaction;
 
-export function startDeletingTransaction(
+export async function startDeletingTransaction(
+  dispatch: Dispatch,
   userId: number,
   transactionId: number
-): DefaultThunkAction {
-  return async (dispatch: Dispatch) => {
-    const promise = restDelete(`user/${userId}/transaction/${transactionId}`);
-    const data = await errorHandler<TransactionResponse>(dispatch, {
-      promise,
-      defaultError: 'USER_TRANSACTION_DELETION_ERROR',
-    });
-    if (data && data.transaction) {
-      dispatch(userDetailsLoaded(data.transaction.user));
-      dispatch(transactionsLoaded([data.transaction]));
-    }
-  };
+): Promise<void> {
+  const promise = restDelete(`user/${userId}/transaction/${transactionId}`);
+  const data = await errorHandler<TransactionResponse>(dispatch, {
+    promise,
+    defaultError: 'USER_TRANSACTION_DELETION_ERROR',
+  });
+  if (data && data.transaction) {
+    dispatch(userDetailsLoaded(data.transaction.user));
+    dispatch(transactionsLoaded([data.transaction]));
+  }
 }
 
 interface TransactionState {

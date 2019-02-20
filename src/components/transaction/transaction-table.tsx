@@ -1,30 +1,15 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from '../../store';
-import {
-  Transaction,
-  TransactionsResponse,
-  startLoadingTransactions,
-} from '../../store/reducers';
+import { store } from '../../store';
+import { Transaction, startLoadingTransactions } from '../../store/reducers';
 import { Pager } from '../common/pager';
 import { getUserTransactionsLink } from '../user/user-router';
-import { ConnectedTransactionListItem } from './transaction-list-item';
+import { TransactionListItem } from './transaction-list-item';
 
-interface OwnProps {
+interface Props {
   userId: number;
   page: number;
   onPageChange(url: string): void;
 }
-
-interface ActionProps {
-  loadTransactions(
-    userId: number,
-    offset?: number,
-    limit?: number
-  ): Promise<TransactionsResponse | undefined>;
-}
-
-export type TransactionTableProps = ActionProps & OwnProps;
 
 interface State {
   limit: number;
@@ -35,10 +20,7 @@ interface State {
 
 let lastPage = 0;
 
-export class TransactionTable extends React.Component<
-  TransactionTableProps,
-  State
-> {
+export class TransactionTable extends React.Component<Props, State> {
   public state = {
     limit: 15,
     offset: 0,
@@ -73,7 +55,8 @@ export class TransactionTable extends React.Component<
 
   public loadRows = async (): Promise<void> => {
     const { limit, offset } = this.getLimitAndOffset();
-    const res = await this.props.loadTransactions(
+    const res = await startLoadingTransactions(
+      store.dispatch,
       this.props.userId,
       offset,
       limit
@@ -98,24 +81,11 @@ export class TransactionTable extends React.Component<
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): ActionProps => ({
-  loadTransactions: (id: number, offset: number, limit: number) =>
-    startLoadingTransactions(dispatch, id, offset, limit),
-});
-
-export const ConnectedTransactionTable = connect(
-  undefined,
-  mapDispatchToProps
-)(TransactionTable);
-
 function TransactionPage(props: { transactions: Transaction[] }): JSX.Element {
   return (
     <>
       {props.transactions.map(transaction => (
-        <ConnectedTransactionListItem
-          key={transaction.id}
-          id={transaction.id}
-        />
+        <TransactionListItem key={transaction.id} id={transaction.id} />
       ))}
     </>
   );

@@ -9,14 +9,14 @@ import {
 } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntl, injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { User, startCreatingTransaction } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
 import { UserSelection } from '../user';
 import { UserName } from '../user/user-name';
-import { ConnectedTransactionUndoButton } from './transaction-undo-button';
+import { TransactionUndoButton } from './transaction-undo-button';
 import { UserToUserValidator } from './user-to-user-validator';
+import { store } from '../../store';
 
 export const AcceptWrapper = withTheme(
   styled('div')({}, props => ({
@@ -43,11 +43,6 @@ const initialState = {
   comment: '',
 };
 
-interface ActionProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  startCreatingTransaction: any;
-}
-
 interface State {
   amount: number;
   createdTransactionId: number;
@@ -57,8 +52,7 @@ interface State {
   comment: string;
 }
 
-type Props = RouteComponentProps<{ id: string }> &
-  ActionProps & { intl: InjectedIntl };
+type Props = RouteComponentProps<{ id: string }> & { intl: InjectedIntl };
 
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;
@@ -72,7 +66,8 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
 
   public createTransaction = async () => {
     if (this.state.selectedUser.id && this.state.selectedAmount) {
-      const res = await this.props.startCreatingTransaction(
+      const res = await startCreatingTransaction(
+        store.dispatch,
         Number(this.props.match.params.id),
         {
           amount: this.state.selectedAmount * -1,
@@ -113,7 +108,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
             &#8594;
             <Currency value={this.state.selectedAmount} />
           </AcceptWrapper>
-          <ConnectedTransactionUndoButton
+          <TransactionUndoButton
             onSuccess={() =>
               this.setState({
                 hasSelectionReady: false,
@@ -183,15 +178,6 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   }
 }
 
-const mapDispatchToProps = {
-  startCreatingTransaction,
-};
-
-export const ConnectedCreateUserTransactionForm = injectIntl(
-  withRouter(
-    connect(
-      undefined,
-      mapDispatchToProps
-    )(CreateUserTransactionForm)
-  )
+export const ConnectedCreateCustomTransactionForm = injectIntl(
+  withRouter(CreateUserTransactionForm)
 );

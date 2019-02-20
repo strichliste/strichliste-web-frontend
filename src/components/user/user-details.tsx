@@ -16,7 +16,7 @@ import {
   startLoadingUserDetails,
 } from '../../store/reducers';
 import { ArticleScanner } from '../article/article-scanner';
-import { ConnectedPayment, ConnectedTransactionListItem } from '../transaction';
+import { Payment, TransactionListItem } from '../transaction';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
 import { UserDetailsSeparator } from '../user-details/user-details-separator';
@@ -69,12 +69,12 @@ export const UserDetails = (props: UserDetailsProps) => {
       <UserDetailsSeparator />
       <ResponsiveGrid margin="1rem" tabletColumns="24rem 1fr">
         <div>
-          <ConnectedPayment userId={user.id} />
+          <Payment userId={user.id} />
         </div>
         {transactions.length ? (
           <StyledTransactionWrapper>
             {transactions.map(id => (
-              <ConnectedTransactionListItem key={id} id={id} />
+              <TransactionListItem key={id} id={id} />
             ))}
             <Flex justifyContent="flex-end">
               <Button
