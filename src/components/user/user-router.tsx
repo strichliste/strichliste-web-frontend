@@ -6,7 +6,7 @@ import { WrappedIdleTimer } from '../common/idle-timer';
 import { UserMetricsView } from '../metrics';
 import { UserDetails } from './user-details';
 import { TransactionOverview } from './views/transaction-overview';
-import { ConnectedUser } from './views/user';
+import { User } from './views/user';
 
 export function UserRouter(): JSX.Element {
   return (
@@ -16,39 +16,31 @@ export function UserRouter(): JSX.Element {
         <Route
           path="/user/active"
           exact={true}
-          render={props => <ConnectedUser {...props} isActive={true} />}
+          render={props => <User {...props} isActive={true} />}
         />
         <Route
           path="/user/inactive"
           exact={true}
-          render={props => <ConnectedUser {...props} isActive={false} />}
+          render={props => <User {...props} isActive={false} />}
         />
         <Route
           path="/user/active/add"
           exact={true}
           render={props => (
-            <ConnectedUser
-              {...props}
-              showCreateUserForm={true}
-              isActive={true}
-            />
+            <User {...props} showCreateUserForm={true} isActive={true} />
           )}
         />
         <Route
           path="/user/inactive/add"
           exact={true}
           render={props => (
-            <ConnectedUser
-              {...props}
-              showCreateUserForm={true}
-              isActive={false}
-            />
+            <User {...props} showCreateUserForm={true} isActive={false} />
           )}
         />
         <Route
           path="/user/inactive"
           exact={true}
-          render={props => <ConnectedUser {...props} isActive={false} />}
+          render={props => <User {...props} isActive={false} />}
         />
         <Route
           path="/user/transactions/:id/:page"

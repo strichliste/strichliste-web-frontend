@@ -2,7 +2,6 @@ import { Transaction, TransactionTypes } from '.';
 import { Action } from '..';
 import { get, post } from '../../services/api';
 import { errorHandler } from '../../services/error-handler';
-import { DefaultThunkAction } from '../action';
 import { AppState, Dispatch } from '../store';
 import { getSearchQuery } from './search';
 
@@ -73,29 +72,30 @@ export function usersLoaded(payload: GetUsersResponse): UsersLoadedAction {
   };
 }
 
-export function startLoadingUsers(isActive?: boolean): DefaultThunkAction {
-  return async (dispatch: Dispatch) => {
-    const params: { deleted?: string; active?: string } = {};
-    params.deleted = 'false';
-    if (isActive !== undefined) {
-      params.active = isActive.toString();
-    }
-    const promise = get(
-      `user${Object.keys(params).reduce((paramString, param, index) => {
-        const next = `${paramString}${index === 0 ? '?' : '&'}${param}=${
-          params[param]
-        }`;
-        return next;
-      }, '')}`
-    );
-    const data = await errorHandler(dispatch, {
-      promise,
-      defaultError: 'USERS_LOADING_FAILED',
-    });
-    if (data) {
-      dispatch(usersLoaded(data));
-    }
-  };
+export async function startLoadingUsers(
+  dispatch: Dispatch,
+  isActive?: boolean
+): Promise<void> {
+  const params: { deleted?: string; active?: string } = {};
+  params.deleted = 'false';
+  if (isActive !== undefined) {
+    params.active = isActive.toString();
+  }
+  const promise = get(
+    `user${Object.keys(params).reduce((paramString, param, index) => {
+      const next = `${paramString}${index === 0 ? '?' : '&'}${param}=${
+        params[param]
+      }`;
+      return next;
+    }, '')}`
+  );
+  const data = await errorHandler(dispatch, {
+    promise,
+    defaultError: 'USERS_LOADING_FAILED',
+  });
+  if (data) {
+    dispatch(usersLoaded(data));
+  }
 }
 
 export async function startCreatingUser(

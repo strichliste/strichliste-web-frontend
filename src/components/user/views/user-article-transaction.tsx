@@ -1,15 +1,17 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
 import { Article, startCreatingTransaction } from '../../../store/reducers';
 import { ArticleSelectionBubbles } from '../../article/article-selection-bubbles';
-import { getUserDetailLink } from '../user-router';
+import { getUserDetailLink, UserRouteProps } from '../user-router';
+import { useDispatch } from 'redux-react-hook';
+import { Dispatch } from '../../../store/store';
 
 async function onSelect(
+  dispatch: Dispatch,
   article: Article,
-  props: UserArticleTransactionProps
+  props: Props
 ): Promise<void> {
-  const result = await props.startCreatingTransaction(
+  const result = await startCreatingTransaction(
+    dispatch,
     Number(props.match.params.id),
     {
       articleId: article.id,
@@ -20,33 +22,18 @@ async function onSelect(
   }
 }
 
-interface ActionProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  startCreatingTransaction: any;
-}
+type Props = UserRouteProps;
 
-export type UserArticleTransactionProps = ActionProps &
-  RouteComponentProps<{ id: string }>;
+export function UserArticleTransaction(props: Props): JSX.Element | null {
+  const dispatch = useDispatch();
 
-export function UserArticleTransaction(
-  props: UserArticleTransactionProps
-): JSX.Element | null {
   return (
     <ArticleSelectionBubbles
       userId={Number(props.match.params.id)}
       onCancel={() =>
         props.history.push(getUserDetailLink(Number(props.match.params.id)))
       }
-      onSelect={article => onSelect(article, props)}
+      onSelect={article => onSelect(dispatch, article, props)}
     />
   );
 }
-
-const mapDispatchToProps = {
-  startCreatingTransaction,
-};
-
-export const ConnectedUserArticleTransaction = connect(
-  undefined,
-  mapDispatchToProps
-)(UserArticleTransaction);

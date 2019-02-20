@@ -3,7 +3,7 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { Logo } from '../ui/icons/logo';
-import { ConnectedSearchInput } from './search';
+import { SearchInput } from './search';
 
 const HeaderLeft = styled(Flex)({
   a: {
@@ -54,7 +54,7 @@ export function HeaderMenu(): JSX.Element {
           </Menu>
         </HeaderLeft>
         <HeaderRight>
-          <ConnectedSearchInput />
+          <SearchInput />
         </HeaderRight>
       </Flex>
     </HeaderNavBar>

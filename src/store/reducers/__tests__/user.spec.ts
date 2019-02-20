@@ -132,7 +132,7 @@ describe('action creators', () => {
       (get as any).mockImplementationOnce(() => Promise.resolve([{ id: 1 }]));
 
       const store = getMockStore();
-      await store.dispatch(startLoadingUsers(true));
+      await startLoadingUsers(store.dispatch, true);
       expect(get).toHaveBeenCalledWith('user?deleted=false&active=true');
       expect(store.getActions()).toMatchSnapshot();
     });

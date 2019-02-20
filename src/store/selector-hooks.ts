@@ -13,7 +13,15 @@ import {
   getUserArray,
   getUserBalance,
   getUserState,
+  getFilteredUserIds,
+  getGlobalError,
 } from './reducers';
+
+export function useFilteredUsers(isActive: boolean) {
+  return useMappedState<AppState, number[]>(
+    useCallback(state => getFilteredUserIds(state, isActive), [isActive])
+  );
+}
 
 export function useUser(id: number) {
   const user = useMappedState<AppState, User | undefined>(
@@ -68,4 +76,8 @@ export function useUserArray() {
 
 export function useUserState() {
   return useMappedState(getUserState);
+}
+
+export function useGlobalError() {
+  return useMappedState(getGlobalError);
 }

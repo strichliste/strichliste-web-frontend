@@ -5,37 +5,23 @@ import {
   breakPoints,
   styled,
 } from 'bricks-of-sand';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
-import { AppState } from '../../../store';
-import {
-  getFilteredUserIds,
-  startLoadingUsers,
-  updateSearch,
-} from '../../../store/reducers';
+import { useFilteredUsers } from '../../../store';
+import { startLoadingUsers } from '../../../store/reducers';
 import { NavTabMenus } from '../../common/nav-tab-menu';
 import { CreateUserInlineFormView } from '../create-user-inline-form';
 import { ConnectedUserCard } from '../user-card';
+import { useDispatch } from 'redux-react-hook';
 
 interface OwnProps {
   isActive: boolean;
   showCreateUserForm?: boolean;
 }
 
-interface StateProps {
-  users: number[];
-}
-
-interface ActionProps {
-  updateSearch: any;
-  startLoadingUsers: any;
-}
-
-type UserProps = OwnProps & StateProps & ActionProps & RouteComponentProps;
-let lastStale: boolean;
+type UserProps = OwnProps & RouteComponentProps;
 
 const GridWrapper = styled('div')({
   marginLeft: '0rem',
@@ -59,74 +45,54 @@ const CreateUserGridPosition = styled('div')({
   },
 });
 
-export class User extends React.Component<UserProps> {
-  public componentDidMount(): void {
-    this.props.updateSearch({ query: '' });
-  }
+export const User = (props: UserProps) => {
+  const userIds = useFilteredUsers(props.isActive);
+  const dispatch = useDispatch();
 
-  public componentDidUpdate(): void {
-    if (lastStale !== this.props.isActive) {
-      this.props.startLoadingUsers(this.props.isActive, false);
-    }
-    lastStale = this.props.isActive;
-  }
+  useEffect(() => {
+    startLoadingUsers(dispatch);
+  }, [props.isActive]);
 
-  public render(): JSX.Element {
-    return (
-      <>
-        <GridWrapper>
-          <NavTabMenus
-            margin="2rem 1rem"
-            breakpoint={320}
-            label={<FormattedMessage id="USER_ACTIVE_LINK" />}
-            tabs={[
-              {
-                to: '/user/active',
-                message: <FormattedMessage id="USER_ACTIVE_LINK" />,
-              },
-              {
-                to: '/user/inactive',
-                message: <FormattedMessage id="USER_INACTIVE_LINK" />,
-              },
-            ]}
-          />
-          <HideByBreakPoint min={768} max={Infinity}>
-            <CreateUserPosition>
+  return (
+    <>
+      <GridWrapper>
+        <NavTabMenus
+          margin="2rem 1rem"
+          breakpoint={320}
+          label={<FormattedMessage id="USER_ACTIVE_LINK" />}
+          tabs={[
+            {
+              to: '/user/active',
+              message: <FormattedMessage id="USER_ACTIVE_LINK" />,
+            },
+            {
+              to: '/user/inactive',
+              message: <FormattedMessage id="USER_INACTIVE_LINK" />,
+            },
+          ]}
+        />
+        <HideByBreakPoint min={768} max={Infinity}>
+          <CreateUserPosition>
+            <CreateUserInlineFormView
+              isActive={props.showCreateUserForm || false}
+            />
+          </CreateUserPosition>
+        </HideByBreakPoint>
+        <AutoGrid rows="5rem" columns="8rem">
+          <HideByBreakPoint min={0} max={767}>
+            <CreateUserGridPosition>
               <CreateUserInlineFormView
-                isActive={this.props.showCreateUserForm || false}
+                isActive={props.showCreateUserForm || false}
               />
-            </CreateUserPosition>
+            </CreateUserGridPosition>
           </HideByBreakPoint>
-          <AutoGrid rows="5rem" columns="8rem">
-            <HideByBreakPoint min={0} max={767}>
-              <CreateUserGridPosition>
-                <CreateUserInlineFormView
-                  isActive={this.props.showCreateUserForm || false}
-                />
-              </CreateUserGridPosition>
-            </HideByBreakPoint>
-            {this.props.users.map(id => (
-              <Link key={id} to={`/user/${id}`}>
-                <ConnectedUserCard id={id} />
-              </Link>
-            ))}
-          </AutoGrid>
-        </GridWrapper>
-      </>
-    );
-  }
-}
-
-const mapStateToProps = (state: AppState, props: OwnProps) => ({
-  users: getFilteredUserIds(state, props.isActive),
-});
-
-const mapDispatchToProps: ActionProps = {
-  startLoadingUsers,
-  updateSearch,
+          {userIds.map(id => (
+            <Link key={id} to={`/user/${id}`}>
+              <ConnectedUserCard id={id} />
+            </Link>
+          ))}
+        </AutoGrid>
+      </GridWrapper>
+    </>
+  );
 };
-
-export const ConnectedUser = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(User);
