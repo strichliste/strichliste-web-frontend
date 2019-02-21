@@ -4,9 +4,9 @@ import { useUserState } from '../../store';
 import { UsersState } from '../../store/reducers';
 
 export interface UserMultiSelectionProps {
-  excludeUserId: number;
+  excludeUserId: string;
   placeholder: string;
-  validation: { [userId: number]: string };
+  validation: { [userId: string]: string };
   onSelect(selection: UsersState): void;
 }
 
@@ -20,8 +20,10 @@ export function UserMultiSelection({
 
   return (
     <MultiSelectionBox
+      //@ts-ignore
       excludeIds={[excludeUserId]}
       errorMessageMap={validation}
+      //@ts-ignore
       getItemIndex={user => (user ? user.id : 0)}
       itemToString={user => user.name}
       items={users}

@@ -73,7 +73,7 @@ describe('action creators', () => {
         Promise.resolve({ article: { id: 1 } })
       );
       const store = getMockStore();
-      await store.dispatch(startAddArticle({ id: 1 } as any));
+      await startAddArticle(store.dispatch, { id: 1 } as any);
       expect(post).toHaveBeenCalledWith('article', { id: 1 });
       expect(store.getActions()).toMatchSnapshot();
     });

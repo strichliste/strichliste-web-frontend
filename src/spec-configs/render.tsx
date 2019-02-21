@@ -3,7 +3,7 @@ import { MemoryHistory, createMemoryHistory } from 'history';
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Router } from 'react-router';
-import { RenderResult, render } from 'react-testing-library';
+import { render } from 'react-testing-library';
 import { DeepPartial, Store, createStore } from 'redux';
 import { StoreContext } from 'redux-react-hook';
 
@@ -16,7 +16,7 @@ export function renderWithContext(
   initialState: DeepPartial<AppState>,
   store: Store<AppState> = createStore(reducer, initialState),
   history: MemoryHistory = createMemoryHistory()
-): RenderResult {
+) {
   return render(
     <ThemeProvider themes={themeConfig}>
       <StoreContext.Provider value={store}>
@@ -33,7 +33,7 @@ export function renderAndReturnContext(
   initialState: DeepPartial<AppState>,
   store: Store<AppState> = createStore(reducer, initialState),
   history: MemoryHistory = createMemoryHistory()
-): { result: RenderResult; store: Store<AppState>; history: MemoryHistory } {
+) {
   return {
     result: render(
       <ThemeProvider themes={themeConfig}>
@@ -49,7 +49,7 @@ export function renderAndReturnContext(
   };
 }
 
-export function renderWithIntl(ui: JSX.Element): RenderResult {
+export function renderWithIntl(ui: JSX.Element) {
   return render(
     <ThemeProvider themes={themeConfig}>
       <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>

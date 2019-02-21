@@ -13,7 +13,7 @@ const ButtonText = styled('div')({
 });
 
 interface Props {
-  userId: number;
+  userId: string;
   transactionCreated?(): void;
 }
 

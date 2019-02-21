@@ -44,7 +44,7 @@ const EmptyState = styled('div')({
 type UserDetailsProps = RouteComponentProps<{ id: string }>;
 export const UserDetails = (props: UserDetailsProps) => {
   const dispatch = useDispatch();
-  const userId = Number(props.match.params.id);
+  const userId = props.match.params.id;
   const user = useUser(userId);
 
   React.useEffect(() => {

@@ -13,7 +13,7 @@ import { AcceptWrapper } from '../transaction/create-user-transaction-form';
 import { useDispatch } from 'redux-react-hook';
 
 interface Props {
-  userId: number;
+  userId: string;
 }
 
 export const ArticleScanner = (props: Props) => {

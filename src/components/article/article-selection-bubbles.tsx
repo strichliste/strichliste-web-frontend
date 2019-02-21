@@ -17,7 +17,7 @@ const InputSection = styled(Flex)({
 });
 
 interface Props {
-  userId: number;
+  userId: string;
   onSelect(article: Article): void;
   onCancel(): void;
 }

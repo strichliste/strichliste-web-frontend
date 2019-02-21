@@ -31,7 +31,7 @@ const initialState = {
   selectedAmount: 0,
   hasSelectionReady: false,
   selectedUser: {
-    id: 0,
+    id: '',
     name: '',
     isActive: false,
     balance: 0,
@@ -68,7 +68,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
     if (this.state.selectedUser.id && this.state.selectedAmount) {
       const res = await startCreatingTransaction(
         store.dispatch,
-        Number(this.props.match.params.id),
+        this.props.match.params.id,
         {
           amount: this.state.selectedAmount * -1,
           recipientId: this.state.selectedUser.id,
@@ -115,7 +115,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
               })
             }
             transactionId={this.state.createdTransactionId}
-            userId={Number(this.props.match.params.id)}
+            userId={this.props.match.params.id || ''}
           />
         </Card>
       );
@@ -150,7 +150,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
               <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_USER">
                 {text => (
                   <UserSelection
-                    userId={Number(this.props.match.params.id)}
+                    userId={this.props.match.params.id}
                     placeholder={text as string}
                     getString={user => user.name}
                     onSelect={this.submitUserId}
@@ -159,7 +159,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
               </FormattedMessage>
               <UserToUserValidator
                 value={this.state.selectedAmount}
-                userId={Number(this.props.match.params.id)}
+                userId={this.props.match.params.id}
                 targetUserId={this.state.selectedUser.id}
                 render={isValid => (
                   <PrimaryButton isRound disabled={!isValid} type="submit">

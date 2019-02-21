@@ -10,7 +10,7 @@ export interface GetUsersResponse {
 }
 
 export interface User {
-  id: number;
+  id: string;
   name: string;
   isActive: boolean;
   isDisabled?: boolean;
@@ -22,7 +22,7 @@ export interface User {
 }
 
 export interface UsersState {
-  [id: number]: User;
+  [id: string]: User;
 }
 
 export interface Boundaries {
@@ -55,7 +55,7 @@ export function userDetailsLoaded(payload: User): UserDetailsLoadedAction {
 
 export async function startLoadingUserDetails(
   dispatch: Dispatch,
-  id: number
+  id: string
 ): Promise<void> {
   const details = await get(`user/${id}`);
   dispatch(userDetailsLoaded(details.user));
@@ -127,7 +127,7 @@ export interface UserUpdateParams {
 }
 export async function startUpdateUser(
   dispatch: Dispatch,
-  userId: number,
+  userId: string,
   params: UserUpdateParams
 ): Promise<User | undefined> {
   const promise = post(`user/${userId}`, params);
@@ -208,14 +208,14 @@ export function getUserArray(state: AppState): User[] {
   );
 }
 
-export function getUser(state: AppState, userId: number): User | undefined {
+export function getUser(state: AppState, userId: string): User | undefined {
   return getUserState(state)[userId];
 }
 
 export function getFilteredUserIds(
   state: AppState,
   isActive: boolean
-): number[] {
+): string[] {
   const query = getSearchQuery(state);
   const activeFilteredUsers = getUserArray(state).filter(
     user => user.isActive === isActive && user.isDisabled === false
@@ -229,18 +229,18 @@ export function getFilteredUserIds(
     .map(user => user.id);
 }
 
-export function getUserBalance(state: AppState, userId: number): number {
+export function getUserBalance(state: AppState, userId: string): number {
   const user = getUser(state, userId);
   return user ? user.balance : 0;
 }
 
 export function getUserTransactionsArray(
   state: AppState,
-  userId: number
+  userId: string
 ): number[] {
   const user = getUser(state, userId);
-  if (user) {
-    return Object.values(user.transactions ? user.transactions : []).sort(
+  if (user && user.transactions) {
+    return Object.values(user.transactions).sort(
       (a, b) => Number(b) - Number(a)
     );
   } else {

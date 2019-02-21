@@ -63,15 +63,15 @@ export function UserArticleTransactionLink(props: { id: number }): JSX.Element {
   );
 }
 
-export function getUserDetailLink(id: number): string {
+export function getUserDetailLink(id: string): string {
   return `/user/${id}`;
 }
 
-export function getUserTransactionsLink(id: number, page: number = 0): string {
+export function getUserTransactionsLink(id: string, page: number = 0): string {
   return `/user/transactions/${id}/${page}`;
 }
 
-export function getUserPayPalLink(id: number): string {
+export function getUserPayPalLink(id: string): string {
   return `${getUserDetailLink(id)}/paypal`;
 }
 

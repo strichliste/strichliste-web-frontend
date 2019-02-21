@@ -4,7 +4,7 @@ import { TransactionButton } from './transaction-button';
 
 export interface PaymentButtonListProps {
   steps: number[];
-  userId: number;
+  userId: string;
   isDeposit: boolean;
 }
 

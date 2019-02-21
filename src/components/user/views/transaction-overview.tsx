@@ -16,7 +16,7 @@ export function TransactionOverview(
       <TransactionTable
         onPageChange={url => props.history.push(url)}
         page={Number(page)}
-        userId={Number(id)}
+        userId={id}
       />
     </Block>
   );

@@ -6,7 +6,7 @@ import { Currency } from '../currency';
 import { UserName } from './user-name';
 
 interface Props {
-  id: number;
+  id: string;
 }
 
 export function UserCard({ id }: Props): JSX.Element | null {

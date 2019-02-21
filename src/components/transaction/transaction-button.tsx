@@ -7,7 +7,7 @@ import { useTransactionValidator } from './validator';
 import { store } from '../../store';
 
 interface Props {
-  userId: number;
+  userId: string;
   value: number;
   isDeposit?: boolean;
 }
@@ -15,8 +15,8 @@ interface Props {
 export function TransactionButton(props: Props): JSX.Element {
   const Button = props.isDeposit ? GreenButton : RedButton;
   const isValid = useTransactionValidator(
-    props.userId,
     props.value,
+    props.userId,
     props.isDeposit
   );
 

@@ -4,7 +4,7 @@ import { useIsTransactionDeletable, store } from '../../store';
 import { startDeletingTransaction } from '../../store/reducers';
 
 interface Props {
-  userId?: number;
+  userId?: string;
   transactionId: number;
   onSuccess?(): void;
 }
@@ -28,7 +28,7 @@ export function TransactionUndoButton(props: Props) {
         }
         startDeletingTransaction(
           store.dispatch,
-          props.userId || 0,
+          props.userId || '',
           props.transactionId
         );
       }}

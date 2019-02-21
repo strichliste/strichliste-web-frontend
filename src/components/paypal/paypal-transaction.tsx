@@ -21,7 +21,7 @@ export type PayPalTransactionProps = RouteComponentProps<{
 }>;
 
 export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
-  const userId = Number(props.match.params.id);
+  const userId = props.match.params.id;
   const paidAmount = Number(props.match.params.amount);
 
   const userName = useUserName(userId);

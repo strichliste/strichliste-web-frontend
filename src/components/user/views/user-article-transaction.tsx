@@ -12,13 +12,13 @@ async function onSelect(
 ): Promise<void> {
   const result = await startCreatingTransaction(
     dispatch,
-    Number(props.match.params.id),
+    props.match.params.id,
     {
       articleId: article.id,
     }
   );
   if (result) {
-    props.history.push(getUserDetailLink(Number(props.match.params.id)));
+    props.history.push(getUserDetailLink(props.match.params.id));
   }
 }
 
@@ -29,9 +29,9 @@ export function UserArticleTransaction(props: Props): JSX.Element | null {
 
   return (
     <ArticleSelectionBubbles
-      userId={Number(props.match.params.id)}
+      userId={props.match.params.id}
       onCancel={() =>
-        props.history.push(getUserDetailLink(Number(props.match.params.id)))
+        props.history.push(getUserDetailLink(props.match.params.id))
       }
       onSelect={article => onSelect(dispatch, article, props)}
     />

@@ -52,7 +52,7 @@ export type TransactionActions = TransactionsLoadedAction;
 
 export async function startLoadingTransactions(
   dispatch: Dispatch,
-  userId: number,
+  userId: string,
   offset?: number,
   limit?: number
 ): Promise<TransactionsResponse | undefined> {
@@ -75,12 +75,12 @@ export async function startLoadingTransactions(
 export interface CreateTransactionParams {
   amount?: number;
   articleId?: number;
-  recipientId?: number;
+  recipientId?: string;
   comment?: string;
 }
 export async function startCreatingTransaction(
   dispatch: Dispatch,
-  userId: number,
+  userId: string,
   params: CreateTransactionParams
 ): Promise<Transaction | undefined> {
   playCashSound(params);
@@ -100,7 +100,7 @@ export type StartCreatingTransaction = typeof startCreatingTransaction;
 
 export async function startDeletingTransaction(
   dispatch: Dispatch,
-  userId: number,
+  userId: string,
   transactionId: number
 ): Promise<void> {
   const promise = restDelete(`user/${userId}/transaction/${transactionId}`);

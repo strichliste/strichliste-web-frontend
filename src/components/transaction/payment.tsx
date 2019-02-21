@@ -6,7 +6,7 @@ import { CreateCustomTransactionForm } from './create-custom-transaction-form';
 import { PaymentButtonList } from './payment-button-steps';
 
 interface Props {
-  userId: number;
+  userId: string;
 }
 
 export function Payment(props: Props): JSX.Element {

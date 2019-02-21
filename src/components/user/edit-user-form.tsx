@@ -7,7 +7,7 @@ import { useUser } from '../../store';
 import { startUpdateUser } from '../../store/reducers';
 
 interface Props {
-  userId: number;
+  userId: string;
   onSave(): void;
   onCancel(): void;
   onDisabled(): void;

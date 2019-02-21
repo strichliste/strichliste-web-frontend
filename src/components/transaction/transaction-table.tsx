@@ -6,7 +6,7 @@ import { getUserTransactionsLink } from '../user/user-router';
 import { TransactionListItem } from './transaction-list-item';
 
 interface Props {
-  userId: number;
+  userId: string;
   page: number;
   onPageChange(url: string): void;
 }

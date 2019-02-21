@@ -20,30 +20,28 @@ import {
 } from './reducers';
 
 export function useFilteredUsers(isActive: boolean) {
-  return useMappedState<AppState, number[]>(
+  return useMappedState<AppState, string[]>(
     useCallback(state => getFilteredUserIds(state, isActive), [isActive])
   );
 }
 
-export function useUser(id: number) {
+export function useUser(id: string) {
   const user = useMappedState<AppState, User | undefined>(
     useCallback(state => getUser(state, id), [id])
   );
   return user;
 }
 
-export function useUserName(id: number): string {
+export function useUserName(id: string): string {
   const user = useMappedState<AppState, User | undefined>(
     useCallback(state => getUser(state, id), [id])
   );
   return user ? user.name : '';
 }
 
-export function useUserBalance(id: number): number {
-  return (
-    useMappedState<AppState, number | undefined>(
-      useCallback(state => getUserBalance(state, id), [id])
-    ) || 0
+export function useUserBalance(id: string): number {
+  return useMappedState<AppState, number>(
+    useCallback(state => getUserBalance(state, id), [id])
   );
 }
 

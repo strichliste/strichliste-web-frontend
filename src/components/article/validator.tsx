@@ -3,7 +3,7 @@ import { useSettings, useUserBalance } from '../../store';
 
 export function useArticleValidator(
   value: number,
-  userId: number = 0
+  userId: string = ''
 ): boolean {
   const settings = useSettings();
   const userBalance = useUserBalance(userId);
@@ -20,7 +20,7 @@ export function useArticleValidator(
 
 interface Props {
   value: number;
-  userId?: number;
+  userId?: string;
   render(isValid: boolean): React.ReactNode;
 }
 export const ArticleValidator = (props: Props) => {

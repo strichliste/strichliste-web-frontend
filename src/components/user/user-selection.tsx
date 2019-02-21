@@ -13,7 +13,7 @@ import { User } from '../../store/reducers';
 import { SearchIcon } from '../ui/icons/search';
 
 interface Props {
-  userId?: number;
+  userId?: string;
   autoFocus?: boolean;
   placeholder: string;
   disabled?: boolean;

@@ -19,7 +19,7 @@ const Wrapper = styled('div')({
 
 interface Props {
   userName: string;
-  userId: number;
+  userId: string;
 }
 
 // eslint-disable-next-line react/display-name

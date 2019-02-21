@@ -31,8 +31,8 @@ interface State {
   participants: User[];
   comment: string;
   amount: number;
-  responseState: { [userId: number]: Transaction | 'error' };
-  validation: { [userId: number]: string };
+  responseState: { [userId: string]: Transaction | 'error' };
+  validation: { [userId: string]: string };
 }
 
 const initialState: State = {
@@ -226,7 +226,7 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
           {Object.keys(this.state.responseState).map(userId => {
             const item = this.state.responseState[userId];
             const user = this.state.participants.find(
-              user => user.id === Number(userId)
+              user => user.id === userId
             );
             const userName = user ? user.name : '';
 
@@ -316,7 +316,7 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
         </TextCenter>
         <Block margin="1rem 0">
           <UserMultiSelection
-            excludeUserId={this.state.recipient ? this.state.recipient.id : 0}
+            excludeUserId={this.state.recipient ? this.state.recipient.id : ''}
             validation={this.state.validation}
             onSelect={this.addParticipant}
             placeholder="add participant"
