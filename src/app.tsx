@@ -20,10 +20,11 @@ import { MainFooter, baseCss, mobileStyles } from './components/ui';
 import { UserRouter } from './components/user/user-router';
 import { en } from './locales/en';
 import { store } from './store';
+import { startLoadingSettings } from './store/reducers';
+import { useScalingState } from './components/settings/scaling-buttons';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
-import { startLoadingSettings } from './store/reducers';
 
 const newLight: Theme = {
   ...light,
@@ -58,16 +59,18 @@ const Layout = () => {
     startLoadingSettings(dispatch);
   }, []);
 
+  const { scaling } = useScalingState();
+
   return (
     <Grid>
       <Global styles={resetCss} />
-      <Global styles={baseCss} />
+      <Global styles={baseCss(scaling)} />
       <TouchStyles />
       <ErrorMessage />
       <HeaderMenu />
       <Switch>
-        <Route path="/articles" component={ArticleRouter} />
         <Route path="/user" component={UserRouter} />
+        <Route path="/articles" component={ArticleRouter} />
         <Route path="/split-invoice" component={SplitInvoiceForm} />
         <Redirect from="/" to="/user/active" />
       </Switch>
