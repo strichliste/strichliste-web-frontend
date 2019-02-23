@@ -1,6 +1,6 @@
-export const baseCss = `
+export const baseCss = (scaling: number) => `
 :root{
-  font-size: 15px;
+  font-size: ${15 + scaling}px;
 }
 
 label {
@@ -9,19 +9,13 @@ label {
 
 @media only screen and (min-width: 40em) {
   :root{
-    font-size: 17px;
+    font-size: ${17 + scaling}px;
   }
 }
 
 @media only screen and (min-width: 100em) {
   :root{
-    font-size: 22px;
-  }
-}
-
-@media only screen and (min-width: 130em) {
-  :root{
-    font-size: 26px;
+    font-size: ${22 + scaling}px;
   }
 }
 
