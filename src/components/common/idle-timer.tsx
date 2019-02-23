@@ -2,15 +2,15 @@ import * as React from 'react';
 import { useSettings } from '../../store';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let timerId: any = 0;
 
 export function useIdleTimer(onTimeOut: () => void) {
   const settings = useSettings();
-  const [timerId, setTimerId] = React.useState(0);
+
   const resetTimer = () => {
     clearTimeout(timerId);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const id: any = setTimeout(onTimeOut, settings.idleTimer);
-    setTimerId(id);
+    timerId = setTimeout(onTimeOut, settings.idleTimer);
   };
 
   React.useEffect(() => {
@@ -29,7 +29,9 @@ export function useIdleTimer(onTimeOut: () => void) {
   }, []);
 }
 
-export const WrappedIdleTimer = withRouter((props: RouteComponentProps) => {
-  useIdleTimer(() => props.history.push('/'));
-  return null;
-});
+export const WrappedIdleTimer = React.memo(
+  withRouter((props: RouteComponentProps) => {
+    useIdleTimer(() => props.history.push('/'));
+    return null;
+  })
+);
