@@ -1,6 +1,6 @@
 import { get } from '../../services/api';
 import { MaybeResponse, errorHandler } from '../../services/error-handler';
-import { Action, DefaultThunkAction } from '../action';
+import { Action } from '../action';
 import { AppState, Dispatch } from '../store';
 
 export enum SettingsTypes {
@@ -110,18 +110,16 @@ export function settingsLoaded(settings: Settings): SettingsLoadedAction {
   };
 }
 
-export function startLoadingSettings(): DefaultThunkAction {
-  return async (dispatch: Dispatch) => {
-    const promise = get('settings');
-    const data = await errorHandler<SettingsResponse>(dispatch, {
-      promise,
-      defaultError: 'SETTINGS_LOADED_FAILED',
-    });
+export async function startLoadingSettings(dispatch: Dispatch): Promise<void> {
+  const promise = get('settings');
+  const data = await errorHandler<SettingsResponse>(dispatch, {
+    promise,
+    defaultError: 'SETTINGS_LOADED_FAILED',
+  });
 
-    if (data && data.settings) {
-      dispatch(settingsLoaded(data.settings));
-    }
-  };
+  if (data && data.settings) {
+    dispatch(settingsLoaded(data.settings));
+  }
 }
 
 export const initialState = {

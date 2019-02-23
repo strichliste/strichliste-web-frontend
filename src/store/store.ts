@@ -1,5 +1,4 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import thunk, { ThunkAction as ReduxThunkAction } from 'redux-thunk';
+import { combineReducers, createStore } from 'redux';
 
 import { Action } from './';
 import {
@@ -27,25 +26,11 @@ export type AppState = {
 };
 
 export const reducer = combineReducers<AppState>(reducers);
-const composeEnhancers =
-  // tslint:disable-next-line:no-any
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore<
-  AppState,
-  Action,
-  { dispatch: Dispatch },
-  object
->(reducer, composeEnhancers(applyMiddleware(thunk)));
-
-export type ThunkAction<Result, Parameter = undefined> = ReduxThunkAction<
-  Result,
-  AppState,
-  Parameter,
-  Action
->;
+export const store = createStore<AppState, Action, { dispatch: Dispatch }, {}>(
+  reducer
+);
 
 export interface Dispatch {
-  <Result>(action: ThunkAction<Result>): Result;
   (action: Action): Action;
 }

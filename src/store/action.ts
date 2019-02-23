@@ -1,4 +1,3 @@
-import { ThunkAction } from '.';
 import {
   ArticleActions,
   ErrorActions,
@@ -17,5 +16,3 @@ export type Action =
   | SearchActions
   | TransactionActions
   | UserActions;
-
-export type DefaultThunkAction = ThunkAction<Promise<void>>;

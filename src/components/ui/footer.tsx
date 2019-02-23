@@ -2,9 +2,7 @@ import { Footer } from 'bricks-of-sand';
 import * as React from 'react';
 import { GitHubIcon } from '../ui/icons/git-hub';
 
-export interface MainFooterProps {}
-
-export function MainFooter(props: MainFooterProps): JSX.Element {
+export function MainFooter(): JSX.Element {
   return (
     <Footer>
       <div>

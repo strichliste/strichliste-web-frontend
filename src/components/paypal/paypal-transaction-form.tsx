@@ -19,9 +19,10 @@ const Wrapper = styled('div')({
 
 interface Props {
   userName: string;
-  userId: number;
+  userId: string;
 }
 
+// eslint-disable-next-line react/display-name
 export const PayPalTransactionForm = React.memo((props: Props) => {
   const settings = useSettings();
   const [value, setValue] = React.useState(0);

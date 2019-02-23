@@ -2,8 +2,7 @@ import { Transaction, TransactionTypes } from '.';
 import { Action } from '..';
 import { get, post } from '../../services/api';
 import { errorHandler } from '../../services/error-handler';
-import { DefaultThunkAction } from '../action';
-import { AppState, Dispatch, ThunkAction } from '../store';
+import { AppState, Dispatch } from '../store';
 import { getSearchQuery } from './search';
 
 export interface GetUsersResponse {
@@ -11,7 +10,7 @@ export interface GetUsersResponse {
 }
 
 export interface User {
-  id: number;
+  id: string;
   name: string;
   isActive: boolean;
   isDisabled?: boolean;
@@ -23,7 +22,7 @@ export interface User {
 }
 
 export interface UsersState {
-  [id: number]: User;
+  [id: string]: User;
 }
 
 export interface Boundaries {
@@ -54,11 +53,12 @@ export function userDetailsLoaded(payload: User): UserDetailsLoadedAction {
   };
 }
 
-export function startLoadingUserDetails(id: number): DefaultThunkAction {
-  return async (dispatch: Dispatch) => {
-    const details = await get(`user/${id}`);
-    dispatch(userDetailsLoaded(details.user));
-  };
+export async function startLoadingUserDetails(
+  dispatch: Dispatch,
+  id: string
+): Promise<void> {
+  const details = await get(`user/${id}`);
+  dispatch(userDetailsLoaded(details.user));
 }
 
 export interface UsersLoadedAction {
@@ -72,82 +72,90 @@ export function usersLoaded(payload: GetUsersResponse): UsersLoadedAction {
   };
 }
 
-export function startLoadingUsers(
-  isActive?: boolean,
-  isDeleted?: boolean
-): DefaultThunkAction {
-  return async (dispatch: Dispatch) => {
-    const params: { deleted?: string; active?: string } = {};
-    params.deleted = 'false';
-    if (isActive !== undefined) {
-      params.active = isActive.toString();
-    }
-    const promise = get(
-      `user${Object.keys(params).reduce((paramString, param, index) => {
-        const next = `${paramString}${index === 0 ? '?' : '&'}${param}=${
-          params[param]
-        }`;
-        return next;
-      }, '')}`
-    );
-    const data = await errorHandler(dispatch, {
-      promise,
-      defaultError: 'USERS_LOADING_FAILED',
-    });
-    if (data) {
-      dispatch(usersLoaded(data));
-    }
-  };
+export async function startLoadingUsers(
+  dispatch: Dispatch,
+  isActive?: boolean
+): Promise<void> {
+  const params: { deleted?: string; active?: string } = {};
+  params.deleted = 'false';
+  if (isActive !== undefined) {
+    params.active = isActive.toString();
+  }
+  const promise = get(
+    `user${Object.keys(params).reduce((paramString, param, index) => {
+      const next = `${paramString}${index === 0 ? '?' : '&'}${param}=${
+        params[param]
+      }`;
+      return next;
+    }, '')}`
+  );
+  const data = await errorHandler(dispatch, {
+    promise,
+    defaultError: 'USERS_LOADING_FAILED',
+  });
+  if (data) {
+    dispatch(usersLoaded(data));
+  }
 }
 
-export function startCreatingUser(
+export async function startCreatingUser(
+  dispatch: Dispatch,
   name: string
-): ThunkAction<Promise<User | undefined>> {
-  return async (dispatch: Dispatch) => {
-    const promise = post('user', {
-      name,
-    });
-    const data = await errorHandler(dispatch, {
-      promise,
-      defaultError: 'USERS_CREATION_FAILED',
-      errors: {
-        UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
-      },
-    });
+): Promise<User | undefined> {
+  const promise = post('user', {
+    name,
+  });
+  const data = await errorHandler(dispatch, {
+    promise,
+    defaultError: 'USERS_CREATION_FAILED',
+    errors: {
+      UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
+    },
+  });
 
-    if (data && data.user) {
-      dispatch(userDetailsLoaded(data.user));
-      return data.user;
-    }
+  if (data && data.user) {
+    dispatch(userDetailsLoaded(data.user));
+    return data.user;
+  }
 
-    return undefined;
-  };
+  return undefined;
 }
 export interface UserUpdateParams {
   name: string;
   email?: string;
   isDisabled: boolean;
 }
-export function startUpdateUser(
-  userId: number,
+export async function startUpdateUser(
+  dispatch: Dispatch,
+  userId: string,
   params: UserUpdateParams
-): ThunkAction<Promise<User | undefined>> {
-  return async (dispatch: Dispatch) => {
-    const promise = post(`user/${userId}`, params);
-    const data = await errorHandler(dispatch, {
-      promise,
-      defaultError: 'USER_EDIT_USER_FAILED',
-      errors: {
-        UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
-      },
-    });
-    if (data && data.user) {
-      dispatch(userDetailsLoaded(data.user));
-      return data.user;
-    }
+): Promise<User | undefined> {
+  const promise = post(`user/${userId}`, params);
+  const data = await errorHandler(dispatch, {
+    promise,
+    defaultError: 'USER_EDIT_USER_FAILED',
+    errors: {
+      UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST',
+    },
+  });
+  if (data && data.user) {
+    dispatch(userDetailsLoaded(data.user));
+    return data.user;
+  }
 
+  return undefined;
+}
+
+function getUserFromStateOrPayload(
+  state: UsersState,
+  transaction?: Transaction
+): User | undefined {
+  if (!transaction) {
     return undefined;
-  };
+  }
+
+  const userId = transaction.user.id;
+  return state[userId] ? state[userId] : transaction.user;
 }
 
 export type UserActions = UsersLoadedAction | UserDetailsLoadedAction;
@@ -168,6 +176,7 @@ export function user(state: UsersState = {}, action: Action): UsersState {
         [action.payload.id]: { ...state[action.payload.id], ...action.payload },
       };
     case TransactionTypes.TransactionsLoaded:
+      // eslint-disable-next-line no-case-declarations
       const user = getUserFromStateOrPayload(state, action.payload[0]);
       if (!user) {
         return state;
@@ -189,18 +198,6 @@ export function user(state: UsersState = {}, action: Action): UsersState {
   }
 }
 
-function getUserFromStateOrPayload(
-  state: UsersState,
-  transaction?: Transaction
-): User | undefined {
-  if (!transaction) {
-    return undefined;
-  }
-
-  const userId = transaction.user.id;
-  return state[userId] ? state[userId] : transaction.user;
-}
-
 export function getUserState(state: AppState): UsersState {
   return state.user;
 }
@@ -211,14 +208,14 @@ export function getUserArray(state: AppState): User[] {
   );
 }
 
-export function getUser(state: AppState, userId: number): User | undefined {
+export function getUser(state: AppState, userId: string): User | undefined {
   return getUserState(state)[userId];
 }
 
 export function getFilteredUserIds(
   state: AppState,
   isActive: boolean
-): number[] {
+): string[] {
   const query = getSearchQuery(state);
   const activeFilteredUsers = getUserArray(state).filter(
     user => user.isActive === isActive && user.isDisabled === false
@@ -232,18 +229,18 @@ export function getFilteredUserIds(
     .map(user => user.id);
 }
 
-export function getUserBalance(state: AppState, userId: number): number {
+export function getUserBalance(state: AppState, userId: string): number {
   const user = getUser(state, userId);
   return user ? user.balance : 0;
 }
 
 export function getUserTransactionsArray(
   state: AppState,
-  userId: number
+  userId: string
 ): number[] {
   const user = getUser(state, userId);
-  if (user) {
-    return Object.values(user.transactions ? user.transactions : []).sort(
+  if (user && user.transactions) {
+    return Object.values(user.transactions).sort(
       (a, b) => Number(b) - Number(a)
     );
   } else {

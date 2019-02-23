@@ -1,54 +1,39 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
 import { Article, startCreatingTransaction } from '../../../store/reducers';
-import { ConnectedArticleSelectionBubbles } from '../../article/article-selection-bubbles';
-import { getUserDetailLink } from '../user-router';
-
-interface ActionProps {
-  startCreatingTransaction: // tslint:disable-next-line:no-any
-  any;
-}
-
-export type UserArticleTransactionProps = ActionProps &
-  RouteComponentProps<{ id: string }>;
-
-export function UserArticleTransaction(
-  props: UserArticleTransactionProps
-): JSX.Element | null {
-  return (
-    <>
-      <ConnectedArticleSelectionBubbles
-        userId={Number(props.match.params.id)}
-        onCancel={() =>
-          props.history.push(getUserDetailLink(Number(props.match.params.id)))
-        }
-        onSelect={article => onSelect(article, props)}
-      />
-    </>
-  );
-}
+import { ArticleSelectionBubbles } from '../../article/article-selection-bubbles';
+import { getUserDetailLink, UserRouteProps } from '../user-router';
+import { useDispatch } from 'redux-react-hook';
+import { Dispatch } from '../../../store/store';
 
 async function onSelect(
+  dispatch: Dispatch,
   article: Article,
-  props: UserArticleTransactionProps
+  props: Props
 ): Promise<void> {
-  const result = await props.startCreatingTransaction(
-    Number(props.match.params.id),
+  const result = await startCreatingTransaction(
+    dispatch,
+    props.match.params.id,
     {
       articleId: article.id,
     }
   );
   if (result) {
-    props.history.push(getUserDetailLink(Number(props.match.params.id)));
+    props.history.push(getUserDetailLink(props.match.params.id));
   }
 }
 
-const mapDispatchToProps = {
-  startCreatingTransaction,
-};
+type Props = UserRouteProps;
 
-export const ConnectedUserArticleTransaction = connect(
-  undefined,
-  mapDispatchToProps
-)(UserArticleTransaction);
+export function UserArticleTransaction(props: Props): JSX.Element | null {
+  const dispatch = useDispatch();
+
+  return (
+    <ArticleSelectionBubbles
+      userId={props.match.params.id}
+      onCancel={() =>
+        props.history.push(getUserDetailLink(props.match.params.id))
+      }
+      onSelect={article => onSelect(dispatch, article, props)}
+    />
+  );
+}

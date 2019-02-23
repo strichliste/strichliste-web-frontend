@@ -9,12 +9,10 @@ import {
   withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { AppState } from '../../store';
-import { Transaction } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
-import { ConnectedTransactionUndoButton } from './transaction-undo-button';
+import { TransactionUndoButton } from './transaction-undo-button';
+import { useTransaction } from '../../store';
 
 const ArticleIcon = withTheme(
   styled('span')({}, ({ theme }) => ({
@@ -22,27 +20,22 @@ const ArticleIcon = withTheme(
   }))
 );
 
-interface OwnProps {
+interface Props {
   id: number | string;
 }
-
-interface StateProps {
-  transaction: Transaction;
-}
-
-type Props = OwnProps & StateProps;
 
 const TextRight = styled(ResponsiveGrid)({
   textAlign: 'right',
 });
 
-export function TransactionListItem(props: Props): JSX.Element | null {
-  if (!props.transaction) {
+export function TransactionListItem({ id }: Props): JSX.Element | null {
+  const transaction = useTransaction(Number(id));
+  if (!transaction) {
     return null;
   }
   return (
     <ListItem>
-      <LineThrough lineThrough={props.transaction.isDeleted}>
+      <LineThrough lineThrough={transaction.isDeleted}>
         <ResponsiveGrid gridGap="0" margin="0" columns="2fr 1fr">
           <ResponsiveGrid
             gridGap="0"
@@ -50,35 +43,33 @@ export function TransactionListItem(props: Props): JSX.Element | null {
             columns="1fr"
             tabletColumns="1fr 1fr"
           >
-            <AlertText value={props.transaction.amount}>
-              <Currency value={props.transaction.amount} />
+            <AlertText value={transaction.amount}>
+              <Currency value={transaction.amount} />
             </AlertText>
             <Ellipsis>
-              {props.transaction.sender && (
-                <>&#8592; {props.transaction.sender.name} :</>
+              {transaction.sender && <>&#8592; {transaction.sender.name} :</>}
+              {transaction.recipient && (
+                <>&#8594; {transaction.recipient.name} :</>
               )}
-              {props.transaction.recipient && (
-                <>&#8594; {props.transaction.recipient.name} :</>
-              )}
-              {props.transaction.article && (
+              {transaction.article && (
                 <>
                   <ArticleIcon>
                     <ShoppingBagIcon />
                   </ArticleIcon>{' '}
-                  {props.transaction.article.name}
+                  {transaction.article.name}
                 </>
               )}
-              {props.transaction.comment && <> {props.transaction.comment}</>}
+              {transaction.comment && <> {transaction.comment}</>}
             </Ellipsis>
           </ResponsiveGrid>
           <TextRight>
-            {props.transaction.isDeletable ? (
-              <ConnectedTransactionUndoButton
-                transactionId={props.transaction.id}
-                userId={props.transaction.user.id}
+            {transaction.isDeletable ? (
+              <TransactionUndoButton
+                transactionId={transaction.id}
+                userId={transaction.user.id}
               />
             ) : (
-              <Ellipsis>{props.transaction.created}</Ellipsis>
+              <Ellipsis>{transaction.created}</Ellipsis>
             )}
           </TextRight>
         </ResponsiveGrid>
@@ -86,11 +77,3 @@ export function TransactionListItem(props: Props): JSX.Element | null {
     </ListItem>
   );
 }
-
-const mapStateToProps = (state: AppState, { id }: OwnProps) => ({
-  transaction: state.transaction[id],
-});
-
-export const ConnectedTransactionListItem = connect(mapStateToProps)(
-  TransactionListItem
-);

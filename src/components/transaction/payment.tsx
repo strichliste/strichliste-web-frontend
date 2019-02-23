@@ -1,50 +1,35 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-
 import { Block, Card } from 'bricks-of-sand';
-import { ConnectedCreateCustomTransactionForm } from '.';
-import { AppState } from '../../store';
-import { Payment, getPayment } from '../../store/reducers';
+import * as React from 'react';
+
+import { useSettings } from '../../store';
+import { CreateCustomTransactionForm } from './create-custom-transaction-form';
 import { PaymentButtonList } from './payment-button-steps';
 
-interface OwnProps {
-  userId: number;
+interface Props {
+  userId: string;
 }
 
-interface StateProps {
-  balance: number;
-  payment: Payment;
-}
-
-type Props = OwnProps & StateProps;
-
-export function PaymentComponent(props: Props): JSX.Element {
+export function Payment(props: Props): JSX.Element {
+  const payment = useSettings().payment;
   return (
     <Card padding="0.5rem">
-      {props.payment.deposit.enabled && (
+      {payment.deposit.enabled && (
         <PaymentButtonList
           isDeposit={true}
-          steps={props.payment.deposit.steps}
+          steps={payment.deposit.steps}
           userId={props.userId}
         />
       )}
       <Block margin="1rem">
-        <ConnectedCreateCustomTransactionForm userId={props.userId} />
+        <CreateCustomTransactionForm userId={props.userId} />
       </Block>
-      {props.payment.dispense.enabled && (
+      {payment.dispense.enabled && (
         <PaymentButtonList
           isDeposit={false}
-          steps={props.payment.dispense.steps}
+          steps={payment.dispense.steps}
           userId={props.userId}
         />
       )}
     </Card>
   );
 }
-
-const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
-  balance: state.user[props.userId].balance,
-  payment: getPayment(state),
-});
-
-export const ConnectedPayment = connect(mapStateToProps)(PaymentComponent);

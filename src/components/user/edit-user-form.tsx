@@ -1,141 +1,100 @@
-import { AcceptButton, Block, CancelButton, Flex, Input } from 'bricks-of-sand';
-import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
-import { AppState } from '../../store';
-import {
-  User,
-  UserUpdateParams,
-  getUser,
-  startUpdateUser,
-} from '../../store/reducers';
+import React from 'react';
 
-interface OwnProps {
-  userId: number;
+import { AcceptButton, Block, CancelButton, Flex, Input } from 'bricks-of-sand';
+import { FormattedMessage } from 'react-intl';
+import { useDispatch } from 'redux-react-hook';
+import { useUser } from '../../store';
+import { startUpdateUser } from '../../store/reducers';
+
+interface Props {
+  userId: string;
   onSave(): void;
   onCancel(): void;
   onDisabled(): void;
 }
 
-interface StateProps {
-  user: User | undefined;
-}
+export const UserEditForm = (props: Props) => {
+  const [name, setName] = React.useState(''),
+    [email, setEmail] = React.useState(''),
+    [isDisabled, setDisabled] = React.useState(false),
+    user = useUser(props.userId),
+    dispatch = useDispatch(),
+    submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+      e.preventDefault();
 
-interface ActionProps {
-  // tslint:disable-next-line:no-any
-  startUpdateUser: any;
-}
-
-export type UserEditFormProps = ActionProps & StateProps & OwnProps;
-
-export class UserEditForm extends React.Component<
-  UserEditFormProps,
-  UserUpdateParams
-> {
-  public state = { name: '', email: '', isDisabled: false };
-
-  public componentDidMount(): void {
-    if (this.props.user) {
-      this.setState({
-        name: this.props.user.name,
-        email: this.props.user.email || '',
-        isDisabled: this.props.user.isDisabled || false,
+      const user = await startUpdateUser(dispatch, props.userId, {
+        name,
+        email,
+        isDisabled,
       });
+
+      if (user && user.isDisabled) {
+        props.onDisabled();
+        return;
+      }
+      if (user && user.id) {
+        props.onSave();
+      }
+    };
+
+  React.useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email || '');
+      setDisabled(user.isDisabled || false);
     }
-  }
+  }, [props.userId]);
 
-  public submit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    e.preventDefault();
-
-    const user = await this.props.startUpdateUser(
-      this.props.userId,
-      this.state
-    );
-
-    if (user && user.isDisabled) {
-      this.props.onDisabled();
-      return;
-    }
-    if (user && user.id) {
-      this.props.onSave();
-    }
-  };
-
-  public render(): JSX.Element {
-    return (
-      <>
-        <form onSubmit={this.submit}>
-          <Block margin="1rem 0">
-            <FormattedMessage
-              id="USER_EDIT_NAME_LABEL"
-              children={text => (
-                <Input
-                  placeholder={text as string}
-                  value={this.state.name}
-                  onChange={e =>
-                    this.setState({
-                      name: e.target.value,
-                    })
-                  }
-                  minLength={1}
-                  maxLength={64}
-                  required
-                  type="text"
-                />
-              )}
-            />
-          </Block>
-          <Block margin="1rem 0">
-            <FormattedMessage
-              id="USER_EDIT_MAIL_LABEL"
-              children={text => (
-                <Input
-                  placeholder={text as string}
-                  value={this.state.email || ''}
-                  onChange={e => this.setState({ email: e.target.value })}
-                  type="email"
-                />
-              )}
-            />
-          </Block>
-          <Block margin="1rem 0">
-            <Flex alignContent="center" justifyContent="space-between">
-              <label>
-                <input
-                  checked={this.state.isDisabled}
-                  onChange={e =>
-                    this.setState({ isDisabled: e.target.checked })
-                  }
-                  type="checkbox"
-                />
-                <FormattedMessage id="USER_EDIT_ACTIVE_LABEL" />
-              </label>
-              <div>
-                <CancelButton margin="0 1rem" onClick={this.props.onCancel} />
-                <AcceptButton />
-              </div>
-            </Flex>
-            {this.state.isDisabled && (
-              <FormattedMessage id="USER_EDIT_ACTIVE_WARNING" />
+  return (
+    <>
+      <form onSubmit={submit}>
+        <Block margin="1rem 0">
+          <FormattedMessage
+            id="USER_EDIT_NAME_LABEL"
+            children={text => (
+              <Input
+                placeholder={text as string}
+                value={name}
+                onChange={e => setName(e.target.value)}
+                minLength={1}
+                maxLength={64}
+                required
+                type="text"
+              />
             )}
-          </Block>
-        </form>
-      </>
-    );
-  }
-}
-
-const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
-  user: getUser(state, props.userId),
-});
-
-const mapDispatchToProps = {
-  startUpdateUser,
+          />
+        </Block>
+        <Block margin="1rem 0">
+          <FormattedMessage
+            id="USER_EDIT_MAIL_LABEL"
+            children={text => (
+              <Input
+                placeholder={text as string}
+                value={email || ''}
+                onChange={e => setEmail(e.target.value)}
+                type="email"
+              />
+            )}
+          />
+        </Block>
+        <Block margin="1rem 0">
+          <Flex alignContent="center" justifyContent="space-between">
+            <label>
+              <input
+                checked={isDisabled}
+                onChange={e => setDisabled(e.target.checked)}
+                type="checkbox"
+              />
+              <FormattedMessage id="USER_EDIT_ACTIVE_LABEL" />
+            </label>
+            <div>
+              <CancelButton margin="0 1rem" onClick={props.onCancel} />
+              <AcceptButton />
+            </div>
+          </Flex>
+          {isDisabled && <FormattedMessage id="USER_EDIT_ACTIVE_WARNING" />}
+        </Block>
+      </form>
+    </>
+  );
 };
-
-export const ConnectedUserEditForm = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserEditForm);

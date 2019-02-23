@@ -1,65 +1,35 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { AppState } from '../../store';
+import { useSettings } from '../../store';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 
-interface State {
-  timerId: NodeJS.Timer | number | undefined;
-}
-interface StateProps {
-  idleTimer: number;
-}
-interface OwnProps extends RouteComponentProps {
-  onTimeOut?(): void;
-}
-
-type Props = StateProps & OwnProps;
-
-export class IdleTimer extends React.Component<Props, State> {
-  public state = {
-    timerId: undefined,
+export function useIdleTimer(onTimeOut: () => void) {
+  const settings = useSettings();
+  const [timerId, setTimerId] = React.useState(0);
+  const resetTimer = () => {
+    clearTimeout(timerId);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const id: any = setTimeout(onTimeOut, settings.idleTimer);
+    setTimerId(id);
   };
 
-  public componentDidMount(): void {
-    this.resetTimer();
-    document.addEventListener('scroll', this.resetTimer);
-    document.addEventListener('click', this.resetTimer);
-    document.addEventListener('touch', this.resetTimer);
-    document.addEventListener('keyup', this.resetTimer);
-  }
-
-  public componentWillUnmount(): void {
-    document.removeEventListener('scroll', this.resetTimer);
-    document.removeEventListener('click', this.resetTimer);
-    document.removeEventListener('touch', this.resetTimer);
-    document.removeEventListener('keyup', this.resetTimer);
-    clearTimeout(this.state.timerId);
-  }
-
-  public handleTimeOut = () => {
-    if (typeof this.props.onTimeOut === 'function') {
-      this.props.onTimeOut();
-    } else {
-      this.props.history.push('/');
-    }
-  };
-
-  public resetTimer = () => {
-    clearTimeout(this.state.timerId);
-    const id = setTimeout(this.handleTimeOut, this.props.idleTimer);
-    this.setState({ timerId: id });
-  };
-
-  // tslint:disable-next-line:prefer-function-over-method
-  public render(): null {
-    return null;
-  }
+  React.useEffect(() => {
+    resetTimer();
+    document.addEventListener('scroll', resetTimer);
+    document.addEventListener('click', resetTimer);
+    document.addEventListener('touch', resetTimer);
+    document.addEventListener('keyup', resetTimer);
+    return () => {
+      document.removeEventListener('scroll', resetTimer);
+      document.removeEventListener('click', resetTimer);
+      document.removeEventListener('touch', resetTimer);
+      document.removeEventListener('keyup', resetTimer);
+      clearTimeout(timerId);
+    };
+  }, []);
 }
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  idleTimer: state.settings.idleTimer,
+export const WrappedIdleTimer = withRouter((props: RouteComponentProps) => {
+  useIdleTimer(() => props.history.push('/'));
+  return null;
 });
-
-export const ConnectedIdleTimer = withRouter(
-  connect(mapStateToProps)(IdleTimer)
-);

@@ -1,7 +1,7 @@
 import { Card } from 'bricks-of-sand';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { ConnectedArticleForm } from '../article-form';
+import { ArticleForm } from './article-form';
 
 export function ArticleEditFormView({
   match,
@@ -9,7 +9,7 @@ export function ArticleEditFormView({
 }: RouteComponentProps<{ id: string }>): JSX.Element {
   return (
     <Card>
-      <ConnectedArticleForm
+      <ArticleForm
         onCreated={history.goBack}
         articleId={Number(match.params.id)}
       />

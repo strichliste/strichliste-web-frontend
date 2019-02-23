@@ -1,4 +1,5 @@
-// tslint:disable no-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { DeepPartial } from 'redux';
 import { user } from '..';
 import { get, post } from '../../../services/api';
@@ -131,7 +132,7 @@ describe('action creators', () => {
       (get as any).mockImplementationOnce(() => Promise.resolve([{ id: 1 }]));
 
       const store = getMockStore();
-      await store.dispatch(startLoadingUsers(true));
+      await startLoadingUsers(store.dispatch, true);
       expect(get).toHaveBeenCalledWith('user?deleted=false&active=true');
       expect(store.getActions()).toMatchSnapshot();
     });
@@ -144,7 +145,7 @@ describe('action creators', () => {
       );
 
       const store = getMockStore();
-      await store.dispatch(startLoadingUserDetails(1));
+      await startLoadingUserDetails(store.dispatch, 1);
       expect(get).toHaveBeenCalledWith('user/1');
       expect(store.getActions()).toEqual([
         userDetailsLoaded([{ id: 1 }] as any),
@@ -158,7 +159,7 @@ describe('action creators', () => {
         Promise.resolve({ user: [{ id: 1 }] })
       );
       const store = getMockStore();
-      await store.dispatch(startCreatingUser('test'));
+      await startCreatingUser(store.dispatch, 'test');
       expect(post).toHaveBeenCalledWith('user', { name: 'test' });
       expect(store.getActions()).toMatchSnapshot();
     });
@@ -170,9 +171,10 @@ describe('action creators', () => {
         Promise.resolve({ user: [{ id: 1 }] })
       );
       const store = getMockStore();
-      await store.dispatch(
-        startUpdateUser(1, { name: 'test', isDisabled: true })
-      );
+      await startUpdateUser(store.dispatch, 1, {
+        name: 'test',
+        isDisabled: true,
+      });
       expect(post).toHaveBeenCalledWith('user/1', {
         name: 'test',
         isDisabled: true,

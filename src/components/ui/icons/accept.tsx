@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface AcceptIconProps {}
-
-export function AcceptIcon(props: AcceptIconProps): JSX.Element {
+export function AcceptIcon(): JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

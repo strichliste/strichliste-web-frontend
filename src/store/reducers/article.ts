@@ -1,7 +1,7 @@
 import { get, post } from '../../services/api';
 import { MaybeResponse, errorHandler } from '../../services/error-handler';
-import { Action, DefaultThunkAction } from '../action';
-import { AppState, Dispatch, ThunkAction } from '../store';
+import { Action } from '../action';
+import { AppState, Dispatch } from '../store';
 
 export interface ArticleResponse extends MaybeResponse {
   articles: Article[];
@@ -34,36 +34,32 @@ export function articlesLoaded(payload: Article[]): ArticlesLoadedAction {
   };
 }
 
-export function startLoadingArticles(): DefaultThunkAction {
-  return async (dispatch: Dispatch) => {
-    const promise = get(`article?limit=999`);
-    const data = await errorHandler<ArticleResponse>(dispatch, {
-      promise,
-      defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
-    });
-    if (data && data.articles && data.articles.length) {
-      dispatch(articlesLoaded(data.articles));
-    }
-  };
+export async function startLoadingArticles(dispatch: Dispatch): Promise<void> {
+  const promise = get(`article?limit=999`);
+  const data = await errorHandler<ArticleResponse>(dispatch, {
+    promise,
+    defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
+  });
+  if (data && data.articles && data.articles.length) {
+    dispatch(articlesLoaded(data.articles));
+  }
 }
 
-export function getArticleByBarcode(
+export async function getArticleByBarcode(
+  dispatch: Dispatch,
   barcode: string
-): ThunkAction<Promise<Article | undefined>> {
-  return async (dispatch: Dispatch) => {
-    const promise = get(`article?barcode=${barcode}`);
-    const data = await errorHandler<ArticleResponse>(dispatch, {
-      promise,
-      defaultError: 'ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE',
-    });
-    if (data && data.articles && data.articles.length) {
-      dispatch(articlesLoaded(data.articles));
-      return data.articles[0];
-    } else {
-      throw Error('no articles are matching the barcode');
-    }
-    return undefined;
-  };
+): Promise<Article | undefined> {
+  const promise = get(`article?barcode=${barcode}`);
+  const data = await errorHandler<ArticleResponse>(dispatch, {
+    promise,
+    defaultError: 'ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE',
+  });
+  if (data && data.articles && data.articles.length) {
+    dispatch(articlesLoaded(data.articles));
+    return data.articles[0];
+  } else {
+    throw Error('no articles are matching the barcode');
+  }
 }
 
 export interface AddArticleParams {
@@ -73,27 +69,24 @@ export interface AddArticleParams {
   active: boolean;
   precursor: Article | null;
 }
-export function startAddArticle(
+export async function startAddArticle(
+  dispatch: Dispatch,
   article: AddArticleParams
-): ThunkAction<Promise<Article | undefined>> {
-  return async (dispatch: Dispatch) => {
-    const url = article.precursor
-      ? `article/${article.precursor.id}`
-      : 'article';
-    const promise = post(url, article);
-    const data = await errorHandler(dispatch, {
-      promise,
-      defaultError: 'ARTICLE_COULD_NOT_BE_CREATED',
-    });
-    if (data && data.article) {
-      dispatch(articlesLoaded([data.article]));
-      if (data.article.precursor) {
-        dispatch(articlesLoaded([data.article.precursor]));
-      }
-      return data.article;
+): Promise<Article | undefined> {
+  const url = article.precursor ? `article/${article.precursor.id}` : 'article';
+  const promise = post(url, article);
+  const data = await errorHandler(dispatch, {
+    promise,
+    defaultError: 'ARTICLE_COULD_NOT_BE_CREATED',
+  });
+  if (data && data.article) {
+    dispatch(articlesLoaded([data.article]));
+    if (data.article.precursor) {
+      dispatch(articlesLoaded([data.article.precursor]));
     }
-    return undefined;
-  };
+    return data.article;
+  }
+  return undefined;
 }
 
 export type ArticleActions = ArticlesLoadedAction;

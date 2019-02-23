@@ -1,14 +1,11 @@
 import { CancelButton, Card, Flex, Input, styled } from 'bricks-of-sand';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { AppState } from '../../store';
-import {
-  Article,
-  getPopularArticles,
-  startLoadingArticles,
-} from '../../store/reducers';
+import { useDispatch } from 'redux-react-hook';
+
+import { usePopularArticles } from '../../store';
+import { Article, startLoadingArticles } from '../../store/reducers';
 import { Currency } from '../currency';
-import { ConnectedArticleValidator } from './validator';
+import { ArticleValidator } from './validator';
 
 const InputSection = styled(Flex)({
   padding: '0 1rem',
@@ -19,96 +16,59 @@ const InputSection = styled(Flex)({
   },
 });
 
-interface OwnProps {
-  userId: number;
+interface Props {
+  userId: string;
   onSelect(article: Article): void;
   onCancel(): void;
 }
 
-interface StateProps {
-  articles: Article[];
-}
-
-interface ActionProps {
-  // tslint:disable-next-line:no-any
-  loadArticles: any;
-}
-
-type Props = ActionProps & StateProps & OwnProps;
-
-interface State {
-  query: string;
-}
-
 const ARTICLE_BUBBLE_LIMIT = 10;
-export class ArticleSelectionBubbles extends React.Component<Props, State> {
-  public state = {
-    query: '',
-  };
+export const ArticleSelectionBubbles = (props: Props) => {
+  const items = usePopularArticles();
+  const dispatch = useDispatch();
+  const [query, setQuery] = React.useState('');
 
-  public componentDidMount(): void {
-    this.props.loadArticles();
-  }
+  React.useEffect(() => {
+    startLoadingArticles(dispatch);
+  }, []);
 
-  public render(): JSX.Element {
-    const items = this.props.articles;
-
-    return (
-      <div>
-        <InputSection>
-          <Input
-            value={this.state.query}
-            // tslint:disable-next-line:no-any
-            onChange={(e: any) => this.setState({ query: e.target.value })}
-          />
-          <CancelButton onClick={this.props.onCancel} />
-        </InputSection>
-        <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">
-          {items
-            .filter(
-              item =>
-                !this.state.query ||
-                item.name.toLowerCase().includes(this.state.query.toLowerCase())
-            )
-            .slice(0, ARTICLE_BUBBLE_LIMIT)
-            .map(item => (
-              <ConnectedArticleValidator
-                key={item.name}
-                userId={this.props.userId}
-                value={item.amount}
-                render={isValid => (
-                  <Card
-                    style={{
-                      opacity: isValid ? 1 : 0.5,
-                    }}
-                    onClick={() => {
-                      if (isValid) {
-                        this.props.onSelect(item);
-                      }
-                    }}
-                    padding="0.5rem"
-                    margin="0.3rem"
-                  >
-                    {item.name} | <Currency value={item.amount} />
-                  </Card>
-                )}
-              />
-            ))}
-        </Flex>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state: AppState): StateProps => ({
-  articles: getPopularArticles(state),
-});
-
-const mapDispatchToProps = {
-  loadArticles: startLoadingArticles,
+  return (
+    <div>
+      <InputSection>
+        <Input value={query} onChange={e => setQuery(e.target.value)} />
+        <CancelButton onClick={props.onCancel} />
+      </InputSection>
+      <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">
+        {items
+          .filter(
+            item =>
+              !query || item.name.toLowerCase().includes(query.toLowerCase())
+          )
+          .slice(0, ARTICLE_BUBBLE_LIMIT)
+          .map(item => (
+            <ArticleValidator
+              key={item.name}
+              userId={props.userId}
+              value={item.amount}
+              render={isValid => (
+                <Card
+                  style={{
+                    opacity: isValid ? 1 : 0.5,
+                  }}
+                  onClick={() => {
+                    if (isValid) {
+                      props.onSelect(item);
+                    }
+                  }}
+                  padding="0.5rem"
+                  margin="0.3rem"
+                >
+                  {item.name} | <Currency value={item.amount} />
+                </Card>
+              )}
+            />
+          ))}
+      </Flex>
+    </div>
+  );
 };
-
-export const ConnectedArticleSelectionBubbles = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ArticleSelectionBubbles);

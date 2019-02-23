@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface SearchIconProps {}
-
-export function SearchIcon(props: SearchIconProps): JSX.Element {
+export function SearchIcon(): JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

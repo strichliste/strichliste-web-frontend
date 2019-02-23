@@ -1,11 +1,5 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { AppState, useSettings, useUserBalance } from '../../store';
-import {
-  Boundary,
-  getSettingsBalance,
-  getUserBalance,
-} from '../../store/reducers';
+import { useSettings, useUserBalance } from '../../store';
+import { Boundary } from '../../store/reducers';
 
 interface TransactionArguments {
   accountBoundary: Boundary;
@@ -14,33 +8,6 @@ interface TransactionArguments {
   balance: number | boolean;
   value: number;
 }
-
-export const isTransactionValid = ({
-  accountBoundary,
-  paymentBoundary,
-  isDeposit,
-  balance,
-  value,
-}: TransactionArguments): boolean => {
-  if (value === 0) {
-    return false;
-  }
-  if (isDeposit) {
-    return checkDepositIsValid({
-      accountBoundaryValue: accountBoundary.upper,
-      paymentBoundaryValue: paymentBoundary.upper,
-      value,
-      balance,
-    });
-  } else {
-    return checkDispenseIsValid({
-      accountBoundaryValue: accountBoundary.lower,
-      paymentBoundaryValue: paymentBoundary.lower,
-      value,
-      balance,
-    });
-  }
-};
 
 interface CheckValidProps {
   accountBoundaryValue: number | boolean;
@@ -93,59 +60,46 @@ function checkDispenseIsValid({
   return balance - value > accountBoundaryValue;
 }
 
-interface OwnProps {
-  userId?: number;
-  value: number;
-  isDeposit: boolean;
-  render(isValid: boolean): JSX.Element;
-}
-
-interface StateProps {
-  balance: number | boolean;
-  accountBoundary: Boundary;
-  paymentBoundary: Boundary;
-}
-
-export type TransactionValidatorProps = StateProps & OwnProps;
-
-export function TransactionValidator(
-  props: TransactionValidatorProps
-): JSX.Element | null {
-  const isValid = isTransactionValid({
-    isDeposit: props.isDeposit,
-    value: props.value,
-    accountBoundary: props.accountBoundary,
-    paymentBoundary: props.paymentBoundary,
-    balance: props.balance,
-  });
-  return <>{props.render(isValid)}</>;
-}
-
-const mapStateToProps = (state: AppState, props: OwnProps): StateProps => ({
-  balance: props.userId
-    ? getUserBalance(state, props.userId)
-    : getSettingsBalance(state),
-  accountBoundary: state.settings.account.boundary,
-  paymentBoundary: state.settings.payment.boundary,
-});
-
-export const ConnectedTransactionValidator = connect(mapStateToProps)(
-  TransactionValidator
-);
+export const isTransactionValid = ({
+  accountBoundary,
+  paymentBoundary,
+  isDeposit,
+  balance,
+  value,
+}: TransactionArguments): boolean => {
+  if (value === 0) {
+    return false;
+  }
+  if (isDeposit) {
+    return checkDepositIsValid({
+      accountBoundaryValue: accountBoundary.upper,
+      paymentBoundaryValue: paymentBoundary.upper,
+      value,
+      balance,
+    });
+  } else {
+    return checkDispenseIsValid({
+      accountBoundaryValue: accountBoundary.lower,
+      paymentBoundaryValue: paymentBoundary.lower,
+      value,
+      balance,
+    });
+  }
+};
 
 export function useTransactionValidator(
   value: number,
-  userId: number
+  userId: string,
+  isDeposit: boolean = true
 ): boolean {
   const settings = useSettings();
   const balance = useUserBalance(userId);
+
   return isTransactionValid({
     value,
     balance,
-    isDeposit: true,
+    isDeposit,
     accountBoundary: settings.account.boundary,
     paymentBoundary: settings.payment.boundary,
   });
-
-  return true;
 }

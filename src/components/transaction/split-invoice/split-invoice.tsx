@@ -6,6 +6,7 @@ import {
   ResponsiveGrid,
   Separator,
   styled,
+  Icon,
 } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -17,11 +18,11 @@ import {
   UsersState,
   startCreatingTransaction,
 } from '../../../store/reducers';
-import { ConnectedIdleTimer } from '../../common/idle-timer';
+import { WrappedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
 import { AcceptIcon } from '../../ui/icons/accept';
-import { ConnectedUserSelectionList } from '../../user';
-import { ConnectedUserMultiSelection } from '../../user/user-multi-selection';
+import { UserSelection } from '../../user';
+import { UserMultiSelection } from '../../user/user-multi-selection';
 import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
 
@@ -31,11 +32,9 @@ interface State {
   participants: User[];
   comment: string;
   amount: number;
-  responseState: { [userId: number]: Transaction | 'error' };
-  validation: { [userId: number]: string };
+  responseState: { [userId: string]: Transaction | 'error' };
+  validation: { [userId: string]: string };
 }
-
-interface Props {}
 
 const initialState: State = {
   isLoading: false,
@@ -66,7 +65,7 @@ const TextCenter = styled(Block)({
   textAlign: 'center',
 });
 
-export class SplitInvoiceForm extends React.Component<Props, State> {
+export class SplitInvoiceForm extends React.Component<{}, State> {
   public state = initialState;
 
   public resetState = () => {
@@ -84,9 +83,12 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
       this.setState({ isLoading: true });
       const userId = participant.id;
       const params = this.getParams(this.state.recipient);
-      const result = await store.dispatch(
-        startCreatingTransaction(userId, params)
+      const result = await startCreatingTransaction(
+        store.dispatch,
+        userId,
+        params
       );
+
       this.setState(state => ({
         responseState: {
           ...state.responseState,
@@ -225,7 +227,7 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
           {Object.keys(this.state.responseState).map(userId => {
             const item = this.state.responseState[userId];
             const user = this.state.participants.find(
-              user => user.id === Number(userId)
+              user => user.id == userId
             );
             const userName = user ? user.name : '';
 
@@ -242,7 +244,9 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
             }
             return (
               <Block margin="1rem 0" key={userId}>
-                <AcceptIcon />
+                <Icon color="greenText">
+                  <AcceptIcon />
+                </Icon>
                 <UserName name={userName} />
                 <p>
                   <FormattedMessage
@@ -260,7 +264,7 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
 
     return (
       <GridContainer>
-        <ConnectedIdleTimer />
+        <WrappedIdleTimer />
         <TextCenter margin="3rem">
           <h1>
             <FormattedMessage
@@ -292,7 +296,7 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
             id="SELECT_RECIPIENT"
             defaultMessage="select recipient"
             children={placeholder => (
-              <ConnectedUserSelectionList
+              <UserSelection
                 placeholder={placeholder as string}
                 autoFocus
                 onSelect={this.setRecipient}
@@ -314,8 +318,8 @@ export class SplitInvoiceForm extends React.Component<Props, State> {
           <FormattedMessage id="AND" defaultMessage="and" />
         </TextCenter>
         <Block margin="1rem 0">
-          <ConnectedUserMultiSelection
-            excludeUserId={this.state.recipient ? this.state.recipient.id : 0}
+          <UserMultiSelection
+            excludeUserId={this.state.recipient ? this.state.recipient.id : ''}
             validation={this.state.validation}
             onSelect={this.addParticipant}
             placeholder="add participant"

@@ -1,8 +1,4 @@
-// tslint:disable no-any
-jest.mock('../../../services/api', () => ({
-  get: jest.fn(),
-  post: jest.fn(),
-}));
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { DeepPartial } from 'redux';
 import { get, post } from '../../../services/api';
@@ -17,6 +13,11 @@ import {
   startAddArticle,
   startLoadingArticles,
 } from '../article';
+
+jest.mock('../../../services/api', () => ({
+  get: jest.fn(),
+  post: jest.fn(),
+}));
 
 describe('article reducer', () => {
   let action: DeepPartial<Action>;
@@ -72,7 +73,7 @@ describe('action creators', () => {
         Promise.resolve({ article: { id: 1 } })
       );
       const store = getMockStore();
-      await store.dispatch(startAddArticle({ id: 1 } as any));
+      await startAddArticle(store.dispatch, { id: 1 } as any);
       expect(post).toHaveBeenCalledWith('article', { id: 1 });
       expect(store.getActions()).toMatchSnapshot();
     });
@@ -84,7 +85,7 @@ describe('action creators', () => {
         Promise.resolve({ articles: [{ id: 1 }] })
       );
       const store = getMockStore();
-      await store.dispatch(getArticleByBarcode('asdf'));
+      await getArticleByBarcode(store.dispatch, 'asdf');
       expect(get).toHaveBeenCalledWith('article?barcode=asdf');
       expect(store.getActions()).toMatchSnapshot();
     });
@@ -95,7 +96,7 @@ describe('action creators', () => {
       );
       const store = getMockStore();
       try {
-        await store.dispatch(getArticleByBarcode('asdf'));
+        await getArticleByBarcode(store.dispatch, 'asdf');
       } catch (error) {
         expect(error.message).toBe('no articles are matching the barcode');
       }
@@ -109,7 +110,7 @@ describe('action creators', () => {
     );
 
     const store = getMockStore();
-    await store.dispatch(startLoadingArticles());
+    await startLoadingArticles(store.dispatch);
     expect(get).toHaveBeenCalledWith('article');
     expect(store.getActions()).toMatchSnapshot();
   });

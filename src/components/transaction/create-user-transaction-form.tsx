@@ -8,15 +8,15 @@ import {
   withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
-import { FormattedMessage, InjectedIntl, injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
+import { FormattedMessage, InjectedIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { User, startCreatingTransaction } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
-import { ConnectedUserSelectionList } from '../user';
+import { UserSelection } from '../user';
 import { UserName } from '../user/user-name';
-import { ConnectedTransactionUndoButton } from './transaction-undo-button';
-import { ConnectedUserToUserValidator } from './user-to-user-validator';
+import { TransactionUndoButton } from './transaction-undo-button';
+import { UserToUserValidator } from './user-to-user-validator';
+import { store } from '../../store';
 
 export const AcceptWrapper = withTheme(
   styled('div')({}, props => ({
@@ -31,7 +31,7 @@ const initialState = {
   selectedAmount: 0,
   hasSelectionReady: false,
   selectedUser: {
-    id: 0,
+    id: '',
     name: '',
     isActive: false,
     balance: 0,
@@ -43,11 +43,6 @@ const initialState = {
   comment: '',
 };
 
-interface ActionProps {
-  // tslint:disable-next-line:no-any
-  startCreatingTransaction: any;
-}
-
 interface State {
   amount: number;
   createdTransactionId: number;
@@ -57,8 +52,7 @@ interface State {
   comment: string;
 }
 
-type Props = RouteComponentProps<{ id: string }> &
-  ActionProps & { intl: InjectedIntl };
+type Props = RouteComponentProps<{ id: string }> & { intl: InjectedIntl };
 
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;
@@ -72,8 +66,9 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
 
   public createTransaction = async () => {
     if (this.state.selectedUser.id && this.state.selectedAmount) {
-      const res = await this.props.startCreatingTransaction(
-        Number(this.props.match.params.id),
+      const res = await startCreatingTransaction(
+        store.dispatch,
+        this.props.match.params.id,
         {
           amount: this.state.selectedAmount * -1,
           recipientId: this.state.selectedUser.id,
@@ -113,14 +108,14 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
             &#8594;
             <Currency value={this.state.selectedAmount} />
           </AcceptWrapper>
-          <ConnectedTransactionUndoButton
+          <TransactionUndoButton
             onSuccess={() =>
               this.setState({
                 hasSelectionReady: false,
               })
             }
             transactionId={this.state.createdTransactionId}
-            userId={Number(this.props.match.params.id)}
+            userId={this.props.match.params.id || ''}
           />
         </Card>
       );
@@ -134,32 +129,37 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
               alignItems="center"
               tabletColumns="4fr 1fr 4fr 1fr"
             >
-              <CurrencyInput
-                noNegative
-                placeholder={this.props.intl.formatMessage({
-                  id: 'USER_TRANSACTION_FROM_AMOUNT_LABEL',
-                  defaultMessage: 'Amount',
-                })}
-                autoFocus
-                onChange={value =>
-                  this.setState({
-                    selectedAmount: value,
-                  })
-                }
-              />
+              <FormattedMessage
+                defaultMessage="Amount"
+                id="USER_TRANSACTION_FROM_AMOUNT_LABEL"
+              >
+                {text => (
+                  <CurrencyInput
+                    noNegative
+                    placeholder={text as string}
+                    autoFocus
+                    onChange={value =>
+                      this.setState({
+                        selectedAmount: value,
+                      })
+                    }
+                  />
+                )}
+              </FormattedMessage>
               &#8594;
-              <ConnectedUserSelectionList
-                userId={Number(this.props.match.params.id)}
-                placeholder={this.props.intl.formatMessage({
-                  id: 'CREATE_USER_TO_USER_TRANSACTION_USER',
-                  defaultMessage: 'Username',
-                })}
-                getString={user => user.name}
-                onSelect={this.submitUserId}
-              />
-              <ConnectedUserToUserValidator
+              <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_USER">
+                {text => (
+                  <UserSelection
+                    userId={this.props.match.params.id}
+                    placeholder={text as string}
+                    getString={user => user.name}
+                    onSelect={this.submitUserId}
+                  />
+                )}
+              </FormattedMessage>
+              <UserToUserValidator
                 value={this.state.selectedAmount}
-                userId={Number(this.props.match.params.id)}
+                userId={this.props.match.params.id}
                 targetUserId={this.state.selectedUser.id}
                 render={isValid => (
                   <PrimaryButton isRound disabled={!isValid} type="submit">
@@ -168,14 +168,15 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 )}
               />
             </ResponsiveGrid>
-            <Input
-              value={this.state.comment}
-              onChange={this.setComment}
-              placeholder={this.props.intl.formatMessage({
-                id: 'CREATE_USER_TO_USER_TRANSACTION_COMMENT',
-                defaultMessage: 'Username',
-              })}
-            />
+            <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_COMMENT">
+              {text => (
+                <Input
+                  value={this.state.comment}
+                  onChange={this.setComment}
+                  placeholder={text as string}
+                />
+              )}
+            </FormattedMessage>
           </form>
         </>
       );
@@ -183,15 +184,6 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   }
 }
 
-const mapDispatchToProps = {
-  startCreatingTransaction,
-};
-
-export const ConnectedCreateUserTransactionForm = injectIntl(
-  withRouter(
-    connect(
-      undefined,
-      mapDispatchToProps
-    )(CreateUserTransactionForm)
-  )
+export const ConnectedCreateCustomTransactionForm = withRouter(
+  CreateUserTransactionForm
 );

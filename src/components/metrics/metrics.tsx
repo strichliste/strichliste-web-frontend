@@ -7,7 +7,7 @@ import { Currency } from '../currency';
 import { UserRouteProps } from '../user/user-router';
 import { ArticleElement, useMetrics } from './resource';
 
-interface Props extends UserRouteProps {}
+type Props = UserRouteProps;
 
 const H1 = styled('h1')({
   marginBottom: '2rem',

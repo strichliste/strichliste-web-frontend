@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface GitHubIconProps {}
-
-export function GitHubIcon(props: GitHubIconProps): JSX.Element {
+export function GitHubIcon(): JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Route, RouteComponentProps, Switch } from 'react-router';
-import { ConnectedIdleTimer } from '../common/idle-timer';
-import { ConnectedArticleList } from './article-list';
-import { ArticleEditFormView } from './views/article-edit-form-view';
+import { Route, Switch } from 'react-router';
+import { WrappedIdleTimer } from '../common/idle-timer';
+import { ArticleEditFormView } from './article-edit-form-view';
+import { ArticleList } from './article-list';
 
-export function ArticleRouter(props: RouteComponentProps): JSX.Element {
+export function ArticleRouter(): JSX.Element {
   return (
     <>
-      <ConnectedIdleTimer onTimeOut={() => props.history.push('/')} />
+      <WrappedIdleTimer />
       <Switch>
-        <Route path="/articles" exact={true} component={ConnectedArticleList} />
+        <Route path="/articles" exact={true} component={ArticleList} />
         <Route
           path="/articles/add"
           exact={true}

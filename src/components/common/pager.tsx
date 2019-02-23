@@ -2,6 +2,28 @@ import { Flex, PrimaryButton } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+function isPrevDisabled(props: PagerProps): boolean {
+  return props.currentPage === 0;
+}
+
+function getPageCount(props: PagerProps): number {
+  return props.itemCount / props.limit;
+}
+
+function pageUp(props: PagerProps): void {
+  const nextPage = props.currentPage + 1;
+  props.onChange(nextPage);
+}
+function pageDown(props: PagerProps): void {
+  const nextPage = props.currentPage - 1;
+  props.onChange(nextPage);
+}
+
+function isNextDisabled(props: PagerProps): boolean {
+  const pageCount = getPageCount(props);
+  return pageCount - props.currentPage < 1;
+}
+
 export interface PagerProps {
   currentPage: number;
   itemCount: number;
@@ -28,26 +50,4 @@ export function Pager(props: PagerProps): JSX.Element {
       </PrimaryButton>
     </Flex>
   );
-}
-
-function isPrevDisabled(props: PagerProps): boolean {
-  return props.currentPage === 0;
-}
-
-function isNextDisabled(props: PagerProps): boolean {
-  const pageCount = getPageCount(props);
-  return pageCount - props.currentPage < 1;
-}
-
-function getPageCount(props: PagerProps): number {
-  return props.itemCount / props.limit;
-}
-
-function pageUp(props: PagerProps): void {
-  const nextPage = props.currentPage + 1;
-  props.onChange(nextPage);
-}
-function pageDown(props: PagerProps): void {
-  const nextPage = props.currentPage - 1;
-  props.onChange(nextPage);
 }

@@ -2,7 +2,19 @@ import { Input } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
 
-// tslint:disable-next-line:no-any
+function getPlaceholder(
+  placeholder: string | undefined,
+  value: string,
+  hasFocus: boolean
+): string {
+  return !placeholder || value !== '0.00' || hasFocus ? value : placeholder;
+}
+
+export function convertFormattedNumberToCents(rawValue: string): number {
+  return Number(rawValue.replace(/(-(?!\d))|[^0-9|-]/g, ''));
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function moveCursorToEnd(el: any): void {
   window.setTimeout(() => {
     if (typeof el.selectionStart === 'number') {
@@ -107,16 +119,4 @@ export class CurrencyInput extends React.Component<Props, State> {
       </>
     );
   }
-}
-
-function getPlaceholder(
-  placeholder: string | undefined,
-  value: string,
-  hasFocus: boolean
-): string {
-  return !placeholder || value !== '0.00' || hasFocus ? value : placeholder;
-}
-
-export function convertFormattedNumberToCents(rawValue: string): number {
-  return Number(rawValue.replace(/(-(?!\d))|[^0-9|-]/g, ''));
 }

@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface ArrowDownIconProps {}
-
-export function ArrowDownIcon(props: ArrowDownIconProps): JSX.Element {
+export function ArrowDownIcon(): JSX.Element {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

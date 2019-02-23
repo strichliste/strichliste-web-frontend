@@ -11,7 +11,7 @@ import { TransactionIcon } from '../ui/icons/transactions';
 import { UserName } from '../user/user-name';
 import { UserDetailRouter } from './user-details-router';
 
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const LinkTab: any = styled(Tab(NavLink))({
   svg: {
     marginRight: '0.5rem',

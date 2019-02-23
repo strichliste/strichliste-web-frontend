@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
-import { cleanup, render } from 'react-testing-library';
-
-import { TransactionValidator, TransactionValidatorProps } from '../validator';
+import { cleanup } from 'react-testing-library';
+import { renderWithContext } from '../../../spec-configs/render';
+import { useTransactionValidator } from '../validator';
 
 afterEach(cleanup);
 
@@ -21,20 +22,18 @@ const renderTransactionValidator = ({
   value = 10,
   balance = 0,
   isDeposit = true,
-}: Partial<TransactionValidatorProps>) => {
-  const { getByTestId } = render(
-    <TransactionValidator
-      balance={balance}
-      paymentBoundary={paymentBoundary}
-      accountBoundary={accountBoundary}
-      value={value}
-      isDeposit={isDeposit}
-      userId={1}
-      render={isValid => (
-        <div data-testid="result">{isValid ? 'yes' : 'no'}</div>
-      )}
-    />
-  );
+}: any) => {
+  const Component = () => {
+    const isValid = useTransactionValidator(value, '1', isDeposit);
+    return <div data-testid="result">{isValid ? 'yes' : 'no'}</div>;
+  };
+  const { getByTestId } = renderWithContext(<Component />, {
+    user: { '1': { balance } },
+    settings: {
+      account: { boundary: accountBoundary },
+      payment: { boundary: paymentBoundary },
+    },
+  });
 
   return getByTestId;
 };

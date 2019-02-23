@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 
 import {
   Button,
@@ -11,28 +10,19 @@ import {
   withTheme,
 } from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useDispatch } from 'redux-react-hook';
+
 import { startCreatingUser } from '../../store/reducers';
 import { AddIcon } from '../ui/icons/add';
 import { EditIcon } from '../ui/icons/edit';
 
-interface OwnProps {
+interface Props {
   isActive: boolean;
 }
 
-interface ActionProps {
-  // tslint:disable-next-line:no-any
-  startCreatingUser: any;
-}
-
-interface State {
-  name: string;
-}
-
-type Props = ActionProps & RouteComponentProps & OwnProps;
-
 const TRANSITION = 'all 0.5s ease-out';
-const Trigger = styled('div')<OwnProps>(
+const Trigger = styled('div')<Props>(
   {
     display: 'flex',
     justifyContent: 'center',
@@ -61,7 +51,7 @@ const Trigger = styled('div')<OwnProps>(
 );
 
 const RedBlackButton = withTheme(
-  styled(Button)<OwnProps>(
+  styled(Button)<Props>(
     {
       backgroundColor: 'none',
     },
@@ -77,97 +67,73 @@ const RedBlackButton = withTheme(
   )
 );
 
-export class InlineCreateUserForm extends React.Component<Props, State> {
-  public state = {
-    name: '',
-  };
+export const CreateUserInlineForm = ({
+  history,
+  isActive,
+}: Props & RouteComponentProps) => {
+  const [name, setName] = React.useState('');
+  const dispatch = useDispatch();
 
-  public submit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const name = this.state.name.trim();
+    const trimmedName = name.trim();
     if (name) {
-      const user = await this.props.startCreatingUser(this.state.name);
+      const user = await startCreatingUser(dispatch, trimmedName);
       if (user && user.id) {
-        this.props.history.push(`/user/${user.id}`);
+        history.push(`/user/${user.id}`);
       }
     } else {
-      this.setState({ name: '' });
+      setName('');
     }
   };
-
-  public toggle = () => {
-    if (this.props.isActive) {
-      this.props.history.goBack();
-      this.setState({ name: '' });
+  const toggle = () => {
+    if (isActive) {
+      history.goBack();
+      setName('');
     } else {
-      this.props.history.push(this.props.history.location.pathname + '/add');
+      history.push(history.location.pathname + '/add');
     }
   };
 
-  public render(): JSX.Element {
-    const { name } = this.state;
-    const { isActive } = this.props;
-
-    const form = (
-      <Card
-        flex
-        height="6rem"
-        alignItems="center"
-        margin="0 0 0 1rem"
-        level="level3"
-      >
-        <form onSubmit={this.submit}>
-          <FormattedMessage
-            id="USER_CREATE_NAME_LABEL"
-            children={text => (
-              <Flex>
-                <Input
-                  value={name}
-                  onChange={this.setUserName}
-                  placeholder={text as string}
-                  type="text"
-                  required
-                  minLength={1}
-                  maxLength={64}
-                  autoFocus={true}
-                />
-                <PrimaryButton type="submit" isRound>
-                  <EditIcon />
-                </PrimaryButton>
-              </Flex>
-            )}
-          />
-        </form>
-      </Card>
-    );
-
-    return (
-      <Trigger isActive={isActive}>
-        <RedBlackButton isActive={isActive} onClick={this.toggle} isRound>
-          <AddIcon />
-        </RedBlackButton>
-        {isActive && form}
-      </Trigger>
-    );
-  }
-
-  public setUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.value;
-    this.setState({
-      name,
-    });
-  };
-}
-
-const mapDispatchToProps = {
-  startCreatingUser,
+  return (
+    <Trigger isActive={isActive}>
+      <RedBlackButton isActive={isActive} onClick={toggle} isRound>
+        <AddIcon />
+      </RedBlackButton>
+      {isActive && (
+        <Card
+          flex
+          height="6rem"
+          alignItems="center"
+          margin="0 0 0 1rem"
+          level="level3"
+        >
+          <form onSubmit={submit}>
+            <FormattedMessage
+              id="USER_CREATE_NAME_LABEL"
+              children={text => (
+                <Flex>
+                  <Input
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    placeholder={text as string}
+                    type="text"
+                    required
+                    minLength={1}
+                    maxLength={64}
+                    autoFocus={true}
+                  />
+                  <PrimaryButton type="submit" isRound>
+                    <EditIcon />
+                  </PrimaryButton>
+                </Flex>
+              )}
+            />
+          </form>
+        </Card>
+      )}
+    </Trigger>
+  );
 };
 
-export const ConnectedInlineCreateUserForm = withRouter(
-  connect(
-    undefined,
-    mapDispatchToProps
-  )(InlineCreateUserForm)
-);
+export const CreateUserInlineFormView = withRouter(CreateUserInlineForm);

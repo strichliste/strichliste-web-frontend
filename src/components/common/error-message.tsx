@@ -1,9 +1,7 @@
 import { FixedContainer } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
-import { AppState } from '../../store';
-import { getGlobalError } from '../../store/reducers';
+import { useGlobalError } from '../../store';
 import { Toast } from './toast';
 
 interface OwnProps {}
@@ -16,7 +14,9 @@ interface ActionProps {}
 
 export type ErrorMessageProps = ActionProps & StateProps & OwnProps;
 
-export function ErrorMessage({ id }: ErrorMessageProps): JSX.Element | null {
+export function ErrorMessage() {
+  const id = useGlobalError();
+
   if (!id) {
     return null;
   }
@@ -29,14 +29,3 @@ export function ErrorMessage({ id }: ErrorMessageProps): JSX.Element | null {
     </FixedContainer>
   );
 }
-
-const mapStateToProps = (state: AppState): StateProps => ({
-  id: getGlobalError(state),
-});
-
-const mapDispatchToProps = {};
-
-export const ConnectedErrorMessage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ErrorMessage);
