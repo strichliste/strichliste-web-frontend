@@ -6,6 +6,7 @@ import {
   ResponsiveGrid,
   Separator,
   styled,
+  Icon,
 } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -226,7 +227,7 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
           {Object.keys(this.state.responseState).map(userId => {
             const item = this.state.responseState[userId];
             const user = this.state.participants.find(
-              user => user.id === userId
+              user => user.id == userId
             );
             const userName = user ? user.name : '';
 
@@ -243,7 +244,9 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
             }
             return (
               <Block margin="1rem 0" key={userId}>
-                <AcceptIcon />
+                <Icon color="greenText">
+                  <AcceptIcon />
+                </Icon>
                 <UserName name={userName} />
                 <p>
                   <FormattedMessage
