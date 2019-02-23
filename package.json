@@ -1,6 +1,6 @@
 {
   "name": "strichliste-web",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "private": true,
   "dependencies": {
     "bricks-of-sand": "^0.1.8",
