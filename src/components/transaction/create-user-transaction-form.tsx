@@ -152,7 +152,6 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                   <UserSelection
                     userId={this.props.match.params.id}
                     placeholder={text as string}
-                    getString={user => user.name}
                     onSelect={this.submitUserId}
                   />
                 )}
