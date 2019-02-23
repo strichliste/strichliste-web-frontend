@@ -29,13 +29,10 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
 
   React.useEffect(() => {
     if (paidAmount) {
-      dispatch(
-        // @ts-ignore
-        startCreatingTransaction(userId, {
-          amount: paidAmount * 100,
-          comment: 'paypal',
-        })
-      ).then((response: Transaction | undefined) => {
+      startCreatingTransaction(dispatch, userId, {
+        amount: paidAmount * 100,
+        comment: 'paypal',
+      }).then((response: Transaction | undefined) => {
         if (response && response) {
           props.history.push(getUserDetailLink(userId));
         } else {

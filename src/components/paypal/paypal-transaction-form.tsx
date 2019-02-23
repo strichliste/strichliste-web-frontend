@@ -31,7 +31,7 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
 
   const BASE_URL = settings.paypal.sandbox
     ? 'https://www.sandbox.paypal.com/cgi-bin/webscr'
-    : 'https://www.paypal.com/cgi-bin/webscr';
+    : 'https://www.sandbox.paypal.com/cgi-bin/webscr';
   const returnUrl = `${location.href}/${numberAmount}`;
   const returnCancelUrl = location.href;
   const fee = numberAmount * (settings.paypal.fee / 100) || null;
@@ -40,7 +40,7 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
     <>
       <Wrapper>
         <form action={BASE_URL} method="post">
-          <CurrencyInput value={value} onChange={setValue} />
+          <CurrencyInput autoFocus value={value} onChange={setValue} />
           <input type="hidden" name="cmd" value="_xclick" />
           <input
             type="hidden"
@@ -57,6 +57,7 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
           <input type="hidden" name="amount" value={amount} />
           <input type="hidden" name="return" value={returnUrl} />
           <input type="hidden" name="cancel_return" value={returnCancelUrl} />
+          <input type="hidden" name="rm" value="0" />
           <input
             type="hidden"
             name="currency_code"
