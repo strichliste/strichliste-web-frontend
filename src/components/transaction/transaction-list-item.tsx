@@ -49,7 +49,7 @@ export function TransactionListItem({ id }: Props): JSX.Element | null {
             <Ellipsis>
               {transaction.sender && <>&#8592; {transaction.sender.name} :</>}
               {transaction.recipient && (
-                <>&#8594; {transaction.recipient.name} :</>
+                <>&#8594; {transaction.recipient.name} </>
               )}
               {transaction.article && (
                 <>
