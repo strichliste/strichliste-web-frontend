@@ -21,7 +21,7 @@ export function TransactionUndoButton(props: Props) {
   }
 
   return (
-    <div
+    <button
       onClick={() => {
         if (typeof props.onSuccess === 'function') {
           props.onSuccess();
@@ -34,6 +34,6 @@ export function TransactionUndoButton(props: Props) {
       }}
     >
       <FormattedMessage id="USER_TRANSACTION_UNDO" />
-    </div>
+    </button>
   );
 }
