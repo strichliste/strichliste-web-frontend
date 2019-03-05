@@ -3,8 +3,7 @@
   "version": "1.5.1",
   "private": true,
   "dependencies": {
-    "bricks-of-sand": "^0.1.11",
-    "downshift": "^3.2.2",
+    "bricks-of-sand": "^0.1.14",
     "history": "^4.7.2",
     "howler": "^2.1.1",
     "inter-ui": "^3.2.0",

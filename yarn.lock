@@ -2190,10 +2190,10 @@ braces@^2.3.1, braces@^2.3.2:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-bricks-of-sand@^0.1.11:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.1.11.tgz#b431efa4854c49e0a6c40c3a4f2e208c6c39fde9"
-  integrity sha512-2JstpYXp/hwqjKahPjqziM8+ANcDA/MOMaC/Z7fHg4IC5oqMCnACeT/F6iMkrNqiEW28MuM6tQstPod9vPxT1A==
+bricks-of-sand@^0.1.14:
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/bricks-of-sand/-/bricks-of-sand-0.1.14.tgz#70c9ecb72defec16e4dfdfa5d0c360fa1536515f"
+  integrity sha512-FnDyEGmtG6ARuxTcsarjnXg8QdG4h888bAoZgdYA1+SX98DkqiddBBgOTeCjAcWI76wDTOY6r35itrU8nLM6jw==
   dependencies:
     "@emotion/core" "^10.0.7"
     "@emotion/styled" "^10.0.7"
@@ -3591,7 +3591,7 @@ dotenv@6.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
   integrity sha512-FlWbnhgjtwD+uNLUGHbMykMOYQaTivdHEmYwAKFjn6GKe/CqY0fNae93ZHTd20snh9ZLr8mTzIL9m0APQ1pjQg==
 
-downshift@3.2.2, downshift@^3.2.2:
+downshift@3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/downshift/-/downshift-3.2.2.tgz#5a51112cb19c4d2d611c27d5d27ff4d6fcdb1f69"
   integrity sha512-z4rkPnfC/ax1LnZkipQOlEu8WSDKduPudRjurlU85Qxy39eeY1ArAi0xU24qXcxd27bMS81mBMgkH7X/pEH2GA==
