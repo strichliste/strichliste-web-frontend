@@ -1,9 +1,19 @@
-import { Flex, Menu, Tab, ThemeSwitcher } from 'bricks-of-sand';
+import { Flex, Menu, Tab, ThemeSwitcher, styled } from 'bricks-of-sand';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
+import { ScalingButtons } from '../settings/scaling-buttons';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Tabs: any = Tab(NavLink);
+
+const IconNav = styled('div')({
+  display: 'flex',
+  alignContent: 'center',
+  justifyContent: 'center',
+  button: {
+    marginRight: '1rem',
+  },
+});
 
 export interface NavTabMenusProps {
   breakpoint: number;
@@ -27,7 +37,10 @@ export function NavTabMenus({
           </Tabs>
         ))}
       </Menu>
-      <ThemeSwitcher height="1rem" />
+      <IconNav>
+        <ThemeSwitcher height="1rem" />
+        <ScalingButtons />
+      </IconNav>
     </Flex>
   );
 }

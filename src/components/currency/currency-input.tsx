@@ -38,6 +38,7 @@ interface Props {
   placeholder?: string;
   value?: number;
   autoFocus?: boolean;
+  id?: string;
   onChange?(value: number): void;
 }
 
@@ -86,6 +87,7 @@ export class CurrencyInput extends React.Component<Props, State> {
           value={this.state.value}
           children={(formattedValue: string) => (
             <Input
+              id={this.props.id}
               // @ts-ignore
               ref={this.inputRef}
               style={{

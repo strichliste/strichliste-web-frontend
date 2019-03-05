@@ -3,8 +3,7 @@
   "version": "1.5.2",
   "private": true,
   "dependencies": {
-    "bricks-of-sand": "^0.1.8",
-    "downshift": "^3.2.2",
+    "bricks-of-sand": "^0.1.14",
     "history": "^4.7.2",
     "howler": "^2.1.1",
     "inter-ui": "^3.2.0",
@@ -43,6 +42,7 @@
     "babel-preset-jest": "^23.2.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-jest": "^22.3.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "husky": "^1.1.2",

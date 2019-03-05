@@ -1,4 +1,4 @@
-import { CancelButton, Card, Flex, Input, styled } from 'bricks-of-sand';
+import { CancelButton, Flex, Input, styled, Button } from 'bricks-of-sand';
 import * as React from 'react';
 import { useDispatch } from 'redux-react-hook';
 
@@ -51,10 +51,8 @@ export const ArticleSelectionBubbles = (props: Props) => {
               userId={props.userId}
               value={item.amount}
               render={isValid => (
-                <Card
-                  style={{
-                    opacity: isValid ? 1 : 0.5,
-                  }}
+                <Button
+                  disabled={!isValid}
                   onClick={() => {
                     if (isValid) {
                       props.onSelect(item);
@@ -64,7 +62,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
                   margin="0.3rem"
                 >
                   {item.name} | <Currency value={item.amount} />
-                </Card>
+                </Button>
               )}
             />
           ))}

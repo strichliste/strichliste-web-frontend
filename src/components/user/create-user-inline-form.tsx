@@ -41,7 +41,7 @@ const Trigger = styled('div')<Props>(
   props => ({
     borderRadius: props.isActive ? '4px' : '100%',
     svg: {
-      fill: props.theme.white,
+      fill: props.theme.themedWhite,
       transform: props.isActive ? 'rotate(45deg)' : 'rotate(0deg)',
     },
     form: {

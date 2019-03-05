@@ -13,6 +13,8 @@ import { Currency } from '../currency';
 import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { TransactionUndoButton } from './transaction-undo-button';
 import { useTransaction } from '../../store';
+import { getUserDetailLink } from '../user/user-router';
+import { Link } from 'react-router-dom';
 
 const ArticleIcon = withTheme(
   styled('span')({}, ({ theme }) => ({
@@ -47,9 +49,14 @@ export function TransactionListItem({ id }: Props): JSX.Element | null {
               <Currency value={transaction.amount} />
             </AlertText>
             <Ellipsis>
-              {transaction.sender && <>&#8592; {transaction.sender.name} :</>}
+              {transaction.sender && <>&#8592; {transaction.sender.name}</>}
               {transaction.recipient && (
-                <>&#8594; {transaction.recipient.name} </>
+                <>
+                  &#8594;{' '}
+                  <Link to={getUserDetailLink(transaction.recipient.id)}>
+                    {transaction.recipient.name}
+                  </Link>
+                </>
               )}
               {transaction.article && (
                 <>
@@ -59,7 +66,16 @@ export function TransactionListItem({ id }: Props): JSX.Element | null {
                   {transaction.article.name}
                 </>
               )}
-              {transaction.comment && <> {transaction.comment}</>}
+
+              {transaction.comment && (
+                <>
+                  {transaction.comment &&
+                    transaction.sender &&
+                    transaction.sender.name &&
+                    ':'}{' '}
+                  {transaction.comment}
+                </>
+              )}
             </Ellipsis>
           </ResponsiveGrid>
           <TextRight>

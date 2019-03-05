@@ -1,4 +1,12 @@
-import { AlertText, Menu, Tab, styled, withTheme } from 'bricks-of-sand';
+import {
+  AlertText,
+  Menu,
+  Tab,
+  styled,
+  withTheme,
+  PayPal,
+  Icon,
+} from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -98,7 +106,9 @@ const component = ({ user, location }: UserDetailsHeaderProps) => {
             activeClassName="active"
             to={toggleTab(`/user/${user.id}/paypal`, currentUrl, userUrl)}
           >
-            <ProductIcon />{' '}
+            <Icon width="1rem" height="1rem">
+              <PayPal />
+            </Icon>{' '}
             <FormattedMessage id="PAYPAL_LINK" defaultMessage="Paypal" />
           </LinkTab>
         )}

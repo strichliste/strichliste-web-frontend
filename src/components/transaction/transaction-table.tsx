@@ -76,6 +76,12 @@ export class TransactionTable extends React.Component<Props, State> {
           onChange={this.next}
         />
         <TransactionPage transactions={this.state.transactions} />
+        <Pager
+          itemCount={this.state.itemCount}
+          currentPage={this.props.page}
+          limit={this.state.limit}
+          onChange={this.next}
+        />
       </>
     );
   }

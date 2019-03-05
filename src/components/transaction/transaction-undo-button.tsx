@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useIsTransactionDeletable, store } from '../../store';
 import { startDeletingTransaction } from '../../store/reducers';
+import { TextButton } from 'bricks-of-sand';
 
 interface Props {
   userId?: string;
@@ -21,7 +22,7 @@ export function TransactionUndoButton(props: Props) {
   }
 
   return (
-    <div
+    <TextButton
       onClick={() => {
         if (typeof props.onSuccess === 'function') {
           props.onSuccess();
@@ -34,6 +35,6 @@ export function TransactionUndoButton(props: Props) {
       }}
     >
       <FormattedMessage id="USER_TRANSACTION_UNDO" />
-    </div>
+    </TextButton>
   );
 }

@@ -7,6 +7,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     'prettier/@typescript-eslint', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
     'plugin:prettier/recommended',
+    'plugin:jsx-a11y/recommended',
   ],
   env: {
     browser: true,
@@ -40,5 +41,6 @@ module.exports = {
     'sort-imports': 0,
     'react/no-children-prop': 0,
     'react/prop-types': 0,
+    'jsx-a11y/no-autofocus': false,
   },
 };

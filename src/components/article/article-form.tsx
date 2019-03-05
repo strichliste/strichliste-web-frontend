@@ -150,10 +150,11 @@ export const ArticleForm: React.FC<Props> = props => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <label>
+                <label htmlFor="article_add_form_label">
                   <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
                 </label>
                 <Input
+                  id="article_add_form_label"
                   value={params.name}
                   onChange={e => setParams({ ...params, name: e.target.value })}
                   type="text"
@@ -167,10 +168,11 @@ export const ArticleForm: React.FC<Props> = props => {
                     })
                   }
                 />
-                <label>
+                <label htmlFor="article_add_barcode_label">
                   <FormattedMessage id="ARTICLE_ADD_FORM_BARCODE_LABEL" />
                 </label>
                 <Input
+                  id="article_add_barcode_label"
                   value={params.barcode}
                   onChange={e =>
                     setParams({ ...params, barcode: e.target.value })
@@ -178,11 +180,12 @@ export const ArticleForm: React.FC<Props> = props => {
                   type="text"
                   required
                 />
-                <label>
+                <label htmlFor="article_add_amount_label">
                   <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
                 </label>
                 <form onSubmit={e => submit(e, isValidArticle)}>
                   <CurrencyInput
+                    id="article_add_amount_label"
                     noNegative
                     value={params.amount}
                     onChange={amount => setParams({ ...params, amount })}
