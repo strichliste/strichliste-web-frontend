@@ -17,7 +17,7 @@ import { getUserDetailLink } from '../user/user-router';
 import { Link } from 'react-router-dom';
 
 const InLineLink = styled(Link)({
-  display: 'inline!important',
+  display: 'inline !important',
 });
 
 const ArticleIcon = withTheme(

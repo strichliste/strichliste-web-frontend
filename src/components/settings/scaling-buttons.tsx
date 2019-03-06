@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocalStorage } from '../../hooks/use-storage';
 import { TextButton, SearchMinus, SearchPlus, Icon } from 'bricks-of-sand';
 
@@ -20,18 +20,8 @@ export const useScalingState = () => {
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let id: any = 0;
 export const ScalingButtons = () => {
-  const { increment, decrement, scaling } = useScalingState();
-  const [isVisible, setIsVisible] = React.useState(true);
-
-  useEffect(() => {
-    id = setTimeout(() => {
-      setIsVisible(false);
-    }, 4000);
-    return () => clearTimeout(id);
-  }, []);
+  const { increment, decrement } = useScalingState();
 
   return (
     <>
@@ -40,8 +30,6 @@ export const ScalingButtons = () => {
           <SearchMinus />
         </Icon>
       </TextButton>
-
-      {isVisible && <TextButton>{scaling}</TextButton>}
 
       <TextButton onClick={increment}>
         <Icon width="1rem" height="1rem">
