@@ -16,6 +16,10 @@ import { useTransaction } from '../../store';
 import { getUserDetailLink } from '../user/user-router';
 import { Link } from 'react-router-dom';
 
+const InLineLink = styled(Link)({
+  display: 'inline!important',
+});
+
 const ArticleIcon = withTheme(
   styled('span')({}, ({ theme }) => ({
     fill: (theme as Theme).primary,
@@ -49,14 +53,15 @@ export function TransactionListItem({ id }: Props): JSX.Element | null {
               <Currency value={transaction.amount} />
             </AlertText>
             <Ellipsis>
-              {transaction.sender && <>&#8592; {transaction.sender.name}</>}
+              {transaction.sender && (
+                <InLineLink to={getUserDetailLink(transaction.sender.id)}>
+                  &#8592; {transaction.sender.name}
+                </InLineLink>
+              )}
               {transaction.recipient && (
-                <>
-                  &#8594;{' '}
-                  <Link to={getUserDetailLink(transaction.recipient.id)}>
-                    {transaction.recipient.name}
-                  </Link>
-                </>
+                <InLineLink to={getUserDetailLink(transaction.recipient.id)}>
+                  &#8594; {transaction.recipient.name}
+                </InLineLink>
               )}
               {transaction.article && (
                 <>
@@ -70,8 +75,8 @@ export function TransactionListItem({ id }: Props): JSX.Element | null {
               {transaction.comment && (
                 <>
                   {transaction.comment &&
-                    transaction.sender &&
-                    transaction.sender.name &&
+                    ((transaction.sender && transaction.sender.name) ||
+                      (transaction.recipient && transaction.recipient.name)) &&
                     ':'}{' '}
                   {transaction.comment}
                 </>
