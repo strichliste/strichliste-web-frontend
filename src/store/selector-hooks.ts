@@ -20,42 +20,42 @@ import {
 } from './reducers';
 
 export function useFilteredUsers(isActive: boolean) {
-  return useMappedState<AppState, string[]>(
+  return useMappedState<string[]>(
     useCallback(state => getFilteredUserIds(state, isActive), [isActive])
   );
 }
 
 export function useUser(id: string) {
-  const user = useMappedState<AppState, User | undefined>(
+  const user = useMappedState<User | undefined>(
     useCallback(state => getUser(state, id), [id])
   );
   return user;
 }
 
 export function useUserName(id: string): string {
-  const user = useMappedState<AppState, User | undefined>(
+  const user = useMappedState<User | undefined>(
     useCallback(state => getUser(state, id), [id])
   );
   return user ? user.name : '';
 }
 
 export function useUserBalance(id: string): number {
-  return useMappedState<AppState, number>(
+  return useMappedState<number>(
     useCallback(state => getUserBalance(state, id), [id])
   );
 }
 
 export function useArticles(): Article[] {
-  return useMappedState<AppState, Article[]>(getArticleList);
+  return useMappedState<Article[]>(getArticleList);
 }
 
 export function usePopularArticles(): Article[] {
-  return useMappedState<AppState, Article[]>(getPopularArticles);
+  return useMappedState<Article[]>(getPopularArticles);
 }
 
 export function useArticle(id: number | undefined) {
   if (id) {
-    return useMappedState<AppState, Article | undefined>(
+    return useMappedState<Article | undefined>(
       useCallback((state: AppState) => getArticleById(state, id), [id])
     );
   }
@@ -83,13 +83,13 @@ export function useGlobalError() {
 }
 
 export function useIsTransactionDeletable(id: number) {
-  return useMappedState<AppState, boolean>(
+  return useMappedState<boolean>(
     useCallback((state: AppState) => isTransactionDeletable(state, id), [id])
   );
 }
 
 export function useTransaction(id: number) {
-  return useMappedState<AppState, Transaction | undefined>(
+  return useMappedState<Transaction | undefined>(
     useCallback((state: AppState) => state.transaction[id], [id])
   );
 }
