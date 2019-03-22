@@ -15,12 +15,17 @@ interface Props {
 }
 
 export function UserSelection(props: Props): JSX.Element {
-  const users = useUserArray();
+  const users = props.userId
+    ? useUserArray().filter(user => Number(user.id) !== Number(props.userId))
+    : useUserArray();
+
   return <AutoComplete {...props} items={users} />;
 }
 
 export function UserSearch(props: Props): JSX.Element {
-  const users = useUserArray();
+  const users = props.userId
+    ? useUserArray().filter(user => Number(user.id) !== Number(props.userId))
+    : useUserArray();
 
   return (
     <FormattedMessage id="SEARCH">
