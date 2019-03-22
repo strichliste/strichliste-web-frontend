@@ -14,11 +14,13 @@ export interface SettingsResponse extends MaybeResponse {
 
 export interface Settings {
   i18n: I18N;
-  idleTimer: number;
   account: Account;
   payment: Payment;
   paypal: Paypal;
   user: User;
+  common: {
+    idleTimer: number;
+  };
 }
 
 export interface Payment {
@@ -123,7 +125,7 @@ export async function startLoadingSettings(dispatch: Dispatch): Promise<void> {
 }
 
 export const initialState = {
-  idleTimer: 150000,
+  common: { idleTimer: 150000 },
   paypal: {
     enabled: false,
     recipient: '',
