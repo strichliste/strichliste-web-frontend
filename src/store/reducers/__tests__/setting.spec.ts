@@ -28,7 +28,7 @@ describe('settings reducer', () => {
   });
 
   describe('with a settingsLoaded action', () => {
-    const setting = { ...initialState, idleTimer: 500 };
+    const setting = { ...initialState, idleTimeout: 500 };
     beforeEach(() => {
       action = settingsLoaded(setting as Settings);
     });

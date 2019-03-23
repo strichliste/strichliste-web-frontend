@@ -10,7 +10,7 @@ export function useIdleTimer(onTimeOut: () => void) {
 
   const resetTimer = () => {
     clearTimeout(timerId);
-    timerId = setTimeout(onTimeOut, settings.common.idleTimer);
+    timerId = setTimeout(onTimeOut, settings.common.idleTimeout);
   };
 
   React.useEffect(() => {

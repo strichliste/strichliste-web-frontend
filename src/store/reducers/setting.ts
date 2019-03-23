@@ -19,7 +19,7 @@ export interface Settings {
   paypal: Paypal;
   user: User;
   common: {
-    idleTimer: number;
+    idleTimeout: number;
   };
 }
 
@@ -125,7 +125,7 @@ export async function startLoadingSettings(dispatch: Dispatch): Promise<void> {
 }
 
 export const initialState = {
-  common: { idleTimer: 150000 },
+  common: { idleTimeout: 150000 },
   paypal: {
     enabled: false,
     recipient: '',
