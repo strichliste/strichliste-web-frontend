@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AutoGrid,
   HideByBreakPoint,
@@ -15,6 +14,7 @@ import { NavTabMenus } from '../../common/nav-tab-menu';
 import { CreateUserInlineFormView } from '../create-user-inline-form';
 import { UserCard } from '../user-card';
 import { useDispatch } from 'redux-react-hook';
+import { ScrollToTop } from '../../common/scroll-to-top';
 
 interface OwnProps {
   isActive: boolean;
@@ -55,6 +55,7 @@ export const User = (props: UserProps) => {
 
   return (
     <>
+      <ScrollToTop />
       <GridWrapper>
         <NavTabMenus
           margin="2rem 1rem"
