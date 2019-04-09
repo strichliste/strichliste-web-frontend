@@ -21,6 +21,7 @@ import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
 import { UserDetailsSeparator } from '../user-details/user-details-separator';
 import { getUserDetailLink, getUserTransactionsLink } from './user-router';
+import { ScrollToTop } from '../common/scroll-to-top';
 
 const StyledTransactionWrapper = withTheme(
   styled('div')({}, props => ({
@@ -64,6 +65,7 @@ export const UserDetails = (props: UserDetailsProps) => {
     : [];
   return (
     <div>
+      <ScrollToTop />
       <ArticleScanner userId={user.id} />
       <UserDetailsHeader user={user} />
       <UserDetailsSeparator />
