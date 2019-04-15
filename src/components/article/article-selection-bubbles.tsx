@@ -61,7 +61,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
                   padding="0.5rem"
                   margin="0.3rem"
                 >
-                  {item.name} | <Currency value={item.amount} />
+                  {item.name} | <Currency hidePlusSign value={item.amount} />
                 </Button>
               )}
             />

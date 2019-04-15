@@ -15,4 +15,20 @@ describe('Currency', () => {
     );
     expect(container).toMatchSnapshot();
   });
+  it('hides plus icons by prop', () => {
+    const { container } = render(
+      <IntlProvider defaultLocale="en">
+        <Currency hidePlusSign value={120} />
+      </IntlProvider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+  it('show - icons', () => {
+    const { container } = render(
+      <IntlProvider defaultLocale="en">
+        <Currency hidePlusSign value={-120} />
+      </IntlProvider>
+    );
+    expect(container).toMatchSnapshot();
+  });
 });
