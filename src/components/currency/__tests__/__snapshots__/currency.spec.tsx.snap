@@ -1,10 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Currency hides plus icons by prop 1`] = `
+<div>
+  
+  <span>
+    €1.20
+  </span>
+</div>
+`;
+
 exports[`Currency matches the snapshot for english locales 1`] = `
 <div>
   +
   <span>
     €1.20
+  </span>
+</div>
+`;
+
+exports[`Currency show - icons 1`] = `
+<div>
+  
+  <span>
+    -€1.20
   </span>
 </div>
 `;
