@@ -3,10 +3,10 @@
   "version": "1.6.2",
   "private": true,
   "dependencies": {
-    "bricks-of-sand": "^0.1.18",
+    "bricks-of-sand": "^0.1.20",
     "history": "^4.9.0",
     "howler": "^2.1.1",
-    "inter-ui": "^3.2.0",
+    "inter-ui": "^3.5.0",
     "lodash": "^4.17.10",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -15,7 +15,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "redux": "^4.0.0",
-    "redux-react-hook": "^3.2.1"
+    "redux-react-hook": "^3.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,17 +29,17 @@
     "@types/howler": "^2.1.0",
     "@types/jest": "24.0.11",
     "@types/lodash": "^4.14.123",
-    "@types/node": "^11.12.0",
-    "@types/react": "16.8.10",
-    "@types/react-dom": "16.8.3",
+    "@types/node": "^11.13.5",
+    "@types/react": "16.8.13",
+    "@types/react-dom": "16.8.4",
     "@types/react-intl": "^2.3.17",
     "@types/react-router": "^4.4.5",
-    "@types/react-router-dom": "^4.2.4",
+    "@types/react-router-dom": "^4.3.2",
     "@types/redux-mock-store": "^1.0.0",
-    "@typescript-eslint/eslint-plugin": "^1.5.0",
-    "@typescript-eslint/parser": "^1.5.0",
+    "@typescript-eslint/eslint-plugin": "^1.6.0",
+    "@typescript-eslint/parser": "^1.6.0",
     "awesome-typescript-loader": "^5.2.0",
-    "babel-preset-jest": "^24.3.0",
+    "babel-preset-jest": "^24.6.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-jest": "^22.4.1",
     "eslint-plugin-jsx-a11y": "^6.2.1",
@@ -47,12 +47,12 @@
     "eslint-plugin-react": "^7.12.4",
     "husky": "^1.1.2",
     "lint-staged": "^8.1.5",
-    "prettier": "^1.16.4",
-    "react-testing-library": "^6.0.3",
+    "prettier": "^1.17.0",
+    "react-testing-library": "^6.1.2",
     "redux-mock-store": "^1.5.3",
     "ts-config": "^20.4.0",
-    "ts-jest": "~24.0.0",
-    "typescript": "3.3.4000"
+    "ts-jest": "~24.0.2",
+    "typescript": "3.4.3"
   },
   "eslintConfig": {
     "extends": "react-app"
