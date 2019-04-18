@@ -23,7 +23,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "skipLibCheck": false
+    "skipLibCheck": false,
+    "incremental": true
   },
   "include": ["src/**/*", "types/**/*"],
   "exclude": [
