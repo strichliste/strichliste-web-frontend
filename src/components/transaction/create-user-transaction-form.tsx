@@ -57,6 +57,8 @@ type Props = RouteComponentProps<{ id: string }> & { intl: InjectedIntl };
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;
   public submitUserId = (user: User): void => {
+    if (!user) return;
+
     if (!this.state.selectedUser.id) {
       this.setState(() => ({ selectedUser: user }));
     } else {

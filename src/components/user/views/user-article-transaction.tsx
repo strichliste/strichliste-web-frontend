@@ -10,6 +10,7 @@ async function onSelect(
   article: Article,
   props: Props
 ): Promise<void> {
+  if (!article) return;
   const result = await startCreatingTransaction(
     dispatch,
     props.match.params.id,

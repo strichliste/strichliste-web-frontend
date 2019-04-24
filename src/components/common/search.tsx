@@ -18,7 +18,9 @@ export const SearchInput = withRouter((props: Props) => {
       children={placeholder => (
         <UserSearch
           placeholder={placeholder as string}
-          onSelect={user => props.history.push(getUserDetailLink(user.id))}
+          onSelect={user => {
+            if (user && user.id) props.history.push(getUserDetailLink(user.id));
+          }}
         />
       )}
     />
