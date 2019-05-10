@@ -62,7 +62,7 @@ export interface UserDetailsHeaderProps extends RouteComponentProps {
   user: User;
 }
 
-const component = ({ user, location }: UserDetailsHeaderProps) => {
+const Component = ({ user, location }: UserDetailsHeaderProps) => {
   const currentUrl = location.pathname;
   const userUrl = `/user/${user.id}`;
   const paypal = usePayPalSettings();
@@ -118,4 +118,4 @@ const component = ({ user, location }: UserDetailsHeaderProps) => {
   );
 };
 
-export const UserDetailsHeader = withRouter(component);
+export const UserDetailsHeader = withRouter(Component);

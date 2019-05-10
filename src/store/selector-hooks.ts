@@ -54,12 +54,9 @@ export function usePopularArticles(): Article[] {
 }
 
 export function useArticle(id: number | undefined) {
-  if (id) {
-    return useMappedState<Article | undefined>(
-      useCallback((state: AppState) => getArticleById(state, id), [id])
-    );
-  }
-  return undefined;
+  return useMappedState<Article | undefined>(
+    useCallback((state: AppState) => getArticleById(state, id || 0), [id])
+  );
 }
 
 export function usePayPalSettings() {

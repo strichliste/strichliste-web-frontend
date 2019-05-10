@@ -4,7 +4,7 @@ import { get } from '../../services/api';
 import { Article } from '../../store/reducers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function useEffectAsync(effect: any, inputs: any): void {
+function useEffectAsync(effect: any, inputs: any[]): void {
   useEffect(() => {
     effect();
   }, inputs);

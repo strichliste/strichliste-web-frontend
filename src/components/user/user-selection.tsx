@@ -15,17 +15,18 @@ interface Props {
 }
 
 export function UserSelection(props: Props): JSX.Element {
-  const users = props.userId
-    ? useUserArray().filter(user => Number(user.id) !== Number(props.userId))
-    : useUserArray();
-
-  return <AutoComplete {...props} items={users} />;
+  const users = useUserArray();
+  const filteredUsers = props.userId
+    ? users.filter(user => Number(user.id) !== Number(props.userId))
+    : users;
+  return <AutoComplete {...props} items={filteredUsers} />;
 }
 
 export function UserSearch(props: Props): JSX.Element {
-  const users = props.userId
-    ? useUserArray().filter(user => Number(user.id) !== Number(props.userId))
-    : useUserArray();
+  const users = useUserArray();
+  const filteredUsers = props.userId
+    ? users.filter(user => Number(user.id) !== Number(props.userId))
+    : users;
 
   return (
     <FormattedMessage id="SEARCH">
@@ -33,7 +34,7 @@ export function UserSearch(props: Props): JSX.Element {
         //@ts-ignore
         <SearchAutoComplete
           {...props}
-          items={users}
+          items={filteredUsers}
           placeholder={placeholder as string}
           activeWidth="8rem"
           inactiveWidth="4rem"

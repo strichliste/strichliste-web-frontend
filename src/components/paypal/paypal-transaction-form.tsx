@@ -32,8 +32,8 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
   const BASE_URL = settings.paypal.sandbox
     ? 'https://www.sandbox.paypal.com/cgi-bin/webscr'
     : 'https://www.paypal.com/cgi-bin/webscr';
-  const returnUrl = `${location.href}/${numberAmount}`;
-  const returnCancelUrl = location.href;
+  const returnUrl = `${window.location.href}/${numberAmount}`;
+  const returnCancelUrl = window.location.href;
   const fee = numberAmount * (settings.paypal.fee / 100) || null;
   const amount = fee ? numberAmount + fee : numberAmount;
   return (
