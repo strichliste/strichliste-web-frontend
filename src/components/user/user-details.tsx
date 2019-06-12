@@ -47,10 +47,17 @@ export const UserDetails = (props: UserDetailsProps) => {
   const dispatch = useDispatch();
   const userId = props.match.params.id;
   const user = useUser(userId);
+  const inputRef = React.useRef(null);
 
   React.useEffect(() => {
     startLoadingTransactions(dispatch, userId);
     startLoadingUserDetails(dispatch, userId);
+    if (inputRef && inputRef.current) {
+      // @ts-ignore
+      inputRef.current.focus();
+      // @ts-ignore
+      inputRef.current.blur();
+    }
   }, [props.match.params.id]);
 
   if (!user) {
@@ -66,6 +73,7 @@ export const UserDetails = (props: UserDetailsProps) => {
   return (
     <div>
       <ScrollToTop />
+      <input ref={inputRef} type="text" hidden tabIndex={-1} />
       <ArticleScanner userId={user.id} />
       <UserDetailsHeader user={user} />
       <UserDetailsSeparator />
