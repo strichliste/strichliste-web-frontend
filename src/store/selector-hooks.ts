@@ -16,6 +16,7 @@ import {
   getFilteredUserIds,
   getGlobalError,
   isTransactionDeletable,
+  isPaymentEnabled,
   Transaction,
 } from './reducers';
 
@@ -65,6 +66,10 @@ export function usePayPalSettings() {
 
 export function useSettings() {
   return useMappedState(getSettings);
+}
+
+export function useIsPaymentEnabled() {
+  return useMappedState(isPaymentEnabled);
 }
 
 export function useUserArray() {

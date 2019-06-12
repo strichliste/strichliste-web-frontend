@@ -96,7 +96,7 @@ export interface Paypal {
   enabled: boolean;
   recipient: string;
   fee: number;
-  sandbox: boolean;
+  sandbox?: boolean;
 }
 
 interface User {
@@ -125,10 +125,10 @@ export async function startLoadingSettings(dispatch: Dispatch): Promise<void> {
 }
 
 export const initialState = {
-  common: { idleTimeout: 150000 },
+  common: { idleTimeout: 30000 },
   paypal: {
-    enabled: false,
-    recipient: '',
+    enabled: true,
+    recipient: 'finanzen@hackerspace-bamberg.de',
     fee: 0,
     sandbox: true,
   },
@@ -141,11 +141,19 @@ export const initialState = {
   },
   account: { boundary: { upper: 20000, lower: -20000 } },
   payment: {
-    undo: { enabled: true, delete: false, timeout: '5 minute' },
+    undo: { enabled: true, delete: true, timeout: '5 minute' },
     boundary: { upper: 15000, lower: -2000 },
     transactions: { enabled: true },
-    deposit: { enabled: true, custom: true, steps: [50, 100, 200, 500, 1000] },
-    dispense: { enabled: true, custom: true, steps: [50, 100, 200, 500, 1000] },
+    deposit: {
+      enabled: true,
+      custom: true,
+      steps: [50, 100, 200, 500, 1000],
+    },
+    dispense: {
+      enabled: true,
+      custom: true,
+      steps: [50, 100, 200, 500, 1000],
+    },
   },
 };
 
@@ -176,4 +184,13 @@ export function getSettingsBalance(state: AppState): number | boolean {
 
 export function getPayPal(state: AppState): Paypal {
   return getSettings(state).paypal;
+}
+
+function isDepositActive(deposit: Deposit): boolean {
+  return Boolean(deposit.enabled || deposit.custom);
+}
+
+export function isPaymentEnabled(state: AppState): boolean {
+  const payment = getPayment(state);
+  return isDepositActive(payment.deposit) || isDepositActive(payment.dispense);
 }

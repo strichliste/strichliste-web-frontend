@@ -1,0 +1,27 @@
+.userDetailsGrid {
+  margin: 1rem;
+}
+
+.transactions {
+  flex-grow: 1;
+}
+.transactions a {
+  text-align: right;
+  display: block;
+}
+
+.payment {
+  margin-bottom: 4rem;
+}
+
+@media only screen and (min-width: 48em) {
+  .payment {
+    min-width: 24rem;
+    margin-right: 3rem;
+  }
+
+  .userDetailsGrid {
+    display: flex;
+    justify-content: center;
+  }
+}

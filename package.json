@@ -3,16 +3,16 @@
   "version": "1.6.2",
   "private": true,
   "dependencies": {
-    "bricks-of-sand": "^0.1.22",
+    "bricks-of-sand": "^0.1.23",
     "history": "^4.9.0",
     "howler": "^2.1.1",
-    "inter-ui": "^3.5.0",
+    "inter-ui": "^3.7.0",
     "lodash": "^4.17.10",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-intl": "^2.8.0",
-    "react-router": "^5.0.0",
-    "react-router-dom": "^5.0.0",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "recharts": "^1.6.2",
     "redux": "^4.0.0",
@@ -31,15 +31,15 @@
     "@types/jest": "^24.0.12",
     "@types/lodash": "^4.14.125",
     "@types/node": "^12.0.0",
-    "@types/react": "^16.8.19",
-    "@types/react-dom": "^16.8.4",
-    "@types/react-intl": "^2.3.17",
+    "@types/react": "16.8.19",
+    "@types/react-dom": "16.8.4",
+    "@types/react-intl": "^2.3.18",
     "@types/react-router": "^5.0.0",
     "@types/react-router-dom": "^4.3.3",
     "@types/recharts": "^1.1.16",
     "@types/redux-mock-store": "^1.0.1",
-    "@typescript-eslint/eslint-plugin": "^1.6.0",
-    "@typescript-eslint/parser": "^1.6.0",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
     "awesome-typescript-loader": "^5.2.0",
     "babel-preset-jest": "^24.6.0",
     "eslint-config-prettier": "^4.2.0",
@@ -81,7 +81,6 @@
         "git add"
       ],
       "*.{ts,tsx}": [
-        "prettier --write",
         "yarn lint --fix",
         "git add"
       ],
@@ -89,11 +88,6 @@
         "prettier --write",
         "git add"
       ]
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && yarn lint"
     }
   }
 }

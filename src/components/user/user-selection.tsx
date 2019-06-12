@@ -38,6 +38,7 @@ export function UserSearch(props: Props): JSX.Element {
           placeholder={placeholder as string}
           activeWidth="8rem"
           inactiveWidth="4rem"
+          clearOnSelect
         />
       )}
     </FormattedMessage>
