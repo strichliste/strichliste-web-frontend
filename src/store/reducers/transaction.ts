@@ -6,6 +6,7 @@ import { Action } from '../action';
 import { AppState, Dispatch } from '../store';
 import { Article } from './article';
 import { userDetailsLoaded } from './user';
+import { getPayment } from './setting';
 
 export interface Transaction {
   id: number;
@@ -144,6 +145,11 @@ export function getTransaction(
 }
 
 export function isTransactionDeletable(state: AppState, id: number): boolean {
+  const payment = getPayment(state);
+  if (!payment.undo.enabled) {
+    return false;
+  }
+
   const transaction = getTransaction(state, id);
   if (transaction) {
     return transaction.isDeletable;

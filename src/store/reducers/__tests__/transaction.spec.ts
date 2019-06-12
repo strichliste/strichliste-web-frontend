@@ -127,15 +127,38 @@ describe('selectors', () => {
     it('returns flag if transaction is found', () => {
       expect(
         isTransactionDeletable(
-          { transaction: { 1: { id: 1, isDeletable: true } } } as any,
+          {
+            settings: {
+              payment: { undo: { enabled: true } },
+            },
+            transaction: { 1: { id: 1, isDeletable: true } },
+          } as any,
           1
         )
       ).toBeTruthy();
     });
+    it('returns false if settings forbids undo', () => {
+      expect(
+        isTransactionDeletable(
+          {
+            settings: {
+              payment: { undo: { enabled: false } },
+            },
+            transaction: { 1: { id: 1, isDeletable: true } },
+          } as any,
+          1
+        )
+      ).toBeFalsy();
+    });
     it('returns false if no transaction is found', () => {
       expect(
         isTransactionDeletable(
-          { transaction: { 1: { id: 1, isDeletable: true } } } as any,
+          {
+            settings: {
+              payment: { undo: { enabled: true } },
+            },
+            transaction: { 1: { id: 1, isDeletable: true } },
+          } as any,
           2
         )
       ).toBeFalsy();
