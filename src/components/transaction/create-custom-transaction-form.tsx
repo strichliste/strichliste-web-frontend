@@ -5,6 +5,7 @@ import { useDispatch } from 'redux-react-hook';
 import { startCreatingTransaction } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
+import { useSettings } from '../../store';
 
 const ButtonText = styled('div')({
   fontSize: '1rem',
@@ -19,7 +20,7 @@ interface Props {
 
 export const CreateCustomTransactionForm = (props: Props) => {
   const { userId, transactionCreated } = props;
-
+  const payment = useSettings().payment;
   const dispatch = useDispatch();
   const [value, setValue] = React.useState(0);
   const depositIsValid = useTransactionValidator(value, userId, true);
@@ -43,27 +44,35 @@ export const CreateCustomTransactionForm = (props: Props) => {
   };
   return (
     <ResponsiveGrid gridGap="1rem" columns="3rem 1fr 3rem">
-      <RedButton
-        onClick={() => submit(false)}
-        isRound
-        disabled={!dispenseIsValid}
-        type="submit"
-      >
-        <ButtonText>-</ButtonText>
-      </RedButton>
+      {payment.dispense.custom ? (
+        <RedButton
+          onClick={() => submit(false)}
+          isRound
+          disabled={!dispenseIsValid}
+          type="submit"
+        >
+          <ButtonText>-</ButtonText>
+        </RedButton>
+      ) : (
+        <div></div>
+      )}
       <CurrencyInput
         value={value}
         placeholder="CUSTOM AMOUNT"
         onChange={setValue}
       />
-      <GreenButton
-        onClick={() => submit(true)}
-        isRound
-        disabled={!depositIsValid}
-        type="submit"
-      >
-        <ButtonText>+</ButtonText>
-      </GreenButton>
+      {payment.deposit.custom ? (
+        <GreenButton
+          onClick={() => submit(true)}
+          isRound
+          disabled={!depositIsValid}
+          type="submit"
+        >
+          <ButtonText>+</ButtonText>
+        </GreenButton>
+      ) : (
+        <div></div>
+      )}
     </ResponsiveGrid>
   );
 };

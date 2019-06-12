@@ -1,4 +1,4 @@
-import { Block, Card } from 'bricks-of-sand';
+import { Card } from 'bricks-of-sand';
 import * as React from 'react';
 
 import { useSettings } from '../../store';
@@ -9,7 +9,7 @@ interface Props {
   userId: string;
 }
 
-export function Payment(props: Props): JSX.Element {
+export function Payment(props: Props): JSX.Element | null {
   const payment = useSettings().payment;
   return (
     <Card padding="0.5rem">
@@ -20,9 +20,13 @@ export function Payment(props: Props): JSX.Element {
           userId={props.userId}
         />
       )}
-      <Block margin="1rem">
-        <CreateCustomTransactionForm userId={props.userId} />
-      </Block>
+      {payment.deposit.custom || payment.dispense.custom ? (
+        <div style={{ margin: '1rem' }}>
+          <CreateCustomTransactionForm userId={props.userId} />
+        </div>
+      ) : (
+        <div style={{ margin: '2rem' }}></div>
+      )}
       {payment.dispense.enabled && (
         <PaymentButtonList
           isDeposit={false}
