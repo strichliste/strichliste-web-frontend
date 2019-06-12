@@ -51,7 +51,7 @@ export const User = (props: UserProps) => {
 
   useEffect(() => {
     startLoadingUsers(dispatch);
-  }, [props.isActive]);
+  }, [props.isActive, dispatch]);
 
   return (
     <>

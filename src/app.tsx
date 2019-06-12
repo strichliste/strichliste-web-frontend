@@ -25,6 +25,8 @@ import { useScalingState } from './components/settings/scaling-buttons';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
+import { MetricsView } from './components/metrics';
+import { InjectIntlContext } from './hooks/intl';
 
 const newLight: Theme = {
   ...light,
@@ -57,7 +59,7 @@ const Layout = () => {
   const dispatch = useDispatch();
   React.useEffect(() => {
     startLoadingSettings(dispatch);
-  }, []);
+  }, [dispatch]);
 
   const { scaling } = useScalingState();
 
@@ -72,6 +74,7 @@ const Layout = () => {
         <Route path="/user" component={UserRouter} />
         <Route path="/articles" component={ArticleRouter} />
         <Route path="/split-invoice" component={SplitInvoiceForm} />
+        <Route path="/metrics" component={MetricsView} />
         <Redirect from="/" to="/user/active" />
       </Switch>
       <MainFooter />
@@ -90,9 +93,11 @@ class App extends React.Component {
             locale="en"
             messages={en}
           >
-            <HashRouter hashType="hashbang">
-              <Layout />
-            </HashRouter>
+            <InjectIntlContext>
+              <HashRouter hashType="hashbang">
+                <Layout />
+              </HashRouter>
+            </InjectIntlContext>
           </IntlProvider>
         </StoreContext.Provider>
       </ThemeProvider>

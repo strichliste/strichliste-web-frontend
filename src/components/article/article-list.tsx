@@ -13,7 +13,7 @@ export const ArticleList: React.FC = () => {
 
   React.useEffect(() => {
     startLoadingArticles(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return (
     <Block margin="1.5rem 1rem">

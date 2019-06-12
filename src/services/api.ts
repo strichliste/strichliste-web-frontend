@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare const process: any;
 
@@ -28,4 +30,11 @@ export async function restDelete(endpoint: string): Promise<any> {
   return fetch(`${API_URL}${endpoint}`, {
     method: 'delete',
   }).then(async res => res.json());
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useEffectAsync(effect: any, inputs: any[] = []): void {
+  useEffect(() => {
+    effect();
+  }, inputs);
 }
