@@ -1,47 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { get } from '../../services/api';
-import { Article } from '../../store/reducers';
+import { get, useEffectAsync } from '../../services/api';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function useEffectAsync(effect: any, inputs: any[]): void {
-  useEffect(() => {
-    effect();
-  }, inputs);
-}
-
-export const useMetrics = (userId: string): UserMetric | null => {
-  const [metrics, setMetrics] = useState(null);
+export const useMetrics = (): Metric | null => {
+  const [metric, setMetrics] = useState(null);
 
   useEffectAsync(async () => {
-    if (userId) {
-      const nextMetrics = await get(`user/${userId}/metrics`);
-      setMetrics(nextMetrics);
-    }
-  }, [userId]);
+    const nextMetrics = await get(`metrics`);
+    setMetrics(nextMetrics);
+  }, []);
 
-  return metrics;
+  return metric;
 };
 
-export interface UserMetric {
+export interface Day {
+  date: string;
+  count: string;
+  distinctUsers: string;
   balance: number;
-  articles: ArticleElement[];
-  transactions: Transactions;
+  positiveBalance: number;
+  negativeBalance: number;
 }
 
-export interface ArticleElement {
-  article: Article;
-  count: number;
-  amount: number;
-}
-
-export interface Transactions {
-  count: number;
-  outgoing: Ing;
-  incoming: Ing;
-}
-
-export interface Ing {
-  count: number;
-  amount: number;
+export interface Metric {
+  balance: number;
+  transactionCount: number;
+  userCount: number;
+  days: Day[];
 }

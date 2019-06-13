@@ -1,102 +1,99 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
-import { Block, Card, ResponsiveGrid, styled } from 'bricks-of-sand';
-import { FormattedMessage } from 'react-intl';
+// import { Currency } from '../currency';
+import { useMetrics } from './resource';
+import { Separator, Card, ResponsiveGrid, AlertText } from 'bricks-of-sand';
 import { Currency } from '../currency';
-import { UserRouteProps } from '../user/user-router';
-import { ArticleElement, useMetrics } from './resource';
 
-type Props = UserRouteProps;
+const Metrics: React.FC = () => {
+  const metrics = useMetrics();
 
-const H1 = styled('h1')({
-  marginBottom: '2rem',
-  fontSize: '1.5rem',
-});
-
-const TopRatedArticles = (props: { articles: ArticleElement[] }) => (
-  <Block margin="1rem">
-    <h2>
-      <FormattedMessage
-        id="METRICS_ARTICLES_RATING"
-        defaultMessage="Your top 10 articles!"
-      />
-    </h2>
-    <ResponsiveGrid gridGap="1rem" tabletColumns="1fr 1fr 2fr">
-      <div>
-        <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />
-      </div>
-      <div>
-        <FormattedMessage
-          id="USER_METRICS_PRICE"
-          defaultMessage="money spend"
-        />
-      </div>
-      <div>
-        <FormattedMessage id="USER_METRICS_ARTICLE" defaultMessage="article" />
-      </div>
-      <div />
-    </ResponsiveGrid>
-    {props.articles.slice(0, 10).map(articleMetric => (
-      <ResponsiveGrid
-        gridGap="1rem"
-        tabletColumns="1fr 1fr 2fr"
-        key={articleMetric.article.id}
-      >
-        <div>{articleMetric.count}</div>
-        <div>
-          <Currency value={articleMetric.amount} />
-        </div>
-        <div>{articleMetric.article.name}</div>
-      </ResponsiveGrid>
-    ))}
-  </Block>
-);
-
-const MetricCard = (props: {
-  title: React.ReactNode;
-  children: React.ReactNode;
-}) => (
-  <Card>
-    <h2>{props.title}</h2>
-    <Block>{props.children}</Block>
-  </Card>
-);
-
-export const Metrics: React.FC<Props> = props => {
-  const metrics = useMetrics(props.match.params.id);
   if (!metrics) {
     return null;
   }
   return (
-    <Block margin="2rem 1rem">
-      <H1>
-        <FormattedMessage id="METRICS_HEADLINE" defaultMessage="metrics" />
-      </H1>
-      <ResponsiveGrid gridGap="1rem" columns="1fr 1fr">
-        <MetricCard title={<FormattedMessage id="USER_TRANSACTIONS" />}>
-          <div>
-            <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />:
-            {metrics.transactions.count}
-          </div>
-          <div>
-            <Currency value={metrics.transactions.incoming.amount} />
-          </div>
-          <div>
-            <Currency value={metrics.transactions.outgoing.amount} />
-          </div>
-        </MetricCard>
-        <MetricCard title={<FormattedMessage id="ARTICLE_HEADLINE" />}>
-          <div>
-            <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />:
-            {metrics.articles.length}
-          </div>
-        </MetricCard>
+    <div style={{ margin: '0 1rem' }}>
+      <ResponsiveGrid margin="2rem 0" columns="1fr 1fr 1fr">
+        <Card margin="1rem 1rem 1rem 0">
+          <h2>
+            <FormattedMessage id="METRICS_BALANCE" defaultMessage="balance" />
+          </h2>
+          <AlertText value={metrics.balance}>
+            <Currency hidePlusSign value={metrics.balance} />
+          </AlertText>
+        </Card>
+        <Card margin="1rem 1rem 1rem 1rem">
+          <h2>
+            <FormattedMessage id="METRICS_USER_COUNT" defaultMessage="users" />
+          </h2>
+          <FormattedNumber value={metrics.userCount} />
+        </Card>
+        <Card margin="1rem 0 1rem 1rem">
+          <h2>
+            <FormattedMessage
+              id="METRICS_TRANSACTION_COUNT"
+              defaultMessage="transactions"
+            />
+          </h2>
+
+          <FormattedNumber value={metrics.transactionCount} />
+        </Card>
       </ResponsiveGrid>
-      <TopRatedArticles articles={metrics.articles} />
-    </Block>
+      <Card>
+        <h2>
+          <FormattedMessage id="METRICS_BALANCE" defaultMessage="balance" />
+        </h2>
+        <Separator margin="1rem -1rem 2rem -1rem" />
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={metrics.days}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="balance"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </Card>
+      <Card margin="1rem 0">
+        <h2>
+          <FormattedMessage id="METRICS_USERS" defaultMessage="Users" />
+        </h2>
+        <Separator margin="1rem -1rem 2rem -1rem" />
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={metrics.days}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="count"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </Card>
+    </div>
   );
 };
 
-// tslint:disable-next-line:no-default-export
-export default withRouter(Metrics);
+export default Metrics;

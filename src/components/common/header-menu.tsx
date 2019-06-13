@@ -51,6 +51,9 @@ export function HeaderMenu(): JSX.Element {
                 defaultMessage="Split Invoice"
               />
             </NavLink>
+            <NavLink activeClassName="active" to="/metrics">
+              <FormattedMessage id="METRICS_LINK" defaultMessage="Metrics" />
+            </NavLink>
           </Menu>
         </HeaderLeft>
         <HeaderRight>
