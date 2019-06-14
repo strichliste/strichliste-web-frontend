@@ -41,13 +41,13 @@ describe('settings reducer', () => {
 });
 
 describe('action creators', () => {
-  describe('startLoadingSettings', async () => {
+  it('startLoadingSettings', async () => {
     (get as any).mockImplementationOnce(() =>
       Promise.resolve({ settings: initialState })
     );
 
     const mockStore = getMockStore();
-    await mockStore.dispatch(startLoadingSettings());
+    await startLoadingSettings(mockStore.dispatch);
     expect(mockStore.getActions()).toMatchSnapshot();
   });
 });
