@@ -1,13 +1,14 @@
-import { Flex, HeaderNavBar, Menu, styled, withTheme } from 'bricks-of-sand';
+import { Flex, HeaderNavBar, styled } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { Logo } from '../ui/icons/logo';
 import { SearchInput } from './search';
+import { ScrollContainer } from './scroll-container/scroll-container';
 
 const HeaderLeft = styled(Flex)({
+  marginRight: '1.5rem',
   a: {
-    display: 'inline-flex',
     marginRight: '1.5rem',
   },
   '.active': {
@@ -21,11 +22,9 @@ const HeaderLeft = styled(Flex)({
   },
 });
 
-const HeaderRight = withTheme(
-  styled(Flex)({
-    marginRight: '1.5rem',
-  })
-);
+const HeaderRight = styled(Flex)({
+  marginRight: '1.5rem',
+});
 
 export function HeaderMenu(): JSX.Element {
   return (
@@ -38,7 +37,7 @@ export function HeaderMenu(): JSX.Element {
       >
         <HeaderLeft alignItems="center">
           <Logo />
-          <Menu breakPoint={600} label={<FormattedMessage id="TALLY_HEADER" />}>
+          <ScrollContainer>
             <NavLink activeClassName="active" to="/user">
               <FormattedMessage id="TALLY_HEADER" />
             </NavLink>
@@ -54,7 +53,7 @@ export function HeaderMenu(): JSX.Element {
             <NavLink activeClassName="active" to="/metrics">
               <FormattedMessage id="METRICS_LINK" defaultMessage="Metrics" />
             </NavLink>
-          </Menu>
+          </ScrollContainer>
         </HeaderLeft>
         <HeaderRight>
           <SearchInput />

@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.container > * {
+  flex: 0 0 auto;
+}
