@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cleanup, fireEvent } from 'react-testing-library';
+import { cleanup, fireEvent } from '@testing-library/react';
 
 import { renderAndReturnContext } from '../../../spec-configs/render';
 import { CreateCustomTransactionLink } from '../create-custom-transaction-link';

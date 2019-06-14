@@ -3,7 +3,7 @@ import { MemoryHistory, createMemoryHistory } from 'history';
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Router } from 'react-router';
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
 import { DeepPartial, Store, createStore } from 'redux';
 import { StoreContext } from 'redux-react-hook';
 

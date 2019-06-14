@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
-import { cleanup } from 'react-testing-library';
+import { cleanup } from '@testing-library/react';
 import { renderWithContext } from '../../../spec-configs/render';
 import { useTransactionValidator } from '../validator';
 
