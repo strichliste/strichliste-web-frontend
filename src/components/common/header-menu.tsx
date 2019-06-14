@@ -23,6 +23,7 @@ const HeaderLeft = styled(Flex)({
 });
 
 const HeaderRight = styled(Flex)({
+  minWidth: '3rem',
   marginRight: '1.5rem',
 });
 
