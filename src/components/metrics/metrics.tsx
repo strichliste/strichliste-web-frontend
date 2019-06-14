@@ -7,7 +7,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 
@@ -61,7 +60,6 @@ const Metrics: React.FC = () => {
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
-            <Legend />
             <Line
               type="monotone"
               dataKey="balance"
@@ -82,7 +80,6 @@ const Metrics: React.FC = () => {
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
-            <Legend />
             <Line
               type="monotone"
               dataKey="count"
