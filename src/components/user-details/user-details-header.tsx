@@ -1,6 +1,5 @@
 import {
   AlertText,
-  Menu,
   Tab,
   styled,
   withTheme,
@@ -18,6 +17,7 @@ import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { TransactionIcon } from '../ui/icons/transactions';
 import { UserName } from '../user/user-name';
 import { UserDetailRouter } from './user-details-router';
+import { ScrollContainer } from '../common/scroll-container/scroll-container';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const LinkTab: any = styled(Tab(NavLink))({
@@ -77,7 +77,7 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
         </AlertText>
       </h1>
 
-      <Menu justifyMenu="space-between" label="USER ACTIONS" breakPoint={600}>
+      <ScrollContainer style={{ justifyContent: 'space-between' }}>
         <LinkTab
           activeClassName="active"
           to={toggleTab(
@@ -112,7 +112,7 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
             <FormattedMessage id="PAYPAL_LINK" defaultMessage="Paypal" />
           </LinkTab>
         )}
-      </Menu>
+      </ScrollContainer>
       <UserDetailRouter />
     </UserHeader>
   );

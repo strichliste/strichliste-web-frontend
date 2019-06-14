@@ -104,14 +104,14 @@ describe('action creators', () => {
     });
   });
 
-  describe('startLoadingArticles', async () => {
+  it('startLoadingArticles', async () => {
     (get as any).mockImplementationOnce(() =>
       Promise.resolve({ articles: [{ id: 1 }] })
     );
 
     const store = getMockStore();
     await startLoadingArticles(store.dispatch);
-    expect(get).toHaveBeenCalledWith('article');
+    expect(get).toHaveBeenCalledWith('article?limit=999');
     expect(store.getActions()).toMatchSnapshot();
   });
 });

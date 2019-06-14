@@ -1,16 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { Block, Card, ResponsiveGrid, styled } from 'bricks-of-sand';
+import { Block, Card, ResponsiveGrid, styled, Separator } from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
-// import {
-//   LineChart,
-//   Line,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   Legend,
-// } from 'recharts';
 
 import { Currency } from '../../currency';
 import { UserRouteProps } from '../../user/user-router';
@@ -24,13 +15,14 @@ const H1 = styled('h1')({
 });
 
 const TopRatedArticles = (props: { articles: ArticleElement[] }) => (
-  <Block margin="1rem">
+  <Card margin="2rem 0">
     <h2>
       <FormattedMessage
         id="METRICS_ARTICLES_RATING"
         defaultMessage="Your top 10 articles!"
       />
     </h2>
+    <Separator margin="1rem -1rem 2rem -1rem" />
     <ResponsiveGrid gridGap="1rem" tabletColumns="1fr 1fr 2fr">
       <div>
         <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />
@@ -59,7 +51,7 @@ const TopRatedArticles = (props: { articles: ArticleElement[] }) => (
         <div>{articleMetric.article.name}</div>
       </ResponsiveGrid>
     ))}
-  </Block>
+  </Card>
 );
 
 const MetricCard = (props: {
