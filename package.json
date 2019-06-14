@@ -26,6 +26,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@testing-library/react": "^8.0.1",
     "@types/fetch-mock": "^7.2.3",
     "@types/howler": "^2.1.0",
     "@types/jest": "^24.0.12",
@@ -50,7 +51,6 @@
     "husky": "^2.2.0",
     "lint-staged": "^8.1.6",
     "prettier": "^1.17.0",
-    "react-testing-library": "^7.0.0",
     "redux-mock-store": "^1.5.3",
     "ts-config": "^20.4.0",
     "ts-jest": "~24.0.2",

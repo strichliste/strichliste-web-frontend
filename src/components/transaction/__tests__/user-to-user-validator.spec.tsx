@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cleanup } from 'react-testing-library';
+import { cleanup } from '@testing-library/react';
 import { renderWithContext } from '../../../spec-configs/render';
 
 import { UserToUserValidator } from '../user-to-user-validator';
