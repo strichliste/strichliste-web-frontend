@@ -1,20 +1,15 @@
-import {
-  AutoGrid,
-  HideByBreakPoint,
-  breakPoints,
-  styled,
-} from 'bricks-of-sand';
+import { breakPoints, styled } from 'bricks-of-sand';
 import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { useFilteredUsers } from '../../../store';
 import { startLoadingUsers } from '../../../store/reducers';
 import { NavTabMenus } from '../../common/nav-tab-menu';
 import { CreateUserInlineFormView } from '../create-user-inline-form';
-import { UserCard } from '../user-card';
 import { useDispatch } from 'redux-react-hook';
 import { ScrollToTop } from '../../common/scroll-to-top';
+import { UserList } from '../user-list';
 
 interface OwnProps {
   isActive: boolean;
@@ -31,18 +26,16 @@ const GridWrapper = styled('div')({
 });
 
 const CreateUserPosition = styled('div')({
-  zIndex: 10,
-  position: 'absolute',
-  marginLeft: '-2rem',
-});
-
-const CreateUserGridPosition = styled('div')({
-  position: 'relative',
-  '>div': {
+  [breakPoints.tablet]: {
     zIndex: 10,
     position: 'absolute',
-    minWidth: '100%',
+    marginLeft: '-2rem',
+    marginTop: '7rem',
   },
+  position: 'fixed',
+  bottom: '1rem',
+  left: '1rem',
+  zIndex: 100,
 });
 
 export const User = (props: UserProps) => {
@@ -57,6 +50,11 @@ export const User = (props: UserProps) => {
     <>
       <ScrollToTop />
       <GridWrapper>
+        <CreateUserPosition>
+          <CreateUserInlineFormView
+            isActive={props.showCreateUserForm || false}
+          />
+        </CreateUserPosition>
         <NavTabMenus
           margin="2rem 1rem"
           breakpoint={320}
@@ -72,27 +70,7 @@ export const User = (props: UserProps) => {
             },
           ]}
         />
-        <HideByBreakPoint min={768} max={Infinity}>
-          <CreateUserPosition>
-            <CreateUserInlineFormView
-              isActive={props.showCreateUserForm || false}
-            />
-          </CreateUserPosition>
-        </HideByBreakPoint>
-        <AutoGrid rows="5rem" columns="8rem">
-          <HideByBreakPoint min={0} max={767}>
-            <CreateUserGridPosition>
-              <CreateUserInlineFormView
-                isActive={props.showCreateUserForm || false}
-              />
-            </CreateUserGridPosition>
-          </HideByBreakPoint>
-          {userIds.map(id => (
-            <Link key={id} to={`/user/${id}`}>
-              <UserCard id={id} />
-            </Link>
-          ))}
-        </AutoGrid>
+        <UserList userIds={userIds} />
       </GridWrapper>
     </>
   );
