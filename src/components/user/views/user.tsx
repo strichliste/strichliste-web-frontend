@@ -30,12 +30,14 @@ const CreateUserPosition = styled('div')({
     zIndex: 10,
     position: 'absolute',
     marginLeft: '-2rem',
-    marginTop: '7rem',
+    marginTop: '6rem',
+    bottom: 'initial',
+    left: 'initial',
   },
   position: 'fixed',
   bottom: '1rem',
   left: '1rem',
-  zIndex: 100,
+  zIndex: 10,
 });
 
 export const User = (props: UserProps) => {
