@@ -2,7 +2,6 @@ import {
   AcceptIcon,
   AddIcon,
   Block,
-  CancelButton,
   Card,
   ClickOutside,
   Column,
@@ -11,6 +10,7 @@ import {
   HoverCard,
   Input,
   PrimaryButton,
+  CancelButton,
   styled,
 } from 'bricks-of-sand';
 import * as React from 'react';
@@ -18,10 +18,15 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
 import { useToggle } from '../../hooks/use-toggle';
 import { useArticle } from '../../store';
-import { Article, startAddArticle } from '../../store/reducers';
+import {
+  Article,
+  startAddArticle,
+  startDeletingArticle,
+} from '../../store/reducers';
 import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
 import { useArticleValidator } from './validator';
+import { Trash } from '../ui/icons/trash';
 
 interface ButtonProps {
   isVisible: boolean;
@@ -31,7 +36,12 @@ interface ButtonProps {
 
 const ToggleArticleButton: React.FC<ButtonProps> = props => {
   if (props.isVisible) {
-    return <CancelButton onClick={props.onClick} />;
+    return (
+      <CancelButton
+        Icon={props.idArticle ? Trash : undefined}
+        onClick={props.onClick}
+      ></CancelButton>
+    );
   }
 
   if (props.idArticle) {
@@ -90,7 +100,7 @@ const initialParams = {
   name: '',
   barcode: '',
   amount: 0,
-  active: true,
+  isActive: true,
   precursor: null,
 };
 
@@ -102,7 +112,7 @@ const resetArticle = (article: Article | undefined, setParams: any) => {
       barcode: article.barcode,
       name: article.name,
       precursor: article,
-      active: article.active,
+      isActive: article.isActive,
     });
   } else {
     setParams(initialParams);
@@ -110,7 +120,7 @@ const resetArticle = (article: Article | undefined, setParams: any) => {
 };
 
 export const ArticleForm: React.FC<Props> = props => {
-  const { toggle, updateToggle } = useToggle(false);
+  const { toggle, updateToggle, setToggle } = useToggle(false);
   const [params, setParams] = React.useState(initialParams);
   const isValidArticle = useArticleValidator(params.amount);
 
@@ -120,6 +130,26 @@ export const ArticleForm: React.FC<Props> = props => {
   React.useEffect(() => {
     resetArticle(article, setParams);
   }, [article]);
+
+  const deleteArticle = () => {
+    if (article) {
+      startDeletingArticle(dispatch, article.id);
+    }
+  };
+
+  const handleClickOutSide = () => {
+    resetArticle(article, setParams);
+    setToggle(false);
+  };
+
+  const handleToggleClick = () => {
+    if (toggle) {
+      deleteArticle();
+      setToggle(false);
+    } else {
+      setToggle(true);
+    }
+  };
 
   const submit = async (e: React.FormEvent, isValid: boolean) => {
     e.preventDefault();
@@ -136,15 +166,15 @@ export const ArticleForm: React.FC<Props> = props => {
   };
 
   return (
-    <Flex alignItems="center" margin="0 0 0.5rem">
-      <ToggleArticleButton
-        idArticle={props.articleId}
-        isVisible={toggle}
-        onClick={updateToggle}
-      />
-      <Column margin="0 0 0 1rem" flex="1">
-        {toggle && (
-          <ClickOutside onClick={updateToggle}>
+    <ClickOutside onClick={handleClickOutSide}>
+      <Flex alignItems="center" margin="0 0 0.5rem">
+        <ToggleArticleButton
+          idArticle={props.articleId}
+          isVisible={toggle}
+          onClick={handleToggleClick}
+        />
+        <Column margin="0 0 0 1rem" flex="1">
+          {toggle && (
             <Card padding="0.5rem" level={'level3'}>
               <ArticleFormGrid
                 justifyContent="space-between"
@@ -200,23 +230,23 @@ export const ArticleForm: React.FC<Props> = props => {
                 </PrimaryButton>
               </ArticleFormGrid>
             </Card>
-          </ClickOutside>
-        )}
-        {!toggle && props.articleId && (
-          <HoverCard padding="0.5rem" onClick={updateToggle}>
-            <ArticleGrid>
-              <Column>{params.name}</Column>
-              <TextRight>
-                <Ellipsis>{params.barcode}</Ellipsis>
-              </TextRight>
-              <TextRight>
-                <Currency value={params.amount} />
-              </TextRight>
-            </ArticleGrid>
-          </HoverCard>
-        )}
-        {!toggle && !props.articleId && props.children}
-      </Column>
-    </Flex>
+          )}
+          {!toggle && props.articleId && (
+            <HoverCard padding="0.5rem" onClick={updateToggle}>
+              <ArticleGrid>
+                <Column>{params.name}</Column>
+                <TextRight>
+                  <Ellipsis>{params.barcode}</Ellipsis>
+                </TextRight>
+                <TextRight>
+                  <Currency value={params.amount} />
+                </TextRight>
+              </ArticleGrid>
+            </HoverCard>
+          )}
+          {!toggle && !props.articleId && props.children}
+        </Column>
+      </Flex>
+    </ClickOutside>
   );
 };

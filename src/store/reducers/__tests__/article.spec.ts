@@ -110,8 +110,10 @@ describe('action creators', () => {
     );
 
     const store = getMockStore();
-    await startLoadingArticles(store.dispatch);
-    expect(get).toHaveBeenCalledWith('article?limit=999');
+    await startLoadingArticles(store.dispatch, true);
+    expect(get).toHaveBeenCalledWith(
+      'article?limit=999&active=true&precursor=false'
+    );
     expect(store.getActions()).toMatchSnapshot();
   });
 });
@@ -127,15 +129,18 @@ describe('selectors', () => {
     });
   });
   describe('getArticleList', () => {
-    it('returns all active articles as array', () => {
+    it('returns all articles as array', () => {
       expect(
         getArticleList({
           article: {
-            1: { id: 1, isActive: true },
-            2: { id: 2, isActive: false },
+            1: { id: 1, isActive: true, name: 'b' },
+            2: { id: 2, isActive: false, name: 'a' },
           },
         } as any)
-      ).toEqual([{ id: 1, isActive: true }]);
+      ).toEqual([
+        { id: 2, isActive: false, name: 'a' },
+        { id: 1, isActive: true, name: 'b' },
+      ]);
     });
   });
 });

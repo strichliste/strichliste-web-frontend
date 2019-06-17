@@ -1,4 +1,4 @@
-import { get, post } from '../../services/api';
+import { get, post, restDelete } from '../../services/api';
 import { MaybeResponse, errorHandler } from '../../services/error-handler';
 import { Action } from '../action';
 import { AppState, Dispatch } from '../store';
@@ -12,7 +12,7 @@ export interface Article {
   name: string;
   barcode: string;
   amount: number;
-  active: boolean;
+  isActive: boolean;
   usageCount: number;
   precursor?: Article;
   created: string;
@@ -34,8 +34,11 @@ export function articlesLoaded(payload: Article[]): ArticlesLoadedAction {
   };
 }
 
-export async function startLoadingArticles(dispatch: Dispatch): Promise<void> {
-  const promise = get(`article?limit=999`);
+export async function startLoadingArticles(
+  dispatch: Dispatch,
+  isActive: boolean
+): Promise<void> {
+  const promise = get(`article?limit=999&active=${isActive}&precursor=false`);
   const data = await errorHandler<ArticleResponse>(dispatch, {
     promise,
     defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
@@ -43,6 +46,22 @@ export async function startLoadingArticles(dispatch: Dispatch): Promise<void> {
   if (data && data.articles && data.articles.length) {
     dispatch(articlesLoaded(data.articles));
   }
+}
+
+export async function startDeletingArticle(
+  dispatch: Dispatch,
+  articleId: number
+): Promise<void> {
+  const promise = restDelete(`article/${articleId}`);
+  const data = await errorHandler(dispatch, {
+    promise,
+    defaultError: 'ARTICLES_COULD_NOT_BE_DELETED',
+  });
+  if (data && data.article) {
+    dispatch(articlesLoaded([data.article]));
+    return data.article;
+  }
+  return undefined;
 }
 
 export async function getArticleByBarcode(
@@ -66,7 +85,7 @@ export interface AddArticleParams {
   name: string;
   barcode: string;
   amount: number;
-  active: boolean;
+  isActive: boolean;
   precursor: Article | null;
 }
 export async function startAddArticle(
@@ -123,9 +142,9 @@ export function getArticleById(
 }
 
 export function getArticleList(state: AppState): Article[] {
-  return Object.values(getArticle(state))
-    .filter(article => article.isActive)
-    .sort((a: Article, b: Article) => a.name.localeCompare(b.name));
+  return Object.values(getArticle(state)).sort((a: Article, b: Article) =>
+    a.name.localeCompare(b.name)
+  );
 }
 
 export function getPopularArticles(state: AppState): Article[] {

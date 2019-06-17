@@ -2,17 +2,17 @@ import { Block } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
-import { useArticles } from '../../store';
+import { useActiveArticles } from '../../store';
 import { startLoadingArticles } from '../../store/reducers';
 import { NavTabMenus } from '../common/nav-tab-menu';
 import { ArticleForm } from './article-form';
 
-export const ArticleList: React.FC = () => {
-  const articles = useArticles();
+export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
+  const articles = useActiveArticles(isActive);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    startLoadingArticles(dispatch);
+    startLoadingArticles(dispatch, isActive);
   }, [dispatch]);
 
   return (
@@ -24,8 +24,12 @@ export const ArticleList: React.FC = () => {
           label={<FormattedMessage id="ARTICLE_HEADLINE" />}
           tabs={[
             {
-              to: '/articles',
-              message: <FormattedMessage id="ARTICLE_HEADLINE" />,
+              to: '/articles/active',
+              message: <FormattedMessage id="ARTICLE_ACTIVE_HEADLINE" />,
+            },
+            {
+              to: '/articles/inactive',
+              message: <FormattedMessage id="ARTICLE_INACTIVE_HEADLINE" />,
             },
           ]}
         />

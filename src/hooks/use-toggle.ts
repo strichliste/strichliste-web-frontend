@@ -5,10 +5,11 @@ export function useToggle(
 ): {
   toggle: boolean;
   updateToggle(): void;
+  setToggle(toggle: boolean): void;
 } {
   const [toggle, setToggle] = useState(initialState);
 
   const updateToggle = () => setToggle(!toggle);
 
-  return { toggle, updateToggle };
+  return { toggle, updateToggle, setToggle };
 }
