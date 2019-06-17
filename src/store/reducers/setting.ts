@@ -72,6 +72,7 @@ export interface Payment {
   undo: Undo;
   boundary: Boundary;
   transactions: Transactions;
+  splitInvoice: Transactions;
   deposit: Deposit;
   dispense: Deposit;
 }
@@ -144,6 +145,7 @@ export const initialState = {
     undo: { enabled: true, delete: true, timeout: '5 minute' },
     boundary: { upper: 15000, lower: -2000 },
     transactions: { enabled: true },
+    splitInvoice: { enabled: true },
     deposit: {
       enabled: true,
       custom: true,

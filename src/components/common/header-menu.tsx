@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { Logo } from '../ui/icons/logo';
 import { SearchInput } from './search';
 import { ScrollContainer } from './scroll-container/scroll-container';
+import { useSettings } from '../../store';
 
 const HeaderLeft = styled(Flex)({
   marginRight: '1.5rem',
@@ -28,6 +29,7 @@ const HeaderRight = styled(Flex)({
 });
 
 export function HeaderMenu(): JSX.Element {
+  const payment = useSettings().payment;
   return (
     <HeaderNavBar>
       <Flex
@@ -45,12 +47,14 @@ export function HeaderMenu(): JSX.Element {
             <NavLink activeClassName="active" to="/articles">
               <FormattedMessage id="ARTICLE_LINK" />
             </NavLink>
-            <NavLink activeClassName="active" to="/split-invoice">
-              <FormattedMessage
-                id="SPLIT_INVOICE_LINK"
-                defaultMessage="Split Invoice"
-              />
-            </NavLink>
+            {payment.splitInvoice.enabled && (
+              <NavLink activeClassName="active" to="/split-invoice">
+                <FormattedMessage
+                  id="SPLIT_INVOICE_LINK"
+                  defaultMessage="Split Invoice"
+                />
+              </NavLink>
+            )}
             <NavLink activeClassName="active" to="/metrics">
               <FormattedMessage id="METRICS_LINK" defaultMessage="Metrics" />
             </NavLink>

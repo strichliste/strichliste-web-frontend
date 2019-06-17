@@ -68,6 +68,9 @@ Array [
             1000,
           ],
         },
+        "splitInvoice": Object {
+          "enabled": true,
+        },
         "transactions": Object {
           "enabled": true,
         },
