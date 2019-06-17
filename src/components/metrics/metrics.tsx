@@ -17,10 +17,14 @@ import { useMetrics } from './resource';
 import { Separator, Card, ResponsiveGrid, AlertText } from 'bricks-of-sand';
 import { Currency } from '../currency';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const FixedTooltip: any = Tooltip;
+
 const Metrics: React.FC = () => {
   const theme = window.localStorage.getItem('SELECTED_THEME');
   const metrics = useMetrics();
   const stroke = theme === 'dark' ? 'white' : 'black';
+  const background = theme === 'dark' ? '#2E3D4D' : 'white';
 
   if (!metrics) {
     return null;
@@ -63,7 +67,7 @@ const Metrics: React.FC = () => {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
-            <Tooltip />
+            <FixedTooltip contentStyle={{ background }} />
             <Line
               type="monotone"
               dataKey="balance"
@@ -85,7 +89,7 @@ const Metrics: React.FC = () => {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
-            <Tooltip />
+            <FixedTooltip contentStyle={{ background }} />
             <Line
               type="monotone"
               dataKey="distinctUsers"
