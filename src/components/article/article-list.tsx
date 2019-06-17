@@ -3,9 +3,10 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
 import { useActiveArticles } from '../../store';
-import { startLoadingArticles } from '../../store/reducers';
+import { startLoadingArticles, Article } from '../../store/reducers';
 import { NavTabMenus } from '../common/nav-tab-menu';
 import { ArticleForm } from './article-form';
+import { SearchList } from '../common/search-list/search-list';
 
 export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
   const articles = useActiveArticles(isActive);
@@ -34,13 +35,15 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
           ]}
         />
       </ArticleForm>
-      {articles.map(article => (
-        <ArticleForm
-          articleId={article.id}
-          key={article.id}
-          onCreated={() => ''}
-        />
-      ))}
+      <SearchList
+        items={articles}
+        renderItem={(item: Article) => (
+          <ArticleForm onCreated={() => ''} articleId={item.id} key={item.id}>
+            {item.name}
+          </ArticleForm>
+        )}
+        pageSize={20}
+      />
     </Block>
   );
 };
