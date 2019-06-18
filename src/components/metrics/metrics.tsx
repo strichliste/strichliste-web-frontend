@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import {
-  LineChart,
+  BarChart,
   Line,
   XAxis,
   YAxis,
@@ -85,18 +85,13 @@ const Metrics: React.FC = () => {
         </h2>
         <Separator margin="1rem -1rem 2rem -1rem" />
         <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={metrics.days}>
+          <BarChart data={metrics.days}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
             <FixedTooltip contentStyle={{ background }} />
-            <Line
-              type="monotone"
-              dataKey="distinctUsers"
-              stroke={stroke}
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
+            <Bar dataKey="distinctUsers" fill="#00cc1d" />
+          </BarChart>
         </ResponsiveContainer>
       </Card>
     </div>
