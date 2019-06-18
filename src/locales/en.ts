@@ -72,4 +72,6 @@ export const en = {
   CREATE_USER_TO_USER_TRANSACTION_COMMENT: 'Add notes to your transaction',
   TRANSACTION_EMPTY_STATE: 'You have no transactions yet :,(',
   METRICS_HEADLINE: 'Metrics',
+  ARTICLE_ACTIVE_HEADLINE: 'Active Articles',
+  ARTICLE_INACTIVE_HEADLINE: 'Inactive Articles',
 };

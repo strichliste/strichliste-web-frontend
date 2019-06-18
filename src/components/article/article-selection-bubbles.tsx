@@ -29,7 +29,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
   const [query, setQuery] = React.useState('');
 
   React.useEffect(() => {
-    startLoadingArticles(dispatch);
+    startLoadingArticles(dispatch, true);
   }, []);
 
   return (
