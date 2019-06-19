@@ -11,10 +11,9 @@ import {
   ComposedChart,
   Bar,
 } from 'recharts';
-
-// import { Currency } from '../currency';
-import { useMetrics } from './resource';
 import { Separator, Card, ResponsiveGrid, AlertText } from 'bricks-of-sand';
+
+import { useMetrics } from './resource';
 import { Currency } from '../currency';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
