@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Currency } from '../../currency';
 import { UserRouteProps } from '../../user/user-router';
-import { ArticleElement, useMetrics } from './resource';
+import { ArticleMetric, useMetrics } from './resource';
 
 type Props = UserRouteProps;
 
@@ -14,7 +14,7 @@ const H1 = styled('h1')({
   fontSize: '1.5rem',
 });
 
-const TopRatedArticles = (props: { articles: ArticleElement[] }) => (
+const TopRatedArticles = (props: { articles: ArticleMetric[] }) => (
   <Card margin="2rem 0">
     <h2>
       <FormattedMessage
@@ -81,10 +81,10 @@ export const Metrics: React.FC<Props> = props => {
             {metrics.transactions.count}
           </div>
           <div>
-            <Currency value={metrics.transactions.incoming.amount} />
+            <Currency value={metrics.transactions.charged.amount} />
           </div>
           <div>
-            <Currency value={metrics.transactions.outgoing.amount} />
+            <Currency value={metrics.transactions.spent.amount} />
           </div>
         </MetricCard>
         <MetricCard title={<FormattedMessage id="ARTICLE_HEADLINE" />}>
