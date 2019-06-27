@@ -52,7 +52,6 @@ export function useArticles(): Article[] {
 
 export function useActiveArticles(isActive: boolean): Article[] {
   const articles = useArticles();
-  console.log(isActive, articles);
 
   return articles.filter(article => article.isActive === isActive);
 }

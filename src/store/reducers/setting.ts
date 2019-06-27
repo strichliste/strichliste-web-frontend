@@ -14,6 +14,7 @@ export interface SettingsResponse extends MaybeResponse {
 
 export interface Settings {
   i18n: I18N;
+  article: Article;
   account: Account;
   payment: Payment;
   paypal: Paypal;
@@ -52,6 +53,11 @@ export interface Settings {
 
 export interface Account {
   boundary: Boundary;
+}
+
+interface Article {
+  enabled: boolean;
+  autoOpen: boolean;
 }
 
 // tslint:disable-next-line:interface-name
@@ -126,6 +132,10 @@ export async function startLoadingSettings(dispatch: Dispatch): Promise<void> {
 }
 
 export const initialState = {
+  article: {
+    enabled: false,
+    autoOpen: false,
+  },
   common: { idleTimeout: 30000 },
   paypal: {
     enabled: true,

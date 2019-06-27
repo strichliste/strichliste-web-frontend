@@ -81,10 +81,10 @@ export const Metrics: React.FC<Props> = props => {
             {metrics.transactions.count}
           </div>
           <div>
-            <Currency value={metrics.transactions.charged.amount} />
+            <Currency value={metrics.transactions.incoming.amount} />
           </div>
           <div>
-            <Currency value={metrics.transactions.spent.amount} />
+            <Currency value={metrics.transactions.outgoing.amount} />
           </div>
         </MetricCard>
         <MetricCard title={<FormattedMessage id="ARTICLE_HEADLINE" />}>

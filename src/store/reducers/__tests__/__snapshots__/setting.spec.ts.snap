@@ -28,6 +28,10 @@ Array [
           "upper": 20000,
         },
       },
+      "article": Object {
+        "autoOpen": false,
+        "enabled": false,
+      },
       "common": Object {
         "idleTimeout": 30000,
       },
