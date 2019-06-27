@@ -9,7 +9,7 @@ import {
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
-import { usePayPalSettings } from '../../store';
+import { useSettings } from '../../store';
 import { User } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ProductIcon } from '../ui/icons/product';
@@ -65,7 +65,7 @@ export interface UserDetailsHeaderProps extends RouteComponentProps {
 const Component = ({ user, location }: UserDetailsHeaderProps) => {
   const currentUrl = location.pathname;
   const userUrl = `/user/${user.id}`;
-  const paypal = usePayPalSettings();
+  const settings = useSettings();
   return (
     <UserHeader>
       <h1>
@@ -89,19 +89,21 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
           <TransactionIcon />{' '}
           <FormattedMessage id="USER_TRANSACTION_CREATE_LINK" />
         </LinkTab>
-        <LinkTab
-          activeClassName="active"
-          to={toggleTab(`/user/${user.id}/article`, currentUrl, userUrl)}
-        >
-          <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
-        </LinkTab>
+        {settings.article.enabled && (
+          <LinkTab
+            activeClassName="active"
+            to={toggleTab(`/user/${user.id}/article`, currentUrl, userUrl)}
+          >
+            <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
+          </LinkTab>
+        )}
         <LinkTab
           activeClassName="active"
           to={toggleTab(`/user/${user.id}/edit`, currentUrl, userUrl)}
         >
           <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
         </LinkTab>
-        {paypal.enabled && (
+        {settings.paypal.enabled && (
           <LinkTab
             activeClassName="active"
             to={toggleTab(`/user/${user.id}/paypal`, currentUrl, userUrl)}
