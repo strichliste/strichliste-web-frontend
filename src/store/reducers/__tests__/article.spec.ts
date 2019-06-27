@@ -112,7 +112,7 @@ describe('action creators', () => {
     const store = getMockStore();
     await startLoadingArticles(store.dispatch, true);
     expect(get).toHaveBeenCalledWith(
-      'article?limit=999&active=true&precursor=false'
+      'article?limit=999&active=true&ancestor=false'
     );
     expect(store.getActions()).toMatchSnapshot();
   });
