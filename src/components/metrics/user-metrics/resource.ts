@@ -16,25 +16,35 @@ export const useMetrics = (userId: string): UserMetric | null => {
   return metrics;
 };
 
-export interface UserMetric {
-  balance: number;
-  articles: ArticleElement[];
-  transactions: Transactions;
+export interface Article {
+  article: Article;
+  count: number;
+  amount: number;
 }
 
-export interface ArticleElement {
-  article: Article;
+export interface Outgoing {
+  count: number;
+  amount: number;
+}
+
+export interface Incoming {
   count: number;
   amount: number;
 }
 
 export interface Transactions {
   count: number;
-  outgoing: Ing;
-  incoming: Ing;
+  outgoing: Outgoing;
+  incoming: Incoming;
 }
 
-export interface Ing {
+export interface UserMetric {
+  balance: number;
+  articles: ArticleMetric[];
+  transactions: Transactions;
+}
+export interface ArticleMetric {
+  article: Article;
   count: number;
   amount: number;
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 interface State {
   barcode: string;
@@ -17,6 +17,7 @@ export class Scanner extends React.Component<Props, State> {
     maybeBarcode: '',
     timeout: undefined,
   };
+  public inputRef = React.createRef<HTMLInputElement>();
 
   public componentDidMount(): void {
     document.addEventListener('keyup', this.detection);
@@ -28,6 +29,11 @@ export class Scanner extends React.Component<Props, State> {
 
   public detection = (event: KeyboardEvent): void => {
     const key = event.key;
+
+    if (this.inputRef.current && this.state.maybeBarcode.length > 5) {
+      this.inputRef.current.focus();
+    }
+
     clearTimeout(this.state.timeout);
 
     if (key === 'Enter' && this.state.maybeBarcode.length > 6) {
@@ -54,8 +60,31 @@ export class Scanner extends React.Component<Props, State> {
 
   public render(): JSX.Element | null {
     if (!this.props.render) {
-      return null;
+      return (
+        <input
+          style={{ opacity: 0 }}
+          value=""
+          onChange={() => {}}
+          ref={this.inputRef}
+          type="text"
+          hidden
+          tabIndex={-1}
+        />
+      );
     }
-    return <>{this.props.render(this.state.barcode)}</>;
+    return (
+      <>
+        <input
+          style={{ opacity: 0 }}
+          value=""
+          onChange={() => {}}
+          ref={this.inputRef}
+          type="text"
+          hidden
+          tabIndex={-1}
+        />
+        {this.props.render(this.state.barcode)}
+      </>
+    );
   }
 }

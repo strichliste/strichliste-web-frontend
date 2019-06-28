@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Currency } from '../../currency';
 import { UserRouteProps } from '../../user/user-router';
-import { ArticleElement, useMetrics } from './resource';
+import { ArticleMetric, useMetrics } from './resource';
 
 type Props = UserRouteProps;
 
@@ -14,7 +14,7 @@ const H1 = styled('h1')({
   fontSize: '1.5rem',
 });
 
-const TopRatedArticles = (props: { articles: ArticleElement[] }) => (
+const TopRatedArticles = (props: { articles: ArticleMetric[] }) => (
   <Card margin="2rem 0">
     <h2>
       <FormattedMessage

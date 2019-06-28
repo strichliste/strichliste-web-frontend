@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import { get, useEffectAsync } from '../../services/api';
 
-export const useMetrics = (): Metric | null => {
-  const [metric, setMetrics] = useState<Metric | null>(null);
+export const useMetrics = (): FormattedMetric | null => {
+  const [metric, setMetrics] = useState<FormattedMetric | null>(null);
 
   useEffectAsync(async () => {
     const nextMetrics: Metric = await get(`metrics`);
@@ -12,10 +12,10 @@ export const useMetrics = (): Metric | null => {
       ...nextMetrics,
       days: nextMetrics.days.map(day => ({
         balance: day.balance / 100,
-        charged: day.charged / 100,
+        charged: day.charged.amount / 100,
         date: day.date,
         distinctUsers: day.distinctUsers,
-        spent: day.spent / 100,
+        spent: day.spent.amount / 100,
         transactions: day.transactions,
       })),
     };
@@ -26,18 +26,52 @@ export const useMetrics = (): Metric | null => {
   return metric;
 };
 
-export interface Day {
-  balance: number;
-  charged: number;
-  date: string;
-  distinctUsers: number;
-  spent: number;
-  transactions: number;
-}
-
-export interface Metric {
+interface Metric {
   balance: number;
   transactionCount: number;
   userCount: number;
+  articles: Article[];
   days: Day[];
+}
+
+interface FormattedMetric {
+  balance: number;
+  transactionCount: number;
+  userCount: number;
+  articles: Article[];
+  days: FormattedDay[];
+}
+
+interface FormattedDay {
+  date: string;
+  transactions: number;
+  distinctUsers: number;
+  balance: number;
+  charged: number;
+  spent: number;
+}
+
+interface Day {
+  date: string;
+  transactions: number;
+  distinctUsers: number;
+  balance: number;
+  charged: Charged;
+  spent: Charged;
+}
+
+interface Charged {
+  amount: number;
+  transactions: number;
+}
+
+interface Article {
+  id: number;
+  name: string;
+  barcode?: string;
+  amount: number;
+  isActive: boolean;
+  usageCount: number;
+  precursor?: any;
+  created: string;
 }

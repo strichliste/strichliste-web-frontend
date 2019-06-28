@@ -38,7 +38,7 @@ export async function startLoadingArticles(
   dispatch: Dispatch,
   isActive: boolean
 ): Promise<void> {
-  const promise = get(`article?limit=999&active=${isActive}&precursor=false`);
+  const promise = get(`article?limit=999&active=${isActive}&ancestor=false`);
   const data = await errorHandler<ArticleResponse>(dispatch, {
     promise,
     defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
