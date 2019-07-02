@@ -36,8 +36,10 @@ const PlainUserList: RedirectUserListComponent = ({ userIds, redirect }) => (
 const InfiniteUserList: RedirectUserListComponent = ({ userIds, redirect }) => {
   const props = useInfiniteScrolling(userIds, PAGE_SIZE);
   return (
-    <InfiniteScroll {...props}>
-      <PlainUserList redirect={redirect} userIds={props.items} />
-    </InfiniteScroll>
+    <div style={{ marginTop: '-1rem' }}>
+      <InfiniteScroll {...props}>
+        <PlainUserList redirect={redirect} userIds={props.items} />
+      </InfiniteScroll>
+    </div>
   );
 };
