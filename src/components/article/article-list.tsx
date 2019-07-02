@@ -6,7 +6,7 @@ import { useActiveArticles } from '../../store';
 import { startLoadingArticles, Article } from '../../store/reducers';
 import { NavTabMenus } from '../common/nav-tab-menu';
 import { ArticleForm } from './article-form';
-import { SearchList } from '../common/search-list/search-list';
+import { InfiniteList } from '../common/search-list/search-list';
 
 export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
   const articles = useActiveArticles(isActive);
@@ -35,14 +35,14 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
           ]}
         />
       </ArticleForm>
-      <SearchList
+      <InfiniteList
         items={articles}
         renderItem={(item: Article) => (
           <ArticleForm onCreated={() => ''} articleId={item.id} key={item.id}>
             {item.name}
           </ArticleForm>
         )}
-        pageSize={20}
+        pageSize={10}
       />
     </Block>
   );

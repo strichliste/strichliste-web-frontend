@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { AutoGrid } from 'bricks-of-sand';
 import { UserCard } from '.';
 import { useSettings } from '../../store';
+import { useInfiniteScrolling } from '../common/search-list/search-list';
 
 type UserListComponent = React.FC<{ userIds: string[] }>;
 type RedirectUserListComponent = React.FC<{
@@ -33,27 +34,10 @@ const PlainUserList: RedirectUserListComponent = ({ userIds, redirect }) => (
 );
 
 const InfiniteUserList: RedirectUserListComponent = ({ userIds, redirect }) => {
-  const [page, setPage] = useState(1);
-  const nextPage = () => {
-    setPage(page + 1);
-  };
-  const items = userIds.slice(0, PAGE_SIZE * page);
-
-  useEffect(() => {
-    const hasVScroll = document.body.scrollHeight > document.body.clientHeight;
-    if (page === 1 && !hasVScroll && items.length < userIds.length) {
-      setPage(page + 2);
-    }
-  }, []);
-
+  const props = useInfiniteScrolling(userIds, PAGE_SIZE);
   return (
-    <InfiniteScroll
-      dataLength={items.length}
-      next={nextPage}
-      hasMore={true}
-      loader={null}
-    >
-      <PlainUserList redirect={redirect} userIds={items} />
+    <InfiniteScroll {...props}>
+      <PlainUserList redirect={redirect} userIds={props.items} />
     </InfiniteScroll>
   );
 };
