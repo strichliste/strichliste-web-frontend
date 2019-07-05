@@ -11,22 +11,23 @@ import {
   resetCss,
   styled,
 } from 'bricks-of-sand';
-import { IntlProvider } from 'react-intl';
 import { ArticleRouter } from './components/article/article-router';
+import { en } from './locales/en';
 import { ErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
-import { SplitInvoiceForm } from './components/transaction';
+import { IntlProvider } from 'react-intl';
 import { MainFooter, baseCss, mobileStyles } from './components/ui';
-import { UserRouter } from './components/user/user-router';
-import { en } from './locales/en';
-import { store } from './store';
+import { SearchResults } from './components/common/search-results';
+import { SplitInvoiceForm } from './components/transaction';
 import { startLoadingSettings } from './store/reducers';
+import { store } from './store';
+import { UserRouter } from './components/user/user-router';
 import { useScalingState } from './components/settings/scaling-buttons';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
-import { MetricsView } from './components/metrics';
 import { InjectIntlContext } from './hooks/intl';
+import { MetricsView } from './components/metrics';
 
 const newLight: Theme = {
   ...light,
@@ -75,6 +76,7 @@ const Layout = () => {
         <Route path="/articles" component={ArticleRouter} />
         <Route path="/split-invoice" component={SplitInvoiceForm} />
         <Route path="/metrics" component={MetricsView} />
+        <Route path="/search-results" component={SearchResults} />
         <Redirect from="/" to="/user/active" />
       </Switch>
       <MainFooter />
