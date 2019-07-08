@@ -3,9 +3,10 @@ import { useDispatch } from 'redux-react-hook';
 import { startLoadingUsers, User } from '../../../store/reducers';
 import { useUserArray } from '../../../store';
 import { SearchList } from '../search-list/search-list';
-import { TextButton } from 'bricks-of-sand';
+import { SearchResultItem } from './search-result-item/search-result-item';
+import { RouteComponentProps } from 'react-router';
 
-export const SearchResults = () => {
+export const SearchResults: React.FC<RouteComponentProps> = props => {
   const userArray = useUserArray();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -13,13 +14,15 @@ export const SearchResults = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <div style={{ margin: '1rem' }}>
       <SearchList
         pageSize={10}
         renderItem={(user: User) => (
-          <div key={user.id}>
-            <TextButton>{user.name}</TextButton>
-          </div>
+          <SearchResultItem
+            key={user.id}
+            name={user.name}
+            onClick={() => console.log(user)}
+          />
         )}
         items={userArray}
       ></SearchList>

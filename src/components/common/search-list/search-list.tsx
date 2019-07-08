@@ -58,7 +58,13 @@ export const SearchList: SearchListComponent = ({
 
   return (
     <div>
-      <Input value={filter} onChange={e => updateFilter(e.target.value)} />
+      <div style={{ margin: '1rem 0' }}>
+        <Input
+          placeholder="search"
+          value={filter}
+          onChange={e => updateFilter(e.target.value)}
+        />
+      </div>
       <InfiniteList
         items={filteredItems}
         pageSize={pageSize}
