@@ -57,7 +57,7 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
           <input type="hidden" name="amount" value={amount} />
           <input type="hidden" name="return" value={returnUrl} />
           <input type="hidden" name="cancel_return" value={returnCancelUrl} />
-          <input type="hidden" name="rm" value="0" />
+          <input type="hidden" name="rm" value="1" />
           <input
             type="hidden"
             name="currency_code"
