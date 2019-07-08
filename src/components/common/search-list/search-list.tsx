@@ -51,7 +51,9 @@ export const SearchList: SearchListComponent = ({
   useEffect(() => {
     setFilteredItems(
       filter
-        ? items.filter(item => item.name.toLowerCase().includes(filter))
+        ? items.filter(item =>
+            item.name.toLowerCase().includes(filter.toLowerCase())
+          )
         : items
     );
   }, [filter, items]);
