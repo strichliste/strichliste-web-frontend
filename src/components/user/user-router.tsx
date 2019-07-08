@@ -7,6 +7,7 @@ import { UserMetricsView } from '../metrics';
 import { UserDetails } from './user-details';
 import { TransactionOverview } from './views/transaction-overview';
 import { User } from './views/user';
+import { useSettings } from '../../store';
 
 export function UserRouter(): JSX.Element {
   return (
@@ -76,3 +77,10 @@ export function getUserPayPalLink(id: string): string {
 }
 
 export type UserRouteProps = RouteComponentProps<{ id: string }>;
+
+export function useUserDetailUrl(): (id: string) => string {
+  const settings = useSettings();
+  const redirect = settings.article.autoOpen ? '/article' : '';
+
+  return (id: string) => getUserDetailLink(id) + redirect;
+}

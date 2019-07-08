@@ -51,14 +51,22 @@ export const SearchList: SearchListComponent = ({
   useEffect(() => {
     setFilteredItems(
       filter
-        ? items.filter(item => item.name.toLowerCase().includes(filter))
+        ? items.filter(item =>
+            item.name.toLowerCase().includes(filter.toLowerCase())
+          )
         : items
     );
   }, [filter, items]);
 
   return (
     <div>
-      <Input value={filter} onChange={e => updateFilter(e.target.value)} />
+      <div style={{ margin: '1rem 0' }}>
+        <Input
+          placeholder="search"
+          value={filter}
+          onChange={e => updateFilter(e.target.value)}
+        />
+      </div>
       <InfiniteList
         items={filteredItems}
         pageSize={pageSize}

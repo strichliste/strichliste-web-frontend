@@ -1,8 +1,13 @@
 import * as React from 'react';
 
-export function Logo(props: { width?: string; height?: string }): JSX.Element {
+export function Logo(props: {
+  width?: string;
+  height?: string;
+  style?: React.CSSProperties;
+}): JSX.Element {
   return (
     <svg
+      style={props.style}
       xmlns="http://www.w3.org/2000/svg"
       width={props.width}
       height={props.height}
