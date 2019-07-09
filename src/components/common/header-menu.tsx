@@ -24,7 +24,11 @@ export function HeaderMenu(): JSX.Element {
           activeClassName="active"
           to="/user"
         >
-          <Logo style={{ margin: '0 0.5rem' }} width="1rem" height="1rem" />
+          <Logo
+            style={{ margin: '0 0.5rem', width: '1rem', height: '1rem' }}
+            width="1rem"
+            height="1rem"
+          />
           <FormattedMessage id="TALLY_HEADER" />
         </NavLink>
         <NavLink style={navLinkStyle} activeClassName="active" to="/articles">
