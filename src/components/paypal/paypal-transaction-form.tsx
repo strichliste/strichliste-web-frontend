@@ -24,6 +24,7 @@ interface Props {
 
 // eslint-disable-next-line react/display-name
 export const PayPalTransactionForm = React.memo((props: Props) => {
+  const formRef = React.useRef<HTMLFormElement | null>(null);
   const settings = useSettings();
   const [value, setValue] = React.useState(0);
   const isValid = useTransactionValidator(value, props.userId);
@@ -36,10 +37,18 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
   const returnCancelUrl = window.location.href;
   const fee = numberAmount * (settings.paypal.fee / 100) || null;
   const amount = fee ? numberAmount + fee : numberAmount;
+
+  const submit = () => {
+    const { current } = formRef;
+    if (current) {
+      current.submit();
+    }
+  };
+
   return (
     <>
       <Wrapper>
-        <form action={BASE_URL} method="post">
+        <form ref={formRef} action={BASE_URL} method="post">
           <CurrencyInput autoFocus value={value} onChange={setValue} />
           <input type="hidden" name="cmd" value="_xclick" />
           <input
@@ -63,7 +72,7 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
             name="currency_code"
             value={settings.i18n.currency.alpha3}
           />
-          <AcceptButton disabled={!isValid} />
+          <AcceptButton onClick={submit} disabled={!isValid} />
         </form>
       </Wrapper>
       {fee && (
