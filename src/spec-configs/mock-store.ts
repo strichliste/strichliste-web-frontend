@@ -14,7 +14,7 @@ export type MockStore = Omit<OriginalMockStore<PartialAppState>, 'dispatch'> & {
 export const getMockStore = (...states: PartialAppState[]): MockStore => {
   const action = {};
   const initialState = reducer(undefined, action as Action);
-  return createMockStore([])(merge(initialState, ...states));
+  return createMockStore<PartialAppState>([])(merge(initialState, ...states));
 };
 
 export interface MockStoreProps {
