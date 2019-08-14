@@ -21,7 +21,7 @@ export function renderWithContext(
     <ThemeProvider themes={themeConfig}>
       <StoreContext.Provider value={store}>
         <Router history={history}>
-          <IntlProvider>{ui}</IntlProvider>
+          <IntlProvider locale="en">{ui}</IntlProvider>
         </Router>
       </StoreContext.Provider>
     </ThemeProvider>
@@ -39,7 +39,9 @@ export function renderAndReturnContext(
       <ThemeProvider themes={themeConfig}>
         <StoreContext.Provider value={store}>
           <Router history={history}>
-            <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
+            <IntlProvider locale="en" textComponent={React.Fragment}>
+              {ui}
+            </IntlProvider>
           </Router>
         </StoreContext.Provider>
       </ThemeProvider>
@@ -52,7 +54,9 @@ export function renderAndReturnContext(
 export function renderWithIntl(ui: JSX.Element) {
   return render(
     <ThemeProvider themes={themeConfig}>
-      <IntlProvider textComponent={React.Fragment}>{ui}</IntlProvider>
+      <IntlProvider locale="en" textComponent={React.Fragment}>
+        {ui}
+      </IntlProvider>
     </ThemeProvider>
   );
 }
