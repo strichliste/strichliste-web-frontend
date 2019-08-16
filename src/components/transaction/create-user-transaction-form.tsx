@@ -8,7 +8,7 @@ import {
   withTheme,
 } from 'bricks-of-sand';
 import * as React from 'react';
-import { FormattedMessage, InjectedIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { User, startCreatingTransaction } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
@@ -52,7 +52,8 @@ interface State {
   comment: string;
 }
 
-type Props = RouteComponentProps<{ id: string }> & { intl: InjectedIntl };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Props = RouteComponentProps<{ id: string }> & { intl: any };
 
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;

@@ -26,7 +26,6 @@ import { useScalingState } from './components/settings/scaling-buttons';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
-import { InjectIntlContext } from './hooks/intl';
 import { MetricsView } from './components/metrics';
 
 const newLight: Theme = {
@@ -95,11 +94,9 @@ class App extends React.Component {
             locale="en"
             messages={en}
           >
-            <InjectIntlContext>
-              <HashRouter hashType="hashbang">
-                <Layout />
-              </HashRouter>
-            </InjectIntlContext>
+            <HashRouter hashType="hashbang">
+              <Layout />
+            </HashRouter>
           </IntlProvider>
         </StoreContext.Provider>
       </ThemeProvider>
