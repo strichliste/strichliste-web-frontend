@@ -34,3 +34,7 @@ export function ArticleRouter(): JSX.Element {
     </>
   );
 }
+
+export const getArticleFormRoute = (id: string | number) => {
+  return `/articles/${id}/edit`;
+};
