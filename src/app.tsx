@@ -27,6 +27,7 @@ import { useScalingState } from './components/settings/scaling-buttons';
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
 import { MetricsView } from './components/metrics';
+import { WrappedIdleTimer } from './components/common/idle-timer';
 
 const newLight: Theme = {
   ...light,
@@ -72,10 +73,42 @@ const Layout = () => {
       <HeaderMenu />
       <Switch>
         <Route path="/user" component={UserRouter} />
-        <Route path="/articles" component={ArticleRouter} />
-        <Route path="/split-invoice" component={SplitInvoiceForm} />
-        <Route path="/metrics" component={MetricsView} />
-        <Route path="/search-results" component={SearchResults} />
+        <Route
+          path="/articles"
+          render={() => (
+            <>
+              <WrappedIdleTimer />
+              <ArticleRouter />
+            </>
+          )}
+        />
+        <Route
+          path="/split-invoice"
+          render={() => (
+            <>
+              <WrappedIdleTimer />
+              <SplitInvoiceForm />
+            </>
+          )}
+        />
+        <Route
+          path="/metrics"
+          render={() => (
+            <>
+              <WrappedIdleTimer />
+              <MetricsView />
+            </>
+          )}
+        />
+        <Route
+          path="/search-results"
+          render={props => (
+            <>
+              <WrappedIdleTimer />
+              <SearchResults {...props} />
+            </>
+          )}
+        />
         <Redirect from="/" to="/user/active" />
       </Switch>
       <MainFooter />
