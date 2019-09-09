@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { AcceptButton, Block, CancelButton, Flex, Input } from 'bricks-of-sand';
+import { Block, CancelButton, Flex, Input } from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
 import { useUser } from '../../store';
 import { startUpdateUser } from '../../store/reducers';
+import { AcceptButton } from '../../components/ui/button';
 
 interface Props {
   userId: string;
@@ -89,7 +90,7 @@ export const UserEditForm = (props: Props) => {
             </label>
             <div>
               <CancelButton margin="0 1rem" onClick={props.onCancel} />
-              <AcceptButton />
+              <AcceptButton type="submit" />
             </div>
           </Flex>
           {isDisabled && <FormattedMessage id="USER_EDIT_ACTIVE_WARNING" />}
