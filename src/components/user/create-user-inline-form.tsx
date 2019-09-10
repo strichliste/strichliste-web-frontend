@@ -9,7 +9,7 @@ import {
   styled,
   withTheme,
 } from 'bricks-of-sand';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useDispatch } from 'redux-react-hook';
 
@@ -73,6 +73,7 @@ export const CreateUserInlineForm = ({
 }: Props & RouteComponentProps) => {
   const [name, setName] = React.useState('');
   const dispatch = useDispatch();
+  const intl = useIntl();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -96,7 +97,10 @@ export const CreateUserInlineForm = ({
   };
 
   return (
-    <Trigger isActive={isActive}>
+    <Trigger
+      title={intl.formatMessage({ id: 'USER_CREATE_NAME_LABEL' })}
+      isActive={isActive}
+    >
       <RedBlackButton isActive={isActive} onClick={toggle} isRound>
         <AddIcon />
       </RedBlackButton>
@@ -109,26 +113,23 @@ export const CreateUserInlineForm = ({
           level="level3"
         >
           <form onSubmit={submit}>
-            <FormattedMessage
-              id="USER_CREATE_NAME_LABEL"
-              children={text => (
-                <Flex>
-                  <Input
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    placeholder={text as string}
-                    type="text"
-                    required
-                    minLength={1}
-                    maxLength={64}
-                    autoFocus={true}
-                  />
-                  <PrimaryButton type="submit" isRound>
-                    <EditIcon />
-                  </PrimaryButton>
-                </Flex>
-              )}
-            />
+            <Flex>
+              <Input
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder={intl.formatMessage({
+                  id: 'USER_CREATE_NAME_LABEL',
+                })}
+                type="text"
+                required
+                minLength={1}
+                maxLength={64}
+                autoFocus={true}
+              />
+              <PrimaryButton type="submit" isRound>
+                <EditIcon />
+              </PrimaryButton>
+            </Flex>
           </form>
         </Card>
       )}
