@@ -7,7 +7,7 @@ import {
   Icon,
 } from 'bricks-of-sand';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
 import { useSettings } from '../../store';
 import { User } from '../../store/reducers';
@@ -18,6 +18,7 @@ import { TransactionIcon } from '../ui/icons/transactions';
 import { UserName } from '../user/user-name';
 import { UserDetailRouter } from './user-details-router';
 import { ScrollContainer } from '../common/scroll-container/scroll-container';
+import { en } from '../../locales/en';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const LinkTab: any = styled(Tab(NavLink))({
@@ -66,12 +67,14 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
   const currentUrl = location.pathname;
   const userUrl = `/user/${user.id}`;
   const settings = useSettings();
+  const intl = useIntl();
+
   return (
     <UserHeader>
       <h1>
         <UserName center name={user.name} />
       </h1>
-      <h1>
+      <h1 title={intl.formatMessage({ id: en.BALANCE_TITLE })}>
         <AlertText value={user.balance}>
           <Currency value={user.balance} />
         </AlertText>

@@ -1,4 +1,5 @@
 export const en = {
+  BALANCE_TITLE: 'Balance',
   ARTICLE_HEADLINE: 'Articles',
   ARTICLE_LINK: 'Article List',
   ARTICLE_ADD_LINK: 'add new articles',
