@@ -1,4 +1,7 @@
 export const en = {
+  BALANCE_DISPENSE: 'dispense',
+  BALANCE_PLACEHOLDER: 'CUSTOM AMOUNT',
+  BALANCE_DEPOSIT: 'deposit',
   BALANCE_TITLE: 'Balance',
   ARTICLE_HEADLINE: 'Articles',
   ARTICLE_LINK: 'Article List',
