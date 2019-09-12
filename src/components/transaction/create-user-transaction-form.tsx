@@ -164,9 +164,18 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 userId={this.props.match.params.id}
                 targetUserId={this.state.selectedUser.id}
                 render={isValid => (
-                  <PrimaryButton isRound disabled={!isValid} type="submit">
-                    <AcceptIcon />
-                  </PrimaryButton>
+                  <FormattedMessage id="USER_TRANSACTION_CREATE_SUBMIT_TITLE">
+                    {text => (
+                      <PrimaryButton
+                        title={text as string}
+                        isRound
+                        disabled={!isValid}
+                        type="submit"
+                      >
+                        <AcceptIcon />
+                      </PrimaryButton>
+                    )}
+                  </FormattedMessage>
                 )}
               />
             </ResponsiveGrid>

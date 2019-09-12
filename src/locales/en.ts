@@ -46,6 +46,8 @@ export const en = {
   USER_TRANSACTIONS_TABLE_LOAD_NEXT_ROWS: 'more',
   USER_TRANSACTIONS_RECIPIENT: 'recipient',
   USER_TRANSACTION_CREATE: 'Send money to a friend',
+  USER_TRANSACTION_CREATE_SUBMIT_TITLE:
+    'Submit to send this amount to a friend',
   USER_TRANSACTION_CREATE_LINK: 'Send money',
   USER_TRANSACTION_CREATE_CUSTOM_HEADLINE: 'Custom transaction',
   USER_TRANSACTION_CREATE_CUSTOM_DEPOSIT_BUTTON: 'Charge wallet',
