@@ -267,10 +267,7 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
         <WrappedIdleTimer />
         <TextCenter margin="3rem">
           <h1>
-            <FormattedMessage
-              id="SPLIT_INVOICE_HEADLINE"
-              defaultMessage="Split Invoice"
-            />
+            <FormattedMessage id="SPLIT_INVOICE_HEADLINE" />
           </h1>
         </TextCenter>
 
@@ -354,13 +351,18 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
                   </>
                 )}
               </P>
-              <PrimaryButton
-                isRound
-                onClick={this.submitSplitInvoice}
-                disabled={!this.submitIsValid()}
-              >
-                <AcceptIcon />
-              </PrimaryButton>
+              <FormattedMessage id="SPLIT_INVOICE_SUBMIT">
+                {text => (
+                  <PrimaryButton
+                    title={text as string}
+                    isRound
+                    onClick={this.submitSplitInvoice}
+                    disabled={!this.submitIsValid()}
+                  >
+                    <AcceptIcon />
+                  </PrimaryButton>
+                )}
+              </FormattedMessage>
             </NotificationContainer>
           </>
         )}

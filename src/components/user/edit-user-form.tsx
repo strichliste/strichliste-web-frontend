@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Block, CancelButton, Flex, Input } from 'bricks-of-sand';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
 import { useUser } from '../../store';
 import { startUpdateUser } from '../../store/reducers';
@@ -15,6 +15,7 @@ interface Props {
 }
 
 export const UserEditForm = (props: Props) => {
+  const intl = useIntl();
   const [name, setName] = React.useState(''),
     [email, setEmail] = React.useState(''),
     [isDisabled, setDisabled] = React.useState(false),
@@ -90,7 +91,11 @@ export const UserEditForm = (props: Props) => {
             </label>
             <div>
               <CancelButton margin="0 1rem" onClick={props.onCancel} />
-              <AcceptButton type="submit" />
+
+              <AcceptButton
+                type="submit"
+                title={intl.formatMessage({ id: 'USER_EDIT_TRIGGER' })}
+              />
             </div>
           </Flex>
           {isDisabled && <FormattedMessage id="USER_EDIT_ACTIVE_WARNING" />}

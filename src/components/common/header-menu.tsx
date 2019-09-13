@@ -40,10 +40,7 @@ export function HeaderMenu(): JSX.Element {
             activeClassName="active"
             to="/split-invoice"
           >
-            <FormattedMessage
-              id="SPLIT_INVOICE_LINK"
-              defaultMessage="Split Invoice"
-            />
+            <FormattedMessage id="SPLIT_INVOICE_LINK" />
           </NavLink>
         )}
         <NavLink activeClassName="active" to="/metrics">

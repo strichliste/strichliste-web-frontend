@@ -80,4 +80,7 @@ export const en = {
   METRICS_HEADLINE: 'Metrics',
   ARTICLE_ACTIVE_HEADLINE: 'Active Articles',
   ARTICLE_INACTIVE_HEADLINE: 'Inactive Articles',
+  SPLIT_INVOICE_LINK: 'Split Invoice',
+  SPLIT_INVOICE_HEADLINE: 'Split Invoice',
+  SPLIT_INVOICE_SUBMIT: 'submit the split invoice',
 };

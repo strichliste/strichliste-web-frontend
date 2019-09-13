@@ -2,8 +2,9 @@ import React from 'react';
 import { withTheme, Button, AcceptIcon } from 'bricks-of-sand';
 
 export const AcceptButton = withTheme(
-  ({ theme, margin, onClick, disabled, type = 'button' }: any) => (
+  ({ theme, margin, onClick, disabled, type = 'button', title }: any) => (
     <Button
+      title={title}
       disabled={disabled}
       type={type}
       onClick={onClick}
