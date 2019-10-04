@@ -1,0 +1,62 @@
+html {
+  --base: 16px;
+  --borderRadius: 4px;
+  --buttonDisabled: #bababa;
+  --border: #e5e6e5;
+  --componentBackgroundDark: #fff;
+  --componentBackgroundLight: #fff;
+  --green: #63c658;
+  --greenHover: #b3e5bb;
+  --greenLight: #cfe9d1;
+  --greenText: #63c658;
+  --mainBackground: #f2f3f2;
+  --primary: #28333d;
+  --red: #d16069;
+  --redHover: #f3b4bb;
+  --redLight: #ffdce0;
+  --redText: #d16069;
+  --text: #343434;
+  --textSubtile: #bababa;
+  --headerBackground: #fff;
+  --buttonCancelFont: #ffedf0;
+  --buttonCancelBackground: #e86c76;
+  --buttonHighlightFont: #e8eaeb;
+  --buttonHighlightBackground: #213440;
+  --buttonGreenBackground: #cbf5d7;
+  --buttonGreenFont: #00cc1d;
+  --buttonRedBackground: #ffdce0;
+  --buttonRedFont: #f54963;
+  --buttonDefaultBackground: #fff;
+  --buttonDefaultFont: #58697d;
+}
+
+html[data-theme='dark'] {
+  --border: #59687c;
+  --componentBackgroundDark: #1d2832;
+  --componentBackgroundLight: #2e3d4d;
+  --green: #c2ffcd;
+  --greenHover: #1e4b3d;
+  --greenLight: #2b584a;
+  --greenText: #c2ffcd;
+  --hover: #47525a;
+  --mainBackground: #25333f;
+  --primary: #fff;
+  --red: #ffbac2;
+  --redHover: #443444;
+  --redLight: #514151;
+  --redText: #ffbac2;
+  --text: #fdfdfd;
+  --textSubtile: #59687c;
+  --headerBackground: #1d2832;
+  --buttonCancelFont: #ffedf0;
+  --buttonCancelBackground: #f54963;
+  --buttonHighlightFont: #353535;
+  --buttonHighlightBackground: #f2f3f2;
+  --buttonGreenBackground: #155949;
+  --buttonGreenFont: #00cc1d;
+  --buttonRedBackground: #544052;
+  --buttonRedFont: #f54963;
+  --buttonDefaultBackground: #2a3e4f;
+  --buttonDefaultFont: #eaebed;
+  --defaultFillColor: #e9ebec;
+}
