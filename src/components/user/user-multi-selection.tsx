@@ -19,8 +19,8 @@ export function UserMultiSelection({
   const users = useUserState();
 
   return (
+    //@ts-ignore
     <MultiSelectionBox
-      //@ts-ignore
       excludeIds={[excludeUserId]}
       errorMessageMap={validation}
       //@ts-ignore
