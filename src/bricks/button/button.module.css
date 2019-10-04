@@ -1,0 +1,5 @@
+@import '../theme/light/light.css';
+
+.button {
+  background: var(--background);
+}
