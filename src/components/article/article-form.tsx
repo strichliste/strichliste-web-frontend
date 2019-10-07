@@ -2,7 +2,6 @@ import {
   AcceptIcon,
   AddIcon,
   Block,
-  Card,
   ClickOutside,
   Column,
   Ellipsis,
@@ -27,6 +26,7 @@ import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
 import { useArticleValidator } from './validator';
 import { Trash } from '../ui/icons/trash';
+import { Card } from '../../bricks';
 
 interface ButtonProps {
   isVisible: boolean;
@@ -175,7 +175,7 @@ export const ArticleForm: React.FC<Props> = props => {
         />
         <Column margin="0 0 0 1rem" flex="1">
           {toggle && (
-            <Card padding="0.5rem" level={'level3'}>
+            <Card padding="0.5rem" level="level3">
               <ArticleFormGrid
                 justifyContent="space-between"
                 alignItems="center"

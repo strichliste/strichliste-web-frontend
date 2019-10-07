@@ -1,11 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { Block, Card, ResponsiveGrid, styled, Separator } from 'bricks-of-sand';
+import { Block, ResponsiveGrid, styled, Separator } from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
 
 import { Currency } from '../../currency';
 import { UserRouteProps } from '../../user/user-router';
 import { ArticleMetric, useMetrics } from './resource';
+import { Card } from '../../../bricks';
 
 type Props = UserRouteProps;
 

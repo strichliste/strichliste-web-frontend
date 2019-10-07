@@ -15,6 +15,8 @@ interface CardProps {
   background?: string;
   color?: string;
   level?: ShadowKeys;
+  error?: boolean;
+  style?: React.CSSProperties;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -26,10 +28,14 @@ export const Card: React.FC<CardProps> = ({
   margin,
   padding,
   level,
+  error,
+  style,
 }) => {
   return (
     <div
-      className={classnames(styles.card, className)}
+      className={classnames(styles.card, className, {
+        [styles.error]: error,
+      })}
       style={{
         height,
         width,
@@ -37,6 +43,7 @@ export const Card: React.FC<CardProps> = ({
         padding,
         color,
         boxShadow: level ? `var(--${level})` : undefined,
+        ...style,
       }}
     >
       {children}

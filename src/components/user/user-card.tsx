@@ -1,9 +1,12 @@
-import { AlertText, Card } from 'bricks-of-sand';
+import { AlertText } from 'bricks-of-sand';
 import * as React from 'react';
 
 import { useUser } from '../../store';
 import { Currency } from '../currency';
 import { UserName } from './user-name';
+import { Card } from '../../bricks';
+
+import styles from './user-card.module.css';
 
 interface Props {
   id: string;
@@ -16,13 +19,7 @@ export function UserCard({ id }: Props): JSX.Element | null {
   }
 
   return (
-    <Card
-      flex
-      justifyContent="space-between"
-      flexDirection="column"
-      hover="level3"
-      height="6rem"
-    >
+    <Card className={styles.userCard}>
       <UserName name={user.name} />
       <AlertText value={user.balance}>
         <Currency value={user.balance} />

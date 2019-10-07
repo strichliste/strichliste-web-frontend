@@ -11,10 +11,11 @@ import {
   ComposedChart,
   Bar,
 } from 'recharts';
-import { Separator, Card, ResponsiveGrid, AlertText } from 'bricks-of-sand';
+import { Separator, ResponsiveGrid, AlertText } from 'bricks-of-sand';
 
 import { useMetrics } from './resource';
 import { Currency } from '../currency';
+import { Card } from '../../bricks';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FixedTooltip: any = Tooltip;

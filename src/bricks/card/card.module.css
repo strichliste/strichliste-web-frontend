@@ -4,3 +4,8 @@
   color: var(--primary);
   padding: 1rem;
 }
+
+.error {
+  background: var(--buttonRedBackground);
+  color: var(--buttonRedFont);
+}

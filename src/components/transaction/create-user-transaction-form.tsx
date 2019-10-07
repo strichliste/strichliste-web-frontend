@@ -1,6 +1,5 @@
 import {
   AcceptIcon,
-  Card,
   Input,
   PrimaryButton,
   ResponsiveGrid,
@@ -17,6 +16,7 @@ import { UserName } from '../user/user-name';
 import { TransactionUndoButton } from './transaction-undo-button';
 import { UserToUserValidator } from './user-to-user-validator';
 import { store } from '../../store';
+import { Card } from '../../bricks';
 
 export const AcceptWrapper = withTheme(
   styled('div')({}, props => ({
@@ -103,7 +103,14 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   public render(): JSX.Element {
     if (this.state.hasSelectionReady) {
       return (
-        <Card width="100%" margin="1rem 0" flex justifyContent="space-between">
+        <Card
+          margin="1rem 0"
+          style={{
+            justifyContent: 'space-between',
+            display: 'flex',
+            width: '100%',
+          }}
+        >
           <AcceptWrapper>
             <AcceptIcon />
             <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_SUCCESS" />{' '}

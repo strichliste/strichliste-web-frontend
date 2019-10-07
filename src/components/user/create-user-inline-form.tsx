@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import {
   Button,
-  Card,
   Flex,
   Input,
   PrimaryButton,
@@ -16,6 +15,7 @@ import { useDispatch } from 'redux-react-hook';
 import { startCreatingUser } from '../../store/reducers';
 import { AddIcon } from '../ui/icons/add';
 import { EditIcon } from '../ui/icons/edit';
+import { Card } from '../../bricks';
 
 interface Props {
   isActive: boolean;
@@ -106,9 +106,8 @@ export const CreateUserInlineForm = ({
       </RedBlackButton>
       {isActive && (
         <Card
-          flex
+          style={{ display: 'fex', alignItems: 'center' }}
           height="6rem"
-          alignItems="center"
           margin="0 0 0 1rem"
           level="level3"
         >
