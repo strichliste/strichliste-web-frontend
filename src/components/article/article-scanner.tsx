@@ -1,4 +1,3 @@
-import { AcceptIcon, Flex } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -11,6 +10,7 @@ import { Toast } from '../common/toast';
 import { Currency } from '../currency';
 import { AcceptWrapper } from '../transaction/create-user-transaction-form';
 import { useDispatch } from 'redux-react-hook';
+import { Flex, AcceptIcon } from '../../bricks';
 
 interface Props {
   userId: string;
