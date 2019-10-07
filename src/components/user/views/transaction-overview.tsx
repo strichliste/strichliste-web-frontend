@@ -1,4 +1,3 @@
-import { Block } from 'bricks-of-sand';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { TransactionTable } from '../../transaction/transaction-table';
@@ -14,7 +13,7 @@ export function TransactionOverview(
 ): JSX.Element {
   const { id, page } = props.match.params;
   return (
-    <Block margin="1rem">
+    <div style={{ margin: '1rem' }}>
       <ScrollToTop />
 
       <TransactionTable
@@ -22,6 +21,6 @@ export function TransactionOverview(
         page={Number(page)}
         userId={id}
       />
-    </Block>
+    </div>
   );
 }
