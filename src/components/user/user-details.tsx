@@ -1,4 +1,3 @@
-import { Button, Flex } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from 'react-router';
@@ -19,6 +18,7 @@ import { ScrollToTop } from '../common/scroll-to-top';
 
 // @ts-ignore
 import styles from './user-details.module.css';
+import { Button, Flex } from '../../bricks';
 
 type UserDetailsProps = RouteComponentProps<{ id: string }>;
 export const UserDetails = (props: UserDetailsProps) => {
