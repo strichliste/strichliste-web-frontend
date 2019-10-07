@@ -1,4 +1,3 @@
-import { Block } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
@@ -17,7 +16,7 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
   }, [dispatch]);
 
   return (
-    <Block margin="1.5rem 1rem">
+    <div style={{ margin: '1.5rem 1rem' }}>
       <ArticleForm onCreated={() => ''}>
         <NavTabMenus
           margin="0.5rem 0"
@@ -44,6 +43,6 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
         )}
         pageSize={10}
       />
-    </Block>
+    </div>
   );
 };
