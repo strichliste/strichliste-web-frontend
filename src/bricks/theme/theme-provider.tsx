@@ -25,15 +25,18 @@ const setStoredTheme = (theme: Themes) =>
 
 export const ThemeProvider: React.FC = ({ children }) => {
   const [theme, setTheme] = React.useState<Themes>(getStoredTheme());
-  const toggleTheme = () => {
-    const nextTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(nextTheme);
-    setStoredTheme(nextTheme);
-    if (nextTheme === 'light') {
+
+  React.useEffect(() => {
+    if (theme === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
     } else {
       document.documentElement.setAttribute('data-theme', 'light');
     }
+    setStoredTheme(theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   return (
