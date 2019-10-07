@@ -1,17 +1,8 @@
-import { Ellipsis, styled } from 'bricks-of-sand';
 import * as React from 'react';
+import { Ellipsis } from '../../bricks';
+import classnames from 'classnames';
 
-const Wrapper = styled('div')<{ width?: string; center?: boolean }>(
-  {
-    maxWidth: '100%',
-    display: 'inline-flex',
-  },
-  props => ({
-    width: props.width || '320px',
-    alignContent: props.center ? 'center' : '',
-    justifyContent: props.center ? 'center' : '',
-  })
-);
+import styles from './user-name.module.css';
 
 export interface UserNameProps {
   name: string;
@@ -19,10 +10,17 @@ export interface UserNameProps {
   center?: boolean;
 }
 
-export function UserName(props: UserNameProps): JSX.Element {
+export function UserName({
+  name,
+  width = '320px',
+  center,
+}: UserNameProps): JSX.Element {
   return (
-    <Wrapper center={props.center} width={props.width}>
-      <Ellipsis>{props.name}</Ellipsis>
-    </Wrapper>
+    <div
+      className={classnames(styles.wrapper, { [styles.center]: center })}
+      style={{ maxWidth: width }}
+    >
+      <Ellipsis>{name}</Ellipsis>
+    </div>
   );
 }

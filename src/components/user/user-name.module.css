@@ -1,0 +1,8 @@
+.center {
+  align-content: center;
+  justify-content: center;
+}
+.wrapper {
+  display: inline-flex;
+  max-width: 100%;
+}
