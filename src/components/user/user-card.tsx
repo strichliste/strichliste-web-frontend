@@ -1,10 +1,9 @@
-import { AlertText } from 'bricks-of-sand';
 import * as React from 'react';
 
 import { useUser } from '../../store';
 import { Currency } from '../currency';
 import { UserName } from './user-name';
-import { Card } from '../../bricks';
+import { Card, AlertText } from '../../bricks';
 
 import styles from './user-card.module.css';
 
