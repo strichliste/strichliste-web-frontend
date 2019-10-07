@@ -1,5 +1,36 @@
-@import '../theme/light/light.css';
-
 .button {
   background: var(--background);
+  align-items: center;
+  display: inline-flex;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  border-radius: var(--borderRadius);
+}
+
+.button:disabled {
+  background: transparent;
+  border-color: var(--buttonDisabled);
+  color: var(--buttonDisabled);
+}
+
+.primary {
+  background: var(--componentBackgroundLight);
+}
+.green {
+  background: var(--buttonGreenBackground);
+  color: var(--buttonGreenFont);
+}
+.red {
+  background: var(--buttonRedBackground);
+  color: var(--buttonRedFont);
+}
+.highlight {
+  background: var(--buttonHighlightBackground);
+  color: var(--buttonHighlightFont);
+}
+.fab {
+  border-radius: 100%;
+  width: 3rem;
+  height: 3rem;
 }
