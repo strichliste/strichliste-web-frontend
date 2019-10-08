@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { DayModeIcon } from './dayMode';
 import { NightModeIcon } from './nightMode';
+import { Button } from '..';
 
 import './theme.css';
 
@@ -49,8 +50,8 @@ export const ThemeProvider: React.FC = ({ children }) => {
 export const ThemeSwitcher: React.FC = props => {
   const { toggleTheme, theme } = React.useContext(ThemeContext);
   return (
-    <button onClick={toggleTheme} {...props}>
+    <Button onClick={toggleTheme} {...props}>
       {theme === 'light' ? <DayModeIcon /> : <NightModeIcon />}
-    </button>
+    </Button>
   );
 };
