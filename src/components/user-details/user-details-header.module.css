@@ -1,0 +1,17 @@
+.header h2,
+.header h3 {
+  text-transform: none;
+  font-size: 2rem;
+  text-align: center;
+  margin: 1rem auto;
+}
+
+.wrapper {
+  margin: 0 auto;
+}
+
+@media (min-width: 48em) {
+  .wrapper {
+    width: 29rem;
+  }
+}

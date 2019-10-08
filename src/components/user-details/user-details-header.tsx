@@ -13,6 +13,8 @@ import { ScrollContainer } from '../common/scroll-container/scroll-container';
 import { en } from '../../locales/en';
 import { Tab, AlertText, PayPal } from '../../bricks';
 
+import styles from './user-details-header.module.css';
+
 const toggleTab = (
   url: string,
   currentUrl: string,
@@ -32,54 +34,59 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
   const intl = useIntl();
 
   return (
-    <div>
-      <h1>
-        <UserName center name={user.name} />
-      </h1>
-      <h1 title={intl.formatMessage({ id: en.BALANCE_TITLE })}>
-        <AlertText value={user.balance}>
-          <Currency value={user.balance} />
-        </AlertText>
-      </h1>
-
-      <ScrollContainer style={{ justifyContent: 'space-between' }}>
-        <Tab
-          activeClassName="active"
-          to={toggleTab(
-            `/user/${user.id}/send_money_to_a_friend`,
-            currentUrl,
-            userUrl
+    <>
+      <div className={styles.header}>
+        <h2>
+          <UserName center name={user.name} />
+        </h2>
+        <h3 title={intl.formatMessage({ id: en.BALANCE_TITLE })}>
+          <AlertText value={user.balance}>
+            <Currency value={user.balance} />
+          </AlertText>
+        </h3>
+      </div>
+      <div className={styles.wrapper}>
+        <ScrollContainer
+          style={{ justifyContent: 'space-between', marginBottom: '1rem' }}
+        >
+          <Tab
+            activeClassName="active"
+            to={toggleTab(
+              `/user/${user.id}/send_money_to_a_friend`,
+              currentUrl,
+              userUrl
+            )}
+          >
+            <TransactionIcon />{' '}
+            <FormattedMessage id="USER_TRANSACTION_CREATE_LINK" />
+          </Tab>
+          {settings.article.enabled && (
+            <Tab
+              activeClassName="active"
+              to={toggleTab(`/user/${user.id}/article`, currentUrl, userUrl)}
+            >
+              <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
+            </Tab>
           )}
-        >
-          <TransactionIcon />{' '}
-          <FormattedMessage id="USER_TRANSACTION_CREATE_LINK" />
-        </Tab>
-        {settings.article.enabled && (
           <Tab
             activeClassName="active"
-            to={toggleTab(`/user/${user.id}/article`, currentUrl, userUrl)}
+            to={toggleTab(`/user/${user.id}/edit`, currentUrl, userUrl)}
           >
-            <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
+            <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
           </Tab>
-        )}
-        <Tab
-          activeClassName="active"
-          to={toggleTab(`/user/${user.id}/edit`, currentUrl, userUrl)}
-        >
-          <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
-        </Tab>
-        {settings.paypal.enabled && (
-          <Tab
-            activeClassName="active"
-            to={toggleTab(`/user/${user.id}/paypal`, currentUrl, userUrl)}
-          >
-            <PayPal />
-            <FormattedMessage id="PAYPAL_LINK" defaultMessage="Paypal" />
-          </Tab>
-        )}
-      </ScrollContainer>
-      <UserDetailRouter />
-    </div>
+          {settings.paypal.enabled && (
+            <Tab
+              activeClassName="active"
+              to={toggleTab(`/user/${user.id}/paypal`, currentUrl, userUrl)}
+            >
+              <PayPal />
+              <FormattedMessage id="PAYPAL_LINK" defaultMessage="Paypal" />
+            </Tab>
+          )}
+        </ScrollContainer>
+        <UserDetailRouter />
+      </div>
+    </>
   );
 };
 
