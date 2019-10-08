@@ -11,6 +11,8 @@
 }
 
 .button svg {
+  max-width: 1rem;
+  max-height: 1rem;
   fill: var(--buttonDefaultFont);
 }
 
@@ -81,4 +83,9 @@
   text-transform: uppercase;
   color: var(--buttonDefaultFont) !important;
   font-size: 0.8rem;
+}
+
+.tab svg {
+  fill: var(--buttonDefaultFont);
+  margin-right: 0.5rem;
 }
