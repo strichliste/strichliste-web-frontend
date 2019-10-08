@@ -19,15 +19,13 @@ import { useScalingState } from './components/settings/scaling-buttons';
 import 'inter-ui';
 import { MetricsView } from './components/metrics';
 import { WrappedIdleTimer } from './components/common/idle-timer';
-import { ThemeProvider, ThemeSwitcher, Card } from './bricks';
+import { ThemeProvider } from './bricks';
 
 const Layout = () => {
   const dispatch = useDispatch();
   React.useEffect(() => {
     startLoadingSettings(dispatch);
   }, [dispatch]);
-
-  const { scaling } = useScalingState();
 
   return (
     <>
@@ -73,14 +71,7 @@ const Layout = () => {
         />
         <Redirect from="/" to="/user/active" />
       </Switch>
-      <div>
-        SWITCHER
-        <Card level="level3" padding="2rem" margin="2rem">
-          This is a test
-        </Card>
-        <ThemeSwitcher />
-        <MainFooter />
-      </div>
+      <MainFooter />
     </>
   );
 };
