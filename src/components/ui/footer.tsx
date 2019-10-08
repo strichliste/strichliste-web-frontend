@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { GitHubIcon } from '../ui/icons/git-hub';
 
+import styles from './footer.module.css';
+
 export function MainFooter(): JSX.Element {
   return (
-    <footer>
+    <footer className={styles.footer}>
       <div>
         strichliste-web (MIT License, by{' '}
         <a
