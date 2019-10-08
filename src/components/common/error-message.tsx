@@ -1,4 +1,3 @@
-import { FixedContainer } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useGlobalError } from '../../store';
@@ -22,10 +21,10 @@ export function ErrorMessage() {
   }
 
   return (
-    <FixedContainer bottom={0}>
+    <div style={{ position: 'fixed', bottom: 0, width: '100%' }}>
       <Toast type="error" fadeOutSeconds={5}>
         <FormattedMessage id={id} />
       </Toast>
-    </FixedContainer>
+    </div>
   );
 }

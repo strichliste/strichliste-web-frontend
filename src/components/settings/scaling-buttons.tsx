@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocalStorage } from '../../hooks/use-storage';
-import { TextButton, SearchMinus, SearchPlus, Icon } from 'bricks-of-sand';
+import { Button, SearchMinus, SearchPlus } from '../../bricks';
 
 export const useScalingState = () => {
   const [scaling, setScaling] = useLocalStorage('scaling', 0);
@@ -25,17 +25,13 @@ export const ScalingButtons = () => {
 
   return (
     <>
-      <TextButton onClick={decrement}>
-        <Icon width="1rem" height="1rem">
-          <SearchMinus />
-        </Icon>
-      </TextButton>
+      <Button onClick={decrement}>
+        <SearchMinus />
+      </Button>
 
-      <TextButton onClick={increment}>
-        <Icon width="1rem" height="1rem">
-          <SearchPlus />
-        </Icon>
-      </TextButton>
+      <Button onClick={increment}>
+        <SearchPlus />
+      </Button>
     </>
   );
 };

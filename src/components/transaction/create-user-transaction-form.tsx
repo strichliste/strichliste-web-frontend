@@ -1,11 +1,3 @@
-import {
-  AcceptIcon,
-  Input,
-  PrimaryButton,
-  ResponsiveGrid,
-  styled,
-  withTheme,
-} from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -16,16 +8,7 @@ import { UserName } from '../user/user-name';
 import { TransactionUndoButton } from './transaction-undo-button';
 import { UserToUserValidator } from './user-to-user-validator';
 import { store } from '../../store';
-import { Card } from '../../bricks';
-
-export const AcceptWrapper = withTheme(
-  styled('div')({}, props => ({
-    svg: {
-      marginRight: '2rem',
-      fill: props.theme.green,
-    },
-  }))
-);
+import { Card, AcceptIcon, AcceptButton, Input } from '../../bricks';
 
 const initialState = {
   selectedAmount: 0,
@@ -111,13 +94,13 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
             width: '100%',
           }}
         >
-          <AcceptWrapper>
+          <div>
             <AcceptIcon />
             <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_SUCCESS" />{' '}
             <UserName width="120px" name={this.state.selectedUser.name} />
             &#8594;
             <Currency value={this.state.selectedAmount} />
-          </AcceptWrapper>
+          </div>
           <TransactionUndoButton
             onSuccess={() =>
               this.setState({
@@ -133,12 +116,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
       return (
         <>
           <form onSubmit={this.handleSubmit}>
-            <ResponsiveGrid
-              margin="1rem 0"
-              gridGap="1rem"
-              alignItems="center"
-              tabletColumns="4fr 1fr 4fr 1fr"
-            >
+            <div>
               <FormattedMessage
                 defaultMessage="Amount"
                 id="USER_TRANSACTION_FROM_AMOUNT_LABEL"
@@ -173,19 +151,16 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 render={isValid => (
                   <FormattedMessage id="USER_TRANSACTION_CREATE_SUBMIT_TITLE">
                     {text => (
-                      <PrimaryButton
-                        title={text as string}
-                        isRound
-                        disabled={!isValid}
+                      <AcceptButton
                         type="submit"
-                      >
-                        <AcceptIcon />
-                      </PrimaryButton>
+                        disabled={!isValid}
+                        title={text as string}
+                      />
                     )}
                   </FormattedMessage>
                 )}
               />
-            </ResponsiveGrid>
+            </div>
             <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_COMMENT">
               {text => (
                 <Input

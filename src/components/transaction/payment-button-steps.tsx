@@ -1,6 +1,6 @@
-import { ResponsiveGrid } from 'bricks-of-sand';
 import * as React from 'react';
 import { TransactionButton } from './transaction-button';
+import { Grid_3 } from '../../bricks';
 
 export interface PaymentButtonListProps {
   steps: number[];
@@ -11,7 +11,7 @@ export interface PaymentButtonListProps {
 export function PaymentButtonList(props: PaymentButtonListProps): JSX.Element {
   const multiplier = props.isDeposit ? 1 : -1;
   return (
-    <ResponsiveGrid gridGap="1rem" columns="1fr 1fr 1fr">
+    <Grid_3>
       {props.steps.map(step => (
         <TransactionButton
           key={step}
@@ -20,6 +20,6 @@ export function PaymentButtonList(props: PaymentButtonListProps): JSX.Element {
           value={step * multiplier}
         />
       ))}
-    </ResponsiveGrid>
+    </Grid_3>
   );
 }

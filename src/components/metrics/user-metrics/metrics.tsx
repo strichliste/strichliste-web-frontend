@@ -1,19 +1,13 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { Block, ResponsiveGrid, styled, Separator } from 'bricks-of-sand';
 import { FormattedMessage } from 'react-intl';
 
 import { Currency } from '../../currency';
 import { UserRouteProps } from '../../user/user-router';
 import { ArticleMetric, useMetrics } from './resource';
-import { Card } from '../../../bricks';
+import { Card, Separator, GridOneOneTwo } from '../../../bricks';
 
 type Props = UserRouteProps;
-
-const H1 = styled('h1')({
-  marginBottom: '2rem',
-  fontSize: '1.5rem',
-});
 
 const TopRatedArticles = (props: { articles: ArticleMetric[] }) => (
   <Card margin="2rem 0">
@@ -24,7 +18,7 @@ const TopRatedArticles = (props: { articles: ArticleMetric[] }) => (
       />
     </h2>
     <Separator margin="1rem -1rem 2rem -1rem" />
-    <ResponsiveGrid gridGap="1rem" tabletColumns="1fr 1fr 2fr">
+    <GridOneOneTwo>
       <div>
         <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />
       </div>
@@ -38,19 +32,15 @@ const TopRatedArticles = (props: { articles: ArticleMetric[] }) => (
         <FormattedMessage id="USER_METRICS_ARTICLE" defaultMessage="article" />
       </div>
       <div />
-    </ResponsiveGrid>
+    </GridOneOneTwo>
     {props.articles.slice(0, 10).map(articleMetric => (
-      <ResponsiveGrid
-        gridGap="1rem"
-        tabletColumns="1fr 1fr 2fr"
-        key={articleMetric.article.id}
-      >
+      <GridOneOneTwo key={articleMetric.article.id}>
         <div>{articleMetric.count}</div>
         <div>
           <Currency value={articleMetric.amount} />
         </div>
         <div>{articleMetric.article.name}</div>
-      </ResponsiveGrid>
+      </GridOneOneTwo>
     ))}
   </Card>
 );
@@ -61,7 +51,7 @@ const MetricCard = (props: {
 }) => (
   <Card>
     <h2>{props.title}</h2>
-    <Block>{props.children}</Block>
+    <div>{props.children}</div>
   </Card>
 );
 
@@ -71,11 +61,11 @@ export const Metrics: React.FC<Props> = props => {
     return null;
   }
   return (
-    <Block margin="2rem 1rem">
-      <H1>
+    <div style={{ margin: '2rem 1rem' }}>
+      <h1 style={{ marginBottom: '2rem', fontSize: '1.5rem' }}>
         <FormattedMessage id="METRICS_HEADLINE" defaultMessage="metrics" />
-      </H1>
-      <ResponsiveGrid gridGap="1rem" columns="1fr 1fr">
+      </h1>
+      <GridOneOneTwo>
         <MetricCard title={<FormattedMessage id="USER_TRANSACTIONS" />}>
           <div>
             <FormattedMessage id="USER_TRANSACTIONS_TABLE_AMOUNT" />:
@@ -94,9 +84,9 @@ export const Metrics: React.FC<Props> = props => {
             {metrics.articles.length}
           </div>
         </MetricCard>
-      </ResponsiveGrid>
+      </GridOneOneTwo>
       <TopRatedArticles articles={metrics.articles} />
-    </Block>
+    </div>
   );
 };
 

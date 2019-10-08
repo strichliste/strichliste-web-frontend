@@ -1,17 +1,3 @@
-import {
-  AcceptIcon,
-  AddIcon,
-  Block,
-  ClickOutside,
-  Column,
-  Ellipsis,
-  Flex,
-  HoverCard,
-  Input,
-  PrimaryButton,
-  CancelButton,
-  styled,
-} from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
@@ -26,7 +12,15 @@ import { Scanner } from '../common/scanner';
 import { Currency, CurrencyInput } from '../currency';
 import { useArticleValidator } from './validator';
 import { Trash } from '../ui/icons/trash';
-import { Card } from '../../bricks';
+import {
+  Card,
+  Button,
+  AddIcon,
+  Flex,
+  Ellipsis,
+  AcceptIcon,
+  Input,
+} from '../../bricks';
 
 interface ButtonProps {
   isVisible: boolean;
@@ -37,59 +31,18 @@ interface ButtonProps {
 const ToggleArticleButton: React.FC<ButtonProps> = props => {
   if (props.isVisible) {
     return (
-      <CancelButton
-        Icon={props.idArticle ? Trash : undefined}
-        onClick={props.onClick}
-      ></CancelButton>
+      <Button onClick={props.onClick}>
+        {props.idArticle ? Trash : undefined}
+      </Button>
     );
   }
 
-  if (props.idArticle) {
-    return <Block width="2rem" />;
-  }
-
   return (
-    <PrimaryButton onClick={props.onClick} isRound>
+    <Button onClick={props.onClick} fab>
       <AddIcon />
-    </PrimaryButton>
+    </Button>
   );
 };
-
-const ArticleFormGrid = styled(Flex)({
-  '@media(max-width: 30em)': {
-    display: 'block',
-    textAlign: 'left',
-    div: {
-      width: '100%!important',
-    },
-
-    input: {
-      margin: '0 0 1rem 0',
-    },
-  },
-  fontSize: '0.8rem',
-  input: {
-    marginRight: '1rem',
-  },
-  label: {
-    marginRight: '0.5rem',
-  },
-});
-
-const ArticleGrid = styled('div')({
-  cursor: 'pointer',
-  display: 'grid',
-  gridGap: '1rem',
-  '@media screen and (min-width: 500px)': {
-    gridTemplateColumns: '1fr 9rem 5rem',
-  },
-});
-
-const TextRight = styled('div')({
-  '@media screen and (min-width: 500px)': {
-    textAlign: 'right',
-  },
-});
 
 interface Props {
   articleId?: number;
@@ -166,20 +119,17 @@ export const ArticleForm: React.FC<Props> = props => {
   };
 
   return (
-    <ClickOutside onClick={handleClickOutSide}>
+    <>
       <Flex alignItems="center" margin="0 0 0.5rem">
         <ToggleArticleButton
           idArticle={props.articleId}
           isVisible={toggle}
           onClick={handleToggleClick}
         />
-        <Column margin="0 0 0 1rem" flex="1">
+        <div>
           {toggle && (
             <Card padding="0.5rem" level="level3">
-              <ArticleFormGrid
-                justifyContent="space-between"
-                alignItems="center"
-              >
+              <div>
                 <label htmlFor="article_add_form_label">
                   <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
                 </label>
@@ -221,32 +171,33 @@ export const ArticleForm: React.FC<Props> = props => {
                     onChange={amount => setParams({ ...params, amount })}
                   />
                 </form>
-                <PrimaryButton
-                  isRound
+                <Button
+                  fab
+                  primary
                   disabled={!isValidArticle}
                   onClick={(e: React.FormEvent) => submit(e, isValidArticle)}
                 >
                   <AcceptIcon />
-                </PrimaryButton>
-              </ArticleFormGrid>
+                </Button>
+              </div>
             </Card>
           )}
           {!toggle && props.articleId && (
-            <HoverCard padding="0.5rem" onClick={updateToggle}>
-              <ArticleGrid>
-                <Column>{params.name}</Column>
-                <TextRight>
+            <div onClick={updateToggle}>
+              <div>
+                <div>{params.name}</div>
+                <div>
                   <Ellipsis>{params.barcode}</Ellipsis>
-                </TextRight>
-                <TextRight>
+                </div>
+                <div>
                   <Currency value={params.amount} />
-                </TextRight>
-              </ArticleGrid>
-            </HoverCard>
+                </div>
+              </div>
+            </div>
           )}
           {!toggle && !props.articleId && props.children}
-        </Column>
+        </div>
       </Flex>
-    </ClickOutside>
+    </>
   );
 };

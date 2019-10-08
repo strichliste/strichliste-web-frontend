@@ -1,9 +1,7 @@
-import { AutoComplete, SearchAutoComplete } from 'bricks-of-sand';
 import * as React from 'react';
 // import { FormattedMessage } from 'react-intl';
 import { useUserArray } from '../../store';
 import { User } from '../../store/reducers';
-import { FormattedMessage } from 'react-intl';
 
 interface Props {
   userId?: string;
@@ -19,7 +17,7 @@ export function UserSelection(props: Props): JSX.Element {
   const filteredUsers = props.userId
     ? users.filter(user => Number(user.id) !== Number(props.userId))
     : users;
-  return <AutoComplete {...props} items={filteredUsers} />;
+  return <div></div>;
 }
 
 export function UserSearch(props: Props): JSX.Element {
@@ -28,19 +26,5 @@ export function UserSearch(props: Props): JSX.Element {
     ? users.filter(user => Number(user.id) !== Number(props.userId))
     : users;
 
-  return (
-    <FormattedMessage id="SEARCH">
-      {placeholder => (
-        //@ts-ignore
-        <SearchAutoComplete
-          {...props}
-          items={filteredUsers}
-          placeholder={placeholder as string}
-          activeWidth="8rem"
-          inactiveWidth="4rem"
-          clearOnSelect
-        />
-      )}
-    </FormattedMessage>
-  );
+  return <div></div>;
 }

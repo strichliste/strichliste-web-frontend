@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Input } from 'bricks-of-sand';
+import { Input } from '../../../bricks';
 
 export const useInfiniteScrolling = (
   items: any[],

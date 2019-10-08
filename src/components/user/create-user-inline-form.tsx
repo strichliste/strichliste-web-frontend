@@ -1,13 +1,5 @@
 import * as React from 'react';
 
-import {
-  Button,
-  Flex,
-  Input,
-  PrimaryButton,
-  styled,
-  withTheme,
-} from 'bricks-of-sand';
 import { useIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useDispatch } from 'redux-react-hook';
@@ -15,57 +7,57 @@ import { useDispatch } from 'redux-react-hook';
 import { startCreatingUser } from '../../store/reducers';
 import { AddIcon } from '../ui/icons/add';
 import { EditIcon } from '../ui/icons/edit';
-import { Card } from '../../bricks';
+import { Card, Button, Flex, Input } from '../../bricks';
 
 interface Props {
   isActive: boolean;
 }
 
 const TRANSITION = 'all 0.5s ease-out';
-const Trigger = styled('div')<Props>(
-  {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '6rem',
-    form: {
-      overflow: 'hidden',
-      transition: TRANSITION,
-      input: {
-        border: 'none',
-        minWidth: '7rem',
-        marginRight: '1rem',
-      },
-    },
-  },
-  props => ({
-    borderRadius: props.isActive ? '4px' : '100%',
-    svg: {
-      fill: props.theme.themedWhite,
-      transform: props.isActive ? 'rotate(45deg)' : 'rotate(0deg)',
-    },
-    form: {
-      width: props.isActive ? 'auto' : '0rem',
-    },
-  })
-);
+// const Trigger = styled('div')<Props>(
+//   {
+//     display: 'flex',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     height: '6rem',
+//     form: {
+//       overflow: 'hidden',
+//       transition: TRANSITION,
+//       input: {
+//         border: 'none',
+//         minWidth: '7rem',
+//         marginRight: '1rem',
+//       },
+//     },
+//   },
+//   props => ({
+//     borderRadius: props.isActive ? '4px' : '100%',
+//     svg: {
+//       fill: props.theme.themedWhite,
+//       transform: props.isActive ? 'rotate(45deg)' : 'rotate(0deg)',
+//     },
+//     form: {
+//       width: props.isActive ? 'auto' : '0rem',
+//     },
+//   })
+// );
 
-const RedBlackButton = withTheme(
-  styled(Button)<Props>(
-    {
-      backgroundColor: 'none',
-    },
-    props => ({
-      '&:hover': {
-        background: props.isActive ? props.theme.red : props.theme.primary,
-      },
-      svg: {
-        fill: props.theme.themedWhite,
-      },
-      background: props.isActive ? props.theme.red : props.theme.primary,
-    })
-  )
-);
+// const RedBlackButton = withTheme(
+//   styled(Button)<Props>(
+//     {
+//       backgroundColor: 'none',
+//     },
+//     props => ({
+//       '&:hover': {
+//         background: props.isActive ? props.theme.red : props.theme.primary,
+//       },
+//       svg: {
+//         fill: props.theme.themedWhite,
+//       },
+//       background: props.isActive ? props.theme.red : props.theme.primary,
+//     })
+//   )
+// );
 
 export const CreateUserInlineForm = ({
   history,
@@ -97,13 +89,10 @@ export const CreateUserInlineForm = ({
   };
 
   return (
-    <Trigger
-      title={intl.formatMessage({ id: 'USER_CREATE_NAME_LABEL' })}
-      isActive={isActive}
-    >
-      <RedBlackButton isActive={isActive} onClick={toggle} isRound>
+    <div title={intl.formatMessage({ id: 'USER_CREATE_NAME_LABEL' })}>
+      <Button red={isActive} onClick={toggle} fab>
         <AddIcon />
-      </RedBlackButton>
+      </Button>
       {isActive && (
         <Card
           style={{ display: 'fex', alignItems: 'center' }}
@@ -125,14 +114,14 @@ export const CreateUserInlineForm = ({
                 maxLength={64}
                 autoFocus={true}
               />
-              <PrimaryButton type="submit" isRound>
+              <Button type="submit" fab primary>
                 <EditIcon />
-              </PrimaryButton>
+              </Button>
             </Flex>
           </form>
         </Card>
       )}
-    </Trigger>
+    </div>
   );
 };
 

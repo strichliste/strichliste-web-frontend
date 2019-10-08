@@ -1,3 +1,9 @@
+:root {
+  --laptop: 75em;
+  --mobile: 30em;
+  --tablet: 48em;
+}
+
 html {
   --base: 16px;
   --borderRadius: 4px;

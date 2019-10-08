@@ -1,14 +1,6 @@
-import {
-  AlertText,
-  Tab,
-  styled,
-  withTheme,
-  PayPal,
-  Icon,
-} from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useSettings } from '../../store';
 import { User } from '../../store/reducers';
 import { Currency } from '../currency';
@@ -19,37 +11,7 @@ import { UserName } from '../user/user-name';
 import { UserDetailRouter } from './user-details-router';
 import { ScrollContainer } from '../common/scroll-container/scroll-container';
 import { en } from '../../locales/en';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const LinkTab: any = styled(Tab(NavLink))({
-  svg: {
-    marginRight: '0.5rem',
-  },
-});
-
-const UserHeader = withTheme(
-  styled('div')(
-    {
-      margin: '0 auto',
-
-      h1: {
-        textTransform: 'none',
-        fontSize: '2rem',
-        textAlign: 'center',
-        margin: '1rem auto',
-      },
-    },
-    props => ({
-      padding: '0 1rem',
-      [props.theme.breakPoints.tablet]: {
-        width: '29rem',
-      },
-      h1: {
-        color: props.theme.primary,
-      },
-    })
-  )
-);
+import { Tab, AlertText, PayPal } from '../../bricks';
 
 const toggleTab = (
   url: string,
@@ -70,7 +32,7 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
   const intl = useIntl();
 
   return (
-    <UserHeader>
+    <div>
       <h1>
         <UserName center name={user.name} />
       </h1>
@@ -81,7 +43,7 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
       </h1>
 
       <ScrollContainer style={{ justifyContent: 'space-between' }}>
-        <LinkTab
+        <Tab
           activeClassName="active"
           to={toggleTab(
             `/user/${user.id}/send_money_to_a_friend`,
@@ -91,35 +53,33 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
         >
           <TransactionIcon />{' '}
           <FormattedMessage id="USER_TRANSACTION_CREATE_LINK" />
-        </LinkTab>
+        </Tab>
         {settings.article.enabled && (
-          <LinkTab
+          <Tab
             activeClassName="active"
             to={toggleTab(`/user/${user.id}/article`, currentUrl, userUrl)}
           >
             <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
-          </LinkTab>
+          </Tab>
         )}
-        <LinkTab
+        <Tab
           activeClassName="active"
           to={toggleTab(`/user/${user.id}/edit`, currentUrl, userUrl)}
         >
           <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
-        </LinkTab>
+        </Tab>
         {settings.paypal.enabled && (
-          <LinkTab
+          <Tab
             activeClassName="active"
             to={toggleTab(`/user/${user.id}/paypal`, currentUrl, userUrl)}
           >
-            <Icon width="1rem" height="1rem">
-              <PayPal />
-            </Icon>{' '}
+            <PayPal />
             <FormattedMessage id="PAYPAL_LINK" defaultMessage="Paypal" />
-          </LinkTab>
+          </Tab>
         )}
       </ScrollContainer>
       <UserDetailRouter />
-    </UserHeader>
+    </div>
   );
 };
 

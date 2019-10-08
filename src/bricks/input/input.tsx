@@ -3,8 +3,16 @@ import classnames from 'classnames';
 
 import styles from './input.module.css';
 
-type InputProps = JSX.IntrinsicElements['input'];
+type InputProps = JSX.IntrinsicElements['input'] & { className?: string };
 
-export const Input: React.FC<InputProps> = (className, ...props) => {
-  return <input {...props} className={classnames(className, styles.input)} />;
-};
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <input
+        {...props}
+        ref={ref}
+        className={classnames(className, styles.input)}
+      />
+    );
+  }
+);

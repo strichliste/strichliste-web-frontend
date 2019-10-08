@@ -1,10 +1,9 @@
-import { Footer } from 'bricks-of-sand';
 import * as React from 'react';
 import { GitHubIcon } from '../ui/icons/git-hub';
 
 export function MainFooter(): JSX.Element {
   return (
-    <Footer>
+    <footer>
       <div>
         strichliste-web (MIT License, by{' '}
         <a
@@ -33,6 +32,6 @@ export function MainFooter(): JSX.Element {
           <GitHubIcon /> Code
         </a>
       </div>
-    </Footer>
+    </footer>
   );
 }

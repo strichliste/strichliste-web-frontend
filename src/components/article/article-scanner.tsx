@@ -8,7 +8,6 @@ import {
 import { Scanner } from '../common/scanner';
 import { Toast } from '../common/toast';
 import { Currency } from '../currency';
-import { AcceptWrapper } from '../transaction/create-user-transaction-form';
 import { useDispatch } from 'redux-react-hook';
 import { Flex, AcceptIcon } from '../../bricks';
 
@@ -63,13 +62,13 @@ function ToastContent({ article, message }: ToastProps): JSX.Element {
     return <>{message}</>;
   }
   return (
-    <AcceptWrapper>
+    <div>
       <Flex justifyContent="center" alignContent="center">
         <AcceptIcon />
         <FormattedMessage id="ARTICLE_FETCHED_BY_BARCODE" />
         &#8594; {article.name}
         <Currency value={article.amount} />
       </Flex>
-    </AcceptWrapper>
+    </div>
   );
 }

@@ -3,7 +3,6 @@
   "version": "1.7.1",
   "private": true,
   "dependencies": {
-    "bricks-of-sand": "^0.1.25",
     "classnames": "^2.2.6",
     "history": "^4.10.1",
     "howler": "^2.1.1",

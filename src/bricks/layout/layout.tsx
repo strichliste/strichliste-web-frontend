@@ -46,3 +46,26 @@ export const Flex: React.FC<FlexProps> = props => {
     </div>
   );
 };
+
+export const Separator: React.FC<{ margin?: string; padding?: string }> = ({
+  padding,
+  margin,
+}) => {
+  return (
+    <div
+      style={{ margin, padding, borderTop: 'solid 1px var(--border)' }}
+    ></div>
+  );
+};
+
+export const GridOneOneTwo: React.FC = ({ children }) => {
+  return <div className={styles.gridOneOneTwo}>{children}</div>;
+};
+
+export const Grid_3: React.FC = ({ children }) => {
+  return <div className={styles.grid3}>{children}</div>;
+};
+
+export const CardGrid: React.FC = ({ children }) => {
+  return <div className={styles.cardGrid}>{children}</div>;
+};

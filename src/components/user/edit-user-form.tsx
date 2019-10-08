@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { Block, CancelButton, Flex, Input } from 'bricks-of-sand';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
 import { useUser } from '../../store';
 import { startUpdateUser } from '../../store/reducers';
-import { AcceptButton } from '../../components/ui/button';
+import { Input, Flex, CancelButton, AcceptButton } from '../../bricks';
 
 interface Props {
   userId: string;
@@ -50,7 +49,7 @@ export const UserEditForm = (props: Props) => {
   return (
     <>
       <form onSubmit={submit}>
-        <Block margin="1rem 0">
+        <div>
           <FormattedMessage
             id="USER_EDIT_NAME_LABEL"
             children={text => (
@@ -65,8 +64,8 @@ export const UserEditForm = (props: Props) => {
               />
             )}
           />
-        </Block>
-        <Block margin="1rem 0">
+        </div>
+        <div>
           <FormattedMessage
             id="USER_EDIT_MAIL_LABEL"
             children={text => (
@@ -78,8 +77,8 @@ export const UserEditForm = (props: Props) => {
               />
             )}
           />
-        </Block>
-        <Block margin="1rem 0">
+        </div>
+        <div>
           <Flex alignContent="center" justifyContent="space-between">
             <label>
               <input
@@ -99,7 +98,7 @@ export const UserEditForm = (props: Props) => {
             </div>
           </Flex>
           {isDisabled && <FormattedMessage id="USER_EDIT_ACTIVE_WARNING" />}
-        </Block>
+        </div>
       </form>
     </>
   );

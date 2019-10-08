@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { GreenButton, RedButton, ResponsiveGrid, styled } from 'bricks-of-sand';
 import { useDispatch } from 'redux-react-hook';
 import { useIntl } from 'react-intl';
 
@@ -9,12 +8,7 @@ import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
 import { useSettings } from '../../store';
 import { en } from '../../locales/en';
-
-const ButtonText = styled('div')({
-  fontSize: '1rem',
-  fontWeight: 'bold',
-  lineHeight: 0,
-});
+import { Grid_3, Button } from '../../bricks';
 
 interface Props {
   userId: string;
@@ -47,17 +41,18 @@ export const CreateCustomTransactionForm = (props: Props) => {
     }
   };
   return (
-    <ResponsiveGrid gridGap="1rem" columns="3rem 1fr 3rem">
+    <Grid_3>
       {payment.dispense.custom ? (
-        <RedButton
+        <Button
+          red
           title={intl.formatMessage({ id: en.BALANCE_DISPENSE })}
           onClick={() => submit(false)}
-          isRound
+          fab
           disabled={!dispenseIsValid}
           type="submit"
         >
-          <ButtonText>-</ButtonText>
-        </RedButton>
+          -
+        </Button>
       ) : (
         <div></div>
       )}
@@ -67,18 +62,19 @@ export const CreateCustomTransactionForm = (props: Props) => {
         onChange={setValue}
       />
       {payment.deposit.custom ? (
-        <GreenButton
+        <Button
+          green
           title={intl.formatMessage({ id: en.BALANCE_DEPOSIT })}
           onClick={() => submit(true)}
-          isRound
+          fab
           disabled={!depositIsValid}
           type="submit"
         >
-          <ButtonText>+</ButtonText>
-        </GreenButton>
+          +
+        </Button>
       ) : (
         <div></div>
       )}
-    </ResponsiveGrid>
+    </Grid_3>
   );
 };

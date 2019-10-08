@@ -1,4 +1,3 @@
-import { styled, withTheme } from 'bricks-of-sand';
 import * as React from 'react';
 
 export interface AddIconProps {
@@ -18,11 +17,5 @@ function Icon(): JSX.Element {
   );
 }
 
-export const AddIcon = withTheme(
-  styled(Icon)<AddIconProps>({}, props => ({
-    fill: props.isPrimary ? props.theme.primary : props.theme.white,
-  }))
-);
-export const CancelIcon = styled(Icon)<AddIconProps>({
-  transform: 'rotate(45deg)',
-});
+export const AddIcon = Icon;
+export const CancelIcon = Icon;

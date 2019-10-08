@@ -1,13 +1,3 @@
-import {
-  AcceptButton,
-  Block,
-  Input,
-  PrimaryButton,
-  ResponsiveGrid,
-  Separator,
-  styled,
-  Icon,
-} from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { store } from '../../../store';
@@ -25,6 +15,7 @@ import { UserSelection } from '../../user';
 import { UserMultiSelection } from '../../user/user-multi-selection';
 import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
+import { AcceptButton, Input, Separator } from '../../../bricks';
 
 interface State {
   isLoading: boolean;
@@ -45,25 +36,6 @@ const initialState: State = {
   responseState: {},
   validation: {},
 };
-
-const GridContainer = styled('div')({
-  maxWidth: '30em',
-  margin: '2rem auto',
-  padding: '0 1rem',
-});
-
-const P = styled('p')({
-  marginBottom: '0.5rem',
-});
-
-const NotificationContainer = styled('div')({
-  textAlign: 'center',
-  marginBottom: '1rem',
-});
-
-const TextCenter = styled(Block)({
-  textAlign: 'center',
-});
 
 export class SplitInvoiceForm extends React.Component<{}, State> {
   public state = initialState;
@@ -215,7 +187,7 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
   public render(): JSX.Element {
     if (this.state.isLoading) {
       return (
-        <GridContainer>
+        <div>
           {Object.keys(this.state.responseState).length === 0 && (
             <div>
               <FormattedMessage
@@ -233,20 +205,19 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
 
             if (item === 'error') {
               return (
-                <Block margin="1rem 0" key={userId}>
+                <div key={userId}>
                   <FormattedMessage
                     id="SPLIT_INVOICE_ERROR_MESSAGE"
                     defaultMessage="Failed to create Transaction for"
                   />{' '}
                   <UserName name={userName} />
-                </Block>
+                </div>
               );
             }
             return (
-              <Block margin="1rem 0" key={userId}>
-                <Icon color="greenText">
-                  <AcceptIcon />
-                </Icon>
+              <div key={userId}>
+                <AcceptIcon />
+
                 <UserName name={userName} />
                 <p>
                   <FormattedMessage
@@ -254,28 +225,22 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
                     defaultMessage="payed the money"
                   />
                 </p>
-              </Block>
+              </div>
             );
           })}
           <AcceptButton onClick={this.resetState} />
-        </GridContainer>
+        </div>
       );
     }
 
     return (
-      <GridContainer>
+      <div>
         <WrappedIdleTimer />
-        <TextCenter margin="3rem">
-          <h1>
-            <FormattedMessage id="SPLIT_INVOICE_HEADLINE" />
-          </h1>
-        </TextCenter>
+        <h1>
+          <FormattedMessage id="SPLIT_INVOICE_HEADLINE" />
+        </h1>
 
-        <ResponsiveGrid
-          margin="0 0 1rem 0"
-          gridGap="1rem"
-          columns="2fr 1fr 2fr"
-        >
+        <div>
           <FormattedMessage
             id="USER_TRANSACTIONS_TABLE_AMOUNT"
             children={placeholder => (
@@ -286,9 +251,9 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
               />
             )}
           />
-          <TextCenter>
+          <div>
             <FormattedMessage id="WITH" defaultMessage="with" />
-          </TextCenter>
+          </div>
           <FormattedMessage
             id="SELECT_RECIPIENT"
             defaultMessage="select recipient"
@@ -300,7 +265,7 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
               />
             )}
           />
-        </ResponsiveGrid>
+        </div>
         <FormattedMessage
           id="USER_TRANSACTIONS_TABLE_COMMENT"
           children={placeholder => (
@@ -311,22 +276,22 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
             />
           )}
         />
-        <TextCenter margin="1rem 0">
+        <div>
           <FormattedMessage id="AND" defaultMessage="and" />
-        </TextCenter>
-        <Block margin="1rem 0">
+        </div>
+        <div>
           <UserMultiSelection
             excludeUserId={this.state.recipient ? this.state.recipient.id : ''}
             validation={this.state.validation}
             onSelect={this.addParticipant}
             placeholder="add participant"
           />
-        </Block>
+        </div>
         {this.showNotification() && (
           <>
             <Separator margin="2rem 0" />
-            <NotificationContainer>
-              <P>
+            <div>
+              <p>
                 {this.getLengthOfParticipantsAndRecipient()}{' '}
                 <FormattedMessage
                   id="PARTICIPANTS"
@@ -334,8 +299,8 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
                 />{' '}
                 <FormattedMessage id="SPLIT" defaultMessage="split" />{' '}
                 <Currency value={this.state.amount} />
-              </P>
-              <P>
+              </p>
+              <p>
                 <FormattedMessage
                   id="SPLIT_PAY_MESSAGE"
                   defaultMessage="everybody has to pay"
@@ -350,23 +315,20 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
                     <UserName name={this.state.recipient.name} />
                   </>
                 )}
-              </P>
+              </p>
               <FormattedMessage id="SPLIT_INVOICE_SUBMIT">
                 {text => (
-                  <PrimaryButton
+                  <AcceptButton
                     title={text as string}
-                    isRound
                     onClick={this.submitSplitInvoice}
                     disabled={!this.submitIsValid()}
-                  >
-                    <AcceptIcon />
-                  </PrimaryButton>
+                  />
                 )}
               </FormattedMessage>
-            </NotificationContainer>
+            </div>
           </>
         )}
-      </GridContainer>
+      </div>
     );
   }
 }

@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import styles from './button.module.css';
 import { AcceptIcon } from '../icons';
 import { CancelIcon } from '../../components/ui/icons/add';
+import { NavLink } from 'react-router-dom';
 
 type ButtonProps = JSX.IntrinsicElements['button'] & {
   padding?: string;
@@ -19,17 +20,26 @@ type ButtonProps = JSX.IntrinsicElements['button'] & {
 };
 
 export const Button: React.FC<ButtonProps> = ({
+  className,
   children,
   padding,
   margin,
   fab,
+  green,
+  red,
+  highlight,
+  primary,
   ...props
 }) => {
   return (
     <button
       {...props}
-      className={classnames(styles.button, {
+      className={classnames(styles.button, className, {
         [styles.fab]: fab,
+        [styles.green]: green,
+        [styles.red]: red,
+        [styles.highlight]: highlight,
+        [styles.primary]: primary,
       })}
       style={{ padding, margin }}
     >
@@ -50,8 +60,6 @@ export const CancelButton: React.FC<ButtonProps> = props => (
   </Button>
 );
 
-type TagProps = JSX.IntrinsicElements['a'];
-
-export const Tag: React.FC<TagProps> = ({ children, ...props }) => {
-  return <a {...props}>{children}</a>;
+export const Tab: React.FC<any> = ({ children, ...props }) => {
+  return <NavLink {...props}>{children}</NavLink>;
 };

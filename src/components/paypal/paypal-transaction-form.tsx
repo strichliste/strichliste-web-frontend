@@ -1,21 +1,10 @@
-import { AcceptButton, styled } from 'bricks-of-sand';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { useSettings } from '../../store';
 import { Currency, CurrencyInput } from '../currency';
 import { useTransactionValidator } from '../transaction/validator';
-
-const Wrapper = styled('div')({
-  form: {
-    display: 'flex',
-    marginBottom: '1rem',
-  },
-  input: {
-    grow: 1,
-    marginRight: '1rem',
-  },
-});
+import { AcceptButton } from '../../bricks';
 
 interface Props {
   userName: string;
@@ -47,7 +36,7 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
 
   return (
     <>
-      <Wrapper>
+      <div>
         <form ref={formRef} action={BASE_URL} method="post">
           <CurrencyInput autoFocus value={value} onChange={setValue} />
           <input type="hidden" name="cmd" value="_xclick" />
@@ -74,7 +63,7 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
           />
           <AcceptButton onClick={submit} disabled={!isValid} />
         </form>
-      </Wrapper>
+      </div>
       {fee && (
         <p>
           <FormattedMessage id="PAY_PAL_FEE_LABEL" defaultMessage="fee: " />
