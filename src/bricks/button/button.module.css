@@ -7,6 +7,11 @@
   text-transform: uppercase;
   font-size: 0.8rem;
   border-radius: var(--borderRadius);
+  color: var(--buttonDefaultFont);
+}
+
+.button svg {
+  fill: var(--buttonDefaultFont);
 }
 
 .button:disabled {
@@ -34,6 +39,9 @@
   background: var(--buttonHighlightBackground);
   color: var(--buttonHighlightFont);
 }
+.highlight svg {
+  fill: var(--buttonHighlightFont);
+}
 .fab {
   border-radius: 100%;
   width: 2rem;
@@ -43,24 +51,24 @@
 }
 
 .cancelButton {
-  background: #e86c76;
-  color: #ffedf0;
+  background: var(--buttonCancelBackground);
+  color: var(--buttonCancelFont);
 }
 
 .cancelButton svg {
-  fill: #ffedf0;
+  fill: var(--buttonCancelFont);
   max-height: 1rem;
   max-width: 1rem;
   transform: rotate(45deg);
 }
 
 .acceptButton {
-  background: #e86c76;
-  color: #ffedf0;
+  background: var(--buttonHighlightBackground);
+  color: var(--buttonHighlightFont);
 }
 
 .acceptButton svg {
-  fill: #ffedf0;
+  fill: var(--buttonHighlightFont);
   max-height: 1rem;
   max-width: 1rem;
 }
@@ -71,11 +79,6 @@
   display: inline-flex;
   padding: 0.5rem;
   text-transform: uppercase;
-  color: #576176 !important;
+  color: var(--buttonDefaultFont) !important;
   font-size: 0.8rem;
-  margin: 0 1.5rem 0 0;
-}
-.tab.active {
-  background: #fff;
-  border-radius: 4px;
 }

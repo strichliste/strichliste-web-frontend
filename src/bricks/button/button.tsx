@@ -60,6 +60,22 @@ export const CancelButton: React.FC<ButtonProps> = props => (
   </Button>
 );
 
-export const Tab: React.FC<any> = ({ children, ...props }) => {
-  return <NavLink {...props}>{children}</NavLink>;
+export const Tab: React.FC<any> = ({
+  children,
+  className,
+  active,
+  ...props
+}) => {
+  return (
+    <NavLink
+      activeStyle={{
+        background: 'var(--componentBackgroundLight)',
+        borderRadius: 'var(--borderRadius)',
+      }}
+      className={classnames(className, styles.tab)}
+      {...props}
+    >
+      {children}
+    </NavLink>
+  );
 };
