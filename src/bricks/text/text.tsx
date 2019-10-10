@@ -32,14 +32,16 @@ export const AlertText: React.FC<AlertTextProps> = ({ value, ...props }) => {
 
 interface LineThroughProps {
   lineThrough?: boolean;
+  className?: string;
 }
 
 export const LineThrough: React.FC<LineThroughProps> = ({
   lineThrough,
+  className,
   ...props
 }) => (
   <div
-    className={classNames({ [styles.lineThrough]: lineThrough })}
+    className={classNames(className, { [styles.lineThrough]: lineThrough })}
     {...props}
   />
 );
