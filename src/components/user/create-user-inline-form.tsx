@@ -56,7 +56,7 @@ export const CreateUserInlineForm = ({
               maxLength={64}
               autoFocus={true}
             />
-            <Button type="submit" fab primary>
+            <Button margin="0 0 0 1rem" type="submit" fab primary>
               <EditIcon />
             </Button>
           </Flex>
