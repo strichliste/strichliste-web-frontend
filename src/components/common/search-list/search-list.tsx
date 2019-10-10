@@ -6,6 +6,7 @@ import { Input } from '../../../bricks';
 export const useInfiniteScrolling = (
   items: any[],
   PAGE_SIZE: number,
+  scrollableTarget: string = '',
   noScrollBarPageOffset = 2
 ) => {
   const [page, setPage] = useState(1);
@@ -15,7 +16,10 @@ export const useInfiniteScrolling = (
   const pageItems = items.slice(0, PAGE_SIZE * page);
 
   useEffect(() => {
-    const hasVScroll = document.body.scrollHeight > document.body.clientHeight;
+    const elem = scrollableTarget
+      ? document.getElementById(scrollableTarget) || document.body
+      : document.body;
+    const hasVScroll = elem.scrollHeight > elem.clientHeight;
     const shouldLoadMoreItemsOnStart =
       page === 1 && !hasVScroll && pageItems.length < items.length;
 
@@ -86,7 +90,7 @@ export const InfiniteList: SearchListComponent = ({
   renderItem,
   scrollableTarget,
 }) => {
-  const infiniteProps = useInfiniteScrolling(items, pageSize);
+  const infiniteProps = useInfiniteScrolling(items, pageSize, scrollableTarget);
   return (
     <InfiniteScroll {...infiniteProps} scrollableTarget={scrollableTarget}>
       {infiniteProps.items.map(renderItem)}

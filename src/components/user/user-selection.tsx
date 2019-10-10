@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { User } from '../../store/reducers';
-import { Modal, useModal } from '../../bricks';
+import { Modal, useModal, Ellipsis } from '../../bricks';
 import { Button } from '../../bricks/button/button';
 import { UserSearchList } from '../common/search-results';
 
@@ -37,8 +37,9 @@ export function UserSelection({
         type="button"
         primary
         onClick={modalProps.handleShow}
+        style={{ maxWidth: '150px' }}
       >
-        {selection ? selection.name : placeholder}
+        <Ellipsis>{selection ? selection.name : placeholder}</Ellipsis>
       </Button>
       <Modal {...modalProps} id="user-selection">
         <UserSearchList

@@ -32,6 +32,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       red,
       highlight,
       primary,
+      style,
       ...props
     },
     ref
@@ -47,7 +48,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           [styles.highlight]: highlight,
           [styles.primary]: primary,
         })}
-        style={{ padding, margin }}
+        style={{ padding, margin, ...style }}
       >
         {children}
       </button>
