@@ -8,6 +8,8 @@
   font-size: 0.8rem;
   border-radius: var(--borderRadius);
   color: var(--buttonDefaultFont);
+  justify-content: center;
+  text-align: center;
 }
 
 .button svg {
