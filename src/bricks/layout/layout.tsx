@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import styles from './layout.module.css';
 
@@ -69,3 +70,8 @@ export const Grid_3: React.FC = ({ children }) => {
 export const CardGrid: React.FC = ({ children }) => {
   return <div className={styles.cardGrid}>{children}</div>;
 };
+
+export const ListItem: React.FC<{ className?: string }> = ({
+  children,
+  className,
+}) => <div className={classnames(className, styles.list)}>{children}</div>;

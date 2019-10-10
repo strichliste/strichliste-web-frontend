@@ -33,3 +33,8 @@
   grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
   margin: 1rem;
 }
+
+.list {
+  padding: 1rem 0px;
+  border-bottom: 1px solid var(--border);
+}

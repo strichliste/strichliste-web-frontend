@@ -6,7 +6,9 @@ import { useTransaction } from '../../store';
 import { getUserDetailLink } from '../user/user-router';
 import { Link } from 'react-router-dom';
 import { User, Article } from '../../store/reducers';
-import { Ellipsis, LineThrough, AlertText } from '../../bricks';
+import { Ellipsis, LineThrough, AlertText, ListItem } from '../../bricks';
+
+import styles from './transaction-list-item.module.css';
 
 interface ListItemProps {
   user?: User;
@@ -48,26 +50,30 @@ export function TransactionListItem({ id }: any): JSX.Element | null {
     return null;
   }
   return (
-    <div>
-      <LineThrough lineThrough={transaction.isDeleted}>
-        <AlertText value={transaction.amount}>
-          <Currency value={transaction.amount} />
-        </AlertText>
-        <ListItemDescription
-          article={transaction.article}
-          isSender={!!transaction.sender}
-          comment={transaction.comment}
-          user={transaction.sender || transaction.recipient}
-        />
-        {transaction.isDeletable ? (
-          <TransactionUndoButton
-            transactionId={transaction.id}
-            userId={transaction.user.id}
+    <ListItem>
+      <LineThrough className={styles.grid} lineThrough={transaction.isDeleted}>
+        <div>
+          <AlertText value={transaction.amount}>
+            <Currency value={transaction.amount} />
+          </AlertText>
+          <ListItemDescription
+            article={transaction.article}
+            isSender={!!transaction.sender}
+            comment={transaction.comment}
+            user={transaction.sender || transaction.recipient}
           />
-        ) : (
-          <Ellipsis>{transaction.created}</Ellipsis>
-        )}
+        </div>
+        <div className={styles.textRight}>
+          {transaction.isDeletable ? (
+            <TransactionUndoButton
+              transactionId={transaction.id}
+              userId={transaction.user.id}
+            />
+          ) : (
+            <Ellipsis>{transaction.created}</Ellipsis>
+          )}
+        </div>
       </LineThrough>
-    </div>
+    </ListItem>
   );
 }
