@@ -17,36 +17,43 @@ type ButtonProps = JSX.IntrinsicElements['button'] & {
   red?: boolean;
   highlight?: boolean;
   className?: string;
+  ref?: any;
 };
 
-export const Button: React.FC<ButtonProps> = ({
-  className,
-  children,
-  padding,
-  margin,
-  fab,
-  green,
-  red,
-  highlight,
-  primary,
-  ...props
-}) => {
-  return (
-    <button
-      {...props}
-      className={classnames(styles.button, className, {
-        [styles.fab]: fab,
-        [styles.green]: green,
-        [styles.red]: red,
-        [styles.highlight]: highlight,
-        [styles.primary]: primary,
-      })}
-      style={{ padding, margin }}
-    >
-      {children}
-    </button>
-  );
-};
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      className,
+      children,
+      padding,
+      margin,
+      fab,
+      green,
+      red,
+      highlight,
+      primary,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <button
+        {...props}
+        ref={ref}
+        className={classnames(styles.button, className, {
+          [styles.fab]: fab,
+          [styles.green]: green,
+          [styles.red]: red,
+          [styles.highlight]: highlight,
+          [styles.primary]: primary,
+        })}
+        style={{ padding, margin }}
+      >
+        {children}
+      </button>
+    );
+  }
+);
 
 export const AcceptButton: React.FC<ButtonProps> = props => (
   <Button className={styles.acceptButton} fab {...props}>

@@ -10,6 +10,8 @@ import { UserToUserValidator } from './user-to-user-validator';
 import { store } from '../../store';
 import { Card, AcceptIcon, AcceptButton, Input } from '../../bricks';
 
+import styles from './create-user-transaction-form.module.css';
+
 const initialState = {
   selectedAmount: 0,
   hasSelectionReady: false,
@@ -41,12 +43,8 @@ type Props = RouteComponentProps<{ id: string }> & { intl: any };
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;
   public submitUserId = (user: User): void => {
-    if (!user) return;
-
     if (!this.state.selectedUser.id) {
       this.setState(() => ({ selectedUser: user }));
-    } else {
-      this.handleSubmit();
     }
   };
 
@@ -65,6 +63,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
         this.setState({
           hasSelectionReady: true,
           createdTransactionId: res.id,
+          selectedUser: initialState.selectedUser,
         });
       }
     }
@@ -116,7 +115,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
       return (
         <>
           <form onSubmit={this.handleSubmit}>
-            <div>
+            <div className={styles.grid}>
               <FormattedMessage
                 defaultMessage="Amount"
                 id="USER_TRANSACTION_FROM_AMOUNT_LABEL"
@@ -153,7 +152,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                     {text => (
                       <AcceptButton
                         type="submit"
-                        disabled={!isValid}
+                        disabled={!(isValid && this.state.selectedUser.id)}
                         title={text as string}
                       />
                     )}

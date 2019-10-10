@@ -13,6 +13,10 @@ interface Props {
   onDisabled(): void;
 }
 
+const formStyle = {
+  marginBottom: '1rem',
+};
+
 export const UserEditForm = (props: Props) => {
   const intl = useIntl();
   const [name, setName] = React.useState(''),
@@ -47,59 +51,57 @@ export const UserEditForm = (props: Props) => {
   }, [props.userId]);
 
   return (
-    <>
-      <form onSubmit={submit}>
-        <div>
-          <FormattedMessage
-            id="USER_EDIT_NAME_LABEL"
-            children={text => (
-              <Input
-                placeholder={text as string}
-                value={name}
-                onChange={e => setName(e.target.value)}
-                minLength={1}
-                maxLength={64}
-                required
-                type="text"
-              />
-            )}
-          />
-        </div>
-        <div>
-          <FormattedMessage
-            id="USER_EDIT_MAIL_LABEL"
-            children={text => (
-              <Input
-                placeholder={text as string}
-                value={email || ''}
-                onChange={e => setEmail(e.target.value)}
-                type="email"
-              />
-            )}
-          />
-        </div>
-        <div>
-          <Flex alignContent="center" justifyContent="space-between">
-            <label>
-              <input
-                checked={isDisabled}
-                onChange={e => setDisabled(e.target.checked)}
-                type="checkbox"
-              />
-              <FormattedMessage id="USER_EDIT_ACTIVE_LABEL" />
-            </label>
-            <div>
-              <CancelButton margin="0 1rem" onClick={props.onCancel} />
+    <form onSubmit={submit}>
+      <div style={formStyle}>
+        <FormattedMessage
+          id="USER_EDIT_NAME_LABEL"
+          children={text => (
+            <Input
+              placeholder={text as string}
+              value={name}
+              onChange={e => setName(e.target.value)}
+              minLength={1}
+              maxLength={64}
+              required
+              type="text"
+            />
+          )}
+        />
+      </div>
+      <div style={formStyle}>
+        <FormattedMessage
+          id="USER_EDIT_MAIL_LABEL"
+          children={text => (
+            <Input
+              placeholder={text as string}
+              value={email || ''}
+              onChange={e => setEmail(e.target.value)}
+              type="email"
+            />
+          )}
+        />
+      </div>
+      <div style={formStyle}>
+        <Flex alignContent="center" justifyContent="space-between">
+          <label>
+            <input
+              checked={isDisabled}
+              onChange={e => setDisabled(e.target.checked)}
+              type="checkbox"
+            />
+            <FormattedMessage id="USER_EDIT_ACTIVE_LABEL" />
+          </label>
+          <div>
+            <CancelButton margin="0 1rem" onClick={props.onCancel} />
 
-              <AcceptButton
-                type="submit"
-                title={intl.formatMessage({ id: 'USER_EDIT_TRIGGER' })}
-              />
-            </div>
-          </Flex>
-          {isDisabled && <FormattedMessage id="USER_EDIT_ACTIVE_WARNING" />}
-        </div>
-      </form>
-    </>
+            <AcceptButton
+              type="submit"
+              title={intl.formatMessage({ id: 'USER_EDIT_TRIGGER' })}
+            />
+          </div>
+        </Flex>
+        {isDisabled && <FormattedMessage id="USER_EDIT_ACTIVE_WARNING" />}
+      </div>
+    </form>
   );
 };

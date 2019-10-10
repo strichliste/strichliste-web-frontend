@@ -17,6 +17,7 @@ interface CardProps {
   level?: ShadowKeys;
   error?: boolean;
   style?: React.CSSProperties;
+  id?: string;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -30,9 +31,11 @@ export const Card: React.FC<CardProps> = ({
   level,
   error,
   style,
+  id,
 }) => {
   return (
     <div
+      id={id}
       className={classnames(styles.card, className, {
         [styles.error]: error,
       })}

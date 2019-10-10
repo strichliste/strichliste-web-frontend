@@ -8,26 +8,42 @@ import { RouteComponentProps } from 'react-router';
 import { useUserDetailUrl } from '../../user/user-router';
 
 export const SearchResults: React.FC<RouteComponentProps> = props => {
+  const userDetailUrl = useUserDetailUrl();
+  const handleOnUserSelect = (user: User) =>
+    props.history.push(userDetailUrl(user.id));
+  return (
+    <div style={{ margin: '1rem' }}>
+      <UserSearchList onUserSelect={handleOnUserSelect} />
+    </div>
+  );
+};
+
+export const UserSearchList: React.FC<{
+  onUserSelect(user: User): void;
+  userId?: string | number;
+  scrollableTarget?: string;
+}> = ({ onUserSelect, userId, scrollableTarget }) => {
   const userArray = useUserArray();
   const dispatch = useDispatch();
-  const userDetailUrl = useUserDetailUrl();
   useEffect(() => {
     startLoadingUsers(dispatch);
   }, [dispatch]);
+  const filteredUsers = userId
+    ? userArray.filter(user => Number(user.id) !== Number(userId))
+    : userArray;
 
   return (
-    <div style={{ margin: '1rem' }}>
-      <SearchList
-        pageSize={10}
-        renderItem={(user: User) => (
-          <SearchResultItem
-            key={user.id}
-            name={user.name}
-            onClick={() => props.history.push(userDetailUrl(user.id))}
-          />
-        )}
-        items={userArray}
-      ></SearchList>
-    </div>
+    <SearchList
+      scrollableTarget={scrollableTarget}
+      pageSize={10}
+      renderItem={(user: User) => (
+        <SearchResultItem
+          key={user.id}
+          name={user.name}
+          onClick={() => onUserSelect(user)}
+        />
+      )}
+      items={filteredUsers}
+    />
   );
 };

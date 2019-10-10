@@ -1,0 +1,8 @@
+.grid {
+  grid-template-columns: 4fr 1fr 4fr 1fr;
+  display: grid;
+  gap: 1rem;
+  align-content: center;
+  align-items: center;
+  margin: 1rem 0;
+}

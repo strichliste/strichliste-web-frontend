@@ -1,30 +1,52 @@
 import * as React from 'react';
-// import { FormattedMessage } from 'react-intl';
-import { useUserArray } from '../../store';
+
 import { User } from '../../store/reducers';
+import { Modal, useModal } from '../../bricks';
+import { Button } from '../../bricks/button/button';
+import { UserSearchList } from '../common/search-results';
 
 interface Props {
   userId?: string;
-  autoFocus?: boolean;
   placeholder: string;
   disabled?: boolean;
   getString?(user: User): string;
   onSelect(user: User): void;
 }
 
-export function UserSelection(props: Props): JSX.Element {
-  const users = useUserArray();
-  const filteredUsers = props.userId
-    ? users.filter(user => Number(user.id) !== Number(props.userId))
-    : users;
-  return <div></div>;
-}
+export function UserSelection({
+  placeholder,
+  userId,
+  onSelect,
+}: Props): JSX.Element {
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const modalProps = useModal();
+  const [selection, setSelection] = React.useState();
+  const handleSelection = (user: User) => {
+    setSelection(user);
+    onSelect(user);
+    modalProps.handleHide();
+    if (buttonRef && buttonRef.current) {
+      buttonRef.current.focus();
+    }
+  };
 
-export function UserSearch(props: Props): JSX.Element {
-  const users = useUserArray();
-  const filteredUsers = props.userId
-    ? users.filter(user => Number(user.id) !== Number(props.userId))
-    : users;
-
-  return <div></div>;
+  return (
+    <>
+      <Button
+        ref={buttonRef}
+        type="button"
+        primary
+        onClick={modalProps.handleShow}
+      >
+        {selection ? selection.name : placeholder}
+      </Button>
+      <Modal {...modalProps} id="user-selection">
+        <UserSearchList
+          scrollableTarget="user-selection"
+          userId={userId}
+          onUserSelect={handleSelection}
+        />
+      </Modal>
+    </>
+  );
 }

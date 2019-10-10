@@ -37,7 +37,7 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
   }, [paidAmount]);
 
   return (
-    <div style={{ padding: '2rem 0' }}>
+    <>
       <h2
         style={{
           textAlign: 'center',
@@ -57,6 +57,6 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
       ) : (
         <PayPalTransactionForm userName={userName} userId={userId} />
       )}
-    </div>
+    </>
   );
 });

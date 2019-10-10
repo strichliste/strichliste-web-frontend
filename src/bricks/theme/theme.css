@@ -263,26 +263,11 @@ body,
 label {
   display: block;
 }
-@media only screen and (min-width: 40em) {
-  :root {
-    font-size: 18px;
-  }
-}
-@media only screen and (min-width: 100em) {
-  :root {
-    font-size: 22px;
-  }
-}
+
 body {
   font-family: 'Inter';
 }
-h1,
-h2,
-h3 {
-  text-transform: uppercase;
-  font-family: 'Inter';
-  font-weight: lighter;
-}
+
 input {
   padding: 0.5rem;
   font-family: 'Inter';
@@ -300,6 +285,10 @@ a:hover,
 a {
   text-decoration: none;
   color: var(--primary);
+}
+
+svg {
+  fill: var(--primary);
 }
 
 @media (hover: none) and (pointer: coarse) {

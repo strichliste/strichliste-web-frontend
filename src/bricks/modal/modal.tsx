@@ -57,14 +57,17 @@ export const Modal: React.FC<{
   handleHide(popState?: boolean): void;
   show: boolean;
   backDropTile?: string;
-}> = ({ children, show, handleHide, backDropTile = 'close' }) => {
+  id?: string;
+}> = ({ id, children, show, handleHide, backDropTile = 'close' }) => {
   if (!show) {
     return null;
   }
 
   return ReactDom.createPortal(
     <>
-      <Card className={styles.modal}>{children}</Card>
+      <Card id={id} className={styles.modal}>
+        {children}
+      </Card>
       <Backdrop onClick={handleHide} title={backDropTile} />
     </>,
     document.body

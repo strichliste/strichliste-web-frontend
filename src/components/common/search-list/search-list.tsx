@@ -38,12 +38,14 @@ type SearchListComponent = React.FC<{
   items: any[];
   pageSize: number;
   renderItem: any;
+  scrollableTarget?: string;
 }>;
 
 export const SearchList: SearchListComponent = ({
   items,
   pageSize,
   renderItem,
+  scrollableTarget,
 }) => {
   const [filter, updateFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState(items);
@@ -62,12 +64,14 @@ export const SearchList: SearchListComponent = ({
     <div>
       <div style={{ margin: '1rem 0' }}>
         <Input
+          autoFocus
           placeholder="search"
           value={filter}
           onChange={e => updateFilter(e.target.value)}
         />
       </div>
       <InfiniteList
+        scrollableTarget={scrollableTarget}
         items={filteredItems}
         pageSize={pageSize}
         renderItem={renderItem}
@@ -80,11 +84,11 @@ export const InfiniteList: SearchListComponent = ({
   items,
   pageSize,
   renderItem,
+  scrollableTarget,
 }) => {
   const infiniteProps = useInfiniteScrolling(items, pageSize);
-
   return (
-    <InfiniteScroll {...infiniteProps}>
+    <InfiniteScroll {...infiniteProps} scrollableTarget={scrollableTarget}>
       {infiniteProps.items.map(renderItem)}
     </InfiniteScroll>
   );

@@ -7,15 +7,6 @@ import { Currency } from '../currency';
 import { ArticleValidator } from './validator';
 import { Flex, Input, CancelButton, Button } from '../../bricks';
 
-// const InputSection = styled(Flex)({
-//   padding: '0 1rem',
-//   margin: '3rem auto 0 auto',
-//   maxWidth: '20rem',
-//   button: {
-//     marginLeft: '1rem',
-//   },
-// });
-
 interface Props {
   userId: string;
   onSelect(article: Article): void;
@@ -36,7 +27,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
     <div>
       <Flex>
         <Input value={query} onChange={e => setQuery(e.target.value)} />
-        <CancelButton onClick={props.onCancel} />
+        <CancelButton margin="0 0 0 1rem" onClick={props.onCancel} />
       </Flex>
       <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">
         {items

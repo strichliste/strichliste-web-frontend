@@ -257,13 +257,7 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
           <FormattedMessage
             id="SELECT_RECIPIENT"
             defaultMessage="select recipient"
-            children={placeholder => (
-              <UserSelection
-                placeholder={placeholder as string}
-                autoFocus
-                onSelect={this.setRecipient}
-              />
-            )}
+            children={placeholder => <div />}
           />
         </div>
         <FormattedMessage
