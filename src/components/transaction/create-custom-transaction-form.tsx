@@ -8,7 +8,9 @@ import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
 import { useSettings } from '../../store';
 import { en } from '../../locales/en';
-import { Grid_3, Button } from '../../bricks';
+import { Button } from '../../bricks';
+
+import styles from './create-user-transaction-form.module.css';
 
 interface Props {
   userId: string;
@@ -41,7 +43,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
     }
   };
   return (
-    <Grid_3>
+    <div className={styles.userTransactionGrid}>
       {payment.dispense.custom ? (
         <Button
           red
@@ -75,6 +77,6 @@ export const CreateCustomTransactionForm = (props: Props) => {
       ) : (
         <div></div>
       )}
-    </Grid_3>
+    </div>
   );
 };
