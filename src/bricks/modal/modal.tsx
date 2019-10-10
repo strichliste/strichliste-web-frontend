@@ -56,8 +56,8 @@ export const Modal: React.FC<{
   handleShow(): void;
   handleHide(popState?: boolean): void;
   show: boolean;
-  backDropTile: string;
-}> = ({ children, show, handleHide, backDropTile }) => {
+  backDropTile?: string;
+}> = ({ children, show, handleHide, backDropTile = 'close' }) => {
   if (!show) {
     return null;
   }
