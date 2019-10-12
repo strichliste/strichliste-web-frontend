@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ScalingButtons } from '../settings/scaling-buttons';
 import { ScrollContainer } from './scroll-container/scroll-container';
 import { Flex, Tab, ThemeSwitcher } from '../../bricks';
 
@@ -24,7 +23,6 @@ export function NavTabMenus({ tabs, margin }: NavTabMenusProps): JSX.Element {
       </ScrollContainer>
       <div>
         <ThemeSwitcher />
-        <ScalingButtons />
       </div>
     </Flex>
   );

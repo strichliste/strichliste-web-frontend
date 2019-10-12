@@ -7,13 +7,12 @@ import { en } from './locales/en';
 import { ErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
 import { IntlProvider } from 'react-intl';
-import { MainFooter, baseCss, mobileStyles } from './components/ui';
+import { MainFooter } from './components/ui';
 import { SearchResults } from './components/common/search-results';
 import { SplitInvoiceForm } from './components/transaction';
 import { startLoadingSettings } from './store/reducers';
 import { store } from './store';
 import { UserRouter } from './components/user/user-router';
-import { useScalingState } from './components/settings/scaling-buttons';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
@@ -76,26 +75,19 @@ const Layout = () => {
   );
 };
 
-export class App extends React.Component {
-  // tslint:disable-next-line:prefer-function-over-method
-  public render(): JSX.Element {
-    return (
-      <ThemeProvider>
-        <StoreContext.Provider value={store}>
-          <IntlProvider
-            textComponent={React.Fragment}
-            locale="en"
-            messages={en}
-          >
-            <HashRouter hashType="hashbang">
-              <Layout />
-            </HashRouter>
-          </IntlProvider>
-        </StoreContext.Provider>
-      </ThemeProvider>
-    );
-  }
-}
+export const App = () => {
+  return (
+    <ThemeProvider>
+      <StoreContext.Provider value={store}>
+        <IntlProvider textComponent={React.Fragment} locale="en" messages={en}>
+          <HashRouter hashType="hashbang">
+            <Layout />
+          </HashRouter>
+        </IntlProvider>
+      </StoreContext.Provider>
+    </ThemeProvider>
+  );
+};
 
 // tslint:disable-next-line:no-default-export
 export default App;
