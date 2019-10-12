@@ -21,7 +21,9 @@ export function ErrorMessage() {
   }
 
   return (
-    <div style={{ position: 'fixed', bottom: 0, width: '100%' }}>
+    <div
+      style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 600 }}
+    >
       <Toast type="error" fadeOutSeconds={5}>
         <FormattedMessage id={id} />
       </Toast>
