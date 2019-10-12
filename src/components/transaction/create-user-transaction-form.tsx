@@ -94,9 +94,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
           }}
         >
           <div>
-            <div style={{ marginRight: '1rem' }}>
-              <AcceptIcon />
-            </div>
+            <AcceptIcon style={{ marginRight: '1rem' }} />
             <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_SUCCESS" />{' '}
             <UserName width="120px" name={this.state.selectedUser.name} />
             &#8594;
