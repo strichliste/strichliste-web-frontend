@@ -13,7 +13,7 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
 
   React.useEffect(() => {
     startLoadingArticles(dispatch, isActive);
-  }, [dispatch]);
+  }, [dispatch, isActive]);
 
   return (
     <div style={{ margin: '1.5rem 1rem' }}>
