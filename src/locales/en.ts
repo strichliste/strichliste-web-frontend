@@ -83,4 +83,5 @@ export const en = {
   SPLIT_INVOICE_LINK: 'Split Invoice',
   SPLIT_INVOICE_HEADLINE: 'Split Invoice',
   SPLIT_INVOICE_SUBMIT: 'submit the split invoice',
+  SELECT_RECIPIENT: 'select recipient',
 };
