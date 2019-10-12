@@ -1,0 +1,12 @@
+.input {
+  background: var(--componentBackgroundDark);
+  border: solid 1px transparent;
+  border-radius: 4px;
+  color: var(--primary);
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.input::placeholder {
+  color: var(--textSubtile);
+}

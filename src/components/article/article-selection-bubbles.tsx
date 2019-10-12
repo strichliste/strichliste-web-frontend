@@ -1,4 +1,3 @@
-import { CancelButton, Flex, Input, styled, Button } from 'bricks-of-sand';
 import * as React from 'react';
 import { useDispatch } from 'redux-react-hook';
 
@@ -6,15 +5,7 @@ import { usePopularArticles } from '../../store';
 import { Article, startLoadingArticles } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ArticleValidator } from './validator';
-
-const InputSection = styled(Flex)({
-  padding: '0 1rem',
-  margin: '3rem auto 0 auto',
-  maxWidth: '20rem',
-  button: {
-    marginLeft: '1rem',
-  },
-});
+import { Flex, Input, CancelButton, Button } from '../../bricks';
 
 interface Props {
   userId: string;
@@ -30,14 +21,14 @@ export const ArticleSelectionBubbles = (props: Props) => {
 
   React.useEffect(() => {
     startLoadingArticles(dispatch, true);
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
-      <InputSection>
+      <Flex>
         <Input value={query} onChange={e => setQuery(e.target.value)} />
-        <CancelButton onClick={props.onCancel} />
-      </InputSection>
+        <CancelButton margin="0 0 0 1rem" onClick={props.onCancel} />
+      </Flex>
       <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">
         {items
           .filter(

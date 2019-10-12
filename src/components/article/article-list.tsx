@@ -42,7 +42,7 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
 
   React.useEffect(() => {
     startLoadingArticles(dispatch, isActive);
-  }, [dispatch]);
+  }, [dispatch, isActive]);
 
   return (
     <Block margin="1.5rem 1rem">
@@ -71,6 +71,6 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
         )}
         pageSize={10}
       />
-    </Block>
+    </div>
   );
 };

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { GreenButton, RedButton } from 'bricks-of-sand';
 import { startCreatingTransaction } from '../../store/reducers';
 import { Currency } from '../currency';
 import { useTransactionValidator } from './validator';
 import { store } from '../../store';
+import { Button } from '../../bricks';
 
 interface Props {
   userId: string;
@@ -13,7 +13,6 @@ interface Props {
 }
 
 export function TransactionButton(props: Props): JSX.Element {
-  const Button = props.isDeposit ? GreenButton : RedButton;
   const isValid = useTransactionValidator(
     props.value,
     props.userId,
@@ -22,6 +21,8 @@ export function TransactionButton(props: Props): JSX.Element {
 
   return (
     <Button
+      green={props.isDeposit}
+      red={!props.isDeposit}
       padding="0.8rem 0.5rem"
       onClick={() =>
         startCreatingTransaction(store.dispatch, props.userId, {

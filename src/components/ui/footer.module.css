@@ -1,0 +1,15 @@
+.footer {
+  font-size: 0.8rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  color: var(--textSubtile);
+}
+
+.footer a {
+  color: var(--textSubtile);
+}
+
+.footer a svg {
+  fill: var(--textSubtile);
+}

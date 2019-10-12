@@ -2,40 +2,30 @@
 
 exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
 <div
-  class="css-mglgiq"
+  class="userTransactionGrid"
 >
-  <div
-    class="css-1e5tckv"
+  <button
+    class="button fab red"
+    disabled=""
+    title="BALANCE_DISPENSE"
+    type="submit"
   >
-    <button
-      class="css-1y0d4fc"
-      disabled=""
-      type="submit"
-    >
-      <div
-        class="css-19nvorq"
-      >
-        -
-      </div>
-    </button>
-    <input
-      class="css-14z9msu"
-      placeholder="CUSTOM AMOUNT"
-      style="color: rgb(142, 142, 142);"
-      type="tel"
-      value="CUSTOM AMOUNT"
-    />
-    <button
-      class="css-1y0d4fc"
-      disabled=""
-      type="submit"
-    >
-      <div
-        class="css-19nvorq"
-      >
-        +
-      </div>
-    </button>
-  </div>
+    -
+  </button>
+  <input
+    class="input"
+    placeholder="BALANCE_PLACEHOLDER"
+    style="color: rgb(142, 142, 142);"
+    type="tel"
+    value="BALANCE_PLACEHOLDER"
+  />
+  <button
+    class="button fab green"
+    disabled=""
+    title="BALANCE_DEPOSIT"
+    type="submit"
+  >
+    +
+  </button>
 </div>
 `;

@@ -1,0 +1,23 @@
+.ellipsis {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
+.lineThrough {
+  text-decoration: line-through;
+}
+
+.redText {
+  color: var(--redText);
+}
+
+.greenText {
+  color: var(--greenText);
+}

@@ -90,8 +90,12 @@ export class TransactionTable extends React.Component<Props, State> {
 function TransactionPage(props: { transactions: Transaction[] }): JSX.Element {
   return (
     <>
-      {props.transactions.map(transaction => (
-        <TransactionListItem key={transaction.id} id={transaction.id} />
+      {props.transactions.map((transaction, index) => (
+        <TransactionListItem
+          first={index === 0}
+          key={transaction.id}
+          id={String(transaction.id)}
+        />
       ))}
     </>
   );

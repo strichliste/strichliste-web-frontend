@@ -1,0 +1,15 @@
+.grid {
+  grid-template-columns: 4fr 1fr 4fr 1fr;
+  display: grid;
+  gap: 1rem;
+  align-content: center;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.userTransactionGrid {
+  display: grid;
+  grid-template-columns: 3rem 1fr 3rem;
+  gap: 1rem 1rem;
+  margin: 1rem;
+}

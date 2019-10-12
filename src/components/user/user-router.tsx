@@ -6,53 +6,77 @@ import { WrappedIdleTimer } from '../common/idle-timer';
 import { UserMetricsView } from '../metrics';
 import { UserDetails } from './user-details';
 import { TransactionOverview } from './views/transaction-overview';
-import { User } from './views/user';
+import { User } from './views/user/user';
 import { useSettings } from '../../store';
 
 export function UserRouter(): JSX.Element {
   return (
-    <>
-      <WrappedIdleTimer />
-      <Switch>
-        <Route
-          path="/user/active"
-          exact={true}
-          render={props => <User {...props} isActive={true} />}
-        />
-        <Route
-          path="/user/inactive"
-          exact={true}
-          render={props => <User {...props} isActive={false} />}
-        />
-        <Route
-          path="/user/active/add"
-          exact={true}
-          render={props => (
+    <Switch>
+      <Route
+        path="/user/active"
+        exact={true}
+        render={props => <User {...props} isActive={true} />}
+      />
+      <Route
+        path="/user/inactive"
+        exact={true}
+        render={props => <User {...props} isActive={false} />}
+      />
+      <Route
+        path="/user/active/add"
+        exact={true}
+        render={props => (
+          <>
+            <WrappedIdleTimer />
             <User {...props} showCreateUserForm={true} isActive={true} />
-          )}
-        />
-        <Route
-          path="/user/inactive/add"
-          exact={true}
-          render={props => (
+          </>
+        )}
+      />
+      <Route
+        path="/user/inactive/add"
+        exact={true}
+        render={props => (
+          <>
+            <WrappedIdleTimer />
             <User {...props} showCreateUserForm={true} isActive={false} />
-          )}
-        />
-        <Route
-          path="/user/inactive"
-          exact={true}
-          render={props => <User {...props} isActive={false} />}
-        />
-        <Route
-          path="/user/transactions/:id/:page"
-          exact={true}
-          component={TransactionOverview}
-        />
-        <Route path="/user/:id/metrics" component={UserMetricsView} />
-        <Route path="/user/:id" component={UserDetails} />
-        <Redirect from="/" to="/user/active" />
-      </Switch>
-    </>
+          </>
+        )}
+      />
+      <Route
+        path="/user/inactive"
+        exact={true}
+        render={props => <User {...props} isActive={false} />}
+      />
+      <Route
+        path="/user/transactions/:id/:page"
+        exact={true}
+        render={props => (
+          <>
+            <WrappedIdleTimer />
+            <TransactionOverview {...props} />
+          </>
+        )}
+      />
+      <Route
+        path="/user/:id/metrics"
+        render={() => (
+          <>
+            <WrappedIdleTimer />
+            <UserMetricsView />
+          </>
+        )}
+      />
+      <Route
+        path="/user/:id"
+        render={props => (
+          <>
+            <WrappedIdleTimer />
+            <UserDetails {...props} />
+          </>
+        )}
+      />
+      <Redirect from="/" to="/user/active" />
+    </Switch>
   );
 }
 

@@ -1,0 +1,11 @@
+.card {
+  background: var(--componentBackgroundLight);
+  border-radius: var(--borderRadius);
+  color: var(--primary);
+  padding: 1rem;
+}
+
+.error {
+  background: var(--buttonRedBackground);
+  color: var(--buttonRedFont);
+}

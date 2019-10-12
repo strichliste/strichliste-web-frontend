@@ -1,6 +1,6 @@
-import { Input } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
+import { Input } from '../../bricks';
 
 function getPlaceholder(
   placeholder: string | undefined,

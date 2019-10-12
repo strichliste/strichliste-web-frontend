@@ -1,21 +1,10 @@
-import { AcceptButton, styled } from 'bricks-of-sand';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { useSettings } from '../../store';
 import { Currency, CurrencyInput } from '../currency';
 import { useTransactionValidator } from '../transaction/validator';
-
-const Wrapper = styled('div')({
-  form: {
-    display: 'flex',
-    marginBottom: '1rem',
-  },
-  input: {
-    grow: 1,
-    marginRight: '1rem',
-  },
-});
+import { AcceptButton, Flex } from '../../bricks';
 
 interface Props {
   userName: string;
@@ -47,34 +36,40 @@ export const PayPalTransactionForm = React.memo((props: Props) => {
 
   return (
     <>
-      <Wrapper>
+      <div>
         <form ref={formRef} action={BASE_URL} method="post">
-          <CurrencyInput autoFocus value={value} onChange={setValue} />
-          <input type="hidden" name="cmd" value="_xclick" />
-          <input
-            type="hidden"
-            name="business"
-            value={settings.paypal.recipient}
-          />
-          <input
-            type="hidden"
-            name="item_name"
-            value={`STRICHLISTE: ${props.userName}`}
-          />
-          <input type="hidden" name="no_shipping" value="1" />
-          <input type="hidden" name="no_note" value="1" />
-          <input type="hidden" name="amount" value={amount} />
-          <input type="hidden" name="return" value={returnUrl} />
-          <input type="hidden" name="cancel_return" value={returnCancelUrl} />
-          <input type="hidden" name="rm" value="1" />
-          <input
-            type="hidden"
-            name="currency_code"
-            value={settings.i18n.currency.alpha3}
-          />
-          <AcceptButton onClick={submit} disabled={!isValid} />
+          <Flex>
+            <CurrencyInput autoFocus value={value} onChange={setValue} />
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input
+              type="hidden"
+              name="business"
+              value={settings.paypal.recipient}
+            />
+            <input
+              type="hidden"
+              name="item_name"
+              value={`STRICHLISTE: ${props.userName}`}
+            />
+            <input type="hidden" name="no_shipping" value="1" />
+            <input type="hidden" name="no_note" value="1" />
+            <input type="hidden" name="amount" value={amount} />
+            <input type="hidden" name="return" value={returnUrl} />
+            <input type="hidden" name="cancel_return" value={returnCancelUrl} />
+            <input type="hidden" name="rm" value="1" />
+            <input
+              type="hidden"
+              name="currency_code"
+              value={settings.i18n.currency.alpha3}
+            />
+            <AcceptButton
+              margin="0 0 0 1rem"
+              onClick={submit}
+              disabled={!isValid}
+            />
+          </Flex>
         </form>
-      </Wrapper>
+      </div>
       {fee && (
         <p>
           <FormattedMessage id="PAY_PAL_FEE_LABEL" defaultMessage="fee: " />

@@ -4,10 +4,7 @@
 
 .transactions {
   flex-grow: 1;
-}
-.transactions a {
-  text-align: right;
-  display: block;
+  overflow: hidden;
 }
 
 .payment {

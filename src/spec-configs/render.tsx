@@ -1,4 +1,3 @@
-import { ThemeProvider, theme } from 'bricks-of-sand';
 import { MemoryHistory, createMemoryHistory } from 'history';
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
@@ -9,8 +8,6 @@ import { StoreContext } from 'redux-react-hook';
 
 import { AppState, reducer } from '../store';
 
-const themeConfig = { light: theme, dark: theme };
-
 export function renderWithContext(
   ui: JSX.Element,
   initialState: DeepPartial<AppState>,
@@ -18,13 +15,11 @@ export function renderWithContext(
   history: MemoryHistory = createMemoryHistory()
 ) {
   return render(
-    <ThemeProvider themes={themeConfig}>
-      <StoreContext.Provider value={store}>
-        <Router history={history}>
-          <IntlProvider locale="en">{ui}</IntlProvider>
-        </Router>
-      </StoreContext.Provider>
-    </ThemeProvider>
+    <StoreContext.Provider value={store}>
+      <Router history={history}>
+        <IntlProvider locale="en">{ui}</IntlProvider>
+      </Router>
+    </StoreContext.Provider>
   );
 }
 
@@ -36,15 +31,13 @@ export function renderAndReturnContext(
 ) {
   return {
     result: render(
-      <ThemeProvider themes={themeConfig}>
-        <StoreContext.Provider value={store}>
-          <Router history={history}>
-            <IntlProvider locale="en" textComponent={React.Fragment}>
-              {ui}
-            </IntlProvider>
-          </Router>
-        </StoreContext.Provider>
-      </ThemeProvider>
+      <StoreContext.Provider value={store}>
+        <Router history={history}>
+          <IntlProvider locale="en" textComponent={React.Fragment}>
+            {ui}
+          </IntlProvider>
+        </Router>
+      </StoreContext.Provider>
     ),
     store,
     history,
@@ -53,10 +46,8 @@ export function renderAndReturnContext(
 
 export function renderWithIntl(ui: JSX.Element) {
   return render(
-    <ThemeProvider themes={themeConfig}>
-      <IntlProvider locale="en" textComponent={React.Fragment}>
-        {ui}
-      </IntlProvider>
-    </ThemeProvider>
+    <IntlProvider locale="en" textComponent={React.Fragment}>
+      {ui}
+    </IntlProvider>
   );
 }

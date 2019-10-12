@@ -1,4 +1,3 @@
-import { MultiSelectionBox } from 'bricks-of-sand';
 import * as React from 'react';
 import { useUserState } from '../../store';
 import { UsersState } from '../../store/reducers';
@@ -19,16 +18,7 @@ export function UserMultiSelection({
   const users = useUserState();
 
   return (
-    <MultiSelectionBox
-      //@ts-ignore
-      excludeIds={[excludeUserId]}
-      errorMessageMap={validation}
-      //@ts-ignore
-      getItemIndex={user => (user ? user.id : 0)}
-      itemToString={user => user.name}
-      items={users}
-      onSelect={onSelect}
-      placeholder={placeholder}
-    />
+    //@ts-ignore
+    <div></div>
   );
 }

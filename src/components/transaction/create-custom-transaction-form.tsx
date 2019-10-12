@@ -1,17 +1,15 @@
 import React from 'react';
 
-import { GreenButton, RedButton, ResponsiveGrid, styled } from 'bricks-of-sand';
 import { useDispatch } from 'redux-react-hook';
+import { useIntl } from 'react-intl';
+
 import { startCreatingTransaction } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
 import { useSettings } from '../../store';
+import { Button } from '../../bricks';
 
-const ButtonText = styled('div')({
-  fontSize: '1rem',
-  fontWeight: 'bold',
-  lineHeight: 0,
-});
+import styles from './create-user-transaction-form.module.css';
 
 interface Props {
   userId: string;
@@ -19,6 +17,7 @@ interface Props {
 }
 
 export const CreateCustomTransactionForm = (props: Props) => {
+  const intl = useIntl();
   const { userId, transactionCreated } = props;
   const payment = useSettings().payment;
   const dispatch = useDispatch();
@@ -43,36 +42,40 @@ export const CreateCustomTransactionForm = (props: Props) => {
     }
   };
   return (
-    <ResponsiveGrid gridGap="1rem" columns="3rem 1fr 3rem">
+    <div className={styles.userTransactionGrid}>
       {payment.dispense.custom ? (
-        <RedButton
+        <Button
+          red
+          title={intl.formatMessage({ id: 'BALANCE_DISPENSE' })}
           onClick={() => submit(false)}
-          isRound
+          fab
           disabled={!dispenseIsValid}
           type="submit"
         >
-          <ButtonText>-</ButtonText>
-        </RedButton>
+          -
+        </Button>
       ) : (
         <div></div>
       )}
       <CurrencyInput
         value={value}
-        placeholder="CUSTOM AMOUNT"
+        placeholder={intl.formatMessage({ id: 'BALANCE_PLACEHOLDER' })}
         onChange={setValue}
       />
       {payment.deposit.custom ? (
-        <GreenButton
+        <Button
+          green
+          title={intl.formatMessage({ id: 'BALANCE_DEPOSIT' })}
           onClick={() => submit(true)}
-          isRound
+          fab
           disabled={!depositIsValid}
           type="submit"
         >
-          <ButtonText>+</ButtonText>
-        </GreenButton>
+          +
+        </Button>
       ) : (
         <div></div>
       )}
-    </ResponsiveGrid>
+    </div>
   );
 };

@@ -26,7 +26,7 @@ export function useIdleTimer(onTimeOut: () => void) {
       document.removeEventListener('keyup', resetTimer);
       clearTimeout(timerId);
     };
-  }, []);
+  }, [resetTimer]);
 }
 
 export const WrappedIdleTimer = React.memo(

@@ -2,8 +2,7 @@ import * as React from 'react';
 
 import { withRouter } from 'react-router';
 import { UserRouteProps, getUserDetailLink } from '../user/user-router';
-
-import { Separator } from 'bricks-of-sand';
+import { Separator } from '../../bricks';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Component = (props: UserRouteProps): any => {

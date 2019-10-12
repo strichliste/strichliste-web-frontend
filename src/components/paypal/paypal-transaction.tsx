@@ -1,4 +1,3 @@
-import { Block, styled } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -8,11 +7,6 @@ import { useUserName } from '../../store';
 import { Transaction, startCreatingTransaction } from '../../store/reducers';
 import { getUserDetailLink, getUserPayPalLink } from '../user/user-router';
 import { PayPalTransactionForm } from './paypal-transaction-form';
-
-const H2 = styled('h2')({
-  textAlign: 'center',
-  marginBottom: '1rem',
-});
 
 export type PayPalTransactionProps = RouteComponentProps<{
   id: string;
@@ -43,13 +37,18 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
   }, [paidAmount]);
 
   return (
-    <Block padding="2rem 0">
-      <H2>
+    <>
+      <h2
+        style={{
+          textAlign: 'center',
+          marginBottom: '1rem',
+        }}
+      >
         <FormattedMessage
           id="PAYPAL_HEADING"
           defaultMessage="Charge by paypal"
         />
-      </H2>
+      </h2>
       {props.match.params.amount === 'error' ? (
         <FormattedMessage
           id="PAYPAL_ERROR"
@@ -58,6 +57,6 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
       ) : (
         <PayPalTransactionForm userName={userName} userId={userId} />
       )}
-    </Block>
+    </>
   );
 });

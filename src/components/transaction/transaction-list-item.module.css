@@ -1,0 +1,14 @@
+.grid {
+  display: flex;
+}
+
+.grow {
+  display: flex;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.textRight {
+  text-align: right;
+  min-width: 0;
+}

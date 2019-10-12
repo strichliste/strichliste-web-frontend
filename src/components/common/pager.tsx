@@ -1,6 +1,6 @@
-import { Flex, PrimaryButton } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Flex, Button } from '../../bricks';
 
 function isPrevDisabled(props: PagerProps): boolean {
   return props.currentPage === 0;
@@ -34,20 +34,20 @@ export interface PagerProps {
 export function Pager(props: PagerProps): JSX.Element {
   return (
     <Flex margin="1rem 0" alignContent="center" justifyContent="space-between">
-      <PrimaryButton
-        fontSize="1rem"
+      <Button
+        primary
         onClick={() => pageDown(props)}
         disabled={isPrevDisabled(props)}
       >
         &#8592; <FormattedMessage id="PAGER_PREV" />
-      </PrimaryButton>
-      <PrimaryButton
-        fontSize="1rem"
+      </Button>
+      <Button
+        primary
         onClick={() => pageUp(props)}
         disabled={isNextDisabled(props)}
       >
         <FormattedMessage id="PAGER_NEXT" /> &#8594;
-      </PrimaryButton>
+      </Button>
     </Flex>
   );
 }

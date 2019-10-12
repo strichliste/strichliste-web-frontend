@@ -1,4 +1,8 @@
 export const en = {
+  BALANCE_DISPENSE: 'dispense',
+  BALANCE_PLACEHOLDER: 'CUSTOM AMOUNT',
+  BALANCE_DEPOSIT: 'deposit',
+  BALANCE_TITLE: 'Balance',
   ARTICLE_HEADLINE: 'Articles',
   ARTICLE_LINK: 'Article List',
   ARTICLE_ADD_LINK: 'add new articles',
@@ -42,6 +46,8 @@ export const en = {
   USER_TRANSACTIONS_TABLE_LOAD_NEXT_ROWS: 'more',
   USER_TRANSACTIONS_RECIPIENT: 'recipient',
   USER_TRANSACTION_CREATE: 'Send money to a friend',
+  USER_TRANSACTION_CREATE_SUBMIT_TITLE:
+    'Submit to send this amount to a friend',
   USER_TRANSACTION_CREATE_LINK: 'Send money',
   USER_TRANSACTION_CREATE_CUSTOM_HEADLINE: 'Custom transaction',
   USER_TRANSACTION_CREATE_CUSTOM_DEPOSIT_BUTTON: 'Charge wallet',
@@ -74,4 +80,8 @@ export const en = {
   METRICS_HEADLINE: 'Metrics',
   ARTICLE_ACTIVE_HEADLINE: 'Active Articles',
   ARTICLE_INACTIVE_HEADLINE: 'Inactive Articles',
+  SPLIT_INVOICE_LINK: 'Split Invoice',
+  SPLIT_INVOICE_HEADLINE: 'Split Invoice',
+  SPLIT_INVOICE_SUBMIT: 'submit the split invoice',
+  SELECT_RECIPIENT: 'select recipient',
 };
