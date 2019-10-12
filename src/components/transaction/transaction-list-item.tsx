@@ -44,17 +44,26 @@ const ListItemDescription = ({
   );
 };
 
-export function TransactionListItem({ id }: any): JSX.Element | null {
+export function TransactionListItem({
+  id,
+  first,
+}: {
+  id: string;
+  first?: boolean;
+}): JSX.Element | null {
   const transaction = useTransaction(Number(id));
   if (!transaction) {
     return null;
   }
   return (
-    <ListItem>
+    <ListItem borderTop>
       <LineThrough lineThrough={transaction.isDeleted}>
         <div className={styles.grid}>
           <div className={styles.grow}>
-            <AlertText value={transaction.amount}>
+            <AlertText
+              style={{ marginRight: '1rem' }}
+              value={transaction.amount}
+            >
               <Currency value={transaction.amount} />
             </AlertText>
             <ListItemDescription

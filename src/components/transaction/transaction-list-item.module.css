@@ -10,4 +10,5 @@
 
 .textRight {
   text-align: right;
+  min-width: 0;
 }

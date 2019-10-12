@@ -71,7 +71,15 @@ export const CardGrid: React.FC = ({ children }) => {
   return <div className={styles.cardGrid}>{children}</div>;
 };
 
-export const ListItem: React.FC<{ className?: string }> = ({
-  children,
-  className,
-}) => <div className={classnames(className, styles.list)}>{children}</div>;
+export const ListItem: React.FC<{
+  className?: string;
+  borderTop?: boolean;
+}> = ({ children, className, borderTop }) => (
+  <div
+    className={classnames(className, styles.list, {
+      [styles.borderTop]: borderTop,
+    })}
+  >
+    {children}
+  </div>
+);

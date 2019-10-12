@@ -67,8 +67,12 @@ export const UserDetails = (props: UserDetailsProps) => {
           <>
             {transactions.length ? (
               <div className={styles.transactions}>
-                {transactions.map(id => (
-                  <TransactionListItem key={id} id={id} />
+                {transactions.map((id, index) => (
+                  <TransactionListItem
+                    key={id}
+                    first={index === 0}
+                    id={String(id)}
+                  />
                 ))}
                 <Flex justifyContent="flex-end">
                   <Button

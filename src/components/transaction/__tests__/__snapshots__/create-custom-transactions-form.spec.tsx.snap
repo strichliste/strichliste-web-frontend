@@ -7,22 +7,22 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
   <button
     class="button fab red"
     disabled=""
-    title="dispense"
+    title="BALANCE_DISPENSE"
     type="submit"
   >
     -
   </button>
   <input
     class="input"
-    placeholder="CUSTOM AMOUNT"
+    placeholder="BALANCE_PLACEHOLDER"
     style="color: rgb(142, 142, 142);"
     type="tel"
-    value="CUSTOM AMOUNT"
+    value="BALANCE_PLACEHOLDER"
   />
   <button
     class="button fab green"
     disabled=""
-    title="deposit"
+    title="BALANCE_DEPOSIT"
     type="submit"
   >
     +

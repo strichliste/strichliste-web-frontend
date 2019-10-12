@@ -17,6 +17,7 @@ export const Ellipsis: React.FunctionComponent<{ title?: string }> = ({
 
 interface AlertTextProps {
   value: number;
+  style?: React.CSSProperties;
 }
 export const AlertText: React.FC<AlertTextProps> = ({ value, ...props }) => {
   return (
