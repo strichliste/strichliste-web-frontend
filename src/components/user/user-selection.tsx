@@ -6,21 +6,28 @@ import { Button } from '../../bricks/button/button';
 import { UserSearchList } from '../common/search-results';
 
 interface Props {
-  userId?: string;
+  filterUsers?: User[];
+  filterUserId?: string;
   placeholder: string;
   disabled?: boolean;
+  user?: User;
   getString?(user: User): string;
   onSelect(user: User): void;
 }
 
 export function UserSelection({
   placeholder,
-  userId,
+  filterUsers,
+  filterUserId,
   onSelect,
+  user,
 }: Props): JSX.Element {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const modalProps = useModal();
   const [selection, setSelection] = React.useState();
+  React.useEffect(() => {
+    setSelection(user);
+  }, [user]);
   const handleSelection = (user: User) => {
     setSelection(user);
     onSelect(user);
@@ -44,7 +51,8 @@ export function UserSelection({
       <Modal {...modalProps} id="user-selection">
         <UserSearchList
           scrollableTarget="user-selection"
-          userId={userId}
+          filterUsers={filterUsers}
+          filterUserId={filterUserId}
           onUserSelect={handleSelection}
         />
       </Modal>
