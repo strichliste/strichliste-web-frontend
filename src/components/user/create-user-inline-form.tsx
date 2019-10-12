@@ -16,7 +16,6 @@ interface Props {
 
 export const CreateUserInlineForm = ({
   history,
-  isActive,
 }: Props & RouteComponentProps) => {
   const modalProps = useModal();
   const [name, setName] = React.useState('');
@@ -56,7 +55,7 @@ export const CreateUserInlineForm = ({
               maxLength={64}
               autoFocus={true}
             />
-            <Button margin="0 0 0 1rem" type="submit" fab primary>
+            <Button margin="0 0 0 1rem" type="submit" fab highlight>
               <EditIcon />
             </Button>
           </Flex>
