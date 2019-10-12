@@ -20,16 +20,21 @@ export const SearchResults: React.FC<RouteComponentProps> = props => {
 
 export const UserSearchList: React.FC<{
   onUserSelect(user: User): void;
-  userId?: string | number;
+  filterUsers?: User[];
+  filterUserId?: string;
   scrollableTarget?: string;
-}> = ({ onUserSelect, userId, scrollableTarget }) => {
+}> = ({ onUserSelect, filterUsers, filterUserId, scrollableTarget }) => {
   const userArray = useUserArray();
   const dispatch = useDispatch();
   useEffect(() => {
     startLoadingUsers(dispatch);
   }, [dispatch]);
-  const filteredUsers = userId
-    ? userArray.filter(user => Number(user.id) !== Number(userId))
+  const filteredUsers = filterUsers
+    ? userArray.filter(
+        user => !filterUsers.map(user => user.id).includes(user.id)
+      )
+    : filterUserId
+    ? userArray.filter(user => user.id !== filterUserId)
     : userArray;
 
   return (

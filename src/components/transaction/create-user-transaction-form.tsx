@@ -137,7 +137,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
               <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_USER">
                 {text => (
                   <UserSelection
-                    userId={this.props.match.params.id}
+                    filterUserId={this.props.match.params.id}
                     placeholder={text as string}
                     onSelect={this.submitUserId}
                   />
