@@ -63,7 +63,6 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
         this.setState({
           hasSelectionReady: true,
           createdTransactionId: res.id,
-          selectedUser: initialState.selectedUser,
         });
       }
     }
@@ -89,12 +88,15 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
           margin="1rem 0"
           style={{
             justifyContent: 'space-between',
+            alignContent: 'center',
             display: 'flex',
             width: '100%',
           }}
         >
           <div>
-            <AcceptIcon />
+            <div style={{ marginRight: '1rem' }}>
+              <AcceptIcon />
+            </div>
             <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_SUCCESS" />{' '}
             <UserName width="120px" name={this.state.selectedUser.name} />
             &#8594;
