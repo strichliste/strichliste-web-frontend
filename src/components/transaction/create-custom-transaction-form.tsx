@@ -7,7 +7,6 @@ import { startCreatingTransaction } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
 import { useSettings } from '../../store';
-import { en } from '../../locales/en';
 import { Button } from '../../bricks';
 
 import styles from './create-user-transaction-form.module.css';
@@ -47,7 +46,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
       {payment.dispense.custom ? (
         <Button
           red
-          title={intl.formatMessage({ id: en.BALANCE_DISPENSE })}
+          title={intl.formatMessage({ id: 'BALANCE_DISPENSE' })}
           onClick={() => submit(false)}
           fab
           disabled={!dispenseIsValid}
@@ -60,13 +59,13 @@ export const CreateCustomTransactionForm = (props: Props) => {
       )}
       <CurrencyInput
         value={value}
-        placeholder={intl.formatMessage({ id: en.BALANCE_PLACEHOLDER })}
+        placeholder={intl.formatMessage({ id: 'BALANCE_PLACEHOLDER' })}
         onChange={setValue}
       />
       {payment.deposit.custom ? (
         <Button
           green
-          title={intl.formatMessage({ id: en.BALANCE_DEPOSIT })}
+          title={intl.formatMessage({ id: 'BALANCE_DEPOSIT' })}
           onClick={() => submit(true)}
           fab
           disabled={!depositIsValid}

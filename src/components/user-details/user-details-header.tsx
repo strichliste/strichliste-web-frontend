@@ -10,7 +10,6 @@ import { TransactionIcon } from '../ui/icons/transactions';
 import { UserName } from '../user/user-name';
 import { UserDetailRouter } from './user-details-router';
 import { ScrollContainer } from '../common/scroll-container/scroll-container';
-import { en } from '../../locales/en';
 import { Tab, AlertText, PayPal } from '../../bricks';
 
 import styles from './user-details-header.module.css';
@@ -39,7 +38,7 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
         <h2>
           <UserName center name={user.name} />
         </h2>
-        <h3 title={intl.formatMessage({ id: en.BALANCE_TITLE })}>
+        <h3 title={intl.formatMessage({ id: 'BALANCE_TITLE' })}>
           <AlertText value={user.balance}>
             <Currency value={user.balance} />
           </AlertText>
