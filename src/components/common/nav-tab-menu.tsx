@@ -17,7 +17,7 @@ export function NavTabMenus({ tabs, margin }: NavTabMenusProps): JSX.Element {
     <Flex justifyContent="space-between" margin={margin}>
       <ScrollContainer style={{ margin: '0 2rem 0 0' }}>
         {tabs.map(tab => (
-          <Tab margin="0 1.5rem 0 0" key={tab.to} to={tab.to}>
+          <Tab style={{ margin: '0 1.5rem 0 0' }} key={tab.to} to={tab.to}>
             {tab.message}
           </Tab>
         ))}
