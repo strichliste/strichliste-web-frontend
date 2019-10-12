@@ -1,9 +1,13 @@
 .grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 0px 0px;
-  margin: 0px;
+  display: flex;
 }
+
+.grow {
+  display: flex;
+  flex-grow: 1;
+  min-width: 0;
+}
+
 .textRight {
   text-align: right;
 }

@@ -51,27 +51,29 @@ export function TransactionListItem({ id }: any): JSX.Element | null {
   }
   return (
     <ListItem>
-      <LineThrough className={styles.grid} lineThrough={transaction.isDeleted}>
-        <div>
-          <AlertText value={transaction.amount}>
-            <Currency value={transaction.amount} />
-          </AlertText>
-          <ListItemDescription
-            article={transaction.article}
-            isSender={!!transaction.sender}
-            comment={transaction.comment}
-            user={transaction.sender || transaction.recipient}
-          />
-        </div>
-        <div className={styles.textRight}>
-          {transaction.isDeletable ? (
-            <TransactionUndoButton
-              transactionId={transaction.id}
-              userId={transaction.user.id}
+      <LineThrough lineThrough={transaction.isDeleted}>
+        <div className={styles.grid}>
+          <div className={styles.grow}>
+            <AlertText value={transaction.amount}>
+              <Currency value={transaction.amount} />
+            </AlertText>
+            <ListItemDescription
+              article={transaction.article}
+              isSender={!!transaction.sender}
+              comment={transaction.comment}
+              user={transaction.sender || transaction.recipient}
             />
-          ) : (
-            <Ellipsis>{transaction.created}</Ellipsis>
-          )}
+          </div>
+          <div className={styles.textRight}>
+            {transaction.isDeletable ? (
+              <TransactionUndoButton
+                transactionId={transaction.id}
+                userId={transaction.user.id}
+              />
+            ) : (
+              <Ellipsis>{transaction.created}</Ellipsis>
+            )}
+          </div>
         </div>
       </LineThrough>
     </ListItem>
