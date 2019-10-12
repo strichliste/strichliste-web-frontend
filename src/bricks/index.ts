@@ -9,7 +9,7 @@ export {
   Flex,
   Separator,
   GridOneOneTwo,
-  Grid_3,
+  GridThree,
   CardGrid,
   ListItem,
 } from './layout/layout';

@@ -63,7 +63,7 @@ export const GridOneOneTwo: React.FC = ({ children }) => {
   return <div className={styles.gridOneOneTwo}>{children}</div>;
 };
 
-export const Grid_3: React.FC = ({ children }) => {
+export const GridThree: React.FC = ({ children }) => {
   return <div className={styles.grid3}>{children}</div>;
 };
 

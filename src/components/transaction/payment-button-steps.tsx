@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TransactionButton } from './transaction-button';
-import { Grid_3 } from '../../bricks';
+import { GridThree } from '../../bricks';
 
 export interface PaymentButtonListProps {
   steps: number[];
@@ -11,7 +11,7 @@ export interface PaymentButtonListProps {
 export function PaymentButtonList(props: PaymentButtonListProps): JSX.Element {
   const multiplier = props.isDeposit ? 1 : -1;
   return (
-    <Grid_3>
+    <GridThree>
       {props.steps.map(step => (
         <TransactionButton
           key={step}
@@ -20,6 +20,6 @@ export function PaymentButtonList(props: PaymentButtonListProps): JSX.Element {
           value={step * multiplier}
         />
       ))}
-    </Grid_3>
+    </GridThree>
   );
 }
