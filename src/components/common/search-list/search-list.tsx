@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Input } from '../../../bricks';
+import { useIntl } from 'react-intl';
 
 export const useInfiniteScrolling = (
   items: any[],
@@ -53,7 +54,7 @@ export const SearchList: SearchListComponent = ({
 }) => {
   const [filter, updateFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState(items);
-
+  const intl = useIntl();
   useEffect(() => {
     setFilteredItems(
       filter
@@ -69,7 +70,7 @@ export const SearchList: SearchListComponent = ({
       <div style={{ margin: '1rem 0' }}>
         <Input
           autoFocus
-          placeholder="search"
+          placeholder={intl.formatMessage({ id: 'SEARCH' })}
           value={filter}
           onChange={e => updateFilter(e.target.value)}
         />
