@@ -6,6 +6,10 @@
   max-width: 100%;
 }
 
+.noWrap {
+  white-space: nowrap;
+}
+
 .lineThrough {
   text-decoration: line-through;
 }

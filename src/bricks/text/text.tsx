@@ -21,7 +21,7 @@ interface AlertTextProps {
 export const AlertText: React.FC<AlertTextProps> = ({ value, ...props }) => {
   return (
     <span
-      className={classNames({
+      className={classNames(styles.noWrap, {
         [styles.redText]: value < 0,
         [styles.greenText]: value >= 0,
       })}
