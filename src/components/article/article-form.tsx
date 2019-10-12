@@ -11,6 +11,38 @@ import {
 import { Scanner } from '../common/scanner';
 import { CurrencyInput } from '../currency';
 import { useArticleValidator } from './validator';
+import { Trash } from '../ui/icons/trash';
+import {
+  Card,
+  Button,
+  AddIcon,
+  Flex,
+  Ellipsis,
+  AcceptIcon,
+  Input,
+} from '../../bricks';
+
+interface ButtonProps {
+  isVisible: boolean;
+  idArticle?: number;
+  onClick(): void;
+}
+
+const ToggleArticleButton: React.FC<ButtonProps> = props => {
+  if (props.isVisible) {
+    return (
+      <Button onClick={props.onClick}>
+        {props.idArticle ? Trash : undefined}
+      </Button>
+    );
+  }
+
+  return (
+    <Button onClick={props.onClick} fab>
+      <AddIcon />
+    </Button>
+  );
+};
 
 interface Props {
   articleId?: number;
@@ -117,95 +149,15 @@ export const ArticleForm: React.FC<Props> = props => {
           value={params.amount}
           onChange={amount => setParams({ ...params, amount })}
         />
-        <PrimaryButton
-          isRound
+        <Button
+          fab
           disabled={!isValidArticle}
           onClick={(e: React.FormEvent) => submit(e, isValidArticle)}
         >
           <AcceptIcon />
-        </PrimaryButton>
+        </Button>
       </Card>
     </form>
-    <>
-      <Flex alignItems="center" margin="0 0 0.5rem">
-        <ToggleArticleButton
-          idArticle={props.articleId}
-          isVisible={toggle}
-          onClick={handleToggleClick}
-        />
-        <div>
-          {toggle && (
-            <Card padding="0.5rem" level="level3">
-              <div>
-                <label htmlFor="article_add_form_label">
-                  <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
-                </label>
-                <Input
-                  id="article_add_form_label"
-                  value={params.name}
-                  onChange={e => setParams({ ...params, name: e.target.value })}
-                  type="text"
-                  required
-                />
-                <Scanner
-                  onChange={barcode =>
-                    setParams({
-                      ...params,
-                      barcode,
-                    })
-                  }
-                />
-                <label htmlFor="article_add_barcode_label">
-                  <FormattedMessage id="ARTICLE_ADD_FORM_BARCODE_LABEL" />
-                </label>
-                <Input
-                  id="article_add_barcode_label"
-                  value={params.barcode}
-                  onChange={e =>
-                    setParams({ ...params, barcode: e.target.value })
-                  }
-                  type="text"
-                  required
-                />
-                <label htmlFor="article_add_amount_label">
-                  <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
-                </label>
-                <form onSubmit={e => submit(e, isValidArticle)}>
-                  <CurrencyInput
-                    id="article_add_amount_label"
-                    noNegative
-                    value={params.amount}
-                    onChange={amount => setParams({ ...params, amount })}
-                  />
-                </form>
-                <Button
-                  fab
-                  primary
-                  disabled={!isValidArticle}
-                  onClick={(e: React.FormEvent) => submit(e, isValidArticle)}
-                >
-                  <AcceptIcon />
-                </Button>
-              </div>
-            </Card>
-          )}
-          {!toggle && props.articleId && (
-            <div onClick={updateToggle}>
-              <div>
-                <div>{params.name}</div>
-                <div>
-                  <Ellipsis>{params.barcode}</Ellipsis>
-                </div>
-                <div>
-                  <Currency value={params.amount} />
-                </div>
-              </div>
-            </div>
-          )}
-          {!toggle && !props.articleId && props.children}
-        </div>
-      </Flex>
-    </>
   );
 };
 

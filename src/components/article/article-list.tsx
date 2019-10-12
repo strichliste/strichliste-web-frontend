@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
-import { RouteComponentProps, withRouter } from 'react-router';
-
-import { Block, PrimaryButton, AddIcon, Flex } from 'bricks-of-sand';
+import { withRouter } from 'react-router';
 
 import { useActiveArticles } from '../../store';
 import { startLoadingArticles, Article } from '../../store/reducers';
@@ -15,6 +13,7 @@ import { Currency } from '../currency';
 
 //@ts-ignore
 import styles from './article-list.module.css';
+import { Button, AddIcon, Flex } from '../../bricks';
 
 const ArticleListItem: React.FC<{ article: Article }> = ({ article }) => {
   return (
@@ -26,13 +25,13 @@ const ArticleListItem: React.FC<{ article: Article }> = ({ article }) => {
 
 const AddArticleButton: any = withRouter(props => {
   return (
-    <PrimaryButton
+    <Button
       margin="0 1rem 0 0"
       onClick={() => props.history.push('/articles/add')}
-      isRound
+      fab
     >
       <AddIcon />
-    </PrimaryButton>
+    </Button>
   );
 });
 
@@ -45,7 +44,7 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
   }, [dispatch, isActive]);
 
   return (
-    <Block margin="1.5rem 1rem">
+    <div style={{ margin: '1.5rem 1rem' }}>
       <Flex alignContent="center" alignItems="center">
         <AddArticleButton />
         <NavTabMenus
