@@ -2,7 +2,7 @@
 
 exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
 <div
-  class="grid3"
+  class="userTransactionGrid"
 >
   <button
     class="button fab red"
