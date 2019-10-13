@@ -4,9 +4,9 @@ import { Button, SearchMinus, SearchPlus } from '../../bricks';
 const STORAGE_KEY = 'scaling';
 
 export const useScalingState = () => {
-  const [scaling, setScaling] = React.useState(
-    Number(localStorage.getItem(STORAGE_KEY))
-  );
+  const storeScaling = localStorage.getItem(STORAGE_KEY);
+  const initialScaling = storeScaling === null ? 16 : Number(storeScaling);
+  const [scaling, setScaling] = React.useState(initialScaling);
 
   const setScalingToDocument = () => {
     document.documentElement.style.setProperty(
