@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
 import { withRouter } from 'react-router';
 
 import { useActiveArticles } from '../../store';
 import { startLoadingArticles, Article } from '../../store/reducers';
 import { NavTabMenus } from '../common/nav-tab-menu';
-import { InfiniteList } from '../common/search-list/search-list';
+import { SearchList } from '../common/search-list/search-list';
 import { Link } from 'react-router-dom';
 import { getArticleFormRoute } from './article-router';
 import { Currency } from '../currency';
 
 //@ts-ignore
 import styles from './article-list.module.css';
-import { Button, AddIcon, Flex } from '../../bricks';
+import { Button, AddIcon, Flex, Card } from '../../bricks';
 
 const ArticleListItem: React.FC<{ article: Article }> = ({ article }) => {
   return (
@@ -23,9 +23,12 @@ const ArticleListItem: React.FC<{ article: Article }> = ({ article }) => {
   );
 };
 
-const AddArticleButton: any = withRouter(props => {
+const AddArticleButton = withRouter(props => {
+  const intl = useIntl();
   return (
     <Button
+      highlight
+      title={intl.formatMessage({ id: 'ARTICLE_ADD_LINK' })}
       margin="0 1rem 0 0"
       onClick={() => props.history.push('/articles/add')}
       fab
@@ -63,7 +66,7 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
           ]}
         />
       </Flex>
-      <InfiniteList
+      <SearchList
         items={articles}
         renderItem={(article: Article) => (
           <ArticleListItem key={article.id} article={article} />
