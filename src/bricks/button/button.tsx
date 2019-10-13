@@ -2,8 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import styles from './button.module.css';
-import { AcceptIcon } from '../icons';
-import { CancelIcon } from '../../components/ui/icons/add';
+import { AcceptIcon, CancelIcon } from '../icons';
 import { NavLink } from 'react-router-dom';
 
 type ButtonProps = JSX.IntrinsicElements['button'] & {

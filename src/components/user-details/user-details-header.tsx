@@ -4,13 +4,17 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useSettings } from '../../store';
 import { User } from '../../store/reducers';
 import { Currency } from '../currency';
-import { ProductIcon } from '../ui/icons/product';
-import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
-import { TransactionIcon } from '../ui/icons/transactions';
 import { UserName } from '../user/user-name';
 import { UserDetailRouter } from './user-details-router';
 import { ScrollContainer } from '../common/scroll-container/scroll-container';
-import { Tab, AlertText, PayPal } from '../../bricks';
+import {
+  Tab,
+  AlertText,
+  PayPal,
+  TransactionIcon,
+  ShoppingBagIcon,
+  ProductIcon,
+} from '../../bricks';
 
 import styles from './user-details-header.module.css';
 

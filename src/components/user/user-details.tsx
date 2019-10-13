@@ -10,7 +10,6 @@ import {
 } from '../../store/reducers';
 import { ArticleScanner } from '../article/article-scanner';
 import { Payment, TransactionListItem } from '../transaction';
-import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
 import { UserDetailsSeparator } from '../user-details/user-details-separator';
 import { getUserDetailLink, getUserTransactionsLink } from './user-router';
@@ -18,7 +17,7 @@ import { ScrollToTop } from '../common/scroll-to-top';
 
 // @ts-ignore
 import styles from './user-details.module.css';
-import { Button, Flex } from '../../bricks';
+import { Button, Flex, TransactionIcon } from '../../bricks';
 
 type UserDetailsProps = RouteComponentProps<{ id: string }>;
 export const UserDetails = (props: UserDetailsProps) => {

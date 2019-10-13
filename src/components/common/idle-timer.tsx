@@ -31,7 +31,7 @@ export function useIdleTimer(onTimeOut: () => void) {
 
 export const WrappedIdleTimer = React.memo(
   withRouter((props: RouteComponentProps) => {
-    useIdleTimer(() => props.history.push('/'));
+    // useIdleTimer(() => props.history.push('/'));
     return null;
   })
 );

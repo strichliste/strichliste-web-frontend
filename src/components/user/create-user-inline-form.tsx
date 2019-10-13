@@ -5,9 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useDispatch } from 'redux-react-hook';
 
 import { startCreatingUser } from '../../store/reducers';
-import { AddIcon } from '../ui/icons/add';
-import { EditIcon } from '../ui/icons/edit';
-import { Button, Flex, Input } from '../../bricks';
+import { Button, Flex, Input, AddIcon, EditIcon } from '../../bricks';
 import { useModal, Modal } from '../../bricks/modal/modal';
 
 interface Props {

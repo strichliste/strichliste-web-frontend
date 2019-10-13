@@ -7,7 +7,7 @@ import { en } from './locales/en';
 import { ErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
 import { IntlProvider } from 'react-intl';
-import { MainFooter } from './components/ui';
+import { MainFooter } from './components/footer';
 import { SearchResults } from './components/common/search-results';
 import { SplitInvoiceForm } from './components/transaction';
 import { startLoadingSettings } from './store/reducers';

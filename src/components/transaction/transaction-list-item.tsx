@@ -1,12 +1,17 @@
 import * as React from 'react';
 import { Currency } from '../currency';
-import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { TransactionUndoButton } from './transaction-undo-button';
 import { useTransaction } from '../../store';
 import { getUserDetailLink } from '../user/user-router';
 import { Link } from 'react-router-dom';
 import { User, Article } from '../../store/reducers';
-import { Ellipsis, LineThrough, AlertText, ListItem } from '../../bricks';
+import {
+  Ellipsis,
+  LineThrough,
+  AlertText,
+  ListItem,
+  ShoppingBagIcon,
+} from '../../bricks';
 
 import styles from './transaction-list-item.module.css';
 

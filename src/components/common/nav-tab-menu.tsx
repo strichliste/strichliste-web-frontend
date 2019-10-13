@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ScrollContainer } from './scroll-container/scroll-container';
 import { Flex, Tab, ThemeSwitcher } from '../../bricks';
+import { ScalingButtons } from '../settings/scaling-buttons';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -21,9 +22,10 @@ export function NavTabMenus({ tabs, margin }: NavTabMenusProps): JSX.Element {
           </Tab>
         ))}
       </ScrollContainer>
-      <div>
+      <Flex>
+        <ScalingButtons />
         <ThemeSwitcher />
-      </div>
+      </Flex>
     </Flex>
   );
 }

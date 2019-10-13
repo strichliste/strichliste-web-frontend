@@ -9,7 +9,6 @@ import {
 } from '../../../store/reducers';
 import { WrappedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
-import { AcceptIcon } from '../../ui/icons/accept';
 import { UserSelection } from '../../user';
 import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
@@ -21,6 +20,7 @@ import {
   AlertText,
   Button,
   Card,
+  AcceptIcon,
 } from '../../../bricks';
 
 import styles from './split-invoice.module.css';
