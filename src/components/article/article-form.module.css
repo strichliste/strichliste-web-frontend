@@ -10,6 +10,9 @@
   .grid {
     display: grid;
     grid-template-columns: 2fr 2fr;
-    gap: 3rem;
+    gap: 2rem;
+  }
+  .grid > * {
+    margin-bottom: 0;
   }
 }

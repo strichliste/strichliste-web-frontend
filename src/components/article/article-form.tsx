@@ -96,7 +96,7 @@ export const ArticleForm: React.FC<Props> = props => {
           : intl.formatMessage({ id: 'ARTICLE_ADD_FROM_HEADLINE' })}
       </h2>
       <div className={styles.grid}>
-        <Card level={'level3'}>
+        <Card>
           <h3>
             <FormattedMessage id="ARTICLE_ADD_FORM_DETAILS" />
           </h3>
@@ -147,7 +147,7 @@ const ArticleDetails: React.FC<{ article: Article }> = () => {
 const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
   const [barcodes, setBarcodes] = React.useState([article.barcode]);
   return (
-    <Card level={'level3'}>
+    <Card>
       <h3>
         <FormattedMessage id="ARTICLE_ADD_FORM_BARCODE" />
       </h3>
@@ -188,9 +188,9 @@ const BarCodeInput: React.FC<{ barcode: string; removeBarCode(): void }> = ({
 };
 
 const ArticleMetrics: React.FC<{ article: Article }> = () => {
-  return <div>METRICS</div>;
+  return <Card>METRICS</Card>;
 };
 
 const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
-  return <div>HISTORY</div>;
+  return <Card>HISTORY</Card>;
 };
