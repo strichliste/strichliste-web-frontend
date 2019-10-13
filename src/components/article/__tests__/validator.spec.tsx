@@ -11,10 +11,10 @@ describe('ArticleValidator', () => {
     it('is valid if user has enough balance', () => {
       const mockRender = jest.fn();
       renderWithContext(
-        <ArticleValidator value={8} userId={1} render={mockRender} />,
+        <ArticleValidator value={8} userId={'1'} render={mockRender} />,
         {
           user: {
-            1: {
+            '1': {
               balance: 10,
             },
           },
@@ -27,10 +27,10 @@ describe('ArticleValidator', () => {
     it('is invalid if user has not enough balance', () => {
       const mockRender = jest.fn();
       renderWithContext(
-        <ArticleValidator value={2010} userId={1} render={mockRender} />,
+        <ArticleValidator value={2010} userId={'1'} render={mockRender} />,
         {
           user: {
-            1: {
+            '1': {
               balance: 10,
             },
           },
