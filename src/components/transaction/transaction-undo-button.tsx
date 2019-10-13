@@ -23,6 +23,7 @@ export function TransactionUndoButton(props: Props) {
 
   return (
     <Button
+      padding="0"
       onClick={() => {
         if (typeof props.onSuccess === 'function') {
           props.onSuccess();

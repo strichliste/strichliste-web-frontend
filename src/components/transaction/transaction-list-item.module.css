@@ -8,7 +8,7 @@
   min-width: 0;
 }
 
-.textRight {
+.grid:last-child {
   text-align: right;
   min-width: 0;
 }

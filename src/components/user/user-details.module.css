@@ -7,10 +7,6 @@
   overflow: hidden;
 }
 
-.payment {
-  margin-bottom: 4rem;
-}
-
 @media only screen and (min-width: 48em) {
   .payment {
     min-width: 24rem;
@@ -21,4 +17,19 @@
     display: flex;
     justify-content: center;
   }
+
+  .bothEnabled {
+    grid-template-columns: 24rem 1fr;
+    gap: 3rem;
+    grid-template-rows: auto;
+  }
+}
+
+.grid {
+  display: grid;
+  padding: 1rem;
+}
+
+.paymentGrid > * {
+  margin-bottom: 4rem;
 }

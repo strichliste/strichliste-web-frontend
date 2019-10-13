@@ -43,6 +43,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
               value={item.amount}
               render={isValid => (
                 <Button
+                  primary
                   disabled={!isValid}
                   onClick={() => {
                     if (isValid) {

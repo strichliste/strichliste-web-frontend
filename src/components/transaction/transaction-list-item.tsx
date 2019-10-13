@@ -78,16 +78,14 @@ export function TransactionListItem({
               user={transaction.sender || transaction.recipient}
             />
           </div>
-          <div className={styles.textRight}>
-            {transaction.isDeletable ? (
-              <TransactionUndoButton
-                transactionId={transaction.id}
-                userId={transaction.user.id}
-              />
-            ) : (
-              <Ellipsis>{transaction.created}</Ellipsis>
-            )}
-          </div>
+          {transaction.isDeletable ? (
+            <TransactionUndoButton
+              transactionId={transaction.id}
+              userId={transaction.user.id}
+            />
+          ) : (
+            <Ellipsis>{transaction.created}</Ellipsis>
+          )}
         </div>
       </LineThrough>
     </ListItem>
