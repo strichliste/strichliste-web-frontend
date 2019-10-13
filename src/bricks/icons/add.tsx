@@ -16,7 +16,7 @@ export function AddIcon(): JSX.Element {
 export const CancelIcon = () => {
   return (
     <svg
-      style={{ transform: 'rotate(90deg)' }}
+      style={{ transform: 'rotate(45deg)' }}
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
