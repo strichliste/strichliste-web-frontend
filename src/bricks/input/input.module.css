@@ -10,3 +10,11 @@
 .input::placeholder {
   color: var(--textSubtile);
 }
+
+.formField {
+  margin-bottom: 1rem;
+}
+
+.formField > label {
+  margin-bottom: 0.5rem;
+}

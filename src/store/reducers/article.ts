@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { get, post, restDelete } from '../../services/api';
 import { MaybeResponse, errorHandler } from '../../services/error-handler';
 import { Action } from '../action';
@@ -7,10 +8,16 @@ export interface ArticleResponse extends MaybeResponse {
   articles: Article[];
 }
 
+export type Barcode = {
+  id: number;
+  barcode: string;
+  created: string;
+};
+
 export interface Article {
   id: number;
   name: string;
-  barcode: string;
+  barcodes: Barcode[];
   amount: number;
   isActive: boolean;
   usageCount: number;
@@ -34,11 +41,46 @@ export function articlesLoaded(payload: Article[]): ArticlesLoadedAction {
   };
 }
 
+// DELETE /api/article/3/barcode/5
+// POST /api/article/3/barcode { "barcode": "foo" }
+
+export async function startAddBarcode(
+  dispatch: Dispatch,
+  id: number,
+  barcode: string
+): Promise<undefined | Article> {
+  const promise = post(`article/${id}/barcode`, { barcode });
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    return data.article;
+  }
+
+  return undefined;
+}
+
+export async function startDeleteBarcode(
+  dispatch: Dispatch,
+  articleId: number,
+  barcodeId: number
+) {
+  const promise = restDelete(`article/${articleId}/barcode/${barcodeId}`);
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    return data.article;
+  }
+
+  return undefined;
+}
+
 export async function startLoadingArticles(
   dispatch: Dispatch,
   isActive: boolean
 ): Promise<void> {
-  const promise = get(`article?limit=999&active=${isActive}&ancestor=false`);
+  const promise = get(`article?limit=999&active=${isActive}`);
   const data = await errorHandler<ArticleResponse>(dispatch, {
     promise,
     defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
@@ -83,10 +125,9 @@ export async function getArticleByBarcode(
 
 export interface AddArticleParams {
   name: string;
-  barcode: string;
   amount: number;
   isActive: boolean;
-  precursor: Article | null;
+  precursor: Article | undefined;
 }
 export async function startAddArticle(
   dispatch: Dispatch,

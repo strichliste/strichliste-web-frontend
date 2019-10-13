@@ -16,3 +16,19 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+
+Input.displayName = 'Input';
+
+export const FormField: React.FC<any> = ({ label, children, ...props }) => {
+  const id = React.useRef(Date.now() + 'di');
+  return (
+    <div className={styles.formField}>
+      <label htmlFor={id.current}>{label}</label>
+      {typeof children === 'function' ? (
+        children(id.current)
+      ) : (
+        <Input id={id.current} {...props} />
+      )}
+    </div>
+  );
+};

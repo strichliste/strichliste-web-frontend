@@ -44,7 +44,5 @@ module.exports = {
     'react/no-children-prop': 0,
     'react/prop-types': 0,
     'jsx-a11y/no-autofocus': 0,
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
   },
 };
