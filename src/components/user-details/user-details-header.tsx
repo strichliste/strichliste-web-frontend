@@ -6,7 +6,6 @@ import { User } from '../../store/reducers';
 import { Currency } from '../currency';
 import { UserName } from '../user/user-name';
 import { UserDetailRouter } from './user-details-router';
-import { ScrollContainer } from '../common/scroll-container/scroll-container';
 import {
   Tab,
   AlertText,
@@ -14,6 +13,7 @@ import {
   TransactionIcon,
   ShoppingBagIcon,
   ProductIcon,
+  ScrollContainer,
 } from '../../bricks';
 
 import styles from './user-details-header.module.css';

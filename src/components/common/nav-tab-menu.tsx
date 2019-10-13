@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { ScrollContainer } from './scroll-container/scroll-container';
-import { Flex, Tab, ThemeSwitcher } from '../../bricks';
+import { Flex, Tab, ThemeSwitcher, ScrollContainer } from '../../bricks';
 import { ScalingButtons } from '../settings/scaling-buttons';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

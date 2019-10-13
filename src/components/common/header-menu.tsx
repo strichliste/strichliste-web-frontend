@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
-import { ScrollContainer } from './scroll-container/scroll-container';
 import { useSettings } from '../../store';
-import { HeaderNav, Logo, SearchIcon } from '../../bricks';
+import { HeaderNav, Logo, SearchIcon, ScrollContainer } from '../../bricks';
 
 const navLinkStyle = { marginRight: '1rem' };
 
