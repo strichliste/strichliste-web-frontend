@@ -1,28 +1,53 @@
 import React from 'react';
-import { useLocalStorage } from '../../hooks/use-storage';
 import { Button, SearchMinus, SearchPlus } from '../../bricks';
 
+const STORAGE_KEY = 'scaling';
+
 export const useScalingState = () => {
-  const [scaling, setScaling] = useLocalStorage('scaling', 16);
-  const increment = () => {
-    setScaling(scaling + 1);
+  const [scaling, setScaling] = React.useState(
+    Number(localStorage.getItem(STORAGE_KEY))
+  );
+
+  const setScalingToDocument = () => {
     document.documentElement.style.setProperty(
       '--baseFontSize',
       `${scaling}px`
+    );
+    document.documentElement.style.setProperty(
+      '--baseFontSizeLaptop',
+      `${scaling + 2}px`
+    );
+    document.documentElement.style.setProperty(
+      '--baseFontSizeDesktop',
+      `${scaling + 4}px`
     );
   };
+
+  React.useEffect(() => {
+    setScalingToDocument();
+  }, [scaling]);
+
+  React.useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, `${scaling}`);
+  }, [scaling]);
+
+  const increment = () => {
+    const nextScaling = scaling + 1;
+    setScaling(nextScaling);
+  };
   const decrement = () => {
-    setScaling(scaling - 1);
-    document.documentElement.style.setProperty(
-      '--baseFontSize',
-      `${scaling}px`
-    );
+    const nextScaling = scaling - 1;
+
+    if (nextScaling > 10) {
+      setScaling(nextScaling);
+    }
   };
 
   return {
     scaling,
     increment,
     decrement,
+    setScalingToDocument,
   };
 };
 

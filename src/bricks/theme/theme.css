@@ -5,7 +5,6 @@
 }
 
 html {
-  --base: 16px;
   --borderRadius: 4px;
   --buttonDisabled: #bababa;
   --border: #e5e6e5;
@@ -290,15 +289,15 @@ svg {
   }
 }
 :root {
-  font-size: 16px;
+  font-size: var(--baseFontSize);
 }
 @media only screen and (min-width: 48em) {
   :root {
-    font-size: 18px;
+    font-size: var(--baseFontSizeLaptop);
   }
 }
 @media only screen and (min-width: 75em) {
   :root {
-    font-size: 20px;
+    font-size: var(--baseFontSizeDesktop);
   }
 }
