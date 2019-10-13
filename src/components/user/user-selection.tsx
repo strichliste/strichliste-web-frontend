@@ -44,7 +44,7 @@ export function UserSelection({
         type="button"
         primary
         onClick={modalProps.handleShow}
-        style={{ maxWidth: '150px' }}
+        style={{ maxWidth: '190px' }}
       >
         <Ellipsis>{selection ? selection.name : placeholder}</Ellipsis>
       </Button>
