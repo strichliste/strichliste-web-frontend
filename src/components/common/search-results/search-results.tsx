@@ -34,7 +34,7 @@ export const UserSearchList: React.FC<{
         user => !filterUsers.map(user => user.id).includes(user.id)
       )
     : filterUserId
-    ? userArray.filter(user => user.id !== filterUserId)
+    ? userArray.filter(user => user.id != filterUserId)
     : userArray;
 
   return (
