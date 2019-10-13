@@ -1,0 +1,15 @@
+.name {
+  margin: 0 0 2rem 0;
+}
+
+.grid > * {
+  margin-bottom: 2rem;
+}
+
+@media only screen and (min-width: 48em) {
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 3rem;
+  }
+}
