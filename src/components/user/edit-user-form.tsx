@@ -48,6 +48,7 @@ export const UserEditForm = (props: Props) => {
       setEmail(user.email || '');
       setDisabled(user.isDisabled || false);
     }
+    // eslint-disable-next-line
   }, [props.userId]);
 
   return (

@@ -16,7 +16,6 @@ import { UserDetailsSeparator } from '../user-details/user-details-separator';
 import { getUserDetailLink, getUserTransactionsLink } from './user-router';
 import { ScrollToTop } from '../common/scroll-to-top';
 
-// @ts-ignore
 import styles from './user-details.module.css';
 import { Button, Flex, TransactionIcon } from '../../bricks';
 
@@ -38,6 +37,7 @@ export const UserDetails = (props: UserDetailsProps) => {
       // @ts-ignore
       inputRef.current.blur();
     }
+    // eslint-disable-next-line
   }, [props.match.params.id]);
 
   if (!user) {

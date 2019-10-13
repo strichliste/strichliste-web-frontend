@@ -25,6 +25,7 @@ export const useScalingState = () => {
 
   React.useEffect(() => {
     setScalingToDocument();
+    // eslint-disable-next-line
   }, [scaling]);
 
   React.useEffect(() => {

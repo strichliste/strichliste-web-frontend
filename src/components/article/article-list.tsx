@@ -13,7 +13,7 @@ import { Currency } from '../currency';
 
 //@ts-ignore
 import styles from './article-list.module.css';
-import { Button, AddIcon, Flex, Card } from '../../bricks';
+import { Button, AddIcon, Flex } from '../../bricks';
 
 const ArticleListItem: React.FC<{ article: Article }> = ({ article }) => {
   return (

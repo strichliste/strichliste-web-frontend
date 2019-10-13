@@ -2,12 +2,7 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'redux-react-hook';
 import { useArticle } from '../../store';
-import {
-  Article,
-  startAddArticle,
-  startDeletingArticle,
-  startLoadingArticles,
-} from '../../store/reducers';
+import { Article, startLoadingArticles } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useArticleValidator } from './validator';
 import {
@@ -21,6 +16,7 @@ import {
 } from '../../bricks';
 
 import styles from './article-form.module.css';
+import { getArticle, AddArticleParams, addArticle } from './api/article-api';
 
 interface Props {
   articleId?: number;
@@ -52,8 +48,6 @@ const resetArticle = (article: Article | undefined, setParams: any) => {
 
 export const ArticleForm: React.FC<Props> = props => {
   const intl = useIntl();
-  const [params, setParams] = React.useState(initialParams);
-  const isValidArticle = useArticleValidator(params.amount);
 
   const dispatch = useDispatch();
   const article = useArticle(props.articleId);
@@ -63,30 +57,9 @@ export const ArticleForm: React.FC<Props> = props => {
       startLoadingArticles(dispatch, true);
       startLoadingArticles(dispatch, false);
     }
+    getArticle(props.articleId || 0);
+    // eslint-disable-next-line
   }, []);
-
-  React.useEffect(() => {
-    resetArticle(article, setParams);
-  }, [article]);
-
-  const deleteArticle = () => {
-    if (article) {
-      startDeletingArticle(dispatch, article.id);
-    }
-  };
-
-  const submit = async (e: React.FormEvent, isValid: boolean) => {
-    e.preventDefault();
-    if (!isValid) {
-      return;
-    }
-
-    const maybeArticle = await startAddArticle(dispatch, params);
-
-    if (maybeArticle) {
-      props.onCreated();
-    }
-  };
 
   return (
     <>
@@ -96,41 +69,7 @@ export const ArticleForm: React.FC<Props> = props => {
           : intl.formatMessage({ id: 'ARTICLE_ADD_FROM_HEADLINE' })}
       </h2>
       <div className={styles.grid}>
-        <Card>
-          <h3>
-            <FormattedMessage id="ARTICLE_ADD_FORM_DETAILS" />
-          </h3>
-          <label htmlFor="article_add_form_label">
-            <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
-          </label>
-          <Input
-            id="article_add_form_label"
-            value={params.name}
-            onChange={e => setParams({ ...params, name: e.target.value })}
-            type="text"
-            required
-          />
-          <label htmlFor="article_add_barcode_label">
-            <FormattedMessage id="ARTICLE_ADD_FORM_BARCODE_LABEL" />
-          </label>
-          <Input
-            id="article_add_barcode_label"
-            value={params.barcode}
-            onChange={e => setParams({ ...params, barcode: e.target.value })}
-            type="text"
-            required
-          />
-          <label htmlFor="article_add_amount_label">
-            <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
-          </label>
-          <CurrencyInput
-            id="article_add_amount_label"
-            noNegative
-            value={params.amount}
-            onChange={amount => setParams({ ...params, amount })}
-          />
-          <AcceptButton disabled={!isValidArticle} />
-        </Card>
+        <ArticleDetails article={article} />
 
         {article && <ArticleHistory article={article} />}
         {article && <ArticleBarCodes article={article} />}
@@ -140,8 +79,67 @@ export const ArticleForm: React.FC<Props> = props => {
   );
 };
 
-const ArticleDetails: React.FC<{ article: Article }> = () => {
-  return <div>DETAILS</div>;
+const extractParams = (article?: Article): AddArticleParams => {
+  if (article) {
+    return {
+      name: article.name,
+      amount: article.amount,
+      isActive: article.isActive,
+      precursor: article.precursor,
+    };
+  } else {
+    return {
+      name: '',
+      amount: 0,
+      isActive: true,
+      precursor: undefined,
+    };
+  }
+};
+
+const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
+  const [params, setParams] = React.useState<AddArticleParams>(
+    extractParams(article)
+  );
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const result = await addArticle(params);
+    console.log(result);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      DETAILS
+      <Card>
+        <h3>
+          <FormattedMessage id="ARTICLE_ADD_FORM_DETAILS" />
+        </h3>
+        <label htmlFor="article_add_form_label">
+          <FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />
+        </label>
+        <Input
+          id="article_add_form_label"
+          value={params.name}
+          onChange={e => setParams({ ...params, name: e.target.value })}
+          type="text"
+          required
+        />
+
+        <label htmlFor="article_add_amount_label">
+          <FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />
+        </label>
+        <CurrencyInput
+          id="article_add_amount_label"
+          noNegative
+          value={params.amount}
+          onChange={amount => setParams({ ...params, amount })}
+        />
+        <div>
+          <AcceptButton disabled={!useArticleValidator(params.amount)} />
+        </div>
+      </Card>
+    </form>
+  );
 };
 
 const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {

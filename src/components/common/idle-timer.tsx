@@ -12,7 +12,6 @@ export function useIdleTimer(onTimeOut: () => void) {
     clearTimeout(timerId);
     timerId = setTimeout(onTimeOut, settings.common.idleTimeout);
   };
-
   React.useEffect(() => {
     resetTimer();
     document.addEventListener('scroll', resetTimer);
@@ -26,7 +25,8 @@ export function useIdleTimer(onTimeOut: () => void) {
       document.removeEventListener('keyup', resetTimer);
       clearTimeout(timerId);
     };
-  }, [resetTimer]);
+    // eslint-disable-next-line
+  }, []);
 }
 
 export const WrappedIdleTimer = React.memo(

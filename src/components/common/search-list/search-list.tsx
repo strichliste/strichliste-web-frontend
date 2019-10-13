@@ -7,7 +7,7 @@ import { useIntl } from 'react-intl';
 export const useInfiniteScrolling = (
   items: any[],
   PAGE_SIZE: number,
-  scrollableTarget: string = '',
+  scrollableTarget = '',
   noScrollBarPageOffset = 2
 ) => {
   const [page, setPage] = useState(1);
@@ -27,6 +27,7 @@ export const useInfiniteScrolling = (
     if (shouldLoadMoreItemsOnStart) {
       setPage(page + noScrollBarPageOffset);
     }
+    // eslint-disable-next-line
   }, [items]);
 
   return {

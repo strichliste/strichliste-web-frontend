@@ -47,6 +47,7 @@ export const useModal = (initialShow = false) => {
       document.removeEventListener('keydown', handleEsc);
       window.removeEventListener('popstate', handlePopState);
     };
+    // eslint-disable-next-line
   }, [show]);
 
   return { show, handleHide, handleShow };

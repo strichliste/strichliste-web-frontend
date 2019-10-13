@@ -34,6 +34,7 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
         }
       });
     }
+    // eslint-disable-next-line
   }, [paidAmount]);
 
   return (
