@@ -10,6 +10,9 @@ import {
   startAddBarcode,
   startDeleteBarcode,
   Barcode,
+  startAddTag,
+  startDeleteTag,
+  Tag,
 } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useArticleValidator } from './validator';
@@ -26,6 +29,7 @@ import {
 import styles from './article-form.module.css';
 import { useHistory } from 'react-router';
 import { FormField } from '../../bricks/input/input';
+import { ScrollToTop } from '../common/scroll-to-top';
 
 interface Props {
   articleId?: number;
@@ -47,6 +51,7 @@ export const ArticleForm: React.FC<Props> = props => {
 
   return (
     <>
+      <ScrollToTop />
       <h2 className={styles.name}>
         {article
           ? article.name
@@ -55,6 +60,7 @@ export const ArticleForm: React.FC<Props> = props => {
       <div className={styles.grid}>
         <ArticleDetails article={article} />
 
+        {article && <ArticleTags article={article} />}
         {article && <ArticleBarCodes article={article} />}
         {article && <ArticleHistory article={article} />}
         {article && <ArticleMetrics article={article} />}
@@ -154,62 +160,131 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
     setBarcodes(barcodes.filter(item => item.id !== barcode.id));
   };
   return (
-    <Card>
-      <h3 className={styles.name}>
-        <FormattedMessage id="ARTICLE_ADD_FORM_BARCODE" />
-      </h3>
-
-      {barcodes.map(barcode => (
-        <BarCodeInput
-          handleRemoveBarcode={() => handleDeleteBarcode(barcode)}
-          handleAddBarcode={handleAddBarcode}
-          key={barcode.id}
-          barcode={barcode.barcode}
-        />
-      ))}
-
-      <Button
-        margin="1rem 0 0 0"
-        primary
-        onClick={() =>
-          setBarcodes([...barcodes, { id: 0, barcode: '', created: '' }])
-        }
-      >
-        <Plus />
-        <FormattedMessage id="ARTICLE_FORM_ADD_BARCODE" />
-      </Button>
-    </Card>
+    <ItemList<Barcode>
+      headline={<FormattedMessage id="ARTICLE_ADD_FORM_BARCODE" />}
+      placeholder={'add barcode'}
+      addRowLabel={<FormattedMessage id="ARTICLE_FORM_ADD_BARCODE" />}
+      items={barcodes}
+      handleAddRow={() =>
+        setBarcodes([...barcodes, { id: 0, barcode: '', created: '' }])
+      }
+      handleSaveItem={handleAddBarcode}
+      handleDeleteItem={handleDeleteBarcode}
+      getItemValue={item => item.barcode}
+    />
   );
 };
 
-const BarCodeInput: React.FC<{
-  barcode: string;
-  handleRemoveBarcode(barcode: string): void;
-  handleAddBarcode(barcode: string): void;
-}> = ({ barcode, handleRemoveBarcode, handleAddBarcode }) => {
-  const [value, setValue] = React.useState(barcode);
+const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
+  const [tags, setTags] = React.useState(article.tags);
+  const dispatch = useDispatch();
+  const intl = useIntl();
+  const handleAddTag = async (tag: string) => {
+    const response = await startAddTag(dispatch, article.id, tag);
+    if (response) {
+      setTags(response.tags);
+    }
+  };
+  const handleDeleteTag = async (tag: Tag) => {
+    await startDeleteTag(dispatch, article.id, tag.id);
+    setTags(tags.filter(item => item.id !== tag.id));
+  };
+  return (
+    <ItemList<Tag>
+      headline={<FormattedMessage id="ARTICLE_ADD_FORM_TAG" />}
+      placeholder={intl.formatMessage({ id: 'ADD_TAG_PLACEHOLDER' })}
+      addRowLabel={<FormattedMessage id="ARTICLE_FORM_ADD_TAG" />}
+      items={tags}
+      handleAddRow={() => setTags([...tags, { id: 0, tag: '', created: '' }])}
+      handleSaveItem={handleAddTag}
+      handleDeleteItem={handleDeleteTag}
+      getItemValue={item => item.tag}
+    />
+  );
+};
+
+type ItemListProps<Item = Barcode> = {
+  items: Item[];
+  addRowLabel: React.ReactNode;
+  headline: React.ReactNode;
+  placeholder: string;
+  handleAddRow(): void;
+  handleDeleteItem(item: Item): void;
+  handleSaveItem(value: string): void;
+  getItemValue(item: Item): string;
+};
+
+function ItemList<Item>({
+  items,
+  handleSaveItem,
+  handleDeleteItem,
+  handleAddRow,
+  headline,
+  placeholder,
+  addRowLabel,
+  getItemValue,
+}: ItemListProps<Item>) {
+  return (
+    <Card>
+      <h3 className={styles.name}>{headline}</h3>
+
+      {items.map(item => (
+        <ListInput
+          placeholder={placeholder}
+          handleRemove={() => handleDeleteItem(item)}
+          handleAdd={handleSaveItem}
+          key={getItemValue(item)}
+          item={getItemValue(item)}
+        />
+      ))}
+
+      <Button margin="1rem 0 0 0" primary onClick={handleAddRow}>
+        <Plus />
+        {addRowLabel}
+      </Button>
+    </Card>
+  );
+}
+
+const ListInput: React.FC<{
+  placeholder: string;
+  item: string;
+  handleRemove(item: string): void;
+  handleAdd(item: string): void;
+}> = ({ item, handleRemove, handleAdd, placeholder }) => {
+  const intl = useIntl();
+  const [value, setValue] = React.useState(item);
 
   return (
     <form
       onSubmit={e => {
         e.preventDefault();
-        if (barcode) {
-          handleRemoveBarcode(barcode);
+        if (item) {
+          handleRemove(item);
         } else {
-          handleAddBarcode(value);
+          handleAdd(value);
         }
       }}
     >
       <Flex margin="0 0 0.5rem 0">
         <Input
-          autoFocus={barcode === ''}
+          placeholder={placeholder}
+          autoFocus={item === ''}
           value={value}
           onChange={e => setValue(e.target.value)}
         />
-        {barcode ? (
-          <CancelButton type="submit" margin="0 0 0 0.5rem" />
+        {item ? (
+          <CancelButton
+            title={intl.formatMessage({ id: 'DELETE_ITEM' })}
+            type="submit"
+            margin="0 0 0 0.5rem"
+          />
         ) : (
-          <AcceptButton type="submit" margin="0 0 0 0.5rem" />
+          <AcceptButton
+            title={intl.formatMessage({ id: 'ADD_ITEM' })}
+            type="submit"
+            margin="0 0 0 0.5rem"
+          />
         )}
       </Flex>
     </form>

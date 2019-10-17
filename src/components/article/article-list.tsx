@@ -10,6 +10,7 @@ import { SearchList } from '../common/search-list/search-list';
 import { Link } from 'react-router-dom';
 import { getArticleFormRoute } from './article-router';
 import { Currency } from '../currency';
+import { ArticleTagFilter } from './article-tag-filter';
 
 //@ts-ignore
 import styles from './article-list.module.css';
@@ -40,11 +41,26 @@ const AddArticleButton = withRouter(props => {
 
 export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
   const articles = useActiveArticles(isActive);
+  const [filters, setFilters] = React.useState<string[]>([]);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     startLoadingArticles(dispatch, isActive);
   }, [dispatch, isActive]);
+
+  const handleFilterChange = (filters: Record<string, string>) => {
+    const filterQueries = Object.values(filters);
+    setFilters(filterQueries);
+  };
+
+  const filterArticles = () => {
+    if (filters.length) {
+      return articles.filter(article =>
+        article.tags.some(({ tag }) => filters.includes(tag))
+      );
+    }
+    return articles;
+  };
 
   return (
     <div style={{ margin: '1.5rem 1rem' }}>
@@ -66,8 +82,9 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
           ]}
         />
       </Flex>
+      <ArticleTagFilter onFilterChange={handleFilterChange} />
       <SearchList
-        items={articles}
+        items={filterArticles()}
         renderItem={(article: Article) => (
           <ArticleListItem key={article.id} article={article} />
         )}

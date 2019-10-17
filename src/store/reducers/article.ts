@@ -14,10 +14,17 @@ export type Barcode = {
   created: string;
 };
 
+export type Tag = {
+  id: number;
+  tag: string;
+  created: string;
+};
+
 export interface Article {
   id: number;
   name: string;
   barcodes: Barcode[];
+  tags: Tag[];
   amount: number;
   isActive: boolean;
   usageCount: number;
@@ -40,9 +47,6 @@ export function articlesLoaded(payload: Article[]): ArticlesLoadedAction {
     payload,
   };
 }
-
-// DELETE /api/article/3/barcode/5
-// POST /api/article/3/barcode { "barcode": "foo" }
 
 export async function startAddBarcode(
   dispatch: Dispatch,
@@ -75,12 +79,43 @@ export async function startDeleteBarcode(
 
   return undefined;
 }
+export async function startAddTag(
+  dispatch: Dispatch,
+  id: number,
+  tag: string
+): Promise<undefined | Article> {
+  const promise = post(`article/${id}/tag`, { tag });
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    return data.article;
+  }
+
+  return undefined;
+}
+
+export async function startDeleteTag(
+  dispatch: Dispatch,
+  articleId: number,
+  tagId: number
+) {
+  const promise = restDelete(`article/${articleId}/tag/${tagId}`);
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    return data.article;
+  }
+
+  return undefined;
+}
 
 export async function startLoadingArticles(
   dispatch: Dispatch,
   isActive: boolean
 ): Promise<void> {
-  const promise = get(`article?limit=999&active=${isActive}`);
+  const promise = get(`article?limit=999&active=${isActive}&ancestor=false`);
   const data = await errorHandler<ArticleResponse>(dispatch, {
     promise,
     defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
