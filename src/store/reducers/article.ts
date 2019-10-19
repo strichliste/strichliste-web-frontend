@@ -128,7 +128,7 @@ export async function startLoadingArticles(
 export async function startDeletingArticle(
   dispatch: Dispatch,
   articleId: number
-): Promise<void> {
+): Promise<Article | undefined> {
   const promise = restDelete(`article/${articleId}`);
   const data = await errorHandler(dispatch, {
     promise,
@@ -145,7 +145,7 @@ export async function getArticleByBarcode(
   dispatch: Dispatch,
   barcode: string
 ): Promise<Article | undefined> {
-  const promise = get(`article?barcode=${barcode}`);
+  const promise = get(`article/search?barcode=${barcode}`);
   const data = await errorHandler<ArticleResponse>(dispatch, {
     promise,
     defaultError: 'ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE',
@@ -224,5 +224,11 @@ export function getArticleList(state: AppState): Article[] {
 }
 
 export function getPopularArticles(state: AppState): Article[] {
-  return getArticleList(state).sort((a, b) => b.usageCount - a.usageCount);
+  return getArticleList(state)
+    .filter(article => article.isActive)
+    .sort((a, b) => b.usageCount - a.usageCount);
+}
+
+export function getHistory(article: Article): Article[] {
+  return [];
 }

@@ -13,6 +13,7 @@ import {
   startAddTag,
   startDeleteTag,
   Tag,
+  startDeletingArticle,
 } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useArticleValidator } from './validator';
@@ -65,6 +66,7 @@ export const ArticleForm: React.FC<Props> = props => {
         {article && <ArticleHistory article={article} />}
         {article && <ArticleMetrics article={article} />}
       </div>
+      {article && <ToggleActivity article={article} />}
     </>
   );
 };
@@ -88,6 +90,7 @@ const extractParams = (article?: Article): AddArticleParams => {
 };
 
 const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
+  const intl = useIntl();
   const history = useHistory();
   const [params, setParams] = React.useState<AddArticleParams>(
     extractParams(article)
@@ -139,7 +142,10 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
         />
 
         <div>
-          <AcceptButton disabled={!useArticleValidator(params.amount)} />
+          <AcceptButton
+            title={intl.formatMessage({ id: 'ARTICLE_ADD_FROM_ACCEPT' })}
+            disabled={!useArticleValidator(params.amount)}
+          />
         </div>
       </Card>
     </form>
@@ -291,10 +297,42 @@ const ListInput: React.FC<{
   );
 };
 
-const ArticleMetrics: React.FC<{ article: Article }> = () => {
-  return <Card>METRICS</Card>;
+const ArticleMetrics: React.FC<{ article: Article }> = ({ article }) => {
+  return (
+    <Card>
+      <h3>
+        <FormattedMessage id="METRICS_HEADLINE" />
+      </h3>
+      <FormattedMessage
+        id="ARTICLE_USAGE_COUNT_LABEL"
+        values={{ value: article.usageCount }}
+      />
+    </Card>
+  );
 };
 
 const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
   return <Card>HISTORY</Card>;
+};
+
+const ToggleActivity: React.FC<{ article: Article }> = ({ article }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  if (!article.isActive) return null;
+
+  const handleDeleteArticle = async () => {
+    const res = await startDeletingArticle(dispatch, article.id);
+    if (res) {
+      history.goBack();
+    }
+  };
+
+  return (
+    <div style={{ margin: '3rem 0' }}>
+      <Button padding="1rem" red onClick={handleDeleteArticle}>
+        <FormattedMessage id="DELETE_ARTICLE_LABEL" />
+      </Button>
+    </div>
+  );
 };
