@@ -6,6 +6,7 @@ import { Article, startLoadingArticles } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ArticleValidator } from './validator';
 import { Flex, Input, CancelButton, Button } from '../../bricks';
+import { useIntl } from 'react-intl';
 
 interface Props {
   userId: string;
@@ -17,6 +18,7 @@ const ARTICLE_BUBBLE_LIMIT = 10;
 export const ArticleSelectionBubbles = (props: Props) => {
   const items = usePopularArticles();
   const dispatch = useDispatch();
+  const intl = useIntl();
   const [query, setQuery] = React.useState('');
 
   React.useEffect(() => {
@@ -26,7 +28,11 @@ export const ArticleSelectionBubbles = (props: Props) => {
   return (
     <div>
       <Flex>
-        <Input value={query} onChange={e => setQuery(e.target.value)} />
+        <Input
+          placeholder={intl.formatMessage({ id: 'BUY_ARTICLE_PLACEHOLDER' })}
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
         <CancelButton margin="0 0 0 1rem" onClick={props.onCancel} />
       </Flex>
       <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">
