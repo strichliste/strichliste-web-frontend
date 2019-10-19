@@ -62,13 +62,11 @@ function ToastContent({ article, message }: ToastProps): JSX.Element {
     return <>{message}</>;
   }
   return (
-    <div>
-      <Flex justifyContent="center" alignContent="center">
-        <AcceptIcon />
-        <FormattedMessage id="ARTICLE_FETCHED_BY_BARCODE" />
-        &#8594; {article.name}
-        <Currency value={article.amount} />
-      </Flex>
-    </div>
+    <Flex justifyContent="center" alignItems="center" alignContent="center">
+      <AcceptIcon style={{ marginRight: '1rem' }} />
+      <FormattedMessage id="ARTICLE_FETCHED_BY_BARCODE" />
+      &#8594; {article.name}
+      <Currency value={article.amount} />
+    </Flex>
   );
 }
