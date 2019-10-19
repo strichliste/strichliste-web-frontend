@@ -15,7 +15,7 @@ import {
   Tag,
   startDeletingArticle,
 } from '../../store/reducers';
-import { CurrencyInput } from '../currency';
+import { CurrencyInput, Currency } from '../currency';
 import { useArticleValidator } from './validator';
 import {
   Card,
@@ -63,7 +63,9 @@ export const ArticleForm: React.FC<Props> = props => {
 
         {article && <ArticleTags article={article} />}
         {article && <ArticleBarCodes article={article} />}
-        {article && <ArticleHistory article={article} />}
+        {article && article.precursor && (
+          <ArticleHistory precursor={article.precursor} />
+        )}
         {article && <ArticleMetrics article={article} />}
       </div>
       {article && <ToggleActivity article={article} />}
@@ -311,8 +313,19 @@ const ArticleMetrics: React.FC<{ article: Article }> = ({ article }) => {
   );
 };
 
-const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
-  return <Card>HISTORY</Card>;
+const ArticleHistory: React.FC<{ precursor: Article }> = ({ precursor }) => {
+  console.log(precursor.precursor);
+  return (
+    <Card>
+      <h3>
+        <FormattedMessage id="ARTICLE_ADD_FORM_HISTORY" />
+      </h3>
+      <p>{precursor.name}</p>
+      <p>
+        <Currency value={precursor.amount} />
+      </p>
+    </Card>
+  );
 };
 
 const ToggleActivity: React.FC<{ article: Article }> = ({ article }) => {

@@ -17,7 +17,7 @@ export const en = {
   DELETE_ARTICLE_LABEL: 'delete article',
   BUY_ARTICLE_PLACEHOLDER: 'search for article',
   ARTICLE_ADD_FORM_DETAILS: 'details',
-  ARTICLE_ADD_FORM_HISTORY: 'history',
+  ARTICLE_ADD_FORM_HISTORY: 'History',
   ARTICLE_ADD_FORM_BARCODE: 'barcode',
   ARTICLE_FORM_ADD_BARCODE: 'add barcode',
   ARTICLE_ADD_FORM_METRICS: 'metrics',
