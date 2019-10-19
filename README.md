@@ -39,3 +39,9 @@ the output will be copied to the dist folder.
 please follow the [angular commit message guidlines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines)
 
 ### Ui Component Framework
+
+all basic components are found inside the `src/bricks` folder. (Lego pun intended)
+
+## End 2 End Tests
+
+We do have e2e tests with cypress check our [test repo](https://github.com/strichliste/strichliste-web-e2e)
