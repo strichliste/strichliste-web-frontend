@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, SearchMinus, SearchPlus } from '../../bricks';
 
-const STORAGE_KEY = 'scaling';
+const STORAGE_KEY = 'strichliste_ui_scaling';
 
 export const useScalingState = () => {
   const storeScaling = localStorage.getItem(STORAGE_KEY);
