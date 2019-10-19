@@ -10,6 +10,7 @@ export const Center: React.FC = ({ children }) => {
 export interface FlexProps {
   margin?: string;
   padding?: string;
+  grow?: any;
   flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
   flexWrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
   justifyContent?:
@@ -41,6 +42,7 @@ export const Flex: React.FC<FlexProps> = props => {
         flexDirection: props.flexDirection,
         flexWrap: props.flexWrap,
         justifyContent: props.justifyContent,
+        flexGrow: props.grow,
       }}
     >
       {props.children}
