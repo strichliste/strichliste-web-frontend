@@ -86,7 +86,7 @@ describe('action creators', () => {
       );
       const store = getMockStore();
       await getArticleByBarcode(store.dispatch, 'asdf');
-      expect(get).toHaveBeenCalledWith('article?barcode=asdf');
+      expect(get).toHaveBeenCalledWith('article/search?barcode=asdf');
       expect(store.getActions()).toMatchSnapshot();
     });
 
@@ -100,7 +100,7 @@ describe('action creators', () => {
       } catch (error) {
         expect(error.message).toBe('no articles are matching the barcode');
       }
-      expect(get).toHaveBeenCalledWith('article?barcode=asdf');
+      expect(get).toHaveBeenCalledWith('article/search?barcode=asdf');
     });
   });
 
