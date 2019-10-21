@@ -12,7 +12,9 @@ import {
   getArticleList,
   startAddArticle,
   startLoadingArticles,
+  getArticleHistory,
 } from '../article';
+import { articleDetailResponse } from '../mock';
 
 jest.mock('../../../services/api', () => ({
   get: jest.fn(),
@@ -141,6 +143,13 @@ describe('selectors', () => {
         { id: 2, isActive: false, name: 'a' },
         { id: 1, isActive: true, name: 'b' },
       ]);
+    });
+  });
+  describe('getArticleHistory', () => {
+    it('returns flattened list of articles', () => {
+      // @ts-ignore
+      const history = getArticleHistory(articleDetailResponse.article);
+      expect(history.length).toEqual(6);
     });
   });
 });

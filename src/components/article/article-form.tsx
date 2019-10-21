@@ -4,7 +4,7 @@ import { useDispatch } from 'redux-react-hook';
 import { useArticle } from '../../store';
 import {
   Article,
-  startLoadingArticles,
+  startLoadingArticleDetails,
   AddArticleParams,
   startAddArticle,
   startAddBarcode,
@@ -14,6 +14,7 @@ import {
   startDeleteTag,
   Tag,
   startDeletingArticle,
+  getArticleHistory,
 } from '../../store/reducers';
 import { CurrencyInput, Currency } from '../currency';
 import { useArticleValidator } from './validator';
@@ -43,12 +44,11 @@ export const ArticleForm: React.FC<Props> = props => {
   const article = useArticle(props.articleId);
 
   React.useEffect(() => {
-    if (!article) {
-      startLoadingArticles(dispatch, true);
-      startLoadingArticles(dispatch, false);
+    if (props.articleId) {
+      startLoadingArticleDetails(dispatch, props.articleId);
     }
     // eslint-disable-next-line
-  }, []);
+  }, [props.articleId]);
 
   return (
     <>
@@ -63,9 +63,7 @@ export const ArticleForm: React.FC<Props> = props => {
 
         {article && <ArticleTags article={article} />}
         {article && <ArticleBarCodes article={article} />}
-        {article && article.precursor && (
-          <ArticleHistory precursor={article.precursor} />
-        )}
+        {article && article.precursor && <ArticleHistory article={article} />}
         {article && <ArticleMetrics article={article} />}
       </div>
       {article && <ToggleActivity article={article} />}
@@ -313,17 +311,31 @@ const ArticleMetrics: React.FC<{ article: Article }> = ({ article }) => {
   );
 };
 
-const ArticleHistory: React.FC<{ precursor: Article }> = ({ precursor }) => {
-  console.log(precursor.precursor);
+const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
+  const history = getArticleHistory(article);
+  console.log({ article, history });
   return (
     <Card>
-      <h3>
+      <h3 style={{ marginBottom: '1rem' }}>
         <FormattedMessage id="ARTICLE_ADD_FORM_HISTORY" />
       </h3>
-      <p>{precursor.name}</p>
-      <p>
-        <Currency value={precursor.amount} />
-      </p>
+      <ul>
+        {history.map(article => (
+          <li
+            style={{
+              display: 'flex',
+              alignContent: 'center',
+              justifyContent: 'space-between',
+            }}
+            key={article.id}
+          >
+            <p>{article.name}</p>
+            <p>
+              <Currency value={article.amount} />
+            </p>
+          </li>
+        ))}
+      </ul>
     </Card>
   );
 };

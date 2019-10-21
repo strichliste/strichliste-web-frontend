@@ -48,6 +48,23 @@ export function articlesLoaded(payload: Article[]): ArticlesLoadedAction {
   };
 }
 
+export async function startLoadingArticleDetails(
+  dispatch: Dispatch,
+  id: number,
+  depth = 10
+): Promise<undefined | Article> {
+  const promise = get(`article/${id}?depth=${depth}`);
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    dispatch(articlesLoaded([data.article]));
+    return data.article;
+  }
+
+  return undefined;
+}
+
 export async function startAddBarcode(
   dispatch: Dispatch,
   id: number,
@@ -229,6 +246,18 @@ export function getPopularArticles(state: AppState): Article[] {
     .sort((a, b) => b.usageCount - a.usageCount);
 }
 
-export function getHistory(article: Article): Article[] {
-  return [];
+function flattenHistory<Item>(
+  selector: (item: Item) => Item | undefined,
+  list: Item
+): Item[] {
+  const next = selector(list);
+  if (!next) {
+    return [];
+  }
+  return [next, ...flattenHistory(selector, next)];
 }
+
+export const getArticleHistory = (article: Article): Article[] => {
+  const next = (item: Article) => item.precursor;
+  return flattenHistory(next, article);
+};
