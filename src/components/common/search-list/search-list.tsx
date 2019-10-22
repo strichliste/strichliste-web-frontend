@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Input } from 'bricks-of-sand';
+import { Input } from '../../../bricks';
+import { useIntl } from 'react-intl';
 
 export const useInfiniteScrolling = (
   items: any[],
   PAGE_SIZE: number,
+  scrollableTarget = '',
   noScrollBarPageOffset = 2
 ) => {
   const [page, setPage] = useState(1);
@@ -15,13 +17,17 @@ export const useInfiniteScrolling = (
   const pageItems = items.slice(0, PAGE_SIZE * page);
 
   useEffect(() => {
-    const hasVScroll = document.body.scrollHeight > document.body.clientHeight;
+    const elem = scrollableTarget
+      ? document.getElementById(scrollableTarget) || document.body
+      : document.body;
+    const hasVScroll = elem.scrollHeight > elem.clientHeight;
     const shouldLoadMoreItemsOnStart =
       page === 1 && !hasVScroll && pageItems.length < items.length;
 
     if (shouldLoadMoreItemsOnStart) {
       setPage(page + noScrollBarPageOffset);
     }
+    // eslint-disable-next-line
   }, [items]);
 
   return {
@@ -38,16 +44,18 @@ type SearchListComponent = React.FC<{
   items: any[];
   pageSize: number;
   renderItem: any;
+  scrollableTarget?: string;
 }>;
 
 export const SearchList: SearchListComponent = ({
   items,
   pageSize,
   renderItem,
+  scrollableTarget,
 }) => {
   const [filter, updateFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState(items);
-
+  const intl = useIntl();
   useEffect(() => {
     setFilteredItems(
       filter
@@ -62,12 +70,14 @@ export const SearchList: SearchListComponent = ({
     <div>
       <div style={{ margin: '1rem 0' }}>
         <Input
-          placeholder="search"
+          autoFocus
+          placeholder={intl.formatMessage({ id: 'SEARCH' })}
           value={filter}
           onChange={e => updateFilter(e.target.value)}
         />
       </div>
       <InfiniteList
+        scrollableTarget={scrollableTarget}
         items={filteredItems}
         pageSize={pageSize}
         renderItem={renderItem}
@@ -80,11 +90,11 @@ export const InfiniteList: SearchListComponent = ({
   items,
   pageSize,
   renderItem,
+  scrollableTarget,
 }) => {
-  const infiniteProps = useInfiniteScrolling(items, pageSize);
-
+  const infiniteProps = useInfiniteScrolling(items, pageSize, scrollableTarget);
   return (
-    <InfiniteScroll {...infiniteProps}>
+    <InfiniteScroll {...infiniteProps} scrollableTarget={scrollableTarget}>
       {infiniteProps.items.map(renderItem)}
     </InfiniteScroll>
   );

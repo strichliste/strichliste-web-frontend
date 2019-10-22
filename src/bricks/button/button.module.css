@@ -1,0 +1,93 @@
+.button {
+  display: flex;
+  background: var(--background);
+  align-items: center;
+  display: inline-flex;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  border-radius: var(--borderRadius);
+  color: var(--buttonDefaultFont);
+  justify-content: center;
+  text-align: center;
+}
+
+.button svg {
+  max-width: 1rem;
+  max-height: 1rem;
+  fill: var(--buttonDefaultFont);
+}
+
+.button:disabled {
+  background: transparent;
+  border: 2px solid var(--buttonDisabled);
+  color: var(--buttonDisabled);
+  box-shadow: none;
+}
+.button:disabled svg {
+  fill: var(--buttonDisabled);
+}
+
+.primary {
+  background: var(--componentBackgroundLight);
+}
+.green {
+  background: var(--buttonGreenBackground);
+  color: var(--buttonGreenFont);
+}
+.red {
+  background: var(--buttonRedBackground);
+  color: var(--buttonRedFont);
+}
+.highlight {
+  background: var(--buttonHighlightBackground);
+  color: var(--buttonHighlightFont);
+}
+.highlight svg {
+  fill: var(--buttonHighlightFont);
+}
+.fab {
+  border-radius: 100%;
+  width: 2rem;
+  height: 2rem;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.cancelButton {
+  background: var(--buttonCancelBackground);
+  color: var(--buttonCancelFont);
+}
+
+.cancelButton svg {
+  fill: var(--buttonCancelFont);
+  max-height: 1rem;
+  max-width: 1rem;
+  transform: rotate(45deg);
+}
+
+.acceptButton {
+  background: var(--buttonHighlightBackground);
+  color: var(--buttonHighlightFont);
+}
+
+.acceptButton svg {
+  fill: var(--buttonHighlightFont);
+  max-height: 1rem;
+  max-width: 1rem;
+}
+
+.tab {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  color: var(--buttonDefaultFont) !important;
+  font-size: 0.8rem;
+}
+
+.tab svg {
+  fill: var(--buttonDefaultFont);
+  margin-right: 0.5rem;
+}

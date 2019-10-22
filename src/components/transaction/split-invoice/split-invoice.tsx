@@ -1,185 +1,120 @@
-import {
-  AcceptButton,
-  Block,
-  Input,
-  PrimaryButton,
-  ResponsiveGrid,
-  Separator,
-  styled,
-  Icon,
-} from 'bricks-of-sand';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { store } from '../../../store';
 import {
   CreateTransactionParams,
   Transaction,
   User,
-  UsersState,
   startCreatingTransaction,
 } from '../../../store/reducers';
 import { WrappedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
-import { AcceptIcon } from '../../ui/icons/accept';
 import { UserSelection } from '../../user';
-import { UserMultiSelection } from '../../user/user-multi-selection';
 import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
+import {
+  AcceptButton,
+  Input,
+  Separator,
+  CancelButton,
+  AlertText,
+  Button,
+  Card,
+  AcceptIcon,
+} from '../../../bricks';
 
-interface State {
-  isLoading: boolean;
-  recipient: User | undefined;
-  participants: User[];
-  comment: string;
-  amount: number;
-  responseState: { [userId: string]: Transaction | 'error' };
-  validation: { [userId: string]: string };
-}
+import styles from './split-invoice.module.css';
 
-const initialState: State = {
-  isLoading: false,
-  recipient: undefined,
-  participants: [],
-  comment: '',
-  amount: 0,
-  responseState: {},
-  validation: {},
+type Validation = {
+  [userId: string]: string;
 };
 
-const GridContainer = styled('div')({
-  maxWidth: '30em',
-  margin: '2rem auto',
-  padding: '0 1rem',
-});
+type Response = {
+  [userId: string]: Transaction | 'error';
+};
 
-const P = styled('p')({
-  marginBottom: '0.5rem',
-});
+export const SplitInvoiceForm = () => {
+  const intl = useIntl();
+  const [recipient, setRecipient] = React.useState<User | undefined>(undefined);
+  const [participants, setParticipants] = React.useState<User[]>([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [amount, setAmount] = React.useState(0);
+  const [comment, setComment] = React.useState('');
+  const [validation, setValidation] = React.useState<Validation>({});
+  const [response, setResponse] = React.useState<Response>({});
 
-const NotificationContainer = styled('div')({
-  textAlign: 'center',
-  marginBottom: '1rem',
-});
-
-const TextCenter = styled(Block)({
-  textAlign: 'center',
-});
-
-export class SplitInvoiceForm extends React.Component<{}, State> {
-  public state = initialState;
-
-  public resetState = () => {
-    this.setState(initialState);
+  const resetState = () => {
+    setRecipient(undefined);
+    setParticipants([]);
+    setIsLoading(false);
+    setAmount(0);
+    setComment('');
+    setValidation({});
+    setResponse({});
   };
 
-  public submitSplitInvoice = async () => {
-    this.state.participants.forEach(async participant => {
-      await this.createTransaction(participant);
+  const submitSplitInvoice = async () => {
+    participants.forEach(async participant => {
+      await createTransaction(participant);
     });
   };
 
-  public createTransaction = async (participant: User) => {
-    if (this.formIsValid() && this.state.recipient) {
-      this.setState({ isLoading: true });
+  const createTransaction = async (participant: User) => {
+    if (formIsValid() && recipient) {
+      setIsLoading(true);
       const userId = participant.id;
-      const params = this.getParams(this.state.recipient);
+      const params = getParams(recipient);
       const result = await startCreatingTransaction(
         store.dispatch,
         userId,
         params
       );
-
-      this.setState(state => ({
-        responseState: {
-          ...state.responseState,
-          [userId]: result || 'error',
-        },
-      }));
+      setResponse(response => ({ ...response, [userId]: result || 'error' }));
     }
   };
 
-  public getParams = (recipient: User): CreateTransactionParams => {
+  const getParams = (recipient: User): CreateTransactionParams => {
     return {
-      comment: this.state.comment,
+      comment,
       recipientId: recipient.id,
-      amount: this.getSplitAmount() * -1,
+      amount: getSplitAmount() * -1,
     };
   };
 
-  public setRecipient = (user: User) => {
-    this.setState({ recipient: user });
+  React.useEffect(() => {
+    updateValidation();
+    // eslint-disable-next-line
+  }, [participants, amount, recipient]);
+
+  const addParticipant = (user: User) => {
+    setParticipants([...participants, user]);
   };
 
-  public setAmount = (amount: number) => {
-    this.setState({ amount }, this.updateValidation);
+  const removeParticipant = (userToRemove: User) => {
+    setParticipants(participants.filter(user => user.id !== userToRemove.id));
   };
 
-  public setComment = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ comment: e.target.value });
-  };
-
-  public addParticipant = (user: UsersState) => {
-    this.setState(
-      {
-        participants: Object.values(user),
-      },
-      this.updateValidation
-    );
-  };
-
-  public removeParticipant = (userToRemove: User) => {
-    this.setState(
-      state => ({
-        participants: [
-          ...state.participants.filter(user => user.name !== userToRemove.name),
-        ],
-      }),
-      this.updateValidation
-    );
-  };
-
-  public getRecipientUserId = (recipient?: User) => {
-    if (recipient) {
-      return recipient.id;
-    } else {
-      return 0;
-    }
-  };
-
-  public getSplitAmount = () => {
-    const result =
-      this.state.amount / this.getLengthOfParticipantsAndRecipient();
+  const getSplitAmount = () => {
+    const result = amount / getLengthOfParticipantsAndRecipient();
     return isNaN(result) ? 0 : result;
   };
 
-  public getLengthOfParticipantsAndRecipient = () => {
-    return this.state.participants.length + (this.state.recipient ? 1 : 0);
+  const getLengthOfParticipantsAndRecipient = () => {
+    return participants.length + (recipient ? 1 : 0);
   };
 
-  public submitIsValid = () => {
-    return this.showNotification() && this.formIsValid();
+  const submitIsValid = () => {
+    return showNotification() && formIsValid();
   };
 
-  public getTransactionId = (participant: User): number => {
-    const transaction = this.state.responseState[participant.id];
-    if (transaction && transaction !== 'error') {
-      return transaction.id;
-    } else {
-      return 0;
-    }
-  };
+  const filterUsers = recipient ? [...participants, recipient] : participants;
 
-  public hasErrorState = (participant: User): boolean => {
-    const transactionState = this.state.responseState[participant.id];
-    return transactionState === 'error';
-  };
-
-  public updateValidation = () => {
-    const value = this.getSplitAmount();
+  const updateValidation = () => {
+    const value = getSplitAmount();
     const accountBoundary = store.getState().settings.account.boundary;
     const paymentBoundary = store.getState().settings.payment.boundary;
     const initialValue: { [key: number]: string } = {};
-    const validation = Object.values(this.state.participants).reduce(
+    const validation = Object.values(participants).reduce(
       (acc, participant) => {
         return {
           ...acc,
@@ -197,176 +132,177 @@ export class SplitInvoiceForm extends React.Component<{}, State> {
       initialValue
     );
 
-    this.setState({ validation });
+    setValidation(validation);
   };
 
-  public formIsValid = () => {
-    return Object.values(this.state.validation).every(item => item === '');
+  const formIsValid = () => {
+    return Object.values(validation).every(item => item === '');
   };
 
-  public showNotification = () => {
-    return !!(
-      this.state.amount > 0 &&
-      this.state.participants.length &&
-      this.state.recipient
-    );
+  const showNotification = () => {
+    return !!(amount > 0 && participants.length && recipient);
   };
 
-  public render(): JSX.Element {
-    if (this.state.isLoading) {
-      return (
-        <GridContainer>
-          {Object.keys(this.state.responseState).length === 0 && (
-            <div>
-              <FormattedMessage
-                id="SPLIT_INVOICE_LOADING"
-                defaultMessage="creating transactions"
-              />
-            </div>
-          )}
-          {Object.keys(this.state.responseState).map(userId => {
-            const item = this.state.responseState[userId];
-            const user = this.state.participants.find(
-              user => user.id == userId
-            );
-            const userName = user ? user.name : '';
-
-            if (item === 'error') {
-              return (
-                <Block margin="1rem 0" key={userId}>
-                  <FormattedMessage
-                    id="SPLIT_INVOICE_ERROR_MESSAGE"
-                    defaultMessage="Failed to create Transaction for"
-                  />{' '}
-                  <UserName name={userName} />
-                </Block>
-              );
-            }
-            return (
-              <Block margin="1rem 0" key={userId}>
-                <Icon color="greenText">
-                  <AcceptIcon />
-                </Icon>
-                <UserName name={userName} />
-                <p>
-                  <FormattedMessage
-                    id="SPLIT_INVOICE_SUCCESS_MESSAGE"
-                    defaultMessage="payed the money"
-                  />
-                </p>
-              </Block>
-            );
-          })}
-          <AcceptButton onClick={this.resetState} />
-        </GridContainer>
-      );
-    }
-
+  if (isLoading) {
     return (
-      <GridContainer>
-        <WrappedIdleTimer />
-        <TextCenter margin="3rem">
-          <h1>
-            <FormattedMessage id="SPLIT_INVOICE_HEADLINE" />
-          </h1>
-        </TextCenter>
-
-        <ResponsiveGrid
-          margin="0 0 1rem 0"
-          gridGap="1rem"
-          columns="2fr 1fr 2fr"
-        >
-          <FormattedMessage
-            id="USER_TRANSACTIONS_TABLE_AMOUNT"
-            children={placeholder => (
-              <CurrencyInput
-                placeholder={placeholder as string}
-                value={this.state.amount}
-                onChange={this.setAmount}
-              />
-            )}
-          />
-          <TextCenter>
-            <FormattedMessage id="WITH" defaultMessage="with" />
-          </TextCenter>
-          <FormattedMessage
-            id="SELECT_RECIPIENT"
-            defaultMessage="select recipient"
-            children={placeholder => (
-              <UserSelection
-                placeholder={placeholder as string}
-                autoFocus
-                onSelect={this.setRecipient}
-              />
-            )}
-          />
-        </ResponsiveGrid>
-        <FormattedMessage
-          id="USER_TRANSACTIONS_TABLE_COMMENT"
-          children={placeholder => (
-            <Input
-              value={this.state.comment}
-              onChange={this.setComment}
-              placeholder={placeholder as string}
+      <div className={styles.wrapper}>
+        {Object.keys(response).length === 0 && (
+          <div>
+            <FormattedMessage
+              id="SPLIT_INVOICE_LOADING"
+              defaultMessage="creating transactions"
             />
-          )}
-        />
-        <TextCenter margin="1rem 0">
-          <FormattedMessage id="AND" defaultMessage="and" />
-        </TextCenter>
-        <Block margin="1rem 0">
-          <UserMultiSelection
-            excludeUserId={this.state.recipient ? this.state.recipient.id : ''}
-            validation={this.state.validation}
-            onSelect={this.addParticipant}
-            placeholder="add participant"
-          />
-        </Block>
-        {this.showNotification() && (
-          <>
-            <Separator margin="2rem 0" />
-            <NotificationContainer>
-              <P>
-                {this.getLengthOfParticipantsAndRecipient()}{' '}
-                <FormattedMessage
-                  id="PARTICIPANTS"
-                  defaultMessage="participants"
-                />{' '}
-                <FormattedMessage id="SPLIT" defaultMessage="split" />{' '}
-                <Currency value={this.state.amount} />
-              </P>
-              <P>
-                <FormattedMessage
-                  id="SPLIT_PAY_MESSAGE"
-                  defaultMessage="everybody has to pay"
-                />{' '}
-                <Currency value={this.getSplitAmount()} />
-                {this.state.recipient && (
-                  <>
-                    <FormattedMessage
-                      id="SPLIT_INVOICE_RECIPIENT_NOTE"
-                      defaultMessage=" to "
-                    />
-                    <UserName name={this.state.recipient.name} />
-                  </>
-                )}
-              </P>
-              <FormattedMessage id="SPLIT_INVOICE_SUBMIT">
-                {text => (
-                  <PrimaryButton
-                    title={text as string}
-                    isRound
-                    onClick={this.submitSplitInvoice}
-                    disabled={!this.submitIsValid()}
-                  >
-                    <AcceptIcon />
-                  </PrimaryButton>
-                )}
-              </FormattedMessage>
-            </NotificationContainer>
-          </>
+          </div>
         )}
-      </GridContainer>
+        {Object.keys(response).map(userId => {
+          const item = response[userId];
+          // eslint-disable-next-line
+          const user = participants.find(user => user.id == userId);
+          const userName = user ? user.name : '';
+
+          if (item === 'error') {
+            return (
+              <Card key={userId} error>
+                <FormattedMessage
+                  id="SPLIT_INVOICE_ERROR_MESSAGE"
+                  defaultMessage="Failed to create Transaction for"
+                />{' '}
+                <UserName name={userName} />
+              </Card>
+            );
+          }
+          return (
+            <Card margin="1rem 0" key={userId}>
+              <AcceptIcon />
+
+              <UserName name={userName} />
+              <p>
+                <FormattedMessage
+                  id="SPLIT_INVOICE_SUCCESS_MESSAGE"
+                  defaultMessage="payed the money"
+                />
+              </p>
+            </Card>
+          );
+        })}
+        <Button primary onClick={resetState}>
+          <FormattedMessage
+            id="reset form"
+            defaultMessage="split another invoice"
+          />
+        </Button>
+      </div>
     );
   }
-}
+
+  return (
+    <div className={styles.wrapper}>
+      <WrappedIdleTimer />
+      <h1>
+        <FormattedMessage id="SPLIT_INVOICE_HEADLINE" />
+      </h1>
+
+      <div className={styles.grid}>
+        <CurrencyInput
+          placeholder={intl.formatMessage({
+            id: 'USER_TRANSACTIONS_TABLE_AMOUNT',
+          })}
+          value={amount}
+          onChange={setAmount}
+        />
+        <div style={{ textAlign: 'center' }}>
+          <FormattedMessage id="WITH" defaultMessage="with" />
+        </div>
+
+        <UserSelection
+          filterUsers={filterUsers}
+          onSelect={setRecipient}
+          placeholder={intl.formatMessage({ id: 'SELECT_RECIPIENT' })}
+        />
+      </div>
+      <Input
+        value={comment}
+        onChange={e => setComment(e.target.value)}
+        placeholder={intl.formatMessage({
+          id: 'USER_TRANSACTIONS_TABLE_COMMENT',
+        })}
+      />
+      <div style={{ margin: '1rem 0', textAlign: 'center' }}>
+        <FormattedMessage id="AND" defaultMessage="and" />
+      </div>
+      <div>
+        <div>
+          {participants.map(user => (
+            <div style={{ margin: '0.25rem 0' }} key={user.id}>
+              <CancelButton
+                onClick={() => removeParticipant(user)}
+                style={{ marginRight: '1rem' }}
+              />
+              <UserSelection
+                user={user}
+                filterUsers={filterUsers}
+                onSelect={addParticipant}
+                placeholder="add participant"
+              />
+              {validation[user.id] && (
+                <AlertText value={-1}>
+                  <FormattedMessage
+                    id="CANT_AFFORD"
+                    defaultMessage="can't afford it"
+                  />
+                </AlertText>
+              )}
+            </div>
+          ))}
+        </div>
+        <div>
+          <UserSelection
+            key={participants.length}
+            filterUsers={filterUsers}
+            onSelect={addParticipant}
+            placeholder="add participant"
+          />
+        </div>
+      </div>
+      {showNotification() && (
+        <>
+          <Separator margin="2rem 0" />
+          <div style={{ textAlign: 'center' }}>
+            <p>
+              {getLengthOfParticipantsAndRecipient()}{' '}
+              <FormattedMessage
+                id="PARTICIPANTS"
+                defaultMessage="participants"
+              />{' '}
+              <FormattedMessage id="SPLIT" defaultMessage="split" />{' '}
+              <Currency value={amount} />
+            </p>
+            <div>
+              <FormattedMessage
+                id="SPLIT_PAY_MESSAGE"
+                defaultMessage="everybody has to pay"
+              />{' '}
+              <Currency value={getSplitAmount()} />
+              {recipient && (
+                <>
+                  <FormattedMessage
+                    id="SPLIT_INVOICE_RECIPIENT_NOTE"
+                    defaultMessage=" to "
+                  />
+                  <UserName name={recipient.name} />
+                </>
+              )}
+            </div>
+            <div style={{ marginTop: '2rem' }}>
+              <AcceptButton
+                title={intl.formatMessage({ id: 'SPLIT_INVOICE_SUBMIT' })}
+                onClick={submitSplitInvoice}
+                disabled={!submitIsValid()}
+              />
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};

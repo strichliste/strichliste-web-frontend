@@ -1,46 +1,61 @@
-import { AutoComplete, SearchAutoComplete } from 'bricks-of-sand';
 import * as React from 'react';
-// import { FormattedMessage } from 'react-intl';
-import { useUserArray } from '../../store';
+
 import { User } from '../../store/reducers';
-import { FormattedMessage } from 'react-intl';
+import { Modal, useModal, Ellipsis } from '../../bricks';
+import { Button } from '../../bricks/button/button';
+import { UserSearchList } from '../common/search-results';
 
 interface Props {
-  userId?: string;
-  autoFocus?: boolean;
+  filterUsers?: User[];
+  filterUserId?: string;
   placeholder: string;
   disabled?: boolean;
+  user?: User;
   getString?(user: User): string;
   onSelect(user: User): void;
 }
 
-export function UserSelection(props: Props): JSX.Element {
-  const users = useUserArray();
-  const filteredUsers = props.userId
-    ? users.filter(user => Number(user.id) !== Number(props.userId))
-    : users;
-  return <AutoComplete {...props} items={filteredUsers} />;
-}
-
-export function UserSearch(props: Props): JSX.Element {
-  const users = useUserArray();
-  const filteredUsers = props.userId
-    ? users.filter(user => Number(user.id) !== Number(props.userId))
-    : users;
+export function UserSelection({
+  placeholder,
+  filterUsers,
+  filterUserId,
+  onSelect,
+  user,
+}: Props): JSX.Element {
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const modalProps = useModal();
+  const [selection, setSelection] = React.useState();
+  React.useEffect(() => {
+    setSelection(user);
+  }, [user]);
+  const handleSelection = (user: User) => {
+    setSelection(user);
+    onSelect(user);
+    modalProps.handleHide();
+    if (buttonRef && buttonRef.current) {
+      buttonRef.current.focus();
+    }
+  };
 
   return (
-    <FormattedMessage id="SEARCH">
-      {placeholder => (
-        //@ts-ignore
-        <SearchAutoComplete
-          {...props}
-          items={filteredUsers}
-          placeholder={placeholder as string}
-          activeWidth="8rem"
-          inactiveWidth="4rem"
-          clearOnSelect
+    <>
+      <Button
+        ref={buttonRef}
+        type="button"
+        primary
+        onClick={modalProps.handleShow}
+        style={{ maxWidth: '190px' }}
+      >
+        <Ellipsis>{selection ? selection.name : placeholder}</Ellipsis>
+      </Button>
+      <Modal {...modalProps} id="user-selection">
+        <UserSearchList
+          scrollableTarget="user-selection"
+          filterUsers={filterUsers}
+          filterUserId={filterUserId}
+          onUserSelect={handleSelection}
         />
-      )}
-    </FormattedMessage>
+      </Modal>
+    </>
   );
 }

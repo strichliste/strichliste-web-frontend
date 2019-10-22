@@ -1,8 +1,8 @@
-import { Button, Flex } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from 'react-router';
 import { useDispatch } from 'redux-react-hook';
+import classnames from 'classnames';
 
 import { useUser, useSettings, useIsPaymentEnabled } from '../../store';
 import {
@@ -11,14 +11,13 @@ import {
 } from '../../store/reducers';
 import { ArticleScanner } from '../article/article-scanner';
 import { Payment, TransactionListItem } from '../transaction';
-import { TransactionIcon } from '../ui/icons/transactions';
 import { UserDetailsHeader } from '../user-details/user-details-header';
 import { UserDetailsSeparator } from '../user-details/user-details-separator';
 import { getUserDetailLink, getUserTransactionsLink } from './user-router';
 import { ScrollToTop } from '../common/scroll-to-top';
 
-// @ts-ignore
 import styles from './user-details.module.css';
+import { Button, Flex, TransactionIcon } from '../../bricks';
 
 type UserDetailsProps = RouteComponentProps<{ id: string }>;
 export const UserDetails = (props: UserDetailsProps) => {
@@ -38,6 +37,7 @@ export const UserDetails = (props: UserDetailsProps) => {
       // @ts-ignore
       inputRef.current.blur();
     }
+    // eslint-disable-next-line
   }, [props.match.params.id]);
 
   if (!user) {
@@ -50,6 +50,7 @@ export const UserDetails = (props: UserDetailsProps) => {
         .sort((a, b) => b - a)
         .slice(0, 5)
     : [];
+  const areTransactionsEnabled = payment.transactions.enabled;
   return (
     <div>
       <ScrollToTop />
@@ -57,29 +58,23 @@ export const UserDetails = (props: UserDetailsProps) => {
       <ArticleScanner userId={user.id} />
       <UserDetailsHeader user={user} />
       <UserDetailsSeparator />
-      <div className={styles.userDetailsGrid}>
-        {isPaymentEnabled && (
-          <div className={styles.payment}>
-            <Payment userId={user.id} />
-          </div>
-        )}
-        {payment.transactions.enabled && (
+      <div
+        className={classnames(styles.grid, {
+          [styles.bothEnabled]: isPaymentEnabled && areTransactionsEnabled,
+        })}
+      >
+        {isPaymentEnabled && <Payment userId={user.id} />}
+        {areTransactionsEnabled && (
           <>
             {transactions.length ? (
               <div className={styles.transactions}>
-                {transactions.map(id => (
-                  <TransactionListItem key={id} id={id} />
+                {transactions.map((id, index) => (
+                  <TransactionListItem
+                    key={id}
+                    first={index === 0}
+                    id={String(id)}
+                  />
                 ))}
-                <Flex justifyContent="flex-end">
-                  <Button
-                    onClick={() =>
-                      props.history.push(getUserTransactionsLink(user.id))
-                    }
-                  >
-                    <TransactionIcon />{' '}
-                    <FormattedMessage id="USER_TRANSACTIONS_LINK" />
-                  </Button>
-                </Flex>
               </div>
             ) : (
               <Flex alignContent="center" justifyContent="center">
@@ -89,6 +84,15 @@ export const UserDetails = (props: UserDetailsProps) => {
           </>
         )}
       </div>
+      {areTransactionsEnabled && transactions.length > 0 && (
+        <Flex justifyContent="flex-end" margin="0 1rem">
+          <Button
+            onClick={() => props.history.push(getUserTransactionsLink(user.id))}
+          >
+            <TransactionIcon /> <FormattedMessage id="USER_TRANSACTIONS_LINK" />
+          </Button>
+        </Flex>
+      )}
       <Flex justifyContent="flex-end" margin="1rem">
         <Button
           onClick={() =>

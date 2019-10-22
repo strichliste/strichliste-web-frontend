@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { get, post, restDelete } from '../../services/api';
 import { MaybeResponse, errorHandler } from '../../services/error-handler';
 import { Action } from '../action';
@@ -7,10 +8,23 @@ export interface ArticleResponse extends MaybeResponse {
   articles: Article[];
 }
 
+export type Barcode = {
+  id: number;
+  barcode: string;
+  created: string;
+};
+
+export type Tag = {
+  id: number;
+  tag: string;
+  created: string;
+};
+
 export interface Article {
   id: number;
   name: string;
-  barcode: string;
+  barcodes: Barcode[];
+  tags: Tag[];
   amount: number;
   isActive: boolean;
   usageCount: number;
@@ -34,6 +48,86 @@ export function articlesLoaded(payload: Article[]): ArticlesLoadedAction {
   };
 }
 
+export async function startLoadingArticleDetails(
+  dispatch: Dispatch,
+  id: number,
+  depth = 10
+): Promise<undefined | Article> {
+  const promise = get(`article/${id}?depth=${depth}`);
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    dispatch(articlesLoaded([data.article]));
+    return data.article;
+  }
+
+  return undefined;
+}
+
+export async function startAddBarcode(
+  dispatch: Dispatch,
+  id: number,
+  barcode: string
+): Promise<undefined | Article> {
+  const promise = post(`article/${id}/barcode`, { barcode });
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    return data.article;
+  }
+
+  return undefined;
+}
+
+export async function startDeleteBarcode(
+  dispatch: Dispatch,
+  articleId: number,
+  barcodeId: number
+) {
+  const promise = restDelete(`article/${articleId}/barcode/${barcodeId}`);
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    return data.article;
+  }
+
+  return undefined;
+}
+export async function startAddTag(
+  dispatch: Dispatch,
+  id: number,
+  tag: string
+): Promise<undefined | Article> {
+  const promise = post(`article/${id}/tag`, { tag });
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    return data.article;
+  }
+
+  return undefined;
+}
+
+export async function startDeleteTag(
+  dispatch: Dispatch,
+  articleId: number,
+  tagId: number
+) {
+  const promise = restDelete(`article/${articleId}/tag/${tagId}`);
+  const data = await errorHandler<any>(dispatch, {
+    promise,
+  });
+  if (data && data.article) {
+    return data.article;
+  }
+
+  return undefined;
+}
+
 export async function startLoadingArticles(
   dispatch: Dispatch,
   isActive: boolean
@@ -51,7 +145,7 @@ export async function startLoadingArticles(
 export async function startDeletingArticle(
   dispatch: Dispatch,
   articleId: number
-): Promise<void> {
+): Promise<Article | undefined> {
   const promise = restDelete(`article/${articleId}`);
   const data = await errorHandler(dispatch, {
     promise,
@@ -68,7 +162,7 @@ export async function getArticleByBarcode(
   dispatch: Dispatch,
   barcode: string
 ): Promise<Article | undefined> {
-  const promise = get(`article?barcode=${barcode}`);
+  const promise = get(`article/search?barcode=${barcode}`);
   const data = await errorHandler<ArticleResponse>(dispatch, {
     promise,
     defaultError: 'ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE',
@@ -83,10 +177,9 @@ export async function getArticleByBarcode(
 
 export interface AddArticleParams {
   name: string;
-  barcode: string;
   amount: number;
   isActive: boolean;
-  precursor: Article | null;
+  precursor: Article | undefined;
 }
 export async function startAddArticle(
   dispatch: Dispatch,
@@ -148,5 +241,23 @@ export function getArticleList(state: AppState): Article[] {
 }
 
 export function getPopularArticles(state: AppState): Article[] {
-  return getArticleList(state).sort((a, b) => b.usageCount - a.usageCount);
+  return getArticleList(state)
+    .filter(article => article.isActive)
+    .sort((a, b) => b.usageCount - a.usageCount);
 }
+
+function flattenHistory<Item>(
+  selector: (item: Item) => Item | undefined,
+  list: Item
+): Item[] {
+  const next = selector(list);
+  if (!next) {
+    return [];
+  }
+  return [next, ...flattenHistory(selector, next)];
+}
+
+export const getArticleHistory = (article: Article): Article[] => {
+  const next = (item: Article) => item.precursor;
+  return flattenHistory(next, article);
+};

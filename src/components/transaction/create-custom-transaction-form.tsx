@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { GreenButton, RedButton, ResponsiveGrid, styled } from 'bricks-of-sand';
 import { useDispatch } from 'redux-react-hook';
 import { useIntl } from 'react-intl';
 
@@ -8,13 +7,9 @@ import { startCreatingTransaction } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
 import { useSettings } from '../../store';
-import { en } from '../../locales/en';
+import { Button } from '../../bricks';
 
-const ButtonText = styled('div')({
-  fontSize: '1rem',
-  fontWeight: 'bold',
-  lineHeight: 0,
-});
+import styles from './create-user-transaction-form.module.css';
 
 interface Props {
   userId: string;
@@ -47,38 +42,40 @@ export const CreateCustomTransactionForm = (props: Props) => {
     }
   };
   return (
-    <ResponsiveGrid gridGap="1rem" columns="3rem 1fr 3rem">
+    <div className={styles.userTransactionGrid}>
       {payment.dispense.custom ? (
-        <RedButton
-          title={intl.formatMessage({ id: en.BALANCE_DISPENSE })}
+        <Button
+          red
+          title={intl.formatMessage({ id: 'BALANCE_DISPENSE' })}
           onClick={() => submit(false)}
-          isRound
+          fab
           disabled={!dispenseIsValid}
           type="submit"
         >
-          <ButtonText>-</ButtonText>
-        </RedButton>
+          -
+        </Button>
       ) : (
         <div></div>
       )}
       <CurrencyInput
         value={value}
-        placeholder={intl.formatMessage({ id: en.BALANCE_PLACEHOLDER })}
+        placeholder={intl.formatMessage({ id: 'BALANCE_PLACEHOLDER' })}
         onChange={setValue}
       />
       {payment.deposit.custom ? (
-        <GreenButton
-          title={intl.formatMessage({ id: en.BALANCE_DEPOSIT })}
+        <Button
+          green
+          title={intl.formatMessage({ id: 'BALANCE_DEPOSIT' })}
           onClick={() => submit(true)}
-          isRound
+          fab
           disabled={!depositIsValid}
           type="submit"
         >
-          <ButtonText>+</ButtonText>
-        </GreenButton>
+          +
+        </Button>
       ) : (
         <div></div>
       )}
-    </ResponsiveGrid>
+    </div>
   );
 };

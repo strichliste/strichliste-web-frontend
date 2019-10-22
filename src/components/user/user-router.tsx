@@ -6,7 +6,7 @@ import { WrappedIdleTimer } from '../common/idle-timer';
 import { UserMetricsView } from '../metrics';
 import { UserDetails } from './user-details';
 import { TransactionOverview } from './views/transaction-overview';
-import { User } from './views/user';
+import { User } from './views/user/user';
 import { useSettings } from '../../store';
 
 export function UserRouter(): JSX.Element {

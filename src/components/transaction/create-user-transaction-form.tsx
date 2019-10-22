@@ -1,12 +1,3 @@
-import {
-  AcceptIcon,
-  Card,
-  Input,
-  PrimaryButton,
-  ResponsiveGrid,
-  styled,
-  withTheme,
-} from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -17,15 +8,9 @@ import { UserName } from '../user/user-name';
 import { TransactionUndoButton } from './transaction-undo-button';
 import { UserToUserValidator } from './user-to-user-validator';
 import { store } from '../../store';
+import { Card, AcceptIcon, AcceptButton, Input } from '../../bricks';
 
-export const AcceptWrapper = withTheme(
-  styled('div')({}, props => ({
-    svg: {
-      marginRight: '2rem',
-      fill: props.theme.green,
-    },
-  }))
-);
+import styles from './create-user-transaction-form.module.css';
 
 const initialState = {
   selectedAmount: 0,
@@ -58,12 +43,8 @@ type Props = RouteComponentProps<{ id: string }> & { intl: any };
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;
   public submitUserId = (user: User): void => {
-    if (!user) return;
-
     if (!this.state.selectedUser.id) {
       this.setState(() => ({ selectedUser: user }));
-    } else {
-      this.handleSubmit();
     }
   };
 
@@ -103,14 +84,22 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   public render(): JSX.Element {
     if (this.state.hasSelectionReady) {
       return (
-        <Card width="100%" margin="1rem 0" flex justifyContent="space-between">
-          <AcceptWrapper>
-            <AcceptIcon />
+        <Card
+          margin="1rem 0"
+          style={{
+            justifyContent: 'space-between',
+            alignContent: 'center',
+            display: 'flex',
+            width: '100%',
+          }}
+        >
+          <div>
+            <AcceptIcon style={{ marginRight: '1rem' }} />
             <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_SUCCESS" />{' '}
             <UserName width="120px" name={this.state.selectedUser.name} />
             &#8594;
             <Currency value={this.state.selectedAmount} />
-          </AcceptWrapper>
+          </div>
           <TransactionUndoButton
             onSuccess={() =>
               this.setState({
@@ -126,12 +115,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
       return (
         <>
           <form onSubmit={this.handleSubmit}>
-            <ResponsiveGrid
-              margin="1rem 0"
-              gridGap="1rem"
-              alignItems="center"
-              tabletColumns="4fr 1fr 4fr 1fr"
-            >
+            <div className={styles.grid}>
               <FormattedMessage
                 defaultMessage="Amount"
                 id="USER_TRANSACTION_FROM_AMOUNT_LABEL"
@@ -153,7 +137,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
               <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_USER">
                 {text => (
                   <UserSelection
-                    userId={this.props.match.params.id}
+                    filterUserId={this.props.match.params.id}
                     placeholder={text as string}
                     onSelect={this.submitUserId}
                   />
@@ -166,19 +150,16 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 render={isValid => (
                   <FormattedMessage id="USER_TRANSACTION_CREATE_SUBMIT_TITLE">
                     {text => (
-                      <PrimaryButton
-                        title={text as string}
-                        isRound
-                        disabled={!isValid}
+                      <AcceptButton
                         type="submit"
-                      >
-                        <AcceptIcon />
-                      </PrimaryButton>
+                        disabled={!(isValid && this.state.selectedUser.id)}
+                        title={text as string}
+                      />
                     )}
                   </FormattedMessage>
                 )}
               />
-            </ResponsiveGrid>
+            </div>
             <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_COMMENT">
               {text => (
                 <Input

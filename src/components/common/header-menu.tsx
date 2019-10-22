@@ -1,18 +1,15 @@
-import { HeaderNavBar } from 'bricks-of-sand';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
-import { Logo } from '../ui/icons/logo';
-import { ScrollContainer } from './scroll-container/scroll-container';
 import { useSettings } from '../../store';
-import { SearchIcon } from '../ui/icons/search';
+import { HeaderNav, Logo, SearchIcon, ScrollContainer } from '../../bricks';
 
 const navLinkStyle = { marginRight: '1rem' };
 
 export function HeaderMenu(): JSX.Element {
   const payment = useSettings().payment;
   return (
-    <HeaderNavBar>
+    <HeaderNav>
       <ScrollContainer>
         <NavLink
           style={{
@@ -70,6 +67,6 @@ export function HeaderMenu(): JSX.Element {
           <SearchIcon style={{ marginLeft: '0.5rem' }} />
         </NavLink>
       </div>
-    </HeaderNavBar>
+    </HeaderNav>
   );
 }

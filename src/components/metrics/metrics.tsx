@@ -11,10 +11,10 @@ import {
   ComposedChart,
   Bar,
 } from 'recharts';
-import { Separator, Card, ResponsiveGrid, AlertText } from 'bricks-of-sand';
 
 import { useMetrics } from './resource';
 import { Currency } from '../currency';
+import { Card, GridThree, AlertText, Separator } from '../../bricks';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FixedTooltip: any = Tooltip;
@@ -30,7 +30,7 @@ const Metrics: React.FC = () => {
   }
   return (
     <div style={{ margin: '0 1rem' }}>
-      <ResponsiveGrid margin="2rem 0" columns="1fr 1fr 1fr">
+      <GridThree>
         <Card margin="1rem 1rem 1rem 0">
           <h2>
             <FormattedMessage id="METRICS_BALANCE" defaultMessage="balance" />
@@ -55,7 +55,7 @@ const Metrics: React.FC = () => {
 
           <FormattedNumber value={metrics.transactionCount} />
         </Card>
-      </ResponsiveGrid>
+      </GridThree>
       <Card>
         <h2>
           <FormattedMessage id="METRICS_BALANCE" defaultMessage="balance" />

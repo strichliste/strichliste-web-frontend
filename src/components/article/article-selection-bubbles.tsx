@@ -1,4 +1,3 @@
-import { CancelButton, Flex, Input, styled, Button } from 'bricks-of-sand';
 import * as React from 'react';
 import { useDispatch } from 'redux-react-hook';
 
@@ -6,15 +5,8 @@ import { usePopularArticles } from '../../store';
 import { Article, startLoadingArticles } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ArticleValidator } from './validator';
-
-const InputSection = styled(Flex)({
-  padding: '0 1rem',
-  margin: '3rem auto 0 auto',
-  maxWidth: '20rem',
-  button: {
-    marginLeft: '1rem',
-  },
-});
+import { Flex, Input, CancelButton, Button } from '../../bricks';
+import { useIntl } from 'react-intl';
 
 interface Props {
   userId: string;
@@ -26,18 +18,23 @@ const ARTICLE_BUBBLE_LIMIT = 10;
 export const ArticleSelectionBubbles = (props: Props) => {
   const items = usePopularArticles();
   const dispatch = useDispatch();
+  const intl = useIntl();
   const [query, setQuery] = React.useState('');
 
   React.useEffect(() => {
     startLoadingArticles(dispatch, true);
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
-      <InputSection>
-        <Input value={query} onChange={e => setQuery(e.target.value)} />
-        <CancelButton onClick={props.onCancel} />
-      </InputSection>
+      <Flex>
+        <Input
+          placeholder={intl.formatMessage({ id: 'BUY_ARTICLE_PLACEHOLDER' })}
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
+        <CancelButton margin="0 0 0 1rem" onClick={props.onCancel} />
+      </Flex>
       <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">
         {items
           .filter(
@@ -52,6 +49,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
               value={item.amount}
               render={isValid => (
                 <Button
+                  primary
                   disabled={!isValid}
                   onClick={() => {
                     if (isValid) {

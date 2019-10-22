@@ -36,5 +36,6 @@ export async function restDelete(endpoint: string): Promise<any> {
 export function useEffectAsync(effect: any, inputs: any[] = []): void {
   useEffect(() => {
     effect();
+    // eslint-disable-next-line
   }, inputs);
 }

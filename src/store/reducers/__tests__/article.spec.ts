@@ -12,7 +12,9 @@ import {
   getArticleList,
   startAddArticle,
   startLoadingArticles,
+  getArticleHistory,
 } from '../article';
+import { articleDetailResponse } from '../mock';
 
 jest.mock('../../../services/api', () => ({
   get: jest.fn(),
@@ -86,7 +88,7 @@ describe('action creators', () => {
       );
       const store = getMockStore();
       await getArticleByBarcode(store.dispatch, 'asdf');
-      expect(get).toHaveBeenCalledWith('article?barcode=asdf');
+      expect(get).toHaveBeenCalledWith('article/search?barcode=asdf');
       expect(store.getActions()).toMatchSnapshot();
     });
 
@@ -100,7 +102,7 @@ describe('action creators', () => {
       } catch (error) {
         expect(error.message).toBe('no articles are matching the barcode');
       }
-      expect(get).toHaveBeenCalledWith('article?barcode=asdf');
+      expect(get).toHaveBeenCalledWith('article/search?barcode=asdf');
     });
   });
 
@@ -141,6 +143,13 @@ describe('selectors', () => {
         { id: 2, isActive: false, name: 'a' },
         { id: 1, isActive: true, name: 'b' },
       ]);
+    });
+  });
+  describe('getArticleHistory', () => {
+    it('returns flattened list of articles', () => {
+      // @ts-ignore
+      const history = getArticleHistory(articleDetailResponse.article);
+      expect(history.length).toEqual(6);
     });
   });
 });

@@ -4,14 +4,7 @@
 
 .transactions {
   flex-grow: 1;
-}
-.transactions a {
-  text-align: right;
-  display: block;
-}
-
-.payment {
-  margin-bottom: 4rem;
+  overflow: hidden;
 }
 
 @media only screen and (min-width: 48em) {
@@ -24,4 +17,19 @@
     display: flex;
     justify-content: center;
   }
+
+  .bothEnabled {
+    grid-template-columns: 24rem 1fr;
+    gap: 3rem;
+    grid-template-rows: auto;
+  }
+}
+
+.grid {
+  display: grid;
+  padding: 0 1rem;
+}
+
+.paymentGrid > * {
+  margin-bottom: 4rem;
 }

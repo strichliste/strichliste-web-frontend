@@ -1,22 +1,54 @@
 import React from 'react';
-import { useLocalStorage } from '../../hooks/use-storage';
-import { TextButton, SearchMinus, SearchPlus, Icon } from 'bricks-of-sand';
+import { Button, SearchMinus, SearchPlus } from '../../bricks';
+
+const STORAGE_KEY = 'strichliste_ui_scaling';
 
 export const useScalingState = () => {
-  const [scaling, setScaling] = useLocalStorage('scaling', 0);
+  const storeScaling = localStorage.getItem(STORAGE_KEY);
+  const initialScaling = storeScaling === null ? 16 : Number(storeScaling);
+  const [scaling, setScaling] = React.useState(initialScaling);
+
+  const setScalingToDocument = () => {
+    document.documentElement.style.setProperty(
+      '--baseFontSize',
+      `${scaling}px`
+    );
+    document.documentElement.style.setProperty(
+      '--baseFontSizeLaptop',
+      `${scaling + 2}px`
+    );
+    document.documentElement.style.setProperty(
+      '--baseFontSizeDesktop',
+      `${scaling + 4}px`
+    );
+  };
+
+  React.useEffect(() => {
+    setScalingToDocument();
+    // eslint-disable-next-line
+  }, [scaling]);
+
+  React.useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, `${scaling}`);
+  }, [scaling]);
+
   const increment = () => {
-    setScaling(scaling + 1);
-    window.location.reload();
+    const nextScaling = scaling + 1;
+    setScaling(nextScaling);
   };
   const decrement = () => {
-    setScaling(scaling - 1);
-    window.location.reload();
+    const nextScaling = scaling - 1;
+
+    if (nextScaling > 10) {
+      setScaling(nextScaling);
+    }
   };
 
   return {
     scaling,
     increment,
     decrement,
+    setScalingToDocument,
   };
 };
 
@@ -25,17 +57,13 @@ export const ScalingButtons = () => {
 
   return (
     <>
-      <TextButton onClick={decrement}>
-        <Icon width="1rem" height="1rem">
-          <SearchMinus />
-        </Icon>
-      </TextButton>
+      <Button onClick={decrement}>
+        <SearchMinus />
+      </Button>
 
-      <TextButton onClick={increment}>
-        <Icon width="1rem" height="1rem">
-          <SearchPlus />
-        </Icon>
-      </TextButton>
+      <Button onClick={increment}>
+        <SearchPlus />
+      </Button>
     </>
   );
 };

@@ -2,6 +2,11 @@ import { useState } from 'react';
 
 import { get, useEffectAsync } from '../../services/api';
 
+const checkNaN = (value: number): number => {
+  const maybeNaN = value / 100;
+  return isNaN(maybeNaN) ? 0 : maybeNaN;
+};
+
 export const useMetrics = (): FormattedMetric | null => {
   const [metric, setMetrics] = useState<FormattedMetric | null>(null);
 
@@ -11,11 +16,11 @@ export const useMetrics = (): FormattedMetric | null => {
     const formattedMetric = {
       ...nextMetrics,
       days: nextMetrics.days.map(day => ({
-        balance: day.balance / 100,
-        charged: day.charged.amount / 100,
+        balance: checkNaN(day.balance),
+        charged: checkNaN(day.charged.amount),
         date: day.date,
         distinctUsers: day.distinctUsers,
-        spent: day.spent.amount / 100,
+        spent: checkNaN(day.spent.amount),
         transactions: day.transactions,
       })),
     };

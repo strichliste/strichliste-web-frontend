@@ -1,39 +1,19 @@
-import {
-  AlertText,
-  Ellipsis,
-  LineThrough,
-  ListItem,
-  ResponsiveGrid,
-  Theme,
-  styled,
-  withTheme,
-} from 'bricks-of-sand';
 import * as React from 'react';
 import { Currency } from '../currency';
-import { ShoppingBagIcon } from '../ui/icons/shopping-bag';
 import { TransactionUndoButton } from './transaction-undo-button';
 import { useTransaction } from '../../store';
 import { getUserDetailLink } from '../user/user-router';
 import { Link } from 'react-router-dom';
 import { User, Article } from '../../store/reducers';
+import {
+  Ellipsis,
+  LineThrough,
+  AlertText,
+  ListItem,
+  ShoppingBagIcon,
+} from '../../bricks';
 
-const InLineLink = styled(Link)({
-  display: 'inline !important',
-});
-
-const ArticleIcon = withTheme(
-  styled('span')({}, ({ theme }) => ({
-    fill: (theme as Theme).primary,
-  }))
-);
-
-interface Props {
-  id: number | string;
-}
-
-const TextRight = styled(ResponsiveGrid)({
-  textAlign: 'right',
-});
+import styles from './transaction-list-item.module.css';
 
 interface ListItemProps {
   user?: User;
@@ -54,15 +34,13 @@ const ListItemDescription = ({
   return (
     <Ellipsis title={title}>
       {user && (
-        <InLineLink to={getUserDetailLink(user.id)}>
+        <Link to={getUserDetailLink(user.id)}>
           {isSender ? <>&#8592;</> : <>&#8594;</>} {user.name}
-        </InLineLink>
+        </Link>
       )}
       {article && (
         <>
-          <ArticleIcon>
-            <ShoppingBagIcon />
-          </ArticleIcon>{' '}
+          <ShoppingBagIcon />
           {article.name}
         </>
       )}
@@ -71,22 +49,26 @@ const ListItemDescription = ({
   );
 };
 
-export function TransactionListItem({ id }: Props): JSX.Element | null {
+export function TransactionListItem({
+  id,
+  first,
+}: {
+  id: string;
+  first?: boolean;
+}): JSX.Element | null {
   const transaction = useTransaction(Number(id));
   if (!transaction) {
     return null;
   }
   return (
-    <ListItem>
+    <ListItem borderTop>
       <LineThrough lineThrough={transaction.isDeleted}>
-        <ResponsiveGrid gridGap="0" margin="0" columns="2fr 1fr">
-          <ResponsiveGrid
-            gridGap="0"
-            margin="0"
-            columns="1fr"
-            tabletColumns="1fr 1fr"
-          >
-            <AlertText value={transaction.amount}>
+        <div className={styles.grid}>
+          <div className={styles.grow}>
+            <AlertText
+              style={{ marginRight: '1rem' }}
+              value={transaction.amount}
+            >
               <Currency value={transaction.amount} />
             </AlertText>
             <ListItemDescription
@@ -95,18 +77,16 @@ export function TransactionListItem({ id }: Props): JSX.Element | null {
               comment={transaction.comment}
               user={transaction.sender || transaction.recipient}
             />
-          </ResponsiveGrid>
-          <TextRight>
-            {transaction.isDeletable ? (
-              <TransactionUndoButton
-                transactionId={transaction.id}
-                userId={transaction.user.id}
-              />
-            ) : (
-              <Ellipsis>{transaction.created}</Ellipsis>
-            )}
-          </TextRight>
-        </ResponsiveGrid>
+          </div>
+          {transaction.isDeletable ? (
+            <TransactionUndoButton
+              transactionId={transaction.id}
+              userId={transaction.user.id}
+            />
+          ) : (
+            <Ellipsis>{transaction.created}</Ellipsis>
+          )}
+        </div>
       </LineThrough>
     </ListItem>
   );

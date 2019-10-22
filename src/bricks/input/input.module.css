@@ -1,0 +1,20 @@
+.input {
+  background: var(--componentBackgroundDark);
+  border: solid 1px transparent;
+  border-radius: 4px;
+  color: var(--primary);
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.input::placeholder {
+  color: var(--textSubtile);
+}
+
+.formField {
+  margin-bottom: 1rem;
+}
+
+.formField > label {
+  margin-bottom: 0.5rem;
+}
