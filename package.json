@@ -1,6 +1,6 @@
 {
   "name": "strichliste-web",
-  "version": "1.7.1",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
