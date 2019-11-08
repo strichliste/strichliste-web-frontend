@@ -19,6 +19,7 @@ type ButtonProps = JSX.IntrinsicElements['button'] & {
   ref?: any;
 };
 
+// eslint-disable-next-line react/display-name
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
