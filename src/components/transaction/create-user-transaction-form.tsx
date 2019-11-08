@@ -8,7 +8,7 @@ import { UserName } from '../user/user-name';
 import { TransactionUndoButton } from './transaction-undo-button';
 import { UserToUserValidator } from './user-to-user-validator';
 import { store } from '../../store';
-import { Card, AcceptIcon, AcceptButton, Input } from '../../bricks';
+import { Card, AcceptIcon, AcceptButton, Input, Arrow } from '../../bricks';
 
 import styles from './create-user-transaction-form.module.css';
 
@@ -133,7 +133,12 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                   />
                 )}
               </FormattedMessage>
-              &#8594;
+              <Arrow
+                style={{
+                  width: ' 1rem',
+                  height: '1rem',
+                }}
+              />
               <FormattedMessage id="CREATE_USER_TO_USER_TRANSACTION_USER">
                 {text => (
                   <UserSelection
