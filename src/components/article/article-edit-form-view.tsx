@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { ArticleForm } from './article-form';
-import { Button } from '../../bricks';
+import { Button, Arrow } from '../../bricks';
 import { FormattedMessage } from 'react-intl';
 
 export function ArticleEditFormView({
@@ -15,7 +15,14 @@ export function ArticleEditFormView({
           onClick={() => history.goBack()}
           children={
             <>
-              &#8592;
+              <Arrow
+                style={{
+                  width: '0.8rem',
+                  height: '0.8rem',
+                  marginRight: '0.5rem',
+                  transform: 'rotate(-180deg)',
+                }}
+              />
               <FormattedMessage id="BACK_BUTTON" />
             </>
           }

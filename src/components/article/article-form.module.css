@@ -1,5 +1,22 @@
-.name {
+.articleName {
   margin: 0 0 2rem 0;
+}
+
+.subHeader {
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: solid 1px var(--border);
+}
+
+.lastEdit {
+  color: var(--textSubtile);
+  font-size: 0.8rem;
+  margin: 1rem 0;
+}
+
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .grid > * {
@@ -15,4 +32,11 @@
   .grid > * {
     margin-bottom: 0;
   }
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 2fr;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
 }

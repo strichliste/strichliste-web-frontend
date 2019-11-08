@@ -26,6 +26,7 @@ import {
   Button,
   CancelButton,
   Flex,
+  Ellipsis,
 } from '../../bricks';
 
 import styles from './article-form.module.css';
@@ -53,7 +54,7 @@ export const ArticleForm: React.FC<Props> = props => {
   return (
     <>
       <ScrollToTop />
-      <h2 className={styles.name}>
+      <h2 className={styles.articleName}>
         {article
           ? article.name
           : intl.formatMessage({ id: 'ARTICLE_ADD_FROM_HEADLINE' })}
@@ -114,10 +115,14 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
   return (
     <form onSubmit={handleSubmit}>
       <Card>
-        <h3 className={styles.name}>
+        <h3 className={styles.subHeader}>
           <FormattedMessage id="ARTICLE_ADD_FORM_DETAILS" />
         </h3>
+        {article && article.created && (
+          <p className={styles.lastEdit}>Last edit: {article.created}</p>
+        )}
         <FormField
+          inline
           label={<FormattedMessage id="ARTICLE_ADD_FORM_NAME_LABEL" />}
           children={(id: string) => (
             <Input
@@ -130,6 +135,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
           )}
         />
         <FormField
+          inline
           label={<FormattedMessage id="ARTICLE_ADD_FORM_AMOUNT_LABEL" />}
           children={(id: string) => (
             <CurrencyInput
@@ -141,7 +147,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
           )}
         />
 
-        <div>
+        <div className={styles.flexEnd}>
           <AcceptButton
             title={intl.formatMessage({ id: 'ARTICLE_ADD_FROM_ACCEPT' })}
             disabled={!useArticleValidator(params.amount)}
@@ -232,7 +238,7 @@ function ItemList<Item>({
 }: ItemListProps<Item>) {
   return (
     <Card>
-      <h3 className={styles.name}>{headline}</h3>
+      <h3 className={styles.subHeader}>{headline}</h3>
 
       {items.map(item => (
         <ListInput
@@ -244,8 +250,10 @@ function ItemList<Item>({
         />
       ))}
 
-      <Button margin="1rem 0 0 0" primary onClick={handleAddRow}>
-        <Plus />
+      <Button primary onClick={handleAddRow}>
+        <Plus
+          style={{ width: '1rem', height: '1rem', marginRight: '0.5rem' }}
+        />
         {addRowLabel}
       </Button>
     </Card>
@@ -300,7 +308,7 @@ const ListInput: React.FC<{
 const ArticleMetrics: React.FC<{ article: Article }> = ({ article }) => {
   return (
     <Card>
-      <h3>
+      <h3 className={styles.subHeader}>
         <FormattedMessage id="METRICS_HEADLINE" />
       </h3>
       <FormattedMessage
@@ -313,26 +321,19 @@ const ArticleMetrics: React.FC<{ article: Article }> = ({ article }) => {
 
 const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
   const history = getArticleHistory(article);
-  console.log({ article, history });
   return (
     <Card>
-      <h3 style={{ marginBottom: '1rem' }}>
+      <h3 className={styles.subHeader}>
         <FormattedMessage id="ARTICLE_ADD_FORM_HISTORY" />
       </h3>
       <ul>
         {history.map(article => (
-          <li
-            style={{
-              display: 'flex',
-              alignContent: 'center',
-              justifyContent: 'space-between',
-            }}
-            key={article.id}
-          >
+          <li className={styles.list} key={article.id}>
             <p>{article.name}</p>
             <p>
               <Currency value={article.amount} />
             </p>
+            <Ellipsis>{article.created}</Ellipsis>
           </li>
         ))}
       </ul>

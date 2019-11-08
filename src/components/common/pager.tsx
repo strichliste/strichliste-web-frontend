@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Flex, Button } from '../../bricks';
+import { Flex, Button, Arrow } from '../../bricks';
 
 function isPrevDisabled(props: PagerProps): boolean {
   return props.currentPage === 0;
@@ -39,14 +39,29 @@ export function Pager(props: PagerProps): JSX.Element {
         onClick={() => pageDown(props)}
         disabled={isPrevDisabled(props)}
       >
-        &#8592; <FormattedMessage id="PAGER_PREV" />
+        <Arrow
+          style={{
+            width: '0.8rem',
+            height: '0.8rem',
+            marginRight: '0.5rem',
+            transform: 'rotate(-180deg)',
+          }}
+        />
+        <FormattedMessage id="PAGER_PREV" />
       </Button>
       <Button
         primary
         onClick={() => pageUp(props)}
         disabled={isNextDisabled(props)}
       >
-        <FormattedMessage id="PAGER_NEXT" /> &#8594;
+        <FormattedMessage id="PAGER_NEXT" />
+        <Arrow
+          style={{
+            width: '0.8rem',
+            height: '0.8rem',
+            marginLeft: '0.5rem',
+          }}
+        />
       </Button>
     </Flex>
   );
