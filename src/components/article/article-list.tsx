@@ -19,7 +19,10 @@ import { Button, AddIcon, Flex } from '../../bricks';
 const ArticleListItem: React.FC<{ article: Article }> = ({ article }) => {
   return (
     <Link className={styles.list} to={getArticleFormRoute(article.id)}>
-      {article.name} <Currency hidePlusSign value={article.amount} />
+      <span>{article.name}</span>
+      <span>
+        <Currency hidePlusSign value={article.amount} />
+      </span>
     </Link>
   );
 };
