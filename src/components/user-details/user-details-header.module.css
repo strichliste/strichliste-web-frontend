@@ -6,6 +6,10 @@
   margin: 1rem auto;
 }
 
+.header h2 {
+  padding: 0 1rem;
+}
+
 .wrapper {
   margin: 0 auto;
   padding: 0 1rem;
