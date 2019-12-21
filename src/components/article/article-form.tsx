@@ -98,7 +98,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
   );
   const dispatch = useDispatch();
   React.useEffect(() => {
-    extractParams(article);
+    setParams(extractParams(article));
   }, [article]);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -331,7 +331,7 @@ const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
           <li className={styles.list} key={article.id}>
             <p>{article.name}</p>
             <p>
-              <Currency value={article.amount} />
+              <Currency hidePlusSign value={article.amount} />
             </p>
             <Ellipsis>{article.created}</Ellipsis>
           </li>
