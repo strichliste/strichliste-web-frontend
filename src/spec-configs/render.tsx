@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MemoryHistory, createMemoryHistory } from 'history';
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
@@ -11,7 +12,7 @@ import { AppState, reducer } from '../store';
 export function renderWithContext(
   ui: JSX.Element,
   initialState: DeepPartial<AppState>,
-  store: Store<AppState> = createStore(reducer, initialState),
+  store = createStore<any, any, any, any>(reducer, initialState),
   history: MemoryHistory = createMemoryHistory()
 ) {
   return render(
@@ -26,7 +27,10 @@ export function renderWithContext(
 export function renderAndReturnContext(
   ui: JSX.Element,
   initialState: DeepPartial<AppState>,
-  store: Store<AppState> = createStore(reducer, initialState),
+  store: Store<AppState> = createStore<any, any, any, any>(
+    reducer,
+    initialState
+  ),
   history: MemoryHistory = createMemoryHistory()
 ) {
   return {
