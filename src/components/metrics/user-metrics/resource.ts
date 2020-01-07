@@ -16,7 +16,7 @@ export const useMetrics = (userId: string): UserMetric | null => {
   return metrics;
 };
 
-export interface Article {
+export interface ArticleEntry {
   article: Article;
   count: number;
   amount: number;
