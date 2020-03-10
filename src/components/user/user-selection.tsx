@@ -24,7 +24,7 @@ export function UserSelection({
 }: Props): JSX.Element {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const modalProps = useModal();
-  const [selection, setSelection] = React.useState();
+  const [selection, setSelection] = React.useState<User | undefined>();
   React.useEffect(() => {
     setSelection(user);
   }, [user]);
