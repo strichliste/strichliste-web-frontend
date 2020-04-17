@@ -5,7 +5,7 @@ import { IntlProvider } from 'react-intl';
 import { Router } from 'react-router';
 import { render } from '@testing-library/react';
 import { DeepPartial, Store, createStore } from 'redux';
-import { StoreContext } from 'redux-react-hook';
+import { Provider } from 'react-redux';
 
 import { AppState, reducer } from '../store';
 
@@ -16,11 +16,11 @@ export function renderWithContext(
   history: MemoryHistory = createMemoryHistory()
 ) {
   return render(
-    <StoreContext.Provider value={store}>
+    <Provider store={store}>
       <Router history={history}>
         <IntlProvider locale="en">{ui}</IntlProvider>
       </Router>
-    </StoreContext.Provider>
+    </Provider>
   );
 }
 
@@ -35,13 +35,13 @@ export function renderAndReturnContext(
 ) {
   return {
     result: render(
-      <StoreContext.Provider value={store}>
+      <Provider store={store}>
         <Router history={history}>
           <IntlProvider locale="en" textComponent={React.Fragment}>
             {ui}
           </IntlProvider>
         </Router>
-      </StoreContext.Provider>
+      </Provider>
     ),
     store,
     history,

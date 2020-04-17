@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
 import { useUser } from '../../store';
 import { startUpdateUser } from '../../store/reducers';
 import { Input, Flex, CancelButton, AcceptButton } from '../../bricks';
@@ -56,11 +56,11 @@ export const UserEditForm = (props: Props) => {
       <div style={formStyle}>
         <FormattedMessage
           id="USER_EDIT_NAME_LABEL"
-          children={text => (
+          children={(text) => (
             <Input
               placeholder={text as string}
               value={name}
-              onChange={e => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               minLength={1}
               maxLength={64}
               required
@@ -72,11 +72,11 @@ export const UserEditForm = (props: Props) => {
       <div style={formStyle}>
         <FormattedMessage
           id="USER_EDIT_MAIL_LABEL"
-          children={text => (
+          children={(text) => (
             <Input
               placeholder={text as string}
               value={email || ''}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               type="email"
             />
           )}
@@ -87,7 +87,7 @@ export const UserEditForm = (props: Props) => {
           <label>
             <input
               checked={isDisabled}
-              onChange={e => setDisabled(e.target.checked)}
+              onChange={(e) => setDisabled(e.target.checked)}
               type="checkbox"
             />
             <FormattedMessage id="USER_EDIT_ACTIVE_LABEL" />

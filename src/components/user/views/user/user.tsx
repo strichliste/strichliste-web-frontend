@@ -6,7 +6,7 @@ import { useFilteredUsers } from '../../../../store';
 import { startLoadingUsers } from '../../../../store/reducers';
 import { NavTabMenus } from '../../../common/nav-tab-menu';
 import { CreateUserInlineFormView } from '../../create-user-inline-form';
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
 import { ScrollToTop } from '../../../common/scroll-to-top';
 import { UserList } from '../../user-list';
 

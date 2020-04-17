@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'redux-react-hook';
 import { useArticle } from '../../store';
 import {
   Article,
@@ -33,13 +32,14 @@ import styles from './article-form.module.css';
 import { useHistory } from 'react-router';
 import { FormField } from '../../bricks/input/input';
 import { ScrollToTop } from '../common/scroll-to-top';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   articleId?: number;
   onCreated(): void;
 }
 
-export const ArticleForm: React.FC<Props> = props => {
+export const ArticleForm: React.FC<Props> = (props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const article = useArticle(props.articleId);
@@ -128,7 +128,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
             <Input
               id={id}
               value={params.name}
-              onChange={e => setParams({ ...params, name: e.target.value })}
+              onChange={(e) => setParams({ ...params, name: e.target.value })}
               type="text"
               required
             />
@@ -142,7 +142,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
               id={id}
               noNegative
               value={params.amount}
-              onChange={amount => setParams({ ...params, amount })}
+              onChange={(amount) => setParams({ ...params, amount })}
             />
           )}
         />
@@ -169,7 +169,7 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
   };
   const handleDeleteBarcode = async (barcode: Barcode) => {
     await startDeleteBarcode(dispatch, article.id, barcode.id);
-    setBarcodes(barcodes.filter(item => item.id !== barcode.id));
+    setBarcodes(barcodes.filter((item) => item.id !== barcode.id));
   };
   return (
     <ItemList<Barcode>
@@ -182,7 +182,7 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
       }
       handleSaveItem={handleAddBarcode}
       handleDeleteItem={handleDeleteBarcode}
-      getItemValue={item => item.barcode}
+      getItemValue={(item) => item.barcode}
     />
   );
 };
@@ -199,7 +199,7 @@ const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
   };
   const handleDeleteTag = async (tag: Tag) => {
     await startDeleteTag(dispatch, article.id, tag.id);
-    setTags(tags.filter(item => item.id !== tag.id));
+    setTags(tags.filter((item) => item.id !== tag.id));
   };
   return (
     <ItemList<Tag>
@@ -210,7 +210,7 @@ const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
       handleAddRow={() => setTags([...tags, { id: 0, tag: '', created: '' }])}
       handleSaveItem={handleAddTag}
       handleDeleteItem={handleDeleteTag}
-      getItemValue={item => item.tag}
+      getItemValue={(item) => item.tag}
     />
   );
 };
@@ -240,7 +240,7 @@ function ItemList<Item>({
     <Card>
       <h3 className={styles.subHeader}>{headline}</h3>
 
-      {items.map(item => (
+      {items.map((item) => (
         <ListInput
           placeholder={placeholder}
           handleRemove={() => handleDeleteItem(item)}
@@ -271,7 +271,7 @@ const ListInput: React.FC<{
 
   return (
     <form
-      onSubmit={e => {
+      onSubmit={(e) => {
         e.preventDefault();
         if (item) {
           handleRemove(item);
@@ -285,7 +285,7 @@ const ListInput: React.FC<{
           placeholder={placeholder}
           autoFocus={item === ''}
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
         />
         {item ? (
           <CancelButton
@@ -327,7 +327,7 @@ const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
         <FormattedMessage id="ARTICLE_ADD_FORM_HISTORY" />
       </h3>
       <ul>
-        {history.map(article => (
+        {history.map((article) => (
           <li className={styles.list} key={article.id}>
             <p>{article.name}</p>
             <p>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { StoreContext, useDispatch } from 'redux-react-hook';
+import { Provider, useDispatch } from 'react-redux';
 
 import { ArticleRouter } from './components/article/article-router';
 import { en } from './locales/en';
@@ -61,7 +61,7 @@ const Layout = () => {
         />
         <Route
           path="/search-results"
-          render={props => (
+          render={(props) => (
             <>
               <WrappedIdleTimer />
               <SearchResults {...props} />
@@ -78,13 +78,13 @@ const Layout = () => {
 export const App = () => {
   return (
     <ThemeProvider>
-      <StoreContext.Provider value={store}>
+      <Provider store={store}>
         <IntlProvider textComponent={React.Fragment} locale="en" messages={en}>
           <HashRouter hashType="hashbang">
             <Layout />
           </HashRouter>
         </IntlProvider>
-      </StoreContext.Provider>
+      </Provider>
     </ThemeProvider>
   );
 };

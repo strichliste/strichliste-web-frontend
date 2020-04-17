@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { useDispatch } from 'redux-react-hook';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
 
 import { startCreatingTransaction } from '../../store/reducers';
 import { CurrencyInput } from '../currency';

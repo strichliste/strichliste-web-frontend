@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useMappedState } from 'redux-react-hook';
 import { AppState } from '.';
 import {
   Article,
@@ -19,85 +18,85 @@ import {
   isPaymentEnabled,
   Transaction,
 } from './reducers';
+import { useSelector } from 'react-redux';
 
 export function useFilteredUsers(isActive: boolean) {
-  return useMappedState<string[]>(
-    useCallback(state => getFilteredUserIds(state, isActive), [isActive])
+  return useSelector<AppState, string[]>(
+    useCallback((state) => getFilteredUserIds(state, isActive), [isActive])
   );
 }
 
 export function useUser(id: string) {
-  const user = useMappedState<User | undefined>(
-    useCallback(state => getUser(state, id), [id])
+  return useSelector<AppState, User | undefined>(
+    useCallback((state) => getUser(state, id), [id])
   );
-  return user;
 }
 
 export function useUserName(id: string): string {
-  const user = useMappedState<User | undefined>(
-    useCallback(state => getUser(state, id), [id])
+  const user = useSelector<AppState, User | undefined>(
+    useCallback((state) => getUser(state, id), [id])
   );
   return user ? user.name : '';
 }
 
 export function useUserBalance(id: string): number {
-  return useMappedState<number>(
-    useCallback(state => getUserBalance(state, id), [id])
+  return useSelector<AppState, number>(
+    useCallback((state) => getUserBalance(state, id), [id])
   );
 }
 
 export function useArticles(): Article[] {
-  return useMappedState<Article[]>(getArticleList);
+  return useSelector<AppState, Article[]>(getArticleList);
 }
 
 export function useActiveArticles(isActive: boolean): Article[] {
   const articles = useArticles();
 
-  return articles.filter(article => article.isActive === isActive);
+  return articles.filter((article) => article.isActive === isActive);
 }
 
 export function usePopularArticles(): Article[] {
-  return useMappedState<Article[]>(getPopularArticles);
+  return useSelector<AppState, Article[]>(getPopularArticles);
 }
 
 export function useArticle(id: number | undefined) {
-  return useMappedState<Article | undefined>(
+  return useSelector<AppState, Article | undefined>(
     useCallback((state: AppState) => getArticleById(state, id || 0), [id])
   );
 }
 
 export function usePayPalSettings() {
-  return useMappedState(getPayPal);
+  return useSelector(getPayPal);
 }
 
 export function useSettings() {
-  return useMappedState(getSettings);
+  return useSelector(getSettings);
 }
 
 export function useIsPaymentEnabled() {
-  return useMappedState(isPaymentEnabled);
+  return useSelector(isPaymentEnabled);
 }
 
 export function useUserArray() {
-  return useMappedState(getUserArray);
+  return useSelector(getUserArray);
 }
 
 export function useUserState() {
-  return useMappedState(getUserState);
+  return useSelector(getUserState);
 }
 
 export function useGlobalError() {
-  return useMappedState(getGlobalError);
+  return useSelector(getGlobalError);
 }
 
 export function useIsTransactionDeletable(id: number) {
-  return useMappedState<boolean>(
+  return useSelector<AppState, boolean>(
     useCallback((state: AppState) => isTransactionDeletable(state, id), [id])
   );
 }
 
 export function useTransaction(id: number) {
-  return useMappedState<Transaction | undefined>(
+  return useSelector<AppState, Transaction | undefined>(
     useCallback((state: AppState) => state.transaction[id], [id])
   );
 }

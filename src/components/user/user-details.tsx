@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from 'react-router';
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
 import classnames from 'classnames';
 
 import { useUser, useSettings, useIsPaymentEnabled } from '../../store';
@@ -46,7 +46,7 @@ export const UserDetails = (props: UserDetailsProps) => {
 
   const transactions = user.transactions
     ? Object.keys(user.transactions)
-        .map(a => Number(a))
+        .map((a) => Number(a))
         .sort((a, b) => b - a)
         .slice(0, 5)
     : [];

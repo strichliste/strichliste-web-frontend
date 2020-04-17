@@ -8,8 +8,8 @@ import {
 import { Scanner } from '../common/scanner';
 import { Toast } from '../common/toast';
 import { Currency } from '../currency';
-import { useDispatch } from 'redux-react-hook';
 import { Flex, AcceptIcon } from '../../bricks';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   userId: string;

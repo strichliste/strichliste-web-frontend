@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useDispatch } from 'redux-react-hook';
 
 import { usePopularArticles } from '../../store';
 import { Article, startLoadingArticles } from '../../store/reducers';
@@ -7,6 +6,7 @@ import { Currency } from '../currency';
 import { ArticleValidator } from './validator';
 import { Flex, Input, CancelButton, Button } from '../../bricks';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   userId: string;
@@ -31,23 +31,23 @@ export const ArticleSelectionBubbles = (props: Props) => {
         <Input
           placeholder={intl.formatMessage({ id: 'BUY_ARTICLE_PLACEHOLDER' })}
           value={query}
-          onChange={e => setQuery(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
         />
         <CancelButton margin="0 0 0 1rem" onClick={props.onCancel} />
       </Flex>
       <Flex margin="2rem 0 0 0" flexWrap="wrap" justifyContent="center">
         {items
           .filter(
-            item =>
+            (item) =>
               !query || item.name.toLowerCase().includes(query.toLowerCase())
           )
           .slice(0, ARTICLE_BUBBLE_LIMIT)
-          .map(item => (
+          .map((item) => (
             <ArticleValidator
               key={item.name}
               userId={props.userId}
               value={item.amount}
-              render={isValid => (
+              render={(isValid) => (
                 <Button
                   primary
                   disabled={!isValid}

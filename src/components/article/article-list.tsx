@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'redux-react-hook';
 import { withRouter } from 'react-router';
 
 import { useActiveArticles } from '../../store';
@@ -15,6 +14,7 @@ import { ArticleTagFilter } from './article-tag-filter';
 //@ts-ignore
 import styles from './article-list.module.css';
 import { Button, AddIcon, Flex } from '../../bricks';
+import { useDispatch } from 'react-redux';
 
 const ArticleListItem: React.FC<{ article: Article }> = ({ article }) => {
   return (
@@ -27,7 +27,7 @@ const ArticleListItem: React.FC<{ article: Article }> = ({ article }) => {
   );
 };
 
-const AddArticleButton = withRouter(props => {
+const AddArticleButton = withRouter((props) => {
   const intl = useIntl();
   return (
     <Button
@@ -58,7 +58,7 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
 
   const filterArticles = () => {
     if (filters.length) {
-      return articles.filter(article =>
+      return articles.filter((article) =>
         article.tags.some(({ tag }) => filters.includes(tag))
       );
     }

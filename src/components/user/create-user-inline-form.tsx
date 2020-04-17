@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { useIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
 
 import { startCreatingUser } from '../../store/reducers';
 import { Button, Flex, Input, AddIcon, EditIcon } from '../../bricks';
@@ -43,7 +43,7 @@ export const CreateUserInlineForm = ({
           <Flex>
             <Input
               value={name}
-              onChange={e => setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               placeholder={intl.formatMessage({
                 id: 'USER_CREATE_NAME_LABEL',
               })}

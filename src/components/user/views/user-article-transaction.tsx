@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Article, startCreatingTransaction } from '../../../store/reducers';
 import { ArticleSelectionBubbles } from '../../article/article-selection-bubbles';
 import { getUserDetailLink, UserRouteProps } from '../user-router';
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
 import { Dispatch } from '../../../store/store';
 
 async function onSelect(
@@ -34,7 +34,7 @@ export function UserArticleTransaction(props: Props): JSX.Element | null {
       onCancel={() =>
         props.history.push(getUserDetailLink(props.match.params.id))
       }
-      onSelect={article => onSelect(dispatch, article, props)}
+      onSelect={(article) => onSelect(dispatch, article, props)}
     />
   );
 }
