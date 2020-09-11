@@ -209,7 +209,7 @@ textarea {
   background: 0 0;
   line-height: 1;
   font-size: 0.8rem;
-  font-family: 'Raleway', sans-serif;
+  font-family: sans-serif;
 }
 select[multiple],
 textarea {
