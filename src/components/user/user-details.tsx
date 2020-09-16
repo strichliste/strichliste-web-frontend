@@ -32,9 +32,9 @@ export const UserDetails = (props: UserDetailsProps) => {
     startLoadingTransactions(dispatch, userId);
     startLoadingUserDetails(dispatch, userId);
     if (inputRef && inputRef.current) {
-      // @ts-ignore
+      // @ts-expect-error js-ts
       inputRef.current.focus();
-      // @ts-ignore
+      // @ts-expect-error js-ts
       inputRef.current.blur();
     }
     // eslint-disable-next-line

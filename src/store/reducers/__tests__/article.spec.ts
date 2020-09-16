@@ -147,7 +147,7 @@ describe('selectors', () => {
   });
   describe('getArticleHistory', () => {
     it('returns flattened list of articles', () => {
-      // @ts-ignore
+      // @ts-expect-error js-ts
       const history = getArticleHistory(articleDetailResponse.article);
       expect(history.length).toEqual(6);
     });

@@ -12,7 +12,7 @@ export function ArticleEditFormView({
     <>
       <div style={{ margin: '1rem' }}>
         <Button
-          onClick={() => history.goBack()}
+          onClick={() => history.back()}
           children={
             <>
               <Arrow
@@ -30,7 +30,7 @@ export function ArticleEditFormView({
       </div>
       <div style={{ padding: '1rem' }}>
         <ArticleForm
-          onCreated={history.goBack}
+          onCreated={history.back}
           articleId={Number(match.params.id)}
         />
       </div>

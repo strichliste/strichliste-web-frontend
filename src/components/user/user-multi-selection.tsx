@@ -17,8 +17,5 @@ export function UserMultiSelection({
 }: UserMultiSelectionProps): JSX.Element | null {
   const users = useUserState();
 
-  return (
-    //@ts-ignore
-    <div></div>
-  );
+  return <div></div>;
 }

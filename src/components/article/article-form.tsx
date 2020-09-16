@@ -350,7 +350,7 @@ const ToggleActivity: React.FC<{ article: Article }> = ({ article }) => {
   const handleDeleteArticle = async () => {
     const res = await startDeletingArticle(dispatch, article.id);
     if (res) {
-      history.goBack();
+      history.back();
     }
   };
 

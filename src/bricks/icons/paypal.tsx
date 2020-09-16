@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 export const PayPal = () => (
-  // @ts-ignore
   <svg
     style={{ width: '1rem', height: '1rem' }}
     className="svg-inline--fa fa-paypal fa-w-12"

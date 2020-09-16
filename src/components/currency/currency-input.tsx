@@ -88,7 +88,7 @@ export class CurrencyInput extends React.Component<Props, State> {
           children={(formattedValue: string) => (
             <Input
               id={this.props.id}
-              // @ts-ignore
+              // @ts-expect-error js-ts-error js-ts
               ref={this.inputRef}
               style={{
                 color:

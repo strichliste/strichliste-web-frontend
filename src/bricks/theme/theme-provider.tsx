@@ -19,7 +19,7 @@ const ThemeContext = React.createContext<ThemeContextType>({
 
 const THEME_KEY = 'SELECTED_THEME';
 
-//@ts-ignore
+//@ts-expect-error js-ts
 const getStoredTheme = (): Themes => localStorage.getItem(THEME_KEY) || 'light';
 const setStoredTheme = (theme: Themes) =>
   localStorage.setItem(THEME_KEY, theme);
@@ -47,7 +47,7 @@ export const ThemeProvider: React.FC = ({ children }) => {
   );
 };
 
-export const ThemeSwitcher: React.FC = props => {
+export const ThemeSwitcher: React.FC = (props) => {
   const { toggleTheme, theme } = React.useContext(ThemeContext);
   return (
     <Button onClick={toggleTheme} {...props}>

@@ -11,7 +11,6 @@ import { getArticleFormRoute } from './article-router';
 import { Currency } from '../currency';
 import { ArticleTagFilter } from './article-tag-filter';
 
-//@ts-ignore
 import styles from './article-list.module.css';
 import { Button, AddIcon, Flex } from '../../bricks';
 import { useDispatch } from 'react-redux';
