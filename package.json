@@ -58,7 +58,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^4.3.0",
     "lint-staged": "^10.3.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "prettier": "^2.1.2",
     "react-axe": "^3.5.3",
     "redux-mock-store": "^1.5.4",
