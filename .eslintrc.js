@@ -4,29 +4,17 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    'prettier/@typescript-eslint', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
-    'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:import/typescript',
+    'prettier',
   ],
-  env: {
-    browser: true,
-    node: true,
-    'jest/globals': true,
-  },
-  plugins: ['jest', 'react', 'prettier'],
+  plugins: ['react', 'prettier', 'eslint-plugin-import', '@typescript-eslint'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    sourceType: 'module', // Allows for the use of imports
-    ecmaFeatures: {
-      jsx: true, // Allows for the parsing of JSX
-    },
-  },
-  globals: {
-    Class: true,
-    Event: true,
-    Promise: true,
+    project: '**/tsconfig*json',
   },
   settings: {
     react: {

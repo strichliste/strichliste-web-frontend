@@ -90,7 +90,7 @@ export const isTransactionValid = ({
 export function useTransactionValidator(
   value: number,
   userId: string,
-  isDeposit: boolean = true
+  isDeposit = true
 ): boolean {
   const settings = useSettings();
   const balance = useUserBalance(userId);

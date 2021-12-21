@@ -3,7 +3,7 @@ import { useSettings, useUserBalance } from '../../store';
 
 export function useArticleValidator(
   value: number,
-  userId: string = ''
+  userId = ''
 ): boolean {
   const settings = useSettings();
   const userBalance = useUserBalance(userId);

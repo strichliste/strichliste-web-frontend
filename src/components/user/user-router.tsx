@@ -92,7 +92,7 @@ export function getUserDetailLink(id: string): string {
   return `/user/${id}`;
 }
 
-export function getUserTransactionsLink(id: string, page: number = 0): string {
+export function getUserTransactionsLink(id: string, page = 0): string {
   return `/user/transactions/${id}/${page}`;
 }
 
