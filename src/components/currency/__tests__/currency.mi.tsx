@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cleanup, render } from '@testing-library/react';
 
 import { IntlProvider } from 'react-intl';
-import { Currency } from '../';
+import { Currency } from '..';
 
 afterEach(cleanup);
 
