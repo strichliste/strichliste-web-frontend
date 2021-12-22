@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux';
 import { startCreatingTransaction } from '../../store/reducers';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
-import { useSettings } from '../../store';
 import { Button } from '../../bricks';
+import { useSettings } from '../settings/useSettings';
 
 import styles from './create-user-transaction-form.module.css';
 
@@ -16,9 +16,11 @@ interface Props {
   transactionCreated?(): void;
 }
 
-export const CreateCustomTransactionForm = (props: Props) => {
+export const CreateCustomTransactionForm = ({
+  userId,
+  transactionCreated,
+}: Props) => {
   const intl = useIntl();
-  const { userId, transactionCreated } = props;
   const payment = useSettings().payment;
   const dispatch = useDispatch();
   const [value, setValue] = React.useState(0);

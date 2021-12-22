@@ -1,10 +1,8 @@
 import React from 'react';
-import { useSettings, useUserBalance } from '../../store';
+import { useUserBalance } from '../../store';
+import { useSettings } from '../settings/useSettings';
 
-export function useArticleValidator(
-  value: number,
-  userId = ''
-): boolean {
+export function useArticleValidator(value: number, userId = ''): boolean {
   const settings = useSettings();
   const userBalance = useUserBalance(userId);
   const boundary = settings.payment.boundary;

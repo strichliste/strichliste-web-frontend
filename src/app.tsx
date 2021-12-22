@@ -19,13 +19,10 @@ import 'inter-ui';
 import { MetricsView } from './components/metrics';
 import { WrappedIdleTimer } from './components/common/idle-timer';
 import { ThemeProvider } from './bricks';
+import { QueryClientProvider } from 'react-query';
+import { queryClient } from './services/api';
 
 const Layout = () => {
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    startLoadingSettings(dispatch);
-  }, [dispatch]);
-
   return (
     <>
       <ErrorMessage />
@@ -77,15 +74,21 @@ const Layout = () => {
 
 export const App = () => {
   return (
-    <ThemeProvider>
-      <Provider store={store}>
-        <IntlProvider textComponent={React.Fragment} locale="en" messages={en}>
-          <HashRouter hashType="hashbang">
-            <Layout />
-          </HashRouter>
-        </IntlProvider>
-      </Provider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <Provider store={store}>
+          <IntlProvider
+            textComponent={React.Fragment}
+            locale="en"
+            messages={en}
+          >
+            <HashRouter hashType="hashbang">
+              <Layout />
+            </HashRouter>
+          </IntlProvider>
+        </Provider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 

@@ -19,6 +19,8 @@ import {
   Transaction,
 } from './reducers';
 import { useSelector } from 'react-redux';
+import { useQuery } from 'react-query';
+import { fetchJson } from '../services/api';
 
 export function useFilteredUsers(isActive: boolean) {
   return useSelector<AppState, string[]>(
@@ -69,8 +71,48 @@ export function usePayPalSettings() {
   return useSelector(getPayPal);
 }
 
+const defaultSettings = {
+  article: {
+    enabled: false,
+    autoOpen: false,
+  },
+  common: { idleTimeout: 30000 },
+  paypal: {
+    enabled: true,
+    recipient: 'finanzen@hackerspace-bamberg.de',
+    fee: 0,
+    sandbox: true,
+  },
+  user: { stalePeriod: '10 day' },
+  i18n: {
+    dateFormat: 'YYYY-MM-DD HH:mm:ss',
+    timezone: 'auto',
+    language: 'en',
+    currency: { name: 'Euro', symbol: '\u20ac', alpha3: 'EUR' },
+  },
+  account: { boundary: { upper: 20000, lower: -20000 } },
+  payment: {
+    undo: { enabled: true, delete: true, timeout: '5 minute' },
+    boundary: { upper: 15000, lower: -2000 },
+    transactions: { enabled: true },
+    splitInvoice: { enabled: true },
+    deposit: {
+      enabled: true,
+      custom: true,
+      steps: [50, 100, 200, 500, 1000],
+    },
+    dispense: {
+      enabled: true,
+      custom: true,
+      steps: [50, 100, 200, 500, 1000],
+    },
+  },
+};
 export function useSettings() {
-  return useSelector(getSettings);
+  const { data, error, isLoading } = useQuery('settings', () =>
+    fetchJson('settings')
+  );
+  return data ?? defaultSettings;
 }
 
 export function useIsPaymentEnabled() {

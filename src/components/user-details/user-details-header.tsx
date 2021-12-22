@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { useSettings } from '../../store';
 import { User } from '../../store/reducers';
 import { Currency } from '../currency';
 import { UserName } from '../user/user-name';
@@ -17,6 +16,7 @@ import {
 } from '../../bricks';
 
 import styles from './user-details-header.module.css';
+import { useSettings } from '../settings/useSettings';
 
 const toggleTab = (
   url: string,

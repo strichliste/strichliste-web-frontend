@@ -4,10 +4,10 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
 import { WrappedIdleTimer } from '../common/idle-timer';
 import { UserMetricsView } from '../metrics';
+import { useSettings } from '../settings/useSettings';
 import { UserDetails } from './user-details';
 import { TransactionOverview } from './views/transaction-overview';
 import { User } from './views/user/user';
-import { useSettings } from '../../store';
 
 export function UserRouter(): JSX.Element {
   return (
@@ -15,17 +15,17 @@ export function UserRouter(): JSX.Element {
       <Route
         path="/user/active"
         exact={true}
-        render={props => <User {...props} isActive={true} />}
+        render={(props) => <User {...props} isActive={true} />}
       />
       <Route
         path="/user/inactive"
         exact={true}
-        render={props => <User {...props} isActive={false} />}
+        render={(props) => <User {...props} isActive={false} />}
       />
       <Route
         path="/user/active/add"
         exact={true}
-        render={props => (
+        render={(props) => (
           <>
             <WrappedIdleTimer />
             <User {...props} showCreateUserForm={true} isActive={true} />
@@ -35,7 +35,7 @@ export function UserRouter(): JSX.Element {
       <Route
         path="/user/inactive/add"
         exact={true}
-        render={props => (
+        render={(props) => (
           <>
             <WrappedIdleTimer />
             <User {...props} showCreateUserForm={true} isActive={false} />
@@ -45,12 +45,12 @@ export function UserRouter(): JSX.Element {
       <Route
         path="/user/inactive"
         exact={true}
-        render={props => <User {...props} isActive={false} />}
+        render={(props) => <User {...props} isActive={false} />}
       />
       <Route
         path="/user/transactions/:id/:page"
         exact={true}
-        render={props => (
+        render={(props) => (
           <>
             <WrappedIdleTimer />
             <TransactionOverview {...props} />
@@ -68,7 +68,7 @@ export function UserRouter(): JSX.Element {
       />
       <Route
         path="/user/:id"
-        render={props => (
+        render={(props) => (
           <>
             <WrappedIdleTimer />
             <UserDetails {...props} />

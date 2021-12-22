@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { useSettings } from '../../store';
 import { CreateCustomTransactionForm } from './create-custom-transaction-form';
 import { PaymentButtonList } from './payment-button-steps';
 import { Card } from '../../bricks';
+import { useSettings } from '../settings/useSettings';
 
 interface Props {
   userId: string;

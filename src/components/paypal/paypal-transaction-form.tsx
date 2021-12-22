@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { useSettings } from '../../store';
 import { Currency, CurrencyInput } from '../currency';
 import { useTransactionValidator } from '../transaction/validator';
 import { AcceptButton, Flex } from '../../bricks';
+import { useSettings } from '../settings/useSettings';
 
 interface Props {
   userName: string;
