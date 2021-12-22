@@ -1,8 +1,11 @@
 import { Howl } from 'howler';
 import { CreateTransactionParams } from '../store/reducers';
 
+//@ts-expect-error just a wav
+import kaching from '../public/ka-ching.wav';
+
 const dispense = new Howl({
-  src: ['ka-ching.wav'],
+  src: [kaching],
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

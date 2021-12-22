@@ -23,5 +23,6 @@ interface Props {
 }
 export const ArticleValidator = (props: Props) => {
   const isValid = useArticleValidator(props.value, props.userId);
+  const test = 'sdfsd';
   return <>{props.render(isValid)}</>;
 };

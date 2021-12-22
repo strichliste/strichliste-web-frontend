@@ -4,7 +4,6 @@ import { RouteComponentProps } from 'react-router';
 import { useDispatch } from 'react-redux';
 import classnames from 'classnames';
 
-import { useUser, useSettings, useIsPaymentEnabled } from '../../store';
 import {
   startLoadingTransactions,
   startLoadingUserDetails,
@@ -16,8 +15,11 @@ import { UserDetailsSeparator } from '../user-details/user-details-separator';
 import { getUserDetailLink, getUserTransactionsLink } from './user-router';
 import { ScrollToTop } from '../common/scroll-to-top';
 
-import styles from './user-details.module.css';
 import { Button, Flex, TransactionIcon } from '../../bricks';
+import { useSettings, isPaymentEnabled } from '../settings/useSettings';
+import { useUser } from '../../store';
+
+import styles from './user-details.module.css';
 
 type UserDetailsProps = RouteComponentProps<{ id: string }>;
 export const UserDetails = (props: UserDetailsProps) => {
@@ -26,7 +28,6 @@ export const UserDetails = (props: UserDetailsProps) => {
   const user = useUser(userId);
   const inputRef = React.useRef(null);
   const payment = useSettings().payment;
-  const isPaymentEnabled = useIsPaymentEnabled();
 
   React.useEffect(() => {
     startLoadingTransactions(dispatch, userId);
@@ -60,10 +61,11 @@ export const UserDetails = (props: UserDetailsProps) => {
       <UserDetailsSeparator />
       <div
         className={classnames(styles.grid, {
-          [styles.bothEnabled]: isPaymentEnabled && areTransactionsEnabled,
+          [styles.bothEnabled]:
+            isPaymentEnabled(payment) && areTransactionsEnabled,
         })}
       >
-        {isPaymentEnabled && <Payment userId={user.id} />}
+        {isPaymentEnabled(payment) && <Payment userId={user.id} />}
         {areTransactionsEnabled && (
           <>
             {transactions.length ? (

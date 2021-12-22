@@ -5,9 +5,7 @@ import {
   User,
   getArticleById,
   getArticleList,
-  getPayPal,
   getPopularArticles,
-  getSettings,
   getUser,
   getUserArray,
   getUserBalance,
@@ -15,12 +13,10 @@ import {
   getFilteredUserIds,
   getGlobalError,
   isTransactionDeletable,
-  isPaymentEnabled,
   Transaction,
 } from './reducers';
 import { useSelector } from 'react-redux';
-import { useQuery } from 'react-query';
-import { fetchJson } from '../services/api';
+import { useSettings } from '../components/settings/useSettings';
 
 export function useFilteredUsers(isActive: boolean) {
   return useSelector<AppState, string[]>(
@@ -67,58 +63,6 @@ export function useArticle(id: number | undefined) {
   );
 }
 
-export function usePayPalSettings() {
-  return useSelector(getPayPal);
-}
-
-const defaultSettings = {
-  article: {
-    enabled: false,
-    autoOpen: false,
-  },
-  common: { idleTimeout: 30000 },
-  paypal: {
-    enabled: true,
-    recipient: 'finanzen@hackerspace-bamberg.de',
-    fee: 0,
-    sandbox: true,
-  },
-  user: { stalePeriod: '10 day' },
-  i18n: {
-    dateFormat: 'YYYY-MM-DD HH:mm:ss',
-    timezone: 'auto',
-    language: 'en',
-    currency: { name: 'Euro', symbol: '\u20ac', alpha3: 'EUR' },
-  },
-  account: { boundary: { upper: 20000, lower: -20000 } },
-  payment: {
-    undo: { enabled: true, delete: true, timeout: '5 minute' },
-    boundary: { upper: 15000, lower: -2000 },
-    transactions: { enabled: true },
-    splitInvoice: { enabled: true },
-    deposit: {
-      enabled: true,
-      custom: true,
-      steps: [50, 100, 200, 500, 1000],
-    },
-    dispense: {
-      enabled: true,
-      custom: true,
-      steps: [50, 100, 200, 500, 1000],
-    },
-  },
-};
-export function useSettings() {
-  const { data, error, isLoading } = useQuery('settings', () =>
-    fetchJson('settings')
-  );
-  return data ?? defaultSettings;
-}
-
-export function useIsPaymentEnabled() {
-  return useSelector(isPaymentEnabled);
-}
-
 export function useUserArray() {
   return useSelector(getUserArray);
 }
@@ -132,6 +76,10 @@ export function useGlobalError() {
 }
 
 export function useIsTransactionDeletable(id: number) {
+  const { payment } = useSettings();
+  if (!payment.undo.enabled) {
+    return false;
+  }
   return useSelector<AppState, boolean>(
     useCallback((state: AppState) => isTransactionDeletable(state, id), [id])
   );

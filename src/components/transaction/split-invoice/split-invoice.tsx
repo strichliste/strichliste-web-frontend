@@ -25,6 +25,8 @@ import {
 
 import styles from './split-invoice.module.css';
 
+import { useSettings } from '../../settings/useSettings';
+
 type Validation = {
   [userId: string]: string;
 };
@@ -35,6 +37,7 @@ type Response = {
 
 export const SplitInvoiceForm = () => {
   const intl = useIntl();
+  const settings = useSettings();
   const [recipient, setRecipient] = React.useState<User | undefined>(undefined);
   const [participants, setParticipants] = React.useState<User[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -54,7 +57,7 @@ export const SplitInvoiceForm = () => {
   };
 
   const submitSplitInvoice = async () => {
-    participants.forEach(async participant => {
+    participants.forEach(async (participant) => {
       await createTransaction(participant);
     });
   };
@@ -69,7 +72,7 @@ export const SplitInvoiceForm = () => {
         userId,
         params
       );
-      setResponse(response => ({ ...response, [userId]: result || 'error' }));
+      setResponse((response) => ({ ...response, [userId]: result || 'error' }));
     }
   };
 
@@ -91,7 +94,7 @@ export const SplitInvoiceForm = () => {
   };
 
   const removeParticipant = (userToRemove: User) => {
-    setParticipants(participants.filter(user => user.id !== userToRemove.id));
+    setParticipants(participants.filter((user) => user.id !== userToRemove.id));
   };
 
   const getSplitAmount = () => {
@@ -111,8 +114,8 @@ export const SplitInvoiceForm = () => {
 
   const updateValidation = () => {
     const value = getSplitAmount();
-    const accountBoundary = store.getState().settings.account.boundary;
-    const paymentBoundary = store.getState().settings.payment.boundary;
+    const accountBoundary = settings.account.boundary;
+    const paymentBoundary = settings.payment.boundary;
     const initialValue: { [key: number]: string } = {};
     const validation = Object.values(participants).reduce(
       (acc, participant) => {
@@ -136,7 +139,7 @@ export const SplitInvoiceForm = () => {
   };
 
   const formIsValid = () => {
-    return Object.values(validation).every(item => item === '');
+    return Object.values(validation).every((item) => item === '');
   };
 
   const showNotification = () => {
@@ -154,10 +157,10 @@ export const SplitInvoiceForm = () => {
             />
           </div>
         )}
-        {Object.keys(response).map(userId => {
+        {Object.keys(response).map((userId) => {
           const item = response[userId];
           // eslint-disable-next-line
-          const user = participants.find(user => user.id == userId);
+          const user = participants.find((user) => user.id == userId);
           const userName = user ? user.name : '';
 
           if (item === 'error') {
@@ -222,7 +225,7 @@ export const SplitInvoiceForm = () => {
       </div>
       <Input
         value={comment}
-        onChange={e => setComment(e.target.value)}
+        onChange={(e) => setComment(e.target.value)}
         placeholder={intl.formatMessage({
           id: 'USER_TRANSACTIONS_TABLE_COMMENT',
         })}
@@ -232,7 +235,7 @@ export const SplitInvoiceForm = () => {
       </div>
       <div>
         <div>
-          {participants.map(user => (
+          {participants.map((user) => (
             <div style={{ margin: '0.25rem 0' }} key={user.id}>
               <CancelButton
                 onClick={() => removeParticipant(user)}

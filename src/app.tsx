@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
+import { QueryClientProvider } from '@tanstack/react-query'
+
 
 import { ArticleRouter } from './components/article/article-router';
 import { en } from './locales/en';
@@ -10,17 +12,18 @@ import { IntlProvider } from 'react-intl';
 import { MainFooter } from './components/footer';
 import { SearchResults } from './components/common/search-results';
 import { SplitInvoiceForm } from './components/transaction';
-import { startLoadingSettings } from './store/reducers';
 import { store } from './store';
+import {queryClient} from './store/queryClient'
 import { UserRouter } from './components/user/user-router';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
+
 import { MetricsView } from './components/metrics';
 import { WrappedIdleTimer } from './components/common/idle-timer';
 import { ThemeProvider } from './bricks';
-import { QueryClientProvider } from 'react-query';
-import { queryClient } from './services/api';
+
+
 
 const Layout = () => {
   return (
@@ -74,21 +77,17 @@ const Layout = () => {
 
 export const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <Provider store={store}>
-          <IntlProvider
-            textComponent={React.Fragment}
-            locale="en"
-            messages={en}
-          >
-            <HashRouter hashType="hashbang">
-              <Layout />
-            </HashRouter>
-          </IntlProvider>
-        </Provider>
-      </ThemeProvider>
-    </QueryClientProvider>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider>
+      <Provider store={store}>
+        <IntlProvider textComponent={React.Fragment} locale="en" messages={en}>
+          <HashRouter hashType="hashbang">
+            <Layout />
+          </HashRouter>
+        </IntlProvider>
+      </Provider>
+    </ThemeProvider>
+  </QueryClientProvider>
   );
 };
 

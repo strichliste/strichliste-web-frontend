@@ -1,15 +1,7 @@
 import { combineReducers, createStore } from 'redux';
 
 import { Action } from './';
-import {
-  article,
-  error,
-  loader,
-  search,
-  settings,
-  transaction,
-  user,
-} from './reducers';
+import { article, error, loader, search, transaction, user } from './reducers';
 
 const reducers = {
   article,
@@ -17,12 +9,11 @@ const reducers = {
   loader,
   user,
   transaction,
-  settings,
   search,
 };
 
 export type AppState = {
-  [K in keyof typeof reducers]: ReturnType<typeof reducers[K]>
+  [K in keyof typeof reducers]: ReturnType<typeof reducers[K]>;
 };
 
 export const reducer = combineReducers<AppState>(reducers);

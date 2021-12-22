@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { fetchJson } from '../../services/api';
 import { MaybeResponse } from '../../services/error-handler';
 
@@ -103,7 +103,7 @@ export interface Paypal {
 interface User {
   stalePeriod: string;
 }
-
+const ONE_HOUR_IN_MS = 3600000
 export const defaultSettings: Settings = {
   article: {
     enabled: false,
@@ -142,12 +142,15 @@ export const defaultSettings: Settings = {
   },
 };
 
-const fetchSettings = () => {
-  return fetchJson('settings');
-};
 export function useSettings() {
-  const { data } = useQuery<SettingsResponse>('settings', fetchSettings, {
-    staleTime: 1000000,
-  });
+  const { data } = useQuery(['settings'], () => fetchJson<SettingsResponse>('settings'), {staleTime: ONE_HOUR_IN_MS})
   return data?.settings ?? defaultSettings;
+}
+
+function isDepositActive(deposit: Deposit): boolean {
+  return Boolean(deposit.enabled || deposit.custom);
+}
+
+export function isPaymentEnabled(payment: Payment): boolean {
+  return isDepositActive(payment.deposit) || isDepositActive(payment.dispense);
 }

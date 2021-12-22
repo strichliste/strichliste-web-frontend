@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
-import { QueryClient } from 'react-query';
 
 const API_URL = 'http://staging.strichliste.org/api/';
 
 // const API_URL = '/api/';
 
-export async function fetchJson(endpoint: string, options: RequestInit = {}) {
-  return fetch(`${API_URL}${endpoint}`, options).then(async (res) =>
-    res.json()
-  );
+export async function fetchJson<Response>(
+  endpoint: string,
+  options?: RequestInit
+) {
+  const response = await fetch(`${API_URL}${endpoint}`, options);
+  return (await response.json()) as Response;
 }
 
 export async function post(endpoint: string, params: any): Promise<any> {
@@ -40,5 +41,3 @@ export function useEffectAsync(effect: any, inputs: any[] = []): void {
     // eslint-disable-next-line
   }, inputs);
 }
-
-export const queryClient = new QueryClient();
