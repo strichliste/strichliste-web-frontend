@@ -11,8 +11,10 @@ import { MainFooter } from './components/footer';
 import { SearchResults } from './components/common/search-results';
 import { SplitInvoiceForm } from './components/transaction';
 import { startLoadingSettings } from './store/reducers';
-import { store } from './store';
+import { useSettings, store } from './store';
 import { UserRouter } from './components/user/user-router';
+
+import { initializeSounds } from './services/sound';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
@@ -25,6 +27,10 @@ const Layout = () => {
   React.useEffect(() => {
     startLoadingSettings(dispatch);
   }, [dispatch]);
+
+  const settings = useSettings();
+  const payment = settings.payment;
+  initializeSounds(payment.deposit.sounds, payment.dispense.sounds);
 
   return (
     <>
