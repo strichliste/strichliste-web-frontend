@@ -1,28 +1,32 @@
 import { Howl } from 'howler';
 import { CreateTransactionParams } from '../store/reducers';
 
-const howls: Howl[] = [];
-fetch('sound-config.json')
-  .then(response => {
-    if (response.status == 404) {
-      throw Error('file "sound-config.json" not found');
+const soundsPath = 'sounds/';
+const loadedDispenseSounds: Object = {};
+const loadedDepositSounds: Object = {};
+
+export function initializeSounds(depositSounds: string[], dispenseSounds: string[]) {
+  loadSounds(depositSounds, loadedDepositSounds);
+  loadSounds(dispenseSounds, loadedDispenseSounds);
+}
+
+function loadSounds(sounds: string[], dst: Object) {
+  for (const sound of sounds) {
+    if (Object.keys(dst).includes(sound)) {
+      continue;
     }
-    return response.json()
-  })
-  .then(config => {
-    const sounds = config['sounds'];
-    for (let i=0; i<sounds.length; i++) {
-      howls.push(new Howl({
-        src: [sounds[i]]
-      }));
-    }
-  })
-  .catch(err => {
-    console.error('Error while handling sound-config', err);
-  });
+    const h = new Howl({
+      src: [soundsPath + sound],
+      onload: function() {
+        dst[sound] = h;
+      }
+    });
+  }
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function playCashSound(_params?: CreateTransactionParams): void {
-  const sound = howls[Math.floor(Math.random() * howls.length)];
+  const sounds: Howl[] = Object.values((_params?.amount || 0) >= 0 ? loadedDepositSounds : loadedDispenseSounds);
+  const sound = sounds[Math.floor(Math.random() * sounds.length)];
   sound.play();
 }
