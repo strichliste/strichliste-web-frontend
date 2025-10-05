@@ -8,7 +8,7 @@ function handleApiError(
   error: { class: string }
 ): void {
   const [key] = Object.keys(config.errors || {}).filter(key =>
-    error.class.indexOf(key)
+    error.class.includes(key)
   );
 
   if (key && config.errors && config.errors[key]) {
