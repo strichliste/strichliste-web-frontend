@@ -1,4 +1,5 @@
-import { Transaction, TransactionTypes } from '.';
+import { Transaction, TransactionTypes, getTransaction } from '.';
+import { Article } from '.';
 import { Action } from '..';
 import { get, post } from '../../services/api';
 import { errorHandler } from '../../services/error-handler';
@@ -246,4 +247,25 @@ export function getUserTransactionsArray(
   } else {
     return [];
   }
+}
+
+export function getUserRecentArticles(
+  state: AppState,
+  userId: string
+): Article[] {
+  const TRANSACTIONS_TO_SCAN_FOR_RECENT_ARTICLES_LIMIT = 30;
+  const recentUserArticlesWithDuplicates = getUserTransactionsArray(state, userId)
+    .slice(0, TRANSACTIONS_TO_SCAN_FOR_RECENT_ARTICLES_LIMIT) 
+    .map((id) => getTransaction(state, id))
+    .map((transaction) => transaction?.article)
+    .filter((article): article is Article => article !== undefined);
+
+  const userRecentArticles = new Map<string, Article>();
+  recentUserArticlesWithDuplicates.forEach((article) => {
+    if (!userRecentArticles.has(article.name)) {
+      userRecentArticles.set(article.name, article);
+    }
+  });
+
+  return Array.from(userRecentArticles.values());
 }
