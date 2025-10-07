@@ -7,6 +7,7 @@ import {
   getArticleList,
   getPayPal,
   getPopularArticles,
+  getUserRecentArticles,
   getSettings,
   getUser,
   getUserArray,
@@ -57,6 +58,14 @@ export function useActiveArticles(isActive: boolean): Article[] {
 
 export function usePopularArticles(): Article[] {
   return useSelector<AppState, Article[]>(getPopularArticles);
+}
+
+export function useUserRecentArticles(userId: string): Article[] {
+  return useSelector<AppState, Article[]>(
+    useCallback((state: AppState) => getUserRecentArticles(state, userId), [
+      userId,
+    ])
+  );
 }
 
 export function useArticle(id: number | undefined) {
