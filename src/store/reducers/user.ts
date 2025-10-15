@@ -258,7 +258,7 @@ export function getUserRecentArticles(
     .slice(0, TRANSACTIONS_TO_SCAN_FOR_RECENT_ARTICLES_LIMIT) 
     .map((id) => getTransaction(state, id))
     .map((transaction) => transaction?.article)
-    .filter((article): article is Article => article != null);
+    .filter((article): article is Article => article !== undefined);
 
   const userRecentArticles = new Map<string, Article>();
   recentUserArticlesWithDuplicates.forEach((article) => {
