@@ -73,6 +73,8 @@ export const en = {
   USER_CREATE_HEADLINE: 'Create new user',
   USER_CREATE_TRIGGER: 'Create user',
   USER_CREATE_NAME_LABEL: 'add new user',
+  USER_CREATE_OPEN_MODAL: 'Open create user dialog',
+  USER_CREATE_SUBMIT: 'Create user',
   USER_EDIT_LINK: 'edit user',
   USER_EDIT_HEADLINE: 'Edit user',
   USER_EDIT_TRIGGER: 'save changes',

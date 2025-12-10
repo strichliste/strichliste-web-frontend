@@ -35,7 +35,12 @@ export const CreateUserInlineForm = ({
 
   return (
     <div title={intl.formatMessage({ id: 'USER_CREATE_NAME_LABEL' })}>
-      <Button highlight onClick={modalProps.handleShow} fab>
+      <Button
+        highlight
+        onClick={modalProps.handleShow}
+        fab
+        aria-label={intl.formatMessage({ id: 'USER_CREATE_OPEN_MODAL' })}
+      >
         <AddIcon />
       </Button>
       <Modal backDropTile="close" {...modalProps}>
@@ -53,7 +58,13 @@ export const CreateUserInlineForm = ({
               maxLength={64}
               autoFocus={true}
             />
-            <Button margin="0 0 0 1rem" type="submit" fab highlight>
+            <Button
+              margin="0 0 0 1rem"
+              type="submit"
+              fab
+              highlight
+              aria-label={intl.formatMessage({ id: 'USER_CREATE_SUBMIT' })}
+            >
               <EditIcon />
             </Button>
           </Flex>

@@ -28,8 +28,13 @@ const Layout = () => {
 
   return (
     <>
+      <a className="visually-hidden" href="#main-content">
+        Skip to main content
+      </a>
       <ErrorMessage />
       <HeaderMenu />
+      <main id="main-content" role="main">
+        <h1 className="visually-hidden">Strichliste</h1>
       <Switch>
         <Route path="/user" component={UserRouter} />
         <Route
@@ -70,7 +75,8 @@ const Layout = () => {
         />
         <Redirect from="/" to="/user/active" />
       </Switch>
-      <MainFooter />
+  </main>
+  <MainFooter />
     </>
   );
 };

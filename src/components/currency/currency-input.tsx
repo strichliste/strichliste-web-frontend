@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
 import { Input } from '../../bricks';
+// ...existing code...
 
 function getPlaceholder(
   placeholder: string | undefined,
@@ -27,12 +28,6 @@ function moveCursorToEnd(el: any): void {
   }, 1);
 }
 
-interface State {
-  lastPropValue: number | undefined;
-  value: number;
-  hasFocus: boolean;
-}
-
 interface Props {
   noNegative?: boolean;
   placeholder?: string;
@@ -42,83 +37,61 @@ interface Props {
   onChange?(value: number): void;
 }
 
-export class CurrencyInput extends React.Component<Props, State> {
-  public inputRef = React.createRef();
-  public state = {
-    lastPropValue: 0,
-    value: this.getValueFromProps(),
-    hasFocus: false,
-  };
+export function CurrencyInput(props: Props): JSX.Element {
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
 
-  public getValueFromProps(): number {
-    return this.props.value ? this.props.value / 100 : 0;
-  }
+  const getValueFromProps = React.useCallback(() => (props.value ? props.value / 100 : 0), [props.value]);
 
-  public componentDidUpdate(): void {
-    if (this.props.value === undefined) {
+  const [lastPropValue, setLastPropValue] = React.useState<number | undefined>(props.value);
+  const [value, setValue] = React.useState<number>(getValueFromProps());
+  const [hasFocus, setHasFocus] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (props.value === undefined) {
       return;
     }
-
-    if (this.state.lastPropValue !== this.props.value) {
-      const value = this.getValueFromProps();
-      this.setState({ lastPropValue: this.props.value, value });
+    if (lastPropValue !== props.value) {
+      setLastPropValue(props.value);
+      setValue(getValueFromProps());
     }
-  }
+  }, [props.value, lastPropValue, getValueFromProps]);
 
-  public updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleanedNumber = this.props.noNegative
+  const updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const cleanedNumber = props.noNegative
       ? Math.abs(convertFormattedNumberToCents(e.target.value))
       : convertFormattedNumberToCents(e.target.value);
-    this.setState({ value: cleanedNumber / 100 }, () => {
-      if (this.inputRef && this.inputRef.current) {
-        moveCursorToEnd(this.inputRef.current);
-      }
-    });
-    if (this.props.onChange) {
-      this.props.onChange(cleanedNumber);
+    setValue(cleanedNumber / 100);
+    if (inputRef && inputRef.current) {
+      moveCursorToEnd(inputRef.current);
+    }
+    if (props.onChange) {
+      props.onChange(cleanedNumber);
     }
   };
 
-  public render(): JSX.Element {
-    return (
-      <>
-        <FormattedNumber
-          minimumFractionDigits={2}
-          value={this.state.value}
-          children={(formattedValue: string) => (
-            <Input
-              id={this.props.id}
-              // @ts-expect-error js-ts-error js-ts
-              ref={this.inputRef}
-              style={{
-                color:
-                  getPlaceholder(
-                    this.props.placeholder,
-                    formattedValue,
-                    this.state.hasFocus
-                  ) === this.props.placeholder
-                    ? '#8e8e8e'
-                    : undefined,
-              }}
-              placeholder={this.props.placeholder}
-              value={getPlaceholder(
-                this.props.placeholder,
-                formattedValue,
-                this.state.hasFocus
-              )}
-              onFocus={() => this.setState({ hasFocus: true })}
-              onBlur={() =>
-                this.setState({
-                  hasFocus: false,
-                })
-              }
-              onChange={this.updateValue}
-              type="tel"
-              autoFocus={this.props.autoFocus}
-            />
-          )}
-        />
-      </>
-    );
-  }
+  return (
+    <>
+      {/* read currency from settings so input formatting matches selected currency */}
+      <FormattedNumber
+        minimumFractionDigits={2}
+        value={value}
+        children={(formattedValue: string) => (
+          <Input
+            id={props.id}
+            ref={inputRef}
+            style={{
+              color: getPlaceholder(props.placeholder, formattedValue, hasFocus) === props.placeholder ? '#8e8e8e' : undefined,
+            }}
+            placeholder={props.placeholder}
+            value={getPlaceholder(props.placeholder, formattedValue, hasFocus)}
+            onFocus={() => setHasFocus(true)}
+            onBlur={() => setHasFocus(false)}
+            onChange={updateValue}
+            type="tel"
+            autoFocus={props.autoFocus}
+          />
+        )}
+      />
+    </>
+  );
 }

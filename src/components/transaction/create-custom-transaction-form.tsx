@@ -47,6 +47,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
         <Button
           red
           title={intl.formatMessage({ id: 'BALANCE_DISPENSE' })}
+          aria-label={intl.formatMessage({ id: 'BALANCE_DISPENSE' })}
           onClick={() => submit(false)}
           fab
           disabled={!dispenseIsValid}
@@ -66,6 +67,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
         <Button
           green
           title={intl.formatMessage({ id: 'BALANCE_DEPOSIT' })}
+          aria-label={intl.formatMessage({ id: 'BALANCE_DEPOSIT' })}
           onClick={() => submit(true)}
           fab
           disabled={!depositIsValid}
