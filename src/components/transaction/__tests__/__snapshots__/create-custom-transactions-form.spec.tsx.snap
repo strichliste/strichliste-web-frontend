@@ -6,6 +6,7 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
 >
   <button
     class="button fab red"
+    data-testid="custom-dispense-btn"
     disabled=""
     title="BALANCE_DISPENSE"
     type="submit"
@@ -21,6 +22,7 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
   />
   <button
     class="button fab green"
+    data-testid="custom-deposit-btn"
     disabled=""
     title="BALANCE_DEPOSIT"
     type="submit"

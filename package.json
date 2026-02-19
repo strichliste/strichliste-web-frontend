@@ -2,9 +2,12 @@
   "name": "strichliste-web",
   "version": "2.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "classnames": "^2.2.6",
-    "history": "^5.0.0",
+    "history": "^4.10.1",
     "howler": "^2.2.0",
     "inter-ui": "^3.15.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
@@ -21,14 +24,17 @@
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "lint": "eslint --ext .tsx,.ts src/",
-    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
+    "test": "NODE_OPTIONS=--openssl-legacy-provider react-scripts test --env=jest-environment-jsdom-sixteen",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "eject": "react-scripts eject",
     "dedup": "npx yarn-deduplicate yarn.lock"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@testing-library/react": "^11.0.4",
     "@types/classnames": "^2.2.10",
     "@types/fetch-mock": "^7.3.3",

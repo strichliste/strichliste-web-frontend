@@ -88,6 +88,7 @@ export const UserDetails = (props: UserDetailsProps) => {
         <Flex justifyContent="flex-end" margin="0 1rem">
           <Button
             onClick={() => props.history.push(getUserTransactionsLink(user.id))}
+            data-testid="all-transactions-btn"
           >
             <TransactionIcon /> <FormattedMessage id="USER_TRANSACTIONS_LINK" />
           </Button>

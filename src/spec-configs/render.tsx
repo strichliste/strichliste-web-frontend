@@ -9,49 +9,61 @@ import { Provider } from 'react-redux';
 
 import { AppState, reducer } from '../store';
 
+// Wrapper component - uses message IDs as fallback, no translation files needed
+const TestWrapper: React.FC<{
+  store: Store<AppState>;
+  history: MemoryHistory;
+  children: React.ReactNode;
+}> = ({ store, history, children }) => (
+  <Provider store={store}>
+    <Router history={history}>
+      <IntlProvider locale="en" defaultLocale="en" onError={() => {}}>
+        {children}
+      </IntlProvider>
+    </Router>
+  </Provider>
+);
+
 export function renderWithContext(
-  ui: JSX.Element,
-  initialState: DeepPartial<AppState>,
-  store = createStore<any, any, any, any>(reducer, initialState),
+  ui: React.ReactElement,
+  initialState: DeepPartial<AppState> = {},
+  store: Store<AppState> = createStore<any, any, any, any>(reducer, initialState),
   history: MemoryHistory = createMemoryHistory()
 ) {
-  return render(
-    <Provider store={store}>
-      <Router history={history}>
-        <IntlProvider locale="en">{ui}</IntlProvider>
-      </Router>
-    </Provider>
-  );
+  return render(ui, {
+    wrapper: ({ children }) => (
+      <TestWrapper store={store} history={history}>
+        {children}
+      </TestWrapper>
+    ),
+  });
 }
 
 export function renderAndReturnContext(
-  ui: JSX.Element,
-  initialState: DeepPartial<AppState>,
-  store: Store<AppState> = createStore<any, any, any, any>(
-    reducer,
-    initialState
-  ),
+  ui: React.ReactElement,
+  initialState: DeepPartial<AppState> = {},
+  store: Store<AppState> = createStore<any, any, any, any>(reducer, initialState),
   history: MemoryHistory = createMemoryHistory()
 ) {
   return {
-    result: render(
-      <Provider store={store}>
-        <Router history={history}>
-          <IntlProvider locale="en" textComponent={React.Fragment}>
-            {ui}
-          </IntlProvider>
-        </Router>
-      </Provider>
-    ),
+    ...render(ui, {
+      wrapper: ({ children }) => (
+        <TestWrapper store={store} history={history}>
+          {children}
+        </TestWrapper>
+      ),
+    }),
     store,
     history,
   };
 }
 
-export function renderWithIntl(ui: JSX.Element) {
-  return render(
-    <IntlProvider locale="en" textComponent={React.Fragment}>
-      {ui}
-    </IntlProvider>
-  );
+export function renderWithIntl(ui: React.ReactElement) {
+  return render(ui, {
+    wrapper: ({ children }) => (
+      <IntlProvider locale="en" defaultLocale="en" onError={() => {}}>
+        {children}
+      </IntlProvider>
+    ),
+  });
 }
