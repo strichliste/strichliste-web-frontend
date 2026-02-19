@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
-    "history": "^5.0.0",
+    "history": "^4.10.1",
     "howler": "^2.2.0",
     "inter-ui": "^3.15.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",

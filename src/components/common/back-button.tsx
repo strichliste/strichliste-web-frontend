@@ -5,7 +5,7 @@ import { Button } from '../../bricks';
 
 function NavButton(props: RouteComponentProps): JSX.Element | null {
   return (
-    <Button onClick={() => props.history.back()}>
+    <Button onClick={() => props.history.goBack()}>
       <FormattedMessage id="BACK_BUTTON" />
     </Button>
   );
