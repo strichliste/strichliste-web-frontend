@@ -54,9 +54,9 @@ export const SplitInvoiceForm = () => {
   };
 
   const submitSplitInvoice = async () => {
-    participants.forEach(async participant => {
+    for (const participant of participants) {
       await createTransaction(participant);
-    });
+    }
   };
 
   const createTransaction = async (participant: User) => {
