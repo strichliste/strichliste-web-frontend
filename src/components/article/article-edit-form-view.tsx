@@ -6,13 +6,12 @@ import { FormattedMessage } from 'react-intl';
 
 export function ArticleEditFormView({
   match,
-  history,
 }: RouteComponentProps<{ id: string }>): JSX.Element {
   return (
     <>
       <div style={{ margin: '1rem' }}>
         <Button
-          onClick={() => history.back()}
+          onClick={() => window.history.back()}
           children={
             <>
               <Arrow
@@ -30,7 +29,7 @@ export function ArticleEditFormView({
       </div>
       <div style={{ padding: '1rem' }}>
         <ArticleForm
-          onCreated={history.back}
+          onCreated={() => window.history.back()}
           articleId={Number(match.params.id)}
         />
       </div>
