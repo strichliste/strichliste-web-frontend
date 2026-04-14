@@ -42,6 +42,43 @@ please follow the [angular commit message guidlines](https://github.com/angular/
 
 all basic components are found inside the `src/bricks` folder. (Lego pun intended)
 
-## End 2 End Tests
+## Testing
 
-We do have e2e tests with cypress check our [test repo](https://github.com/strichliste/strichliste-web-e2e)
+### Unit Tests
+
+Run unit tests with Jest:
+
+```bash
+yarn test             # Watch mode
+yarn test --coverage  # Single run with coverage
+```
+
+### End-to-End Tests
+
+E2E tests use [Playwright](https://playwright.dev/) and are located in the `e2e/` directory.
+
+```bash
+# Run all E2E tests (starts dev server automatically)
+yarn test:e2e
+
+# Run with Playwright UI for debugging
+yarn test:e2e:ui
+
+# Run specific test file
+npx playwright test user.spec.ts
+
+# Run specific test by name
+npx playwright test --grep "create user"
+```
+
+**Prerequisites:** The backend API must be running on `http://localhost:8080`:
+```bash
+cd ../strichliste-backend
+php -S 0.0.0.0:8080 -t public
+```
+
+**Test structure:**
+- `e2e/user.spec.ts` - User management flows
+- `e2e/article.spec.ts` - Article/product management
+- `e2e/transaction.spec.ts` - Transaction and payment flows
+- `e2e/fixtures/test-helpers.ts` - Shared test utilities

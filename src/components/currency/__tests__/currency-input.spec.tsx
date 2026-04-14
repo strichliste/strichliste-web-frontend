@@ -9,7 +9,7 @@ afterEach(cleanup);
 describe('CurrencyInput', () => {
   it('matches the snapshot', () => {
     const { container } = render(
-      <IntlProvider defaultLocale="en">
+      <IntlProvider locale="en">
         <CurrencyInput />
       </IntlProvider>
     );
@@ -18,7 +18,7 @@ describe('CurrencyInput', () => {
   describe('with a default value', () => {
     it('matches the snapshot', () => {
       const { container } = render(
-        <IntlProvider defaultLocale="en">
+        <IntlProvider locale="en">
           <CurrencyInput value={123456} />
         </IntlProvider>
       );
@@ -30,7 +30,7 @@ describe('CurrencyInput', () => {
     it('updates state and calls onChange', () => {
       const changeMock = jest.fn();
       const { getByPlaceholderText } = render(
-        <IntlProvider defaultLocale="en">
+        <IntlProvider locale="en">
           <CurrencyInput placeholder="testInput" onChange={changeMock} />
         </IntlProvider>
       );
@@ -43,7 +43,7 @@ describe('CurrencyInput', () => {
 
     it('should handle the visibility of placeholder', () => {
       const { getByPlaceholderText } = render(
-        <IntlProvider defaultLocale="en">
+        <IntlProvider locale="en">
           <CurrencyInput placeholder="the placeholder" onChange={jest.fn()} />
         </IntlProvider>
       );

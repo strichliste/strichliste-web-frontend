@@ -9,7 +9,7 @@ afterEach(cleanup);
 describe('Currency', () => {
   it('matches the snapshot for english locales', () => {
     const { container } = render(
-      <IntlProvider defaultLocale="en">
+      <IntlProvider locale="en">
         <Currency value={120} />
       </IntlProvider>
     );
@@ -17,7 +17,7 @@ describe('Currency', () => {
   });
   it('hides plus icons by prop', () => {
     const { container } = render(
-      <IntlProvider defaultLocale="en">
+      <IntlProvider locale="en">
         <Currency hidePlusSign value={120} />
       </IntlProvider>
     );
@@ -25,7 +25,7 @@ describe('Currency', () => {
   });
   it('show - icons', () => {
     const { container } = render(
-      <IntlProvider defaultLocale="en">
+      <IntlProvider locale="en">
         <Currency hidePlusSign value={-120} />
       </IntlProvider>
     );

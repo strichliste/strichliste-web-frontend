@@ -31,6 +31,7 @@ export function TransactionButton(props: Props): JSX.Element {
       }
       type="button"
       disabled={!isValid}
+      data-testid={`transaction-btn-${props.value}`}
     >
       <Currency value={props.value} />
     </Button>

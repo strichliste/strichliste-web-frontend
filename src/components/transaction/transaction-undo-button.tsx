@@ -34,6 +34,7 @@ export function TransactionUndoButton(props: Props) {
           props.transactionId
         );
       }}
+      data-testid="undo-transaction-btn"
     >
       <FormattedMessage id="USER_TRANSACTION_UNDO" />
     </Button>

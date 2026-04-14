@@ -51,6 +51,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
           fab
           disabled={!dispenseIsValid}
           type="submit"
+          data-testid="custom-dispense-btn"
         >
           -
         </Button>
@@ -70,6 +71,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
           fab
           disabled={!depositIsValid}
           type="submit"
+          data-testid="custom-deposit-btn"
         >
           +
         </Button>

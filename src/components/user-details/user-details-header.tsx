@@ -42,7 +42,7 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
         <h2>
           <UserName center name={user.name} />
         </h2>
-        <h3 title={intl.formatMessage({ id: 'BALANCE_TITLE' })}>
+        <h3 title={intl.formatMessage({ id: 'BALANCE_TITLE' })} data-testid="user-balance">
           <AlertText value={user.balance}>
             <Currency value={user.balance} />
           </AlertText>
@@ -59,6 +59,7 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
               currentUrl,
               userUrl
             )}
+            data-testid="tab-send-money"
           >
             <TransactionIcon />{' '}
             <FormattedMessage id="USER_TRANSACTION_CREATE_LINK" />
@@ -67,6 +68,7 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
             <Tab
               activeClassName="active"
               to={toggleTab(`/user/${user.id}/article`, currentUrl, userUrl)}
+              data-testid="tab-buy-article"
             >
               <ShoppingBagIcon /> <FormattedMessage id="USER_ARTICLE_LINK" />
             </Tab>
@@ -74,6 +76,7 @@ const Component = ({ user, location }: UserDetailsHeaderProps) => {
           <Tab
             activeClassName="active"
             to={toggleTab(`/user/${user.id}/edit`, currentUrl, userUrl)}
+            data-testid="tab-edit-user"
           >
             <ProductIcon /> <FormattedMessage id="USER_EDIT_LINK" />
           </Tab>
