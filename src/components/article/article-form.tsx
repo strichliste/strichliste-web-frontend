@@ -159,7 +159,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
 };
 
 const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
-  const [barcodes, setBarcodes] = React.useState(article.barcodes);
+  const [barcodes, setBarcodes] = React.useState(article.barcodes || []);
   const dispatch = useDispatch();
   const handleAddBarcode = async (barcode: string) => {
     const response = await startAddBarcode(dispatch, article.id, barcode);
@@ -188,7 +188,7 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
 };
 
 const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
-  const [tags, setTags] = React.useState(article.tags);
+  const [tags, setTags] = React.useState(article.tags || []);
   const dispatch = useDispatch();
   const intl = useIntl();
   const handleAddTag = async (tag: string) => {
