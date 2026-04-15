@@ -1,0 +1,44 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - '*' # Triggers on any tag push
+
+# Explicitly grant permissions to create a release
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14'     # Locked to Node 14 for react-scripts v3 compatibility
+          cache: 'yarn'          # Automatically caches yarn dependencies
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Build application
+        run: CI=false yarn build
+
+      - name: Package
+        run: |
+          mv build strichliste-web-frontend
+          tar -czf strichliste-web-frontend.tar.gz strichliste-web-frontend/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: strichliste-web-frontend.tar.gz
+          generate_release_notes: true
