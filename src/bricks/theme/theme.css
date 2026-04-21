@@ -21,7 +21,7 @@ html {
   --redLight: #ffdce0;
   --redText: rgb(245, 73, 99);
   --text: #343434;
-  --textSubtile: #bababa;
+  --textSubtile: #6b6b6b;
   --headerBackground: #fff;
   --buttonCancelFont: #ffedf0;
   --buttonCancelBackground: #e86c76;
@@ -60,7 +60,7 @@ html[data-theme='dark'] {
   --redHover: #443444;
   --redLight: #514151;
   --text: #fdfdfd;
-  --textSubtile: #59687c;
+  --textSubtile: #9aa6b2;
   --headerBackground: #1d2832;
   --buttonCancelFont: #ffedf0;
   --buttonCancelBackground: #f54963;
@@ -211,6 +211,15 @@ textarea {
   line-height: 1;
   font-size: 0.8rem;
   font-family: 'Inter', sans-serif;
+}
+/* utility for screen-reader-only content */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
 }
 select[multiple],
 textarea {

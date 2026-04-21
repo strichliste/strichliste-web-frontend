@@ -198,6 +198,10 @@ export function getPayPal(state: AppState): Paypal {
   return getSettings(state).paypal;
 }
 
+export function getCurrencyAlpha3(state: AppState): string {
+  return getSettings(state).i18n.currency.alpha3;
+}
+
 function isDepositActive(deposit: Deposit): boolean {
   return Boolean(deposit.enabled || deposit.custom);
 }

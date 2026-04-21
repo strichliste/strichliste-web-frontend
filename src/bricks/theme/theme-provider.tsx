@@ -50,7 +50,7 @@ export const ThemeProvider: React.FC = ({ children }) => {
 export const ThemeSwitcher: React.FC = (props) => {
   const { toggleTheme, theme } = React.useContext(ThemeContext);
   return (
-    <Button onClick={toggleTheme} {...props}>
+    <Button onClick={toggleTheme} aria-label="Toggle theme" {...props}>
       {theme === 'light' ? <DayModeIcon /> : <NightModeIcon />}
     </Button>
   );

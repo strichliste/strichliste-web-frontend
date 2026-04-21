@@ -31,7 +31,8 @@ const AddArticleButton = withRouter((props) => {
   return (
     <Button
       highlight
-      title={intl.formatMessage({ id: 'ARTICLE_ADD_LINK' })}
+  title={intl.formatMessage({ id: 'ARTICLE_ADD_LINK' })}
+  aria-label={intl.formatMessage({ id: 'ARTICLE_ADD_LINK' })}
       margin="0 1rem 0 0"
       onClick={() => props.history.push('/articles/add')}
       fab

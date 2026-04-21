@@ -1,14 +1,22 @@
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
 import { cleanup, fireEvent, render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import { CurrencyInput, convertFormattedNumberToCents } from '../';
 
 afterEach(cleanup);
 
+function renderWithStore(ui: JSX.Element) {
+  const reducer = () => ({ settings: { i18n: { currency: { alpha3: 'EUR' } } } });
+  const store = createStore(reducer as any);
+  return render(<Provider store={store}>{ui}</Provider>);
+}
+
 describe('CurrencyInput', () => {
   it('matches the snapshot', () => {
-    const { container } = render(
+    const { container } = renderWithStore(
       <IntlProvider defaultLocale="en">
         <CurrencyInput />
       </IntlProvider>
@@ -17,7 +25,7 @@ describe('CurrencyInput', () => {
   });
   describe('with a default value', () => {
     it('matches the snapshot', () => {
-      const { container } = render(
+      const { container } = renderWithStore(
         <IntlProvider defaultLocale="en">
           <CurrencyInput value={123456} />
         </IntlProvider>
@@ -29,7 +37,7 @@ describe('CurrencyInput', () => {
   describe('with changes on the input field', () => {
     it('updates state and calls onChange', () => {
       const changeMock = jest.fn();
-      const { getByPlaceholderText } = render(
+      const { getByPlaceholderText } = renderWithStore(
         <IntlProvider defaultLocale="en">
           <CurrencyInput placeholder="testInput" onChange={changeMock} />
         </IntlProvider>
@@ -42,7 +50,7 @@ describe('CurrencyInput', () => {
     });
 
     it('should handle the visibility of placeholder', () => {
-      const { getByPlaceholderText } = render(
+      const { getByPlaceholderText } = renderWithStore(
         <IntlProvider defaultLocale="en">
           <CurrencyInput placeholder="the placeholder" onChange={jest.fn()} />
         </IntlProvider>

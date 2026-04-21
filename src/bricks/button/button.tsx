@@ -9,6 +9,7 @@ type ButtonProps = JSX.IntrinsicElements['button'] & {
   padding?: string;
   margin?: string;
   fab?: boolean;
+  'aria-label'?: string;
   primary?: boolean;
   secondary?: boolean;
   text?: boolean;
@@ -50,6 +51,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         })}
         style={{ padding, margin, ...style }}
       >
+        {/* if no visible children, ensure an accessible name is present via aria-label */}
         {children}
       </button>
     );
@@ -57,13 +59,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 export const AcceptButton: React.FC<ButtonProps> = props => (
-  <Button className={styles.acceptButton} fab {...props}>
+  <Button className={styles.acceptButton} fab aria-label={props['aria-label'] || 'Accept'} {...props}>
     <AcceptIcon />
   </Button>
 );
 
 export const CancelButton: React.FC<ButtonProps> = props => (
-  <Button className={styles.cancelButton} fab {...props}>
+  <Button className={styles.cancelButton} fab aria-label={props['aria-label'] || 'Cancel'} {...props}>
     <CancelIcon />
   </Button>
 );
@@ -100,7 +102,7 @@ export const Tag: React.FC<{ red?: boolean; green?: boolean }> = ({
         [styles.green]: green,
       })}
     >
-      <button>
+      <button aria-label="remove">
         <CancelIcon />
       </button>
       <button>{children}</button>

@@ -57,11 +57,11 @@ export const ScalingButtons = () => {
 
   return (
     <>
-      <Button onClick={decrement}>
+      <Button onClick={decrement} aria-label="Decrease text size">
         <SearchMinus />
       </Button>
 
-      <Button onClick={increment}>
+      <Button onClick={increment} aria-label="Increase text size">
         <SearchPlus />
       </Button>
     </>
