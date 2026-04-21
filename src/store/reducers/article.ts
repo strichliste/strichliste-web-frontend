@@ -73,6 +73,10 @@ export async function startAddBarcode(
   const promise = post(`article/${id}/barcode`, { barcode });
   const data = await errorHandler<any>(dispatch, {
     promise,
+    defaultError: 'ARTICLE_BARCODE_COULD_NOT_BE_ADDED',
+    errors: {
+      ArticleBarcodeAlreadyExistsException: 'ARTICLE_BARCODE_ALREADY_EXISTS',
+    },
   });
   if (data && data.article) {
     return data.article;
@@ -104,6 +108,10 @@ export async function startAddTag(
   const promise = post(`article/${id}/tag`, { tag });
   const data = await errorHandler<any>(dispatch, {
     promise,
+    defaultError: 'ARTICLE_TAG_COULD_NOT_BE_ADDED',
+    errors: {
+      ArticleTagAlreadyExistsException: 'ARTICLE_TAG_ALREADY_EXISTS',
+    },
   });
   if (data && data.article) {
     return data.article;

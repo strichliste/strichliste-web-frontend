@@ -165,6 +165,8 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
     const response = await startAddBarcode(dispatch, article.id, barcode);
     if (response) {
       setBarcodes(response.barcodes);
+    } else {
+      setBarcodes(barcodes.filter((item) => item.id !== 0));
     }
   };
   const handleDeleteBarcode = async (barcode: Barcode) => {
@@ -195,6 +197,8 @@ const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
     const response = await startAddTag(dispatch, article.id, tag);
     if (response) {
       setTags(response.tags);
+    } else {
+      setTags(tags.filter((item) => item.id !== 0));
     }
   };
   const handleDeleteTag = async (tag: Tag) => {
