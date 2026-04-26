@@ -32,6 +32,11 @@ export const en = {
     'Could not create the article maybe check your internet connection',
   ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE:
     'Could not load the article by barcode',
+  ARTICLE_BARCODE_ALREADY_EXISTS:
+    'This barcode is already assigned to an article',
+  ARTICLE_BARCODE_COULD_NOT_BE_ADDED: 'Could not add the barcode',
+  ARTICLE_TAG_ALREADY_EXISTS: 'This tag is already assigned to this article',
+  ARTICLE_TAG_COULD_NOT_BE_ADDED: 'Could not add the tag',
   TALLY_HEADER: 'Strichliste',
   USERS_LOADING_FAILED:
     'Oops could not load users :-( Maybe check your internet connection and try it again',

@@ -40,7 +40,7 @@ export class Scanner extends React.Component<Props, State> {
       if (this.props.onChange) {
         this.props.onChange(this.state.barcode);
       }
-    } else if (/[a-zA-Z0-9]/i.test(key)) {
+    } else if (key.length === 1 && /[a-zA-Z0-9]/.test(key) && !event.ctrlKey && !event.altKey && !event.metaKey) {
       this.setState(state => ({
         barcode: '',
         maybeBarcode: state.maybeBarcode + key,
