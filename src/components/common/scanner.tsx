@@ -28,6 +28,7 @@ export class Scanner extends React.Component<Props, State> {
   }
 
   public detection = (event: KeyboardEvent): void => {
+    if (event.repeat) return;
     const key = event.key;
 
     clearTimeout(this.state.timeout);
