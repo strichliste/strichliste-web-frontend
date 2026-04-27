@@ -20,11 +20,11 @@ export class Scanner extends React.Component<Props, State> {
   public inputRef = React.createRef<HTMLInputElement>();
 
   public componentDidMount(): void {
-    document.addEventListener('keyup', this.detection);
+    document.addEventListener('keydown', this.detection);
   }
 
   public componentWillUnmount(): void {
-    document.removeEventListener('keyup', this.detection);
+    document.removeEventListener('keydown', this.detection);
   }
 
   public detection = (event: KeyboardEvent): void => {
@@ -33,6 +33,7 @@ export class Scanner extends React.Component<Props, State> {
     clearTimeout(this.state.timeout);
 
     if (key === 'Enter' && this.state.maybeBarcode.length > 6) {
+      event.preventDefault();
       this.setState(state => ({
         barcode: state.maybeBarcode,
         maybeBarcode: '',
