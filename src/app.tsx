@@ -13,6 +13,7 @@ import { SplitInvoiceForm } from './components/transaction';
 import { startLoadingSettings } from './store/reducers';
 import { store } from './store';
 import { UserRouter } from './components/user/user-router';
+import { useSettings } from './store/selector-hooks';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
@@ -75,15 +76,32 @@ const Layout = () => {
   );
 };
 
+const LocalizedIntlProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const { i18n } = useSettings();
+  return (
+    <IntlProvider
+      textComponent={React.Fragment}
+      locale={i18n.language}
+      messages={en}
+    >
+      {children}
+    </IntlProvider>
+  );
+};
+
 export const App = () => {
   return (
     <ThemeProvider>
       <Provider store={store}>
-        <IntlProvider textComponent={React.Fragment} locale="en" messages={en}>
+        <LocalizedIntlProvider>
           <HashRouter hashType="hashbang">
             <Layout />
           </HashRouter>
-        </IntlProvider>
+        </LocalizedIntlProvider>
       </Provider>
     </ThemeProvider>
   );
