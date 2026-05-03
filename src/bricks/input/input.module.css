@@ -11,6 +11,11 @@
   color: var(--textSubtile);
 }
 
+.input:read-only {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .formField {
   margin-bottom: 1rem;
 }

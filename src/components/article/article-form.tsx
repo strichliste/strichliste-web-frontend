@@ -277,9 +277,7 @@ const ListInput: React.FC<{
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (item) {
-          handleRemove(item);
-        } else {
+        if (!item) {
           handleAdd(value);
         }
       }}
@@ -289,12 +287,14 @@ const ListInput: React.FC<{
           placeholder={placeholder}
           autoFocus={item === ''}
           value={value}
+          readOnly={!!item}
           onChange={(e) => setValue(e.target.value)}
         />
         {item ? (
           <CancelButton
             title={intl.formatMessage({ id: 'DELETE_ITEM' })}
-            type="submit"
+            type="button"
+            onClick={() => handleRemove(item)}
             margin="0 0 0 0.5rem"
           />
         ) : (
