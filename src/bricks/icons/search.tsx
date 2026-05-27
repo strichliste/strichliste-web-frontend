@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-export function SearchIcon({ style }: any): JSX.Element {
+export function SearchIcon({ style }: any): React.JSX.Element {
   return (
-    <svg
+    <svg aria-hidden="true" focusable="false"
       style={style}
       xmlns="http://www.w3.org/2000/svg"
       width="15"

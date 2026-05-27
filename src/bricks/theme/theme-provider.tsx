@@ -24,7 +24,7 @@ const getStoredTheme = (): Themes => localStorage.getItem(THEME_KEY) || 'light';
 const setStoredTheme = (theme: Themes) =>
   localStorage.setItem(THEME_KEY, theme);
 
-export const ThemeProvider: React.FC = ({ children }) => {
+export const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [theme, setTheme] = React.useState<Themes>(getStoredTheme());
 
   React.useEffect(() => {
@@ -47,10 +47,15 @@ export const ThemeProvider: React.FC = ({ children }) => {
   );
 };
 
-export const ThemeSwitcher: React.FC = (props) => {
+export const ThemeSwitcher: React.FC<{ 'aria-label'?: string }> = ({
+  'aria-label': ariaLabel,
+}) => {
   const { toggleTheme, theme } = React.useContext(ThemeContext);
   return (
-    <Button onClick={toggleTheme} {...props}>
+    <Button
+      onClick={toggleTheme}
+      aria-label={ariaLabel ?? 'Toggle color theme'}
+    >
       {theme === 'light' ? <DayModeIcon /> : <NightModeIcon />}
     </Button>
   );

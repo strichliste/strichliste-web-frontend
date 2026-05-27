@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { useSettings } from '../../store';
 import { HeaderNav, Logo, SearchIcon, ScrollContainer } from '../../bricks';
 
 const navLinkStyle = { marginRight: '1rem' };
 
-export function HeaderMenu(): JSX.Element {
+export function HeaderMenu(): React.JSX.Element {
   const payment = useSettings().payment;
+  const intl = useIntl();
   return (
-    <HeaderNav>
+    <HeaderNav label={intl.formatMessage({ id: 'MAIN_NAVIGATION' })}>
       <ScrollContainer>
         <NavLink
           style={{
@@ -18,7 +19,7 @@ export function HeaderMenu(): JSX.Element {
             alignItems: 'center',
             alignContent: 'center',
           }}
-          activeClassName="active"
+          className={({ isActive }) => (isActive ? 'active' : undefined)}
           to="/user"
         >
           <Logo
@@ -28,19 +29,19 @@ export function HeaderMenu(): JSX.Element {
           />
           <FormattedMessage id="TALLY_HEADER" />
         </NavLink>
-        <NavLink style={navLinkStyle} activeClassName="active" to="/articles">
+        <NavLink style={navLinkStyle} className={({ isActive }) => (isActive ? 'active' : undefined)} to="/articles">
           <FormattedMessage id="ARTICLE_LINK" />
         </NavLink>
         {payment.splitInvoice.enabled && (
           <NavLink
             style={navLinkStyle}
-            activeClassName="active"
+            className={({ isActive }) => (isActive ? 'active' : undefined)}
             to="/split-invoice"
           >
             <FormattedMessage id="SPLIT_INVOICE_LINK" />
           </NavLink>
         )}
-        <NavLink activeClassName="active" to="/metrics">
+        <NavLink className={({ isActive }) => (isActive ? 'active' : undefined)} to="/metrics">
           <FormattedMessage id="METRICS_LINK" defaultMessage="Metrics" />
         </NavLink>
       </ScrollContainer>
@@ -60,7 +61,7 @@ export function HeaderMenu(): JSX.Element {
             alignContent: 'center',
             justifyContent: 'flex-end',
           }}
-          activeClassName="active"
+          className={({ isActive }) => (isActive ? 'active' : undefined)}
           to="/search-results"
         >
           <FormattedMessage id="SEARCH_RESULTS_LINK" defaultMessage="Search" />

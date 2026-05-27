@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export const SearchMinus = () => (
-  <svg
+  <svg aria-hidden="true" focusable="false"
     width="17"
     height="17"
     viewBox="0 0 17 17"

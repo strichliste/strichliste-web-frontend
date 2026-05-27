@@ -1,8 +1,8 @@
 import * as React from "react";
 
-export function NightModeIcon(): JSX.Element {
+export function NightModeIcon(): React.JSX.Element {
   return (
-    <svg
+    <svg aria-hidden="true" focusable="false"
       xmlns="http://www.w3.org/2000/svg"
       width="13"
       height="14"

@@ -53,22 +53,81 @@ export const useModal = (initialShow = false) => {
   return { show, handleHide, handleShow };
 };
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+
 export const Modal: React.FC<{
+  children?: React.ReactNode;
   handleShow(): void;
   handleHide(popState?: boolean): void;
   show: boolean;
   backDropTile?: string;
+  label?: string;
   id?: string;
-}> = ({ id, children, show, handleHide, backDropTile = 'close' }) => {
+}> = ({
+  id,
+  children,
+  show,
+  handleHide,
+  backDropTile = 'close',
+  label = 'Dialog',
+}) => {
+  const dialogRef = React.useRef<HTMLDivElement>(null);
+  const previouslyFocused = React.useRef<HTMLElement | null>(null);
+
+  React.useEffect(() => {
+    if (!show) {
+      return;
+    }
+    // Remember what had focus, move focus into the dialog, restore on close.
+    previouslyFocused.current = document.activeElement as HTMLElement;
+    const dialog = dialogRef.current;
+    const focusable = dialog?.querySelectorAll<HTMLElement>(FOCUSABLE);
+    (focusable && focusable.length ? focusable[0] : dialog)?.focus();
+
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !dialog) {
+        return;
+      }
+      const items = dialog.querySelectorAll<HTMLElement>(FOCUSABLE);
+      if (items.length === 0) {
+        e.preventDefault();
+        return;
+      }
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', trap);
+    return () => {
+      document.removeEventListener('keydown', trap);
+      previouslyFocused.current?.focus?.();
+    };
+  }, [show]);
+
   if (!show) {
     return null;
   }
 
   return ReactDom.createPortal(
     <>
-      <Card id={id} className={styles.modal}>
-        {children}
-      </Card>
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={label}
+        tabIndex={-1}
+      >
+        <Card id={id} className={styles.modal}>
+          {children}
+        </Card>
+      </div>
       <Backdrop onClick={handleHide} title={backDropTile} />
     </>,
     document.body

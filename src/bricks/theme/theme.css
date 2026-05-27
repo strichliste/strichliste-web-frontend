@@ -4,6 +4,45 @@
   --tablet: 48em;
 }
 
+/* Accessibility: visible keyboard focus indicator across the app. */
+:focus-visible {
+  outline: 3px solid #1a73e8;
+  outline-offset: 2px;
+}
+
+/* Skip link: visually hidden until focused, then revealed at top-left. */
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: -3rem;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  background: var(--primary, #28333d);
+  color: #fff;
+  border-radius: var(--borderRadius, 4px);
+  transition: top 0.15s ease-in-out;
+}
+
+.skip-link:focus {
+  top: 0.5rem;
+}
+
+/* Don't strip focus from the main landmark when it receives programmatic focus. */
+main:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 html {
   --borderRadius: 4px;
   --buttonDisabled: #bababa;
@@ -13,24 +52,27 @@ html {
   --green: rgb(0, 204, 29);
   --greenHover: #b3e5bb;
   --greenLight: #cfe9d1;
-  --greenText: rgb(0, 204, 29);
+  /* Darkened for WCAG AA text contrast (>= 4.5:1 on white). */
+  --greenText: #15803d;
   --mainBackground: #f2f3f2;
   --primary: #28333d;
   --red: rgb(245, 73, 99);
   --redHover: #f3b4bb;
   --redLight: #ffdce0;
-  --redText: rgb(245, 73, 99);
+  --redText: #c62828;
   --text: #343434;
-  --textSubtile: #bababa;
+  /* Darkened from #bababa to meet WCAG AA contrast (>= 4.5:1 on white). */
+  --textSubtile: #6b6b6b;
   --headerBackground: #fff;
   --buttonCancelFont: #ffedf0;
   --buttonCancelBackground: #e86c76;
   --buttonHighlightFont: #e8eaeb;
   --buttonHighlightBackground: #213440;
   --buttonGreenBackground: #cbf5d7;
-  --buttonGreenFont: #00cc1d;
+  /* Darkened for WCAG AA contrast on the light green/red button backgrounds. */
+  --buttonGreenFont: #096b29;
   --buttonRedBackground: #ffdce0;
-  --buttonRedFont: #f54963;
+  --buttonRedFont: #b3001b;
   --buttonDefaultBackground: #fff;
   --buttonDefaultFont: #58697d;
   --inset: inset 0 2px 2px 0 rgba(0, 0, 0, 0.14);

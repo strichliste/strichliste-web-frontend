@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { useIntl } from 'react-intl';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from '../../routing';
 import { useDispatch } from 'react-redux';
 
 import { startCreatingUser } from '../../store/reducers';
@@ -35,10 +35,19 @@ export const CreateUserInlineForm = ({
 
   return (
     <div title={intl.formatMessage({ id: 'USER_CREATE_NAME_LABEL' })}>
-      <Button highlight onClick={modalProps.handleShow} fab>
+      <Button
+        highlight
+        onClick={modalProps.handleShow}
+        fab
+        aria-label={intl.formatMessage({ id: 'USER_CREATE_TRIGGER' })}
+      >
         <AddIcon />
       </Button>
-      <Modal backDropTile="close" {...modalProps}>
+      <Modal
+        backDropTile="close"
+        label={intl.formatMessage({ id: 'USER_CREATE_HEADLINE' })}
+        {...modalProps}
+      >
         <form onSubmit={submit}>
           <Flex>
             <Input
@@ -53,7 +62,13 @@ export const CreateUserInlineForm = ({
               maxLength={64}
               autoFocus={true}
             />
-            <Button margin="0 0 0 1rem" type="submit" fab highlight>
+            <Button
+              margin="0 0 0 1rem"
+              type="submit"
+              fab
+              highlight
+              aria-label={intl.formatMessage({ id: 'USER_CREATE_TRIGGER' })}
+            >
               <EditIcon />
             </Button>
           </Flex>

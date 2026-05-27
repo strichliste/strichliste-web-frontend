@@ -1,4 +1,10 @@
 export const en = {
+  SKIP_TO_CONTENT: 'Skip to content',
+  CLOSE_DIALOG: 'Close dialog',
+  MAIN_NAVIGATION: 'Main navigation',
+  LOADING: 'Loading',
+  DECREASE_TEXT_SIZE: 'Decrease text size',
+  INCREASE_TEXT_SIZE: 'Increase text size',
   BALANCE_DISPENSE: 'dispense',
   BALANCE_PLACEHOLDER: 'CUSTOM AMOUNT',
   BALANCE_DEPOSIT: 'deposit',

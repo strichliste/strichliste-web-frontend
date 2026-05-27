@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export const PayPal = () => (
-  <svg
+  <svg aria-hidden="true" focusable="false"
     style={{ width: '1rem', height: '1rem' }}
     className="svg-inline--fa fa-paypal fa-w-12"
     xmlns="http://www.w3.org/2000/svg"
