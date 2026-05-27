@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from '../../../../routing';
 
 import { useFilteredUsers } from '../../../../store';
-import { startLoadingUsers } from '../../../../store/reducers';
 import { NavTabMenus } from '../../../common/nav-tab-menu';
 import { CreateUserInlineFormView } from '../../create-user-inline-form';
-import { useDispatch } from 'react-redux';
 import { ScrollToTop } from '../../../common/scroll-to-top';
 import { UserList } from '../../user-list';
 
@@ -20,12 +18,7 @@ interface OwnProps {
 type UserProps = OwnProps & RouteComponentProps;
 
 export const User = (props: UserProps) => {
-  const userIds = useFilteredUsers(props.isActive);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    startLoadingUsers(dispatch);
-  }, [props.isActive, dispatch]);
+  const users = useFilteredUsers(props.isActive);
 
   return (
     <>
@@ -51,7 +44,7 @@ export const User = (props: UserProps) => {
             },
           ]}
         />
-        <UserList userIds={userIds} />
+        <UserList users={users} />
       </div>
     </>
   );

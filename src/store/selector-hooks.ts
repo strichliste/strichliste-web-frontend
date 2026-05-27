@@ -1,20 +1,9 @@
-import { useCallback } from 'react';
-import { AppState } from '.';
-import {
-  User,
-  getUser,
-  getUserArray,
-  getUserBalance,
-  getUserState,
-  getFilteredUserIds,
-  getGlobalError,
-  Transaction,
-} from './reducers';
 import { useSelector } from 'react-redux';
-import { useSettings } from '../queries/settings';
+import { AppState } from '.';
+import { getGlobalError } from './reducers';
 
-// Settings and articles live in TanStack Query now; re-export so existing
-// `../store` imports keep working.
+// Server state lives in TanStack Query; re-export the hooks so existing
+// `../store` imports keep working unchanged.
 export {
   useSettings,
   usePayPalSettings,
@@ -26,52 +15,17 @@ export {
   usePopularArticles,
   useArticle,
 } from '../queries/articles';
+export {
+  useUsers,
+  useUser,
+  useUserName,
+  useUserBalance,
+  useUserArray,
+  useFilteredUsers,
+} from '../queries/users';
+export { useUserTransactions } from '../queries/transactions';
 
-export function useFilteredUsers(isActive: boolean) {
-  return useSelector<AppState, string[]>(
-    useCallback((state) => getFilteredUserIds(state, isActive), [isActive])
-  );
-}
-
-export function useUser(id: string) {
-  return useSelector<AppState, User | undefined>(
-    useCallback((state) => getUser(state, id), [id])
-  );
-}
-
-export function useUserName(id: string): string {
-  const user = useSelector<AppState, User | undefined>(
-    useCallback((state) => getUser(state, id), [id])
-  );
-  return user ? user.name : '';
-}
-
-export function useUserBalance(id: string): number {
-  return useSelector<AppState, number>(
-    useCallback((state) => getUserBalance(state, id), [id])
-  );
-}
-
-export function useUserArray() {
-  return useSelector(getUserArray);
-}
-
-export function useUserState() {
-  return useSelector(getUserState);
-}
-
+// Global error banner is the only piece of server-ish UI state still in Redux.
 export function useGlobalError() {
-  return useSelector(getGlobalError);
-}
-
-export function useTransaction(id: number) {
-  return useSelector<AppState, Transaction | undefined>(
-    useCallback((state: AppState) => state.transaction[id], [id])
-  );
-}
-
-export function useIsTransactionDeletable(id: number): boolean {
-  const undoEnabled = useSettings().payment.undo.enabled;
-  const transaction = useTransaction(id);
-  return Boolean(undoEnabled && transaction && transaction.isDeletable);
+  return useSelector<AppState, string>(getGlobalError);
 }

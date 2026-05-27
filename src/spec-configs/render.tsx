@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import { AppState, reducer } from '../store';
 import { DeepPartial } from '../types';
 import { defaultSettings, Settings } from '../store/reducers/setting';
+import { User } from '../store/reducers/user';
 import { queryKeys } from '../queries/keys';
 
 interface Options {
@@ -18,16 +19,18 @@ interface Options {
   initialEntries?: string[];
   /** Seed the settings query (merged onto the defaults). */
   settings?: DeepPartial<Settings>;
+  /** Seed individual user queries by id (e.g. for balance-based validators). */
+  users?: Record<string, DeepPartial<User>>;
 }
 
-function makeQueryClient(settings?: DeepPartial<Settings>): QueryClient {
+function makeQueryClient(options: Options): QueryClient {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
   });
-  client.setQueryData(
-    queryKeys.settings,
-    merge({}, defaultSettings, settings)
-  );
+  client.setQueryData(queryKeys.settings, merge({}, defaultSettings, options.settings));
+  Object.entries(options.users ?? {}).forEach(([id, user]) => {
+    client.setQueryData(queryKeys.user(id), { id, ...user });
+  });
   return client;
 }
 
@@ -40,7 +43,7 @@ export function renderWithContext(
     options.store ?? createStore<any, any, any, any>(reducer, initialState);
   return render(
     <Provider store={store}>
-      <QueryClientProvider client={makeQueryClient(options.settings)}>
+      <QueryClientProvider client={makeQueryClient(options)}>
         <MemoryRouter initialEntries={options.initialEntries ?? ['/']}>
           <IntlProvider locale="en">{ui}</IntlProvider>
         </MemoryRouter>
@@ -51,7 +54,7 @@ export function renderWithContext(
 
 export function renderWithIntl(ui: React.ReactElement) {
   return render(
-    <QueryClientProvider client={makeQueryClient()}>
+    <QueryClientProvider client={makeQueryClient({})}>
       <IntlProvider locale="en" textComponent={React.Fragment}>
         {ui}
       </IntlProvider>

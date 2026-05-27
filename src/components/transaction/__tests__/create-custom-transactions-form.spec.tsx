@@ -16,7 +16,8 @@ describe('CreateCustomTransactionForm', () => {
     const Component = createConnectedComponent(CreateCustomTransactionForm);
     const { container } = renderWithContext(
       <Component userId="12" store={store} />,
-      { user: { 12: { balance: 0 } } }
+      {},
+      { users: { '12': { balance: 0 } } }
     );
     expect(container.firstChild).toMatchSnapshot();
   });

@@ -1,14 +1,3 @@
-import {
-  ErrorActions,
-  LoaderActions,
-  SearchActions,
-  TransactionActions,
-  UserActions,
-} from './reducers';
+import { ErrorActions, LoaderActions, SearchActions } from './reducers';
 
-export type Action =
-  | ErrorActions
-  | LoaderActions
-  | SearchActions
-  | TransactionActions
-  | UserActions;
+export type Action = ErrorActions | LoaderActions | SearchActions;

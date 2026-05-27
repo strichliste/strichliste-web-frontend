@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useUser } from '../../store';
+import { User } from '../../store/reducers';
 import { Currency } from '../currency';
 import { UserName } from './user-name';
 import { Card, AlertText } from '../../bricks';
@@ -8,11 +8,10 @@ import { Card, AlertText } from '../../bricks';
 import styles from './user-card.module.css';
 
 interface Props {
-  id: string;
+  user: User;
 }
 
-export function UserCard({ id }: Props): React.JSX.Element | null {
-  const user = useUser(id);
+export function UserCard({ user }: Props): React.JSX.Element | null {
   if (!user) {
     return null;
   }

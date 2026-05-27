@@ -6,10 +6,15 @@ export const queryKeys = {
   settings: ['settings'] as const,
 
   users: (isActive?: boolean) => ['users', { isActive }] as const,
-  user: (id: string) => ['user', id] as const,
+  // The API returns numeric ids while route params are strings; coerce so the
+  // same logical user maps to one cache key regardless of the caller.
+  user: (id: string | number) => ['user', String(id)] as const,
 
-  userTransactions: (userId: string, page?: number) =>
-    ['user', userId, 'transactions', { page }] as const,
+  userTransactions: (
+    userId: string | number,
+    offset: number,
+    limit: number
+  ) => ['user', String(userId), 'transactions', { offset, limit }] as const,
 
   articles: (isActive?: boolean) => ['articles', { isActive }] as const,
   article: (id: number) => ['article', id] as const,

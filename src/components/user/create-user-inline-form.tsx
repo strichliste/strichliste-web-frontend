@@ -2,9 +2,8 @@ import * as React from 'react';
 
 import { useIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from '../../routing';
-import { useDispatch } from 'react-redux';
 
-import { startCreatingUser } from '../../store/reducers';
+import { createUser } from '../../queries/users';
 import { Button, Flex, Input, AddIcon, EditIcon } from '../../bricks';
 import { useModal, Modal } from '../../bricks/modal/modal';
 
@@ -17,14 +16,13 @@ export const CreateUserInlineForm = ({
 }: Props & RouteComponentProps) => {
   const modalProps = useModal();
   const [name, setName] = React.useState('');
-  const dispatch = useDispatch();
   const intl = useIntl();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedName = name.trim();
     if (name) {
-      const user = await startCreatingUser(dispatch, trimmedName);
+      const user = await createUser(trimmedName);
       if (user && user.id) {
         history.push(`/user/${user.id}`);
       }

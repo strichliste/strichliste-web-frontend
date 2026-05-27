@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import { startCreatingTransaction } from '../../store/reducers';
+import { createTransaction } from '../../queries/transactions';
 import { Currency } from '../currency';
 import { useTransactionValidator } from './validator';
-import { store } from '../../store';
 import { Button } from '../../bricks';
 
 interface Props {
@@ -25,7 +24,7 @@ export function TransactionButton(props: Props): React.JSX.Element {
       red={!props.isDeposit}
       padding="0.8rem 0.5rem"
       onClick={() =>
-        startCreatingTransaction(store.dispatch, props.userId, {
+        createTransaction(props.userId, {
           amount: props.value,
         })
       }

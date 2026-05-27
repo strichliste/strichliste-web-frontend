@@ -12,13 +12,8 @@ describe('ArticleValidator', () => {
       const mockRender = vi.fn();
       renderWithContext(
         <ArticleValidator value={8} userId={'1'} render={mockRender} />,
-        {
-          user: {
-            '1': {
-              balance: 10,
-            },
-          },
-        }
+        {},
+        { users: { '1': { balance: 10 } } }
       );
 
       expect(mockRender).toHaveBeenCalledWith(true);
@@ -28,13 +23,8 @@ describe('ArticleValidator', () => {
       const mockRender = vi.fn();
       renderWithContext(
         <ArticleValidator value={2010} userId={'1'} render={mockRender} />,
-        {
-          user: {
-            '1': {
-              balance: 10,
-            },
-          },
-        }
+        {},
+        { users: { '1': { balance: 10 } } }
       );
       expect(mockRender).toHaveBeenCalledWith(false);
     });

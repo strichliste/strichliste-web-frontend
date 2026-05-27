@@ -17,9 +17,8 @@ describe('UserToUserValidator', () => {
         targetUserId="2"
         value={100}
       />,
-      {
-        user: { 1: { balance: 100 }, 2: { balance: 100 } },
-      }
+      {},
+      { users: { 1: { balance: 100 }, 2: { balance: 100 } } }
     );
 
     expect(getByTestId('result').innerHTML).toBe('yes');
@@ -35,9 +34,8 @@ describe('UserToUserValidator', () => {
         targetUserId="2"
         value={100}
       />,
-      {
-        user: { 1: { balance: -250000 }, 2: { balance: 100 } },
-      }
+      {},
+      { users: { 1: { balance: -250000 }, 2: { balance: 100 } } }
     );
     expect(getByTestId('result').innerHTML).toBe('no');
   });
@@ -52,9 +50,8 @@ describe('UserToUserValidator', () => {
         targetUserId="2"
         value={100}
       />,
-      {
-        user: { 1: { balance: 400 }, 2: { balance: 19999 } },
-      }
+      {},
+      { users: { 1: { balance: 400 }, 2: { balance: 19999 } } }
     );
 
     expect(getByTestId('result').innerHTML).toBe('no');

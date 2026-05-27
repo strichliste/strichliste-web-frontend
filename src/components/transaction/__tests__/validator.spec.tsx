@@ -29,8 +29,9 @@ const renderTransactionValidator = ({
   };
   const { getByTestId } = renderWithContext(
     <Component />,
-    { user: { '1': { balance } } },
+    {},
     {
+      users: { '1': { balance } },
       settings: {
         account: { boundary: accountBoundary },
         payment: { boundary: paymentBoundary },

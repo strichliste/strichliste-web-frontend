@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from '../../routing';
-import { User, startCreatingTransaction } from '../../store/reducers';
+import { User } from '../../store/reducers';
+import { createTransaction } from '../../queries/transactions';
 import { Currency, CurrencyInput } from '../currency';
 import { UserSelection } from '../user';
 import { UserName } from '../user/user-name';
 import { TransactionUndoButton } from './transaction-undo-button';
 import { UserToUserValidator } from './user-to-user-validator';
-import { store } from '../../store';
 import { Card, AcceptIcon, AcceptButton, Input, Arrow } from '../../bricks';
 
 import styles from './create-user-transaction-form.module.css';
@@ -49,15 +49,11 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
 
   public createTransaction = async () => {
     if (this.state.selectedUser.id && this.state.selectedAmount) {
-      const res = await startCreatingTransaction(
-        store.dispatch,
-        this.props.match.params.id,
-        {
-          amount: this.state.selectedAmount * -1,
-          recipientId: this.state.selectedUser.id,
-          comment: this.state.comment,
-        }
-      );
+      const res = await createTransaction(this.props.match.params.id, {
+        amount: this.state.selectedAmount * -1,
+        recipientId: this.state.selectedUser.id,
+        comment: this.state.comment,
+      });
       if (res && res.id) {
         this.setState({
           hasSelectionReady: true,

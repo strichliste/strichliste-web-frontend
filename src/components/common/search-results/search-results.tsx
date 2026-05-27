@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
-import { startLoadingUsers, User } from '../../../store/reducers';
+import React from 'react';
+import { User } from '../../../store/reducers';
 import { useUserArray } from '../../../store';
 import { SearchList } from '../search-list/search-list';
 import { SearchResultItem } from './search-result-item/search-result-item';
 import { RouteComponentProps } from '../../../routing';
 import { useUserDetailUrl } from '../../user/user-router';
-import { useDispatch } from 'react-redux';
 
 export const SearchResults: React.FC<RouteComponentProps> = (props) => {
   const userDetailUrl = useUserDetailUrl();
@@ -25,10 +24,6 @@ export const UserSearchList: React.FC<{
   scrollableTarget?: string;
 }> = ({ onUserSelect, filterUsers, filterUserId, scrollableTarget }) => {
   const userArray = useUserArray();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    startLoadingUsers(dispatch);
-  }, [dispatch]);
   const filteredUsers = filterUsers
     ? userArray.filter(
         (user) => !filterUsers.map((user) => user.id).includes(user.id)

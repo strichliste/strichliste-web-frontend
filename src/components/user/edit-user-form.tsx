@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
 import { useUser } from '../../store';
-import { startUpdateUser } from '../../store/reducers';
+import { updateUser } from '../../queries/users';
 import { Input, Flex, CancelButton, AcceptButton } from '../../bricks';
 
 interface Props {
@@ -23,11 +22,10 @@ export const UserEditForm = (props: Props) => {
     [email, setEmail] = React.useState(''),
     [isDisabled, setDisabled] = React.useState(false),
     user = useUser(props.userId),
-    dispatch = useDispatch(),
     submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
       e.preventDefault();
 
-      const user = await startUpdateUser(dispatch, props.userId, {
+      const user = await updateUser(props.userId, {
         name,
         email,
         isDisabled,

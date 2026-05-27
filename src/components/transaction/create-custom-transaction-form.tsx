@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
 
-import { startCreatingTransaction } from '../../store/reducers';
+import { createTransaction } from '../../queries/transactions';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
 import { useSettings } from '../../store';
@@ -20,7 +19,6 @@ export const CreateCustomTransactionForm = (props: Props) => {
   const intl = useIntl();
   const { userId, transactionCreated } = props;
   const payment = useSettings().payment;
-  const dispatch = useDispatch();
   const [value, setValue] = React.useState(0);
   const depositIsValid = useTransactionValidator(value, userId, true);
   const dispenseIsValid = useTransactionValidator(value, userId, false);
@@ -29,7 +27,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
     const multiplier = isDeposit ? 1 : -1;
     const amount = value * multiplier;
 
-    const result = await startCreatingTransaction(dispatch, userId, {
+    const result = await createTransaction(userId, {
       amount,
     });
 

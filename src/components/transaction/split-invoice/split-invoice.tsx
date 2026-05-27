@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { store } from '../../../store';
-import {
-  CreateTransactionParams,
-  Transaction,
-  User,
-  startCreatingTransaction,
-} from '../../../store/reducers';
+import { CreateTransactionParams, Transaction, User } from '../../../store/reducers';
+import { createTransaction } from '../../../queries/transactions';
 import { WrappedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
 import { UserSelection } from '../../user';
@@ -57,20 +52,16 @@ export const SplitInvoiceForm = () => {
 
   const submitSplitInvoice = async () => {
     for (const participant of participants) {
-      await createTransaction(participant);
+      await submitParticipantTransaction(participant);
     }
   };
 
-  const createTransaction = async (participant: User) => {
+  const submitParticipantTransaction = async (participant: User) => {
     if (formIsValid() && recipient) {
       setIsLoading(true);
       const userId = participant.id;
       const params = getParams(recipient);
-      const result = await startCreatingTransaction(
-        store.dispatch,
-        userId,
-        params
-      );
+      const result = await createTransaction(userId, params);
       setResponse(response => ({ ...response, [userId]: result || 'error' }));
     }
   };

@@ -3,10 +3,10 @@ import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from '../../routing';
 
 import { useUserName } from '../../store';
-import { Transaction, startCreatingTransaction } from '../../store/reducers';
+import { Transaction } from '../../store/reducers';
+import { createTransaction } from '../../queries/transactions';
 import { getUserDetailLink, getUserPayPalLink } from '../user/user-router';
 import { PayPalTransactionForm } from './paypal-transaction-form';
-import { useDispatch } from 'react-redux';
 
 export type PayPalTransactionProps = RouteComponentProps<{
   id: string;
@@ -19,11 +19,10 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
   const paidAmount = Number(props.match.params.amount);
 
   const userName = useUserName(userId);
-  const dispatch = useDispatch();
 
   React.useEffect(() => {
     if (paidAmount) {
-      startCreatingTransaction(dispatch, userId, {
+      createTransaction(userId, {
         amount: paidAmount * 100,
         comment: 'paypal',
       }).then((response: Transaction | undefined) => {

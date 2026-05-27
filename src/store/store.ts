@@ -1,12 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { error, loader, search, transaction, user } from './reducers';
+import { error, loader, search } from './reducers';
 
 const rootReducer = combineReducers({
   error,
   loader,
-  user,
-  transaction,
   search,
 });
 

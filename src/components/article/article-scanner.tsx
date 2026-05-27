@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Article, startCreatingTransaction } from '../../store/reducers';
+import { Article } from '../../store/reducers';
 import { fetchArticleByBarcode } from '../../queries/articles';
+import { createTransaction } from '../../queries/transactions';
 import { Scanner } from '../common/scanner';
 import { Toast } from '../common/toast';
 import { Currency } from '../currency';
 import { Flex, AcceptIcon } from '../../bricks';
-import { useDispatch } from 'react-redux';
 
 interface Props {
   userId: string;
@@ -15,7 +15,6 @@ interface Props {
 export const ArticleScanner = (props: Props) => {
   const [message, setMessage] = React.useState('');
   const [article, setArticle] = React.useState<Article | undefined>(undefined);
-  const dispatch = useDispatch();
 
   const handleChange = async (barcode: string) => {
     setMessage(barcode);
@@ -24,7 +23,7 @@ export const ArticleScanner = (props: Props) => {
       setMessage('ARTICLE_FETCHED_BY_BARCODE');
       setArticle(article);
       if (article) {
-        startCreatingTransaction(dispatch, props.userId, {
+        createTransaction(props.userId, {
           articleId: article.id,
         });
       }

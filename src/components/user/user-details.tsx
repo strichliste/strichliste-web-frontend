@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from '../../routing';
-import { useDispatch } from 'react-redux';
 import classnames from 'classnames';
 
-import { useUser, useSettings, useIsPaymentEnabled } from '../../store';
 import {
-  startLoadingTransactions,
-  startLoadingUserDetails,
-} from '../../store/reducers';
+  useUser,
+  useSettings,
+  useIsPaymentEnabled,
+  useUserTransactions,
+} from '../../store';
 import { ArticleScanner } from '../article/article-scanner';
 import { Payment, TransactionListItem } from '../transaction';
 import { UserDetailsHeader } from '../user-details/user-details-header';
@@ -21,35 +21,26 @@ import { Button, Flex, TransactionIcon } from '../../bricks';
 
 type UserDetailsProps = RouteComponentProps<{ id: string }>;
 export const UserDetails = (props: UserDetailsProps) => {
-  const dispatch = useDispatch();
   const userId = props.match.params.id;
   const user = useUser(userId);
   const inputRef = React.useRef(null);
   const payment = useSettings().payment;
   const isPaymentEnabled = useIsPaymentEnabled();
+  const { transactions } = useUserTransactions(userId, 0, 5);
 
   React.useEffect(() => {
-    startLoadingTransactions(dispatch, userId);
-    startLoadingUserDetails(dispatch, userId);
     if (inputRef && inputRef.current) {
       // @ts-expect-error js-ts
       inputRef.current.focus();
       // @ts-expect-error js-ts
       inputRef.current.blur();
     }
-    // eslint-disable-next-line
   }, [props.match.params.id]);
 
   if (!user) {
     return <>LOADING...</>;
   }
 
-  const transactions = user.transactions
-    ? Object.keys(user.transactions)
-        .map((a) => Number(a))
-        .sort((a, b) => b - a)
-        .slice(0, 5)
-    : [];
   const areTransactionsEnabled = payment.transactions.enabled;
   return (
     <div>
@@ -75,11 +66,11 @@ export const UserDetails = (props: UserDetailsProps) => {
           <>
             {transactions.length ? (
               <div className={styles.transactions}>
-                {transactions.map((id, index) => (
+                {transactions.map((transaction, index) => (
                   <TransactionListItem
-                    key={id}
+                    key={transaction.id}
                     first={index === 0}
-                    id={String(id)}
+                    transaction={transaction}
                   />
                 ))}
               </div>
