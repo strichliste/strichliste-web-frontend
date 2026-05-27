@@ -1,6 +1,5 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { Action } from './';
 import {
   article,
   error,
@@ -11,7 +10,7 @@ import {
   user,
 } from './reducers';
 
-const reducers = {
+const rootReducer = combineReducers({
   article,
   error,
   loader,
@@ -19,18 +18,27 @@ const reducers = {
   transaction,
   settings,
   search,
-};
+});
 
-export type AppState = {
-  [K in keyof typeof reducers]: ReturnType<typeof reducers[K]>
-};
+export type AppState = ReturnType<typeof rootReducer>;
 
-export const reducer = combineReducers<AppState>(reducers);
+export const reducer = rootReducer;
 
-export const store = createStore<AppState, Action, { dispatch: Dispatch }, {}>(
-  reducer
-);
+export const store = configureStore({
+  reducer: rootReducer,
+  // The legacy hand-written reducers/actions predate RTK's conventions; disable
+  // the dev-only checks rather than rewrite every action to be RTK-idiomatic.
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+      immutableCheck: false,
+    }),
+});
 
-export interface Dispatch {
-  (action: Action): Action;
-}
+export type AppDispatch = typeof store.dispatch;
+
+// Legacy thunks accept a plain dispatch. Kept intentionally loose to bridge the
+// hand-written action creators (which lack RTK's index signatures) and the
+// value returned by react-redux's `useDispatch`.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Dispatch = (action: any) => unknown;

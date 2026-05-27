@@ -1,4 +1,4 @@
-import { Action } from '../action';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from '../store';
 
 export enum ErrorTypes {
@@ -6,37 +6,29 @@ export enum ErrorTypes {
   GlobalError = 'GLOBAL_ERROR',
 }
 
-export interface SetError {
-  type: ErrorTypes.SetError;
-  payload: Error;
-}
-
-export function setError(payload: Error): SetError {
-  return {
-    type: ErrorTypes.SetError,
-    payload,
-  };
-}
-
-export function setGlobalError(payload: string): SetError {
-  return setError({ [ErrorTypes.GlobalError]: payload });
-}
-
-export type ErrorActions = SetError;
-
 interface Error {
   [key: string]: string;
 }
 
 const initialState: Error = {};
 
-export function error(state: Error = initialState, action: Action): Error {
-  switch (action.type) {
-    case ErrorTypes.SetError:
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
+const errorSlice = createSlice({
+  name: 'error',
+  initialState,
+  reducers: {
+    setError: (state, action: PayloadAction<Error>) => ({
+      ...state,
+      ...action.payload,
+    }),
+  },
+});
+
+export const { setError } = errorSlice.actions;
+export const error = errorSlice.reducer;
+export type ErrorActions = ReturnType<typeof setError>;
+
+export function setGlobalError(payload: string) {
+  return setError({ [ErrorTypes.GlobalError]: payload });
 }
 
 export function getError(state: AppState): Error {

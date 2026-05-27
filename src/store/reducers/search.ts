@@ -1,24 +1,5 @@
-import { Action } from '../action';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from '../store';
-
-export enum SearchTypes {
-  UpdateSearchAction = 'UpdateSearchAction',
-}
-
-export interface UpdateSearchAction {
-  type: SearchTypes.UpdateSearchAction;
-  payload: Search;
-}
-
-export function updateSearch(payload: Search): UpdateSearchAction {
-  return {
-    type: SearchTypes.UpdateSearchAction,
-    payload,
-  };
-}
-export type UpdateSearch = typeof updateSearch;
-
-export type SearchActions = UpdateSearchAction;
 
 interface Search {
   query: string;
@@ -26,14 +7,21 @@ interface Search {
 
 const initialState: Search = { query: '' };
 
-export function search(state: Search = initialState, action: Action): Search {
-  switch (action.type) {
-    case SearchTypes.UpdateSearchAction:
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
-}
+const searchSlice = createSlice({
+  name: 'search',
+  initialState,
+  reducers: {
+    updateSearch: (state, action: PayloadAction<Search>) => ({
+      ...state,
+      ...action.payload,
+    }),
+  },
+});
+
+export const { updateSearch } = searchSlice.actions;
+export const search = searchSlice.reducer;
+export type UpdateSearch = typeof updateSearch;
+export type SearchActions = ReturnType<typeof updateSearch>;
 
 export function getSearch(state: AppState): Search {
   return state.search;

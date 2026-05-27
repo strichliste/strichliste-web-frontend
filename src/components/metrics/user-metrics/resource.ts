@@ -1,19 +1,16 @@
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { get, useEffectAsync } from '../../../services/api';
+import { get } from '../../../services/api';
 import { Article } from '../../../store/reducers';
 
 export const useMetrics = (userId: string): UserMetric | null => {
-  const [metrics, setMetrics] = useState(null);
+  const { data } = useQuery({
+    queryKey: ['metrics', 'user', userId],
+    queryFn: (): Promise<UserMetric> => get(`user/${userId}/metrics`),
+    enabled: Boolean(userId),
+  });
 
-  useEffectAsync(async () => {
-    if (userId) {
-      const nextMetrics = await get(`user/${userId}/metrics`);
-      setMetrics(nextMetrics);
-    }
-  }, [userId]);
-
-  return metrics;
+  return data ?? null;
 };
 
 export interface ArticleEntry {

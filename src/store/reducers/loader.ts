@@ -1,4 +1,4 @@
-import { Action } from '../action';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from '../store';
 
 export enum LoaderTypes {
@@ -6,37 +6,29 @@ export enum LoaderTypes {
   GlobalLoader = 'GLOBAL_LOADER',
 }
 
-export interface SetLoader {
-  type: LoaderTypes.SetLoader;
-  payload: Loader;
-}
-
-export function setLoader(payload: Loader): SetLoader {
-  return {
-    type: LoaderTypes.SetLoader,
-    payload,
-  };
-}
-
-export function setGlobalLoader(payload: boolean): SetLoader {
-  return setLoader({ [LoaderTypes.GlobalLoader]: payload });
-}
-
-export type LoaderActions = SetLoader;
-
 interface Loader {
   [key: string]: boolean;
 }
 
 const initialState: Loader = {};
 
-export function loader(state: Loader = initialState, action: Action): Loader {
-  switch (action.type) {
-    case LoaderTypes.SetLoader:
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
+const loaderSlice = createSlice({
+  name: 'loader',
+  initialState,
+  reducers: {
+    setLoader: (state, action: PayloadAction<Loader>) => ({
+      ...state,
+      ...action.payload,
+    }),
+  },
+});
+
+export const { setLoader } = loaderSlice.actions;
+export const loader = loaderSlice.reducer;
+export type LoaderActions = ReturnType<typeof setLoader>;
+
+export function setGlobalLoader(payload: boolean) {
+  return setLoader({ [LoaderTypes.GlobalLoader]: payload });
 }
 
 export function getLoader(state: AppState): Loader {
