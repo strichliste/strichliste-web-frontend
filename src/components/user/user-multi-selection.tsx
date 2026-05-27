@@ -14,7 +14,7 @@ export function UserMultiSelection({
   excludeUserId,
   onSelect,
   validation,
-}: UserMultiSelectionProps): JSX.Element | null {
+}: UserMultiSelectionProps): React.JSX.Element | null {
   const users = useUserState();
 
   return <div></div>;

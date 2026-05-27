@@ -12,7 +12,7 @@ interface Props {
   isDeposit?: boolean;
 }
 
-export function TransactionButton(props: Props): JSX.Element {
+export function TransactionButton(props: Props): React.JSX.Element {
   const isValid = useTransactionValidator(
     props.value,
     props.userId,

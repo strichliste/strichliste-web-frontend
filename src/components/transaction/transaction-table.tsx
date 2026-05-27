@@ -66,7 +66,7 @@ export class TransactionTable extends React.Component<Props, State> {
     }
   };
 
-  public render(): JSX.Element {
+  public render(): React.JSX.Element {
     return (
       <>
         <Pager
@@ -87,7 +87,7 @@ export class TransactionTable extends React.Component<Props, State> {
   }
 }
 
-function TransactionPage(props: { transactions: Transaction[] }): JSX.Element {
+function TransactionPage(props: { transactions: Transaction[] }): React.JSX.Element {
   return (
     <>
       {props.transactions.map((transaction, index) => (

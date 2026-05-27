@@ -55,7 +55,7 @@ export function TransactionListItem({
 }: {
   id: string;
   first?: boolean;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   const transaction = useTransaction(Number(id));
   if (!transaction) {
     return null;

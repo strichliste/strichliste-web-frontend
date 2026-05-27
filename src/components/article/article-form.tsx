@@ -29,7 +29,7 @@ import {
 } from '../../bricks';
 
 import styles from './article-form.module.css';
-import { useHistory } from 'react-router';
+import { useHistory } from '../../routing';
 import { FormField } from '../../bricks/input/input';
 import { ScrollToTop } from '../common/scroll-to-top';
 import { useDispatch } from 'react-redux';

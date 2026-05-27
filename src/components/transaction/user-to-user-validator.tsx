@@ -5,10 +5,10 @@ interface Props {
   userId: string;
   targetUserId: string;
   value: number;
-  render(isValid: boolean): JSX.Element;
+  render(isValid: boolean): React.JSX.Element;
 }
 
-export function UserToUserValidator(props: Props): JSX.Element | null {
+export function UserToUserValidator(props: Props): React.JSX.Element | null {
   const userHasTheMoney = useTransactionValidator(
     props.value,
     props.userId,

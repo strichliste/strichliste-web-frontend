@@ -21,7 +21,7 @@ export function UserSelection({
   filterUserId,
   onSelect,
   user,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const modalProps = useModal();
   const [selection, setSelection] = React.useState<User | undefined>();

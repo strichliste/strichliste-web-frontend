@@ -3,7 +3,7 @@ import { startLoadingUsers, User } from '../../../store/reducers';
 import { useUserArray } from '../../../store';
 import { SearchList } from '../search-list/search-list';
 import { SearchResultItem } from './search-result-item/search-result-item';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from '../../../routing';
 import { useUserDetailUrl } from '../../user/user-router';
 import { useDispatch } from 'react-redux';
 

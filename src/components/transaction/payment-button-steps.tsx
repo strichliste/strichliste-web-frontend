@@ -8,7 +8,7 @@ export interface PaymentButtonListProps {
   isDeposit: boolean;
 }
 
-export function PaymentButtonList(props: PaymentButtonListProps): JSX.Element {
+export function PaymentButtonList(props: PaymentButtonListProps): React.JSX.Element {
   const multiplier = props.isDeposit ? 1 : -1;
   return (
     <GridThree>

@@ -9,7 +9,7 @@ function navigateHome(props: UserRouteProps): void {
   props.history.push('/user/active');
 }
 
-export function UserEditView(props: UserRouteProps): JSX.Element {
+export function UserEditView(props: UserRouteProps): React.JSX.Element {
   const id = props.match.params.id;
   return (
     <UserEditForm

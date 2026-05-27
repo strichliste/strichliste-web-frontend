@@ -58,7 +58,7 @@ export const UserEditForm = (props: Props) => {
           id="USER_EDIT_NAME_LABEL"
           children={(text) => (
             <Input
-              placeholder={text as string}
+              placeholder={text as unknown as string}
               value={name}
               onChange={(e) => setName(e.target.value)}
               minLength={1}
@@ -74,7 +74,7 @@ export const UserEditForm = (props: Props) => {
           id="USER_EDIT_MAIL_LABEL"
           children={(text) => (
             <Input
-              placeholder={text as string}
+              placeholder={text as unknown as string}
               value={email || ''}
               onChange={(e) => setEmail(e.target.value)}
               type="email"

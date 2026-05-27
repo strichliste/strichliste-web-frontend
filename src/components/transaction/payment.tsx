@@ -9,7 +9,7 @@ interface Props {
   userId: string;
 }
 
-export function Payment(props: Props): JSX.Element | null {
+export function Payment(props: Props): React.JSX.Element | null {
   const payment = useSettings().payment;
   return (
     <Card padding="0.5rem">

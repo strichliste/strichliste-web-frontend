@@ -1,36 +1,26 @@
 import * as React from 'react';
-import { Route, Switch, Redirect } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { withRouter } from '../../routing';
 import { WrappedIdleTimer } from '../common/idle-timer';
 import { ArticleEditFormView } from './article-edit-form-view';
 import { ArticleList } from './article-list';
 
-export function ArticleRouter(): JSX.Element {
+// ArticleEditFormView consumes v5-style router props via the shim.
+// Routes are relative to the parent "/articles/*" match.
+const RoutedArticleEditFormView = withRouter(ArticleEditFormView);
+
+export function ArticleRouter(): React.JSX.Element {
   return (
     <>
       <WrappedIdleTimer />
-      <Switch>
-        <Route
-          path="/articles/active"
-          exact={true}
-          component={() => <ArticleList isActive={true} />}
-        />
-        <Route
-          path="/articles/inactive"
-          exact={true}
-          component={() => <ArticleList isActive={false} />}
-        />
-        <Route
-          path="/articles/add"
-          exact={true}
-          component={ArticleEditFormView}
-        />
-        <Route
-          path="/articles/:id/edit"
-          exact={true}
-          component={ArticleEditFormView}
-        />
-        <Redirect from="/articles" to="/articles/active" />
-      </Switch>
+      <Routes>
+        <Route index element={<Navigate to="active" replace />} />
+        <Route path="active" element={<ArticleList isActive={true} />} />
+        <Route path="inactive" element={<ArticleList isActive={false} />} />
+        <Route path="add" element={<RoutedArticleEditFormView />} />
+        <Route path=":id/edit" element={<RoutedArticleEditFormView />} />
+        <Route path="*" element={<Navigate to="active" replace />} />
+      </Routes>
     </>
   );
 }

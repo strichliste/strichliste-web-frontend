@@ -6,6 +6,7 @@ import { ShadowKeys } from '../theme';
 import styles from './card.module.css';
 
 interface CardProps {
+  children?: React.ReactNode;
   className?: string;
   height?: string;
   hover?: ShadowKeys;

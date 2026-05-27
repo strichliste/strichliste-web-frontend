@@ -13,7 +13,7 @@ const GitHubIcon = (
   </svg>
 );
 
-export function MainFooter(): JSX.Element {
+export function MainFooter(): React.JSX.Element {
   return (
     <footer className={styles.footer}>
       <div>

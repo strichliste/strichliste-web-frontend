@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from '../../../routing';
 import { FormattedMessage } from 'react-intl';
 
 import { Currency } from '../../currency';

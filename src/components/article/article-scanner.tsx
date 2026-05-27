@@ -57,7 +57,7 @@ interface ToastProps {
   article: Article | undefined;
 }
 
-function ToastContent({ article, message }: ToastProps): JSX.Element {
+function ToastContent({ article, message }: ToastProps): React.JSX.Element {
   if (article === undefined) {
     return <>{message}</>;
   }

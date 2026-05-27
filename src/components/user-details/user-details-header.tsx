@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from '../../routing';
 import { useSettings } from '../../store';
 import { User } from '../../store/reducers';
 import { Currency } from '../currency';

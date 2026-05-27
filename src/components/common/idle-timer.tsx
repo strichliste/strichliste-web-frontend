@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useSettings } from '../../store';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from '../../routing';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let timerId: any = 0;
 
@@ -29,9 +28,9 @@ export function useIdleTimer(onTimeOut: () => void) {
   }, []);
 }
 
-export const WrappedIdleTimer = React.memo(
-  withRouter((props: RouteComponentProps) => {
-    useIdleTimer(() => props.history.push('/'));
-    return null;
-  })
-);
+const IdleTimer = (props: RouteComponentProps) => {
+  useIdleTimer(() => props.history.push('/'));
+  return null;
+};
+
+export const WrappedIdleTimer = React.memo(withRouter(IdleTimer));

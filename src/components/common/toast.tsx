@@ -7,6 +7,7 @@ interface State {
 }
 
 interface Props {
+  children?: React.ReactNode;
   type?: 'error';
   fadeOutSeconds: number;
   onFadeOut?(): void;
@@ -29,7 +30,7 @@ export class Toast extends React.Component<Props, State> {
     clearTimeout(this.state.timeoutId);
   }
 
-  public render(): JSX.Element | null {
+  public render(): React.JSX.Element | null {
     if (!this.state.isVisible) {
       return null;
     }

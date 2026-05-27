@@ -3,11 +3,12 @@ import classnames from 'classnames';
 
 import styles from './layout.module.css';
 
-export const Center: React.FC = ({ children }) => {
+export const Center: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <div className={styles.center}>{children}</div>;
 };
 
 export interface FlexProps {
+  children?: React.ReactNode;
   margin?: string;
   padding?: string;
   grow?: any;
@@ -61,19 +62,20 @@ export const Separator: React.FC<{ margin?: string; padding?: string }> = ({
   );
 };
 
-export const GridOneOneTwo: React.FC = ({ children }) => {
+export const GridOneOneTwo: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <div className={styles.gridOneOneTwo}>{children}</div>;
 };
 
-export const GridThree: React.FC = ({ children }) => {
+export const GridThree: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <div className={styles.grid3}>{children}</div>;
 };
 
-export const CardGrid: React.FC = ({ children }) => {
+export const CardGrid: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <div className={styles.cardGrid}>{children}</div>;
 };
 
 export const ListItem: React.FC<{
+  children?: React.ReactNode;
   className?: string;
   borderTop?: boolean;
 }> = ({ children, className, borderTop }) => (

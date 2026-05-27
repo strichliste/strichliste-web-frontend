@@ -1,86 +1,78 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from '../../routing';
+import { useSettings } from '../../store';
 import { WrappedIdleTimer } from '../common/idle-timer';
 import { UserMetricsView } from '../metrics';
 import { UserDetails } from './user-details';
 import { TransactionOverview } from './views/transaction-overview';
 import { User } from './views/user/user';
-import { useSettings } from '../../store';
 
-export function UserRouter(): JSX.Element {
+// User and the detail views consume v5-style router props; the shim supplies
+// them from v7 hooks. Routes below are relative to the parent "/user/*" match.
+const RoutedUser = withRouter(User);
+const RoutedTransactionOverview = withRouter(TransactionOverview);
+const RoutedUserDetails = withRouter(UserDetails);
+
+export function UserRouter(): React.JSX.Element {
   return (
-    <Switch>
+    <Routes>
+      <Route index element={<Navigate to="active" replace />} />
+      <Route path="active" element={<RoutedUser isActive={true} />} />
+      <Route path="inactive" element={<RoutedUser isActive={false} />} />
       <Route
-        path="/user/active"
-        exact={true}
-        render={props => <User {...props} isActive={true} />}
-      />
-      <Route
-        path="/user/inactive"
-        exact={true}
-        render={props => <User {...props} isActive={false} />}
-      />
-      <Route
-        path="/user/active/add"
-        exact={true}
-        render={props => (
+        path="active/add"
+        element={
           <>
             <WrappedIdleTimer />
-            <User {...props} showCreateUserForm={true} isActive={true} />
+            <RoutedUser showCreateUserForm={true} isActive={true} />
           </>
-        )}
+        }
       />
       <Route
-        path="/user/inactive/add"
-        exact={true}
-        render={props => (
+        path="inactive/add"
+        element={
           <>
             <WrappedIdleTimer />
-            <User {...props} showCreateUserForm={true} isActive={false} />
+            <RoutedUser showCreateUserForm={true} isActive={false} />
           </>
-        )}
+        }
       />
       <Route
-        path="/user/inactive"
-        exact={true}
-        render={props => <User {...props} isActive={false} />}
-      />
-      <Route
-        path="/user/transactions/:id/:page"
-        exact={true}
-        render={props => (
+        path="transactions/:id/:page"
+        element={
           <>
             <WrappedIdleTimer />
-            <TransactionOverview {...props} />
+            <RoutedTransactionOverview />
           </>
-        )}
+        }
       />
       <Route
-        path="/user/:id/metrics"
-        render={() => (
+        path=":id/metrics"
+        element={
           <>
             <WrappedIdleTimer />
             <UserMetricsView />
           </>
-        )}
+        }
       />
       <Route
-        path="/user/:id"
-        render={props => (
+        path=":id/*"
+        element={
           <>
             <WrappedIdleTimer />
-            <UserDetails {...props} />
+            <RoutedUserDetails />
           </>
-        )}
+        }
       />
-      <Redirect from="/" to="/user/active" />
-    </Switch>
+      <Route path="*" element={<Navigate to="active" replace />} />
+    </Routes>
   );
 }
 
-export function UserArticleTransactionLink(props: { id: number }): JSX.Element {
+export function UserArticleTransactionLink(props: { id: number }): React.JSX.Element {
   return (
     <Link to={`/user/${props.id}/article`}>
       <FormattedMessage id="USER_ARTICLE_LINK" />

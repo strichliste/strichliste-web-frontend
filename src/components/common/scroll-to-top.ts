@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from '../../routing';
 
 const Component: React.FC<RouteComponentProps> = props => {
   useEffect(() => {

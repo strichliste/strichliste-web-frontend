@@ -9,7 +9,7 @@ interface Props {
   hidePlusSign?: boolean;
 }
 
-export function Currency({ value, hidePlusSign }: Props): JSX.Element {
+export function Currency({ value, hidePlusSign }: Props): React.JSX.Element {
   const { i18n } = useSettings();
   return (
     <>

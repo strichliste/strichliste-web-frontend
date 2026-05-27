@@ -3,10 +3,10 @@ import classNames from 'classnames';
 
 import styles from './text.module.css';
 
-export const Ellipsis: React.FunctionComponent<{ title?: string }> = ({
-  children,
-  title,
-}) => {
+export const Ellipsis: React.FunctionComponent<{
+  children?: React.ReactNode;
+  title?: string;
+}> = ({ children, title }) => {
   const fallbackTitle = typeof children === 'string' ? children : '';
   return (
     <div className={styles.ellipsis} title={title || fallbackTitle}>
@@ -16,6 +16,7 @@ export const Ellipsis: React.FunctionComponent<{ title?: string }> = ({
 };
 
 interface AlertTextProps {
+  children?: React.ReactNode;
   value: number;
   style?: React.CSSProperties;
 }
@@ -32,6 +33,7 @@ export const AlertText: React.FC<AlertTextProps> = ({ value, ...props }) => {
 };
 
 interface LineThroughProps {
+  children?: React.ReactNode;
   lineThrough?: boolean;
   className?: string;
 }

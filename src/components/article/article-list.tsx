@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { withRouter } from 'react-router';
+import { withRouter } from '../../routing';
 
 import { useActiveArticles } from '../../store';
 import { startLoadingArticles, Article } from '../../store/reducers';

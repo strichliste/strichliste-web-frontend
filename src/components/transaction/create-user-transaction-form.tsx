@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from '../../routing';
 import { User, startCreatingTransaction } from '../../store/reducers';
 import { Currency, CurrencyInput } from '../currency';
 import { UserSelection } from '../user';
@@ -37,8 +37,7 @@ interface State {
   comment: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Props = RouteComponentProps<{ id: string }> & { intl: any };
+type Props = RouteComponentProps<{ id: string }>;
 
 export class CreateUserTransactionForm extends React.Component<Props, State> {
   public state = initialState;
@@ -81,7 +80,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
     this.setState({ comment: event.target.value });
   };
 
-  public render(): JSX.Element {
+  public render(): React.JSX.Element {
     if (this.state.hasSelectionReady) {
       return (
         <Card
@@ -123,7 +122,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 {text => (
                   <CurrencyInput
                     noNegative
-                    placeholder={text as string}
+                    placeholder={text as unknown as string}
                     autoFocus
                     onChange={value =>
                       this.setState({
@@ -143,7 +142,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 {text => (
                   <UserSelection
                     filterUserId={this.props.match.params.id}
-                    placeholder={text as string}
+                    placeholder={text as unknown as string}
                     onSelect={this.submitUserId}
                   />
                 )}
@@ -158,7 +157,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                       <AcceptButton
                         type="submit"
                         disabled={!(isValid && this.state.selectedUser.id)}
-                        title={text as string}
+                        title={text as unknown as string}
                       />
                     )}
                   </FormattedMessage>
@@ -170,7 +169,7 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                 <Input
                   value={this.state.comment}
                   onChange={this.setComment}
-                  placeholder={text as string}
+                  placeholder={text as unknown as string}
                 />
               )}
             </FormattedMessage>

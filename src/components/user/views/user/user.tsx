@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from '../../../../routing';
 
 import { useFilteredUsers } from '../../../../store';
 import { startLoadingUsers } from '../../../../store/reducers';

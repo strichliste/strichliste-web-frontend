@@ -25,7 +25,7 @@ async function onSelect(
 
 type Props = UserRouteProps;
 
-export function UserArticleTransaction(props: Props): JSX.Element | null {
+export function UserArticleTransaction(props: Props): React.JSX.Element | null {
   const dispatch = useDispatch();
 
   return (

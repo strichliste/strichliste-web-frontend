@@ -79,7 +79,7 @@ export class CurrencyInput extends React.Component<Props, State> {
     }
   };
 
-  public render(): JSX.Element {
+  public render(): React.JSX.Element {
     return (
       <>
         <FormattedNumber
@@ -97,7 +97,7 @@ export class CurrencyInput extends React.Component<Props, State> {
                     formattedValue,
                     this.state.hasFocus
                   ) === this.props.placeholder
-                    ? '#8e8e8e'
+                    ? '#6e6e6e'
                     : undefined,
               }}
               placeholder={this.props.placeholder}

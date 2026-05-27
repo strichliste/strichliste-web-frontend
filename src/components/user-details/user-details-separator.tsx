@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { withRouter } from 'react-router';
+import { withRouter } from '../../routing';
 import { UserRouteProps, getUserDetailLink } from '../user/user-router';
 import { Separator } from '../../bricks';
 

@@ -11,7 +11,7 @@ interface Props {
   id: string;
 }
 
-export function UserCard({ id }: Props): JSX.Element | null {
+export function UserCard({ id }: Props): React.JSX.Element | null {
   const user = useUser(id);
   if (!user) {
     return null;
