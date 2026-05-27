@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from '../../routing';
 import { useDispatch } from 'react-redux';
 import classnames from 'classnames';
 
@@ -54,7 +54,14 @@ export const UserDetails = (props: UserDetailsProps) => {
   return (
     <div>
       <ScrollToTop />
-      <input ref={inputRef} type="text" hidden tabIndex={-1} />
+      <input
+        ref={inputRef}
+        type="text"
+        hidden
+        tabIndex={-1}
+        aria-hidden="true"
+        readOnly
+      />
       <ArticleScanner userId={user.id} />
       <UserDetailsHeader user={user} />
       <UserDetailsSeparator />

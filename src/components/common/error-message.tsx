@@ -22,6 +22,8 @@ export function ErrorMessage() {
 
   return (
     <div
+      role="alert"
+      aria-live="assertive"
       style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 600 }}
     >
       <Toast type="error" fadeOutSeconds={5}>

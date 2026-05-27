@@ -26,7 +26,7 @@ export interface MaybeResponse {
 
 export interface ErrorConfig<Result> {
   loader?: LoaderTypes;
-  errors?: {};
+  errors?: Record<string, string>;
   defaultError?: string;
   promise: Promise<Result>;
 }

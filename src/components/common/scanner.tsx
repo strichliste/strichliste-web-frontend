@@ -7,7 +7,7 @@ interface State {
 }
 
 interface Props {
-  render?(value: string): JSX.Element;
+  render?(value: string): React.JSX.Element;
   onChange?(value: string): void;
 }
 
@@ -56,7 +56,7 @@ export class Scanner extends React.Component<Props, State> {
     }
   };
 
-  public render(): JSX.Element | null {
+  public render(): React.JSX.Element | null {
     if (!this.props.render) {
       return (
         <input
@@ -67,6 +67,7 @@ export class Scanner extends React.Component<Props, State> {
           type="text"
           hidden
           tabIndex={-1}
+          aria-hidden="true"
         />
       );
     }
@@ -80,6 +81,7 @@ export class Scanner extends React.Component<Props, State> {
           type="text"
           hidden
           tabIndex={-1}
+          aria-hidden="true"
         />
         {this.props.render(this.state.barcode)}
       </>

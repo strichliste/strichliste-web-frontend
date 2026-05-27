@@ -5,7 +5,7 @@ import styles from './button.module.css';
 import { AcceptIcon, CancelIcon } from '../icons';
 import { NavLink } from 'react-router-dom';
 
-type ButtonProps = JSX.IntrinsicElements['button'] & {
+type ButtonProps = React.JSX.IntrinsicElements['button'] & {
   padding?: string;
   margin?: string;
   fab?: boolean;
@@ -57,13 +57,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 export const AcceptButton: React.FC<ButtonProps> = props => (
-  <Button className={styles.acceptButton} fab {...props}>
+  <Button aria-label="Accept" className={styles.acceptButton} fab {...props}>
     <AcceptIcon />
   </Button>
 );
 
 export const CancelButton: React.FC<ButtonProps> = props => (
-  <Button className={styles.cancelButton} fab {...props}>
+  <Button aria-label="Cancel" className={styles.cancelButton} fab {...props}>
     <CancelIcon />
   </Button>
 );
@@ -72,15 +72,22 @@ export const Tab: React.FC<any> = ({
   children,
   className,
   active,
+  activeClassName = 'active',
   ...props
 }) => {
   return (
     <NavLink
-      activeStyle={{
-        background: 'var(--componentBackgroundLight)',
-        borderRadius: 'var(--borderRadius)',
-      }}
-      className={classnames(className, styles.tab)}
+      style={({ isActive }: { isActive: boolean }) =>
+        isActive
+          ? {
+              background: 'var(--componentBackgroundLight)',
+              borderRadius: 'var(--borderRadius)',
+            }
+          : {}
+      }
+      className={({ isActive }: { isActive: boolean }) =>
+        classnames(className, styles.tab, { [activeClassName]: isActive })
+      }
       {...props}
     >
       {children}
@@ -88,11 +95,9 @@ export const Tab: React.FC<any> = ({
   );
 };
 
-export const Tag: React.FC<{ red?: boolean; green?: boolean }> = ({
-  red,
-  green,
-  children,
-}) => {
+export const Tag: React.FC<
+  React.PropsWithChildren<{ red?: boolean; green?: boolean }>
+> = ({ red, green, children }) => {
   return (
     <div
       className={classnames(styles.tags, {
