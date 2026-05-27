@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  Article,
-  getArticleByBarcode,
-  startCreatingTransaction,
-} from '../../store/reducers';
+import { Article, startCreatingTransaction } from '../../store/reducers';
+import { fetchArticleByBarcode } from '../../queries/articles';
 import { Scanner } from '../common/scanner';
 import { Toast } from '../common/toast';
 import { Currency } from '../currency';
@@ -23,7 +20,7 @@ export const ArticleScanner = (props: Props) => {
   const handleChange = async (barcode: string) => {
     setMessage(barcode);
     try {
-      const article = await getArticleByBarcode(dispatch, barcode);
+      const article = await fetchArticleByBarcode(barcode);
       setMessage('ARTICLE_FETCHED_BY_BARCODE');
       setArticle(article);
       if (article) {

@@ -1,9 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { article, error, loader, search, transaction, user } from './reducers';
+import { error, loader, search, transaction, user } from './reducers';
 
 const rootReducer = combineReducers({
-  article,
   error,
   loader,
   user,

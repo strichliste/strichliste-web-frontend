@@ -1,5 +1,4 @@
 import {
-  ArticleActions,
   ErrorActions,
   LoaderActions,
   SearchActions,
@@ -8,7 +7,6 @@ import {
 } from './reducers';
 
 export type Action =
-  | ArticleActions
   | ErrorActions
   | LoaderActions
   | SearchActions

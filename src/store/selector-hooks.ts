@@ -1,11 +1,7 @@
 import { useCallback } from 'react';
 import { AppState } from '.';
 import {
-  Article,
   User,
-  getArticleById,
-  getArticleList,
-  getPopularArticles,
   getUser,
   getUserArray,
   getUserBalance,
@@ -17,13 +13,19 @@ import {
 import { useSelector } from 'react-redux';
 import { useSettings } from '../queries/settings';
 
-// Settings live in TanStack Query now; re-export so existing `../store` imports
-// keep working.
+// Settings and articles live in TanStack Query now; re-export so existing
+// `../store` imports keep working.
 export {
   useSettings,
   usePayPalSettings,
   useIsPaymentEnabled,
 } from '../queries/settings';
+export {
+  useArticles,
+  useActiveArticles,
+  usePopularArticles,
+  useArticle,
+} from '../queries/articles';
 
 export function useFilteredUsers(isActive: boolean) {
   return useSelector<AppState, string[]>(
@@ -47,26 +49,6 @@ export function useUserName(id: string): string {
 export function useUserBalance(id: string): number {
   return useSelector<AppState, number>(
     useCallback((state) => getUserBalance(state, id), [id])
-  );
-}
-
-export function useArticles(): Article[] {
-  return useSelector<AppState, Article[]>(getArticleList);
-}
-
-export function useActiveArticles(isActive: boolean): Article[] {
-  const articles = useArticles();
-
-  return articles.filter((article) => article.isActive === isActive);
-}
-
-export function usePopularArticles(): Article[] {
-  return useSelector<AppState, Article[]>(getPopularArticles);
-}
-
-export function useArticle(id: number | undefined) {
-  return useSelector<AppState, Article | undefined>(
-    useCallback((state: AppState) => getArticleById(state, id || 0), [id])
   );
 }
 

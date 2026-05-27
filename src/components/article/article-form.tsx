@@ -1,20 +1,17 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useArticle } from '../../store';
+import { Article, Barcode, Tag } from '../../store/reducers';
 import {
-  Article,
-  startLoadingArticleDetails,
   AddArticleParams,
-  startAddArticle,
-  startAddBarcode,
-  startDeleteBarcode,
-  Barcode,
-  startAddTag,
-  startDeleteTag,
-  Tag,
-  startDeletingArticle,
+  addArticle,
+  addBarcode,
+  deleteBarcode,
+  addTag,
+  deleteTag,
+  deleteArticle,
   getArticleHistory,
-} from '../../store/reducers';
+} from '../../queries/articles';
 import { CurrencyInput, Currency } from '../currency';
 import { useArticleValidator } from './validator';
 import {
@@ -32,7 +29,6 @@ import styles from './article-form.module.css';
 import { useHistory } from '../../routing';
 import { FormField } from '../../bricks/input/input';
 import { ScrollToTop } from '../common/scroll-to-top';
-import { useDispatch } from 'react-redux';
 
 interface Props {
   articleId?: number;
@@ -41,15 +37,7 @@ interface Props {
 
 export const ArticleForm: React.FC<Props> = (props) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
   const article = useArticle(props.articleId);
-
-  React.useEffect(() => {
-    if (props.articleId) {
-      startLoadingArticleDetails(dispatch, props.articleId);
-    }
-    // eslint-disable-next-line
-  }, [props.articleId]);
 
   return (
     <>
@@ -96,13 +84,12 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
   const [params, setParams] = React.useState<AddArticleParams>(
     extractParams(article)
   );
-  const dispatch = useDispatch();
   React.useEffect(() => {
     setParams(extractParams(article));
   }, [article]);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await startAddArticle(dispatch, {
+    const result = await addArticle({
       ...params,
       precursor: article,
     });
@@ -160,9 +147,8 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
 
 const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
   const [barcodes, setBarcodes] = React.useState(article.barcodes || []);
-  const dispatch = useDispatch();
   const handleAddBarcode = async (barcode: string) => {
-    const response = await startAddBarcode(dispatch, article.id, barcode);
+    const response = await addBarcode(article.id, barcode);
     if (response) {
       setBarcodes(response.barcodes);
     } else {
@@ -170,7 +156,7 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
     }
   };
   const handleDeleteBarcode = async (barcode: Barcode) => {
-    await startDeleteBarcode(dispatch, article.id, barcode.id);
+    await deleteBarcode(article.id, barcode.id);
     setBarcodes(barcodes.filter((item) => item.id !== barcode.id));
   };
   return (
@@ -191,10 +177,9 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
 
 const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
   const [tags, setTags] = React.useState(article.tags || []);
-  const dispatch = useDispatch();
   const intl = useIntl();
   const handleAddTag = async (tag: string) => {
-    const response = await startAddTag(dispatch, article.id, tag);
+    const response = await addTag(article.id, tag);
     if (response) {
       setTags(response.tags);
     } else {
@@ -202,7 +187,7 @@ const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
     }
   };
   const handleDeleteTag = async (tag: Tag) => {
-    await startDeleteTag(dispatch, article.id, tag.id);
+    await deleteTag(article.id, tag.id);
     setTags(tags.filter((item) => item.id !== tag.id));
   };
   return (
@@ -346,13 +331,12 @@ const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
 };
 
 const ToggleActivity: React.FC<{ article: Article }> = ({ article }) => {
-  const dispatch = useDispatch();
   const history = useHistory();
 
   if (!article.isActive) return null;
 
   const handleDeleteArticle = async () => {
-    const res = await startDeletingArticle(dispatch, article.id);
+    const res = await deleteArticle(article.id);
     if (res) {
       history.goBack();
     }

@@ -1,12 +1,11 @@
 import * as React from 'react';
 
 import { usePopularArticles } from '../../store';
-import { Article, startLoadingArticles } from '../../store/reducers';
+import { Article } from '../../store/reducers';
 import { Currency } from '../currency';
 import { ArticleValidator } from './validator';
 import { Flex, Input, CancelButton, Button } from '../../bricks';
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
 
 interface Props {
   userId: string;
@@ -17,13 +16,8 @@ interface Props {
 const ARTICLE_BUBBLE_LIMIT = 10;
 export const ArticleSelectionBubbles = (props: Props) => {
   const items = usePopularArticles();
-  const dispatch = useDispatch();
   const intl = useIntl();
   const [query, setQuery] = React.useState('');
-
-  React.useEffect(() => {
-    startLoadingArticles(dispatch, true);
-  }, [dispatch]);
 
   return (
     <div>
