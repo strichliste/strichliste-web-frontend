@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { DeepPartial } from 'redux';
+import { DeepPartial } from '../../../types';
 import { user } from '..';
 import { get, post } from '../../../services/api';
 import { getMockStore } from '../../../spec-configs/mock-store';
@@ -18,9 +18,9 @@ import {
   userDetailsLoaded,
 } from '../user';
 
-jest.mock('../../../services/api', () => ({
-  get: jest.fn(),
-  post: jest.fn(),
+vi.mock('../../../services/api', () => ({
+  get: vi.fn(),
+  post: vi.fn(),
 }));
 
 describe('user reducer', () => {
@@ -49,7 +49,8 @@ describe('user reducer', () => {
     beforeEach(() => {
       action = {
         type: UserActionTypes.UsersLoaded,
-        payload: usersResponse,
+        // API returns numeric ids; the User type models them as strings (Epic 3).
+        payload: usersResponse as any,
       };
     });
 
@@ -77,7 +78,7 @@ describe('user reducer', () => {
         isActive: true,
         balance: 12330,
         created: '2018-08-18 16:18:40',
-      });
+      } as any);
       const expectedResult = {
         1: {
           id: 1,
@@ -145,7 +146,7 @@ describe('action creators', () => {
       );
 
       const store = getMockStore();
-      await startLoadingUserDetails(store.dispatch, 1);
+      await startLoadingUserDetails(store.dispatch, 1 as any);
       expect(get).toHaveBeenCalledWith('user/1');
       expect(store.getActions()).toEqual([
         userDetailsLoaded([{ id: 1 }] as any),
@@ -171,7 +172,7 @@ describe('action creators', () => {
         Promise.resolve({ user: [{ id: 1 }] })
       );
       const store = getMockStore();
-      await startUpdateUser(store.dispatch, 1, {
+      await startUpdateUser(store.dispatch, 1 as any, {
         name: 'test',
         isDisabled: true,
       });
@@ -201,7 +202,7 @@ describe('selectors', () => {
           {
             user: { 1: { id: 1 }, 2: { id: 2 } },
           } as any,
-          2
+          '2'
         )
       ).toEqual({ id: 2 });
     });
@@ -212,7 +213,7 @@ describe('selectors', () => {
         expect(
           getUserTransactionsArray(
             { user: { 1: { id: 1 }, 2: { id: 2 } } } as any,
-            4
+            '4'
           )
         ).toEqual([]);
       });
@@ -222,7 +223,7 @@ describe('selectors', () => {
         expect(
           getUserTransactionsArray(
             { user: { 1: { id: 1 }, 2: { id: 2 } } } as any,
-            2
+            '2'
           )
         ).toEqual([]);
       });
@@ -237,7 +238,7 @@ describe('selectors', () => {
                 2: { id: 2, transactions: { 2: 2, 3: 3, 1: 1, 8: 8 } },
               },
             } as any,
-            2
+            '2'
           )
         ).toEqual([8, 3, 2, 1]);
       });

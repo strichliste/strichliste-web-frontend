@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { DeepPartial } from 'redux';
+import { DeepPartial } from '../../../types';
 import { get, post } from '../../../services/api';
 import { getMockStore } from '../../../spec-configs/mock-store';
 import { Action } from '../../action';
@@ -16,9 +16,9 @@ import {
 } from '../article';
 import { articleDetailResponse } from '../mock';
 
-jest.mock('../../../services/api', () => ({
-  get: jest.fn(),
-  post: jest.fn(),
+vi.mock('../../../services/api', () => ({
+  get: vi.fn(),
+  post: vi.fn(),
 }));
 
 describe('article reducer', () => {

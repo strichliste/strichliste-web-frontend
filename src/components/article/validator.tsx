@@ -8,13 +8,15 @@ export function useArticleValidator(
   const settings = useSettings();
   const userBalance = useUserBalance(userId);
   const boundary = settings.payment.boundary;
+  // boundary.lower may be `false` (disabled); coerce to a number for comparison.
+  const lower = Number(boundary.lower);
 
   if (userId) {
     const newValue =
       (typeof userBalance === 'boolean' ? 0 : userBalance) - value;
-    return boundary.lower < newValue;
+    return lower < newValue;
   } else {
-    return value > 0 && value * -1 > boundary.lower;
+    return value > 0 && value * -1 > lower;
   }
 }
 

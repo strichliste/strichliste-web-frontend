@@ -1,5 +1,5 @@
 import { Omit, merge } from 'lodash';
-import { DeepPartial } from 'redux';
+import { DeepPartial } from '../types';
 import createMockStore, {
   MockStore as OriginalMockStore,
 } from 'redux-mock-store';
@@ -24,5 +24,5 @@ export interface MockStoreProps {
 export function createConnectedComponent<Props>(
   component: React.ComponentType<Props>
 ): React.ComponentType<Props & MockStoreProps> {
-  return component;
+  return component as React.ComponentType<Props & MockStoreProps>;
 }

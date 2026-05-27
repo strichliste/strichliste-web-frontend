@@ -13,8 +13,8 @@ describe('UserToUserValidator', () => {
         render={isValid => (
           <div data-testid="result">{isValid ? 'yes' : 'no'}</div>
         )}
-        userId={1}
-        targetUserId={2}
+        userId="1"
+        targetUserId="2"
         value={100}
       />,
       {
@@ -31,8 +31,8 @@ describe('UserToUserValidator', () => {
         render={isValid => (
           <div data-testid="result">{isValid ? 'yes' : 'no'}</div>
         )}
-        userId={1}
-        targetUserId={2}
+        userId="1"
+        targetUserId="2"
         value={100}
       />,
       {
@@ -48,8 +48,8 @@ describe('UserToUserValidator', () => {
         render={isValid => (
           <div data-testid="result">{isValid ? 'yes' : 'no'}</div>
         )}
-        userId={1}
-        targetUserId={2}
+        userId="1"
+        targetUserId="2"
         value={100}
       />,
       {

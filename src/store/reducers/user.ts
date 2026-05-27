@@ -84,7 +84,7 @@ export async function startLoadingUsers(
   const promise = get(
     `user${Object.keys(params).reduce((paramString, param, index) => {
       const next = `${paramString}${index === 0 ? '?' : '&'}${param}=${
-        params[param]
+        params[param as keyof typeof params]
       }`;
       return next;
     }, '')}`

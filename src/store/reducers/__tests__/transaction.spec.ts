@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { DeepPartial } from 'redux';
+import { DeepPartial } from '../../../types';
 import { TransactionTypes, startCreatingTransaction, transaction } from '..';
 import { Action } from '../..';
 import { get, post, restDelete } from '../../../services/api';
@@ -12,12 +12,12 @@ import {
   startLoadingTransactions,
 } from '../transaction';
 
-jest.mock('../../../services/api', () => ({
-  get: jest.fn(),
-  post: jest.fn(),
-  restDelete: jest.fn(),
+vi.mock('../../../services/api', () => ({
+  get: vi.fn(),
+  post: vi.fn(),
+  restDelete: vi.fn(),
 }));
-jest.mock('../../../services/sound', () => ({ playCashSound: jest.fn() }));
+vi.mock('../../../services/sound', () => ({ playCashSound: vi.fn() }));
 
 describe('transaction reducer', () => {
   let action: DeepPartial<Action>;

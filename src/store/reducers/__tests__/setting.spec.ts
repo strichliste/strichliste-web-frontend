@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-jest.mock('../../../services/api', () => ({
-  get: jest.fn(),
+vi.mock('../../../services/api', () => ({
+  get: vi.fn(),
 }));
 
-import { DeepPartial } from 'redux';
+import { DeepPartial } from '../../../types';
 import {
   Settings,
   getPayment,

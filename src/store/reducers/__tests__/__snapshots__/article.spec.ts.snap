@@ -1,28 +1,28 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`action creators getArticleByBarcode fetches articles by barcode 1`] = `
-Array [
-  Object {
-    "payload": Object {
+exports[`action creators > getArticleByBarcode > fetches articles by barcode 1`] = `
+[
+  {
+    "payload": {
       "GLOBAL_LOADER": true,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_ERROR": "",
     },
-    "type": "SET_ERROR",
+    "type": "error/setError",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_LOADER": false,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Array [
-      Object {
+  {
+    "payload": [
+      {
         "id": 1,
       },
     ],
@@ -31,29 +31,29 @@ Array [
 ]
 `;
 
-exports[`action creators startAddArticle  1`] = `
-Array [
-  Object {
-    "payload": Object {
+exports[`action creators > startAddArticle >  1`] = `
+[
+  {
+    "payload": {
       "GLOBAL_LOADER": true,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_ERROR": "",
     },
-    "type": "SET_ERROR",
+    "type": "error/setError",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_LOADER": false,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Array [
-      Object {
+  {
+    "payload": [
+      {
         "id": 1,
       },
     ],
@@ -62,29 +62,29 @@ Array [
 ]
 `;
 
-exports[`action creators startLoadingArticles 1`] = `
-Array [
-  Object {
-    "payload": Object {
+exports[`action creators > startLoadingArticles 1`] = `
+[
+  {
+    "payload": {
       "GLOBAL_LOADER": true,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_ERROR": "",
     },
-    "type": "SET_ERROR",
+    "type": "error/setError",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_LOADER": false,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Array [
-      Object {
+  {
+    "payload": [
+      {
         "id": 1,
       },
     ],

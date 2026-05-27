@@ -20,17 +20,17 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '14'     # Locked to Node 14 for react-scripts v3 compatibility
-          cache: 'yarn'          # Automatically caches yarn dependencies
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Run tests
-        run: yarn test
+        run: npm test
 
       - name: Build application
-        run: CI=false yarn build
+        run: npm run build
 
       - name: Package
         run: |

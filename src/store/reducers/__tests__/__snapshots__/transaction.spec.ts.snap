@@ -1,36 +1,36 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`action creators startCreatingTransaction pushes the transaction and dispatches the new transaction and updated user 1`] = `
-Array [
-  Object {
-    "payload": Object {
+exports[`action creators > startCreatingTransaction > pushes the transaction and dispatches the new transaction and updated user 1`] = `
+[
+  {
+    "payload": {
       "GLOBAL_LOADER": true,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_ERROR": "",
     },
-    "type": "SET_ERROR",
+    "type": "error/setError",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_LOADER": false,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "name": "user",
     },
     "type": "[USER] Loaded_Details",
   },
-  Object {
-    "payload": Array [
-      Object {
+  {
+    "payload": [
+      {
         "id": 5,
-        "user": Object {
+        "user": {
           "name": "user",
         },
       },
@@ -40,37 +40,37 @@ Array [
 ]
 `;
 
-exports[`action creators startDeletingTransaction updates the transaction and dispatches the new transaction and updated user 1`] = `
-Array [
-  Object {
-    "payload": Object {
+exports[`action creators > startDeletingTransaction > updates the transaction and dispatches the new transaction and updated user 1`] = `
+[
+  {
+    "payload": {
       "GLOBAL_LOADER": true,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_ERROR": "",
     },
-    "type": "SET_ERROR",
+    "type": "error/setError",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_LOADER": false,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "name": "user",
     },
     "type": "[USER] Loaded_Details",
   },
-  Object {
-    "payload": Array [
-      Object {
+  {
+    "payload": [
+      {
         "id": 5,
-        "user": Object {
+        "user": {
           "name": "user",
         },
       },
@@ -80,32 +80,32 @@ Array [
 ]
 `;
 
-exports[`action creators startLoadingTransactions pushes the transaction and dispatches the new transaction and updated user 1`] = `
-Array [
-  Object {
-    "payload": Object {
+exports[`action creators > startLoadingTransactions > pushes the transaction and dispatches the new transaction and updated user 1`] = `
+[
+  {
+    "payload": {
       "GLOBAL_LOADER": true,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_ERROR": "",
     },
-    "type": "SET_ERROR",
+    "type": "error/setError",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_LOADER": false,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Array [
-      Object {
+  {
+    "payload": [
+      {
         "id": 2,
       },
-      Object {
+      {
         "id": 3,
       },
     ],
@@ -114,12 +114,12 @@ Array [
 ]
 `;
 
-exports[`transaction reducer with a transactionsLoaded action merges transaction to state 1`] = `
-Object {
-  "2": Object {
+exports[`transaction reducer > with a transactionsLoaded action > merges transaction to state 1`] = `
+{
+  "2": {
     "id": 2,
   },
-  "3": Object {
+  "3": {
     "id": 3,
   },
 }

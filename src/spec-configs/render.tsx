@@ -1,54 +1,53 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MemoryHistory, createMemoryHistory } from 'history';
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
-import { Router } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
-import { DeepPartial, Store, createStore } from 'redux';
+import { Store, createStore } from 'redux';
+import { DeepPartial } from '../types';
 import { Provider } from 'react-redux';
 
 import { AppState, reducer } from '../store';
 
 export function renderWithContext(
-  ui: JSX.Element,
+  ui: React.ReactElement,
   initialState: DeepPartial<AppState>,
   store = createStore<any, any, any, any>(reducer, initialState),
-  history: MemoryHistory = createMemoryHistory()
+  initialEntries: string[] = ['/']
 ) {
   return render(
     <Provider store={store}>
-      <Router history={history}>
+      <MemoryRouter initialEntries={initialEntries}>
         <IntlProvider locale="en">{ui}</IntlProvider>
-      </Router>
+      </MemoryRouter>
     </Provider>
   );
 }
 
 export function renderAndReturnContext(
-  ui: JSX.Element,
+  ui: React.ReactElement,
   initialState: DeepPartial<AppState>,
   store: Store<AppState> = createStore<any, any, any, any>(
     reducer,
     initialState
   ),
-  history: MemoryHistory = createMemoryHistory()
+  initialEntries: string[] = ['/']
 ) {
   return {
     result: render(
       <Provider store={store}>
-        <Router history={history}>
+        <MemoryRouter initialEntries={initialEntries}>
           <IntlProvider locale="en" textComponent={React.Fragment}>
             {ui}
           </IntlProvider>
-        </Router>
+        </MemoryRouter>
       </Provider>
     ),
     store,
-    history,
   };
 }
 
-export function renderWithIntl(ui: JSX.Element) {
+export function renderWithIntl(ui: React.ReactElement) {
   return render(
     <IntlProvider locale="en" textComponent={React.Fragment}>
       {ui}

@@ -1,42 +1,42 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`action creators startLoadingSettings 1`] = `
-Array [
-  Object {
-    "payload": Object {
+exports[`action creators > startLoadingSettings 1`] = `
+[
+  {
+    "payload": {
       "GLOBAL_LOADER": true,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_ERROR": "",
     },
-    "type": "SET_ERROR",
+    "type": "error/setError",
   },
-  Object {
-    "payload": Object {
+  {
+    "payload": {
       "GLOBAL_LOADER": false,
     },
-    "type": "SET_LOADER",
+    "type": "loader/setLoader",
   },
-  Object {
-    "payload": Object {
-      "account": Object {
-        "boundary": Object {
+  {
+    "payload": {
+      "account": {
+        "boundary": {
           "lower": -20000,
           "upper": 20000,
         },
       },
-      "article": Object {
+      "article": {
         "autoOpen": false,
         "enabled": false,
       },
-      "common": Object {
+      "common": {
         "idleTimeout": 30000,
       },
-      "i18n": Object {
-        "currency": Object {
+      "i18n": {
+        "currency": {
           "alpha3": "EUR",
           "name": "Euro",
           "symbol": "€",
@@ -45,15 +45,15 @@ Array [
         "language": "en",
         "timezone": "auto",
       },
-      "payment": Object {
-        "boundary": Object {
+      "payment": {
+        "boundary": {
           "lower": -2000,
           "upper": 15000,
         },
-        "deposit": Object {
+        "deposit": {
           "custom": true,
           "enabled": true,
-          "steps": Array [
+          "steps": [
             50,
             100,
             200,
@@ -61,10 +61,10 @@ Array [
             1000,
           ],
         },
-        "dispense": Object {
+        "dispense": {
           "custom": true,
           "enabled": true,
-          "steps": Array [
+          "steps": [
             50,
             100,
             200,
@@ -72,25 +72,25 @@ Array [
             1000,
           ],
         },
-        "splitInvoice": Object {
+        "splitInvoice": {
           "enabled": true,
         },
-        "transactions": Object {
+        "transactions": {
           "enabled": true,
         },
-        "undo": Object {
+        "undo": {
           "delete": true,
           "enabled": true,
           "timeout": "5 minute",
         },
       },
-      "paypal": Object {
+      "paypal": {
         "enabled": true,
         "fee": 0,
         "recipient": "finanzen@hackerspace-bamberg.de",
         "sandbox": true,
       },
-      "user": Object {
+      "user": {
         "stalePeriod": "10 day",
       },
     },

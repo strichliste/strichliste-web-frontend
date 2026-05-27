@@ -1,16 +1,16 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CurrencyInput matches the snapshot 1`] = `
+exports[`CurrencyInput > matches the snapshot 1`] = `
 <input
-  class="input"
+  class="_input_c1c268"
   type="tel"
   value="0.00"
 />
 `;
 
-exports[`CurrencyInput with a default value matches the snapshot 1`] = `
+exports[`CurrencyInput > with a default value > matches the snapshot 1`] = `
 <input
-  class="input"
+  class="_input_c1c268"
   type="tel"
   value="1,234.56"
 />

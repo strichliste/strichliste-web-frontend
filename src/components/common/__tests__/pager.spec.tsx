@@ -9,7 +9,7 @@ afterEach(cleanup);
 describe('Pager', () => {
   it('disables next if there are no more pages', () => {
     const { getByText } = renderWithIntl(
-      <Pager currentPage={0} limit={5} itemCount={4} onChange={jest.fn()} />
+      <Pager currentPage={0} limit={5} itemCount={4} onChange={vi.fn()} />
     );
     const prev = getByText('PAGER_PREV', { exact: false });
     const next = getByText('PAGER_NEXT', { exact: false });
@@ -19,7 +19,7 @@ describe('Pager', () => {
 
   it('disables pref if the current page is the first page', () => {
     const { getByText } = renderWithIntl(
-      <Pager currentPage={0} limit={5} itemCount={10} onChange={jest.fn()} />
+      <Pager currentPage={0} limit={5} itemCount={10} onChange={vi.fn()} />
     );
     const prev = getByText('PAGER_PREV', { exact: false });
     const next = getByText('PAGER_NEXT', { exact: false });
@@ -29,7 +29,7 @@ describe('Pager', () => {
 
   it('does not disable paging if current page is not the first and there are pages left', () => {
     const { getByText } = renderWithIntl(
-      <Pager currentPage={2} limit={5} itemCount={40} onChange={jest.fn()} />
+      <Pager currentPage={2} limit={5} itemCount={40} onChange={vi.fn()} />
     );
     const prev = getByText('PAGER_PREV', { exact: false });
     const next = getByText('PAGER_NEXT', { exact: false });
@@ -37,7 +37,7 @@ describe('Pager', () => {
     expect(next.hasAttribute('disabled')).toBeFalsy();
   });
   describe('handles click events', () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     let result: RenderResult;
     beforeEach(() => {
       result = renderWithIntl(
