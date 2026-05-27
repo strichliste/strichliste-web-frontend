@@ -5,20 +5,25 @@ import {
   User,
   getArticleById,
   getArticleList,
-  getPayPal,
   getPopularArticles,
-  getSettings,
   getUser,
   getUserArray,
   getUserBalance,
   getUserState,
   getFilteredUserIds,
   getGlobalError,
-  isTransactionDeletable,
-  isPaymentEnabled,
   Transaction,
 } from './reducers';
 import { useSelector } from 'react-redux';
+import { useSettings } from '../queries/settings';
+
+// Settings live in TanStack Query now; re-export so existing `../store` imports
+// keep working.
+export {
+  useSettings,
+  usePayPalSettings,
+  useIsPaymentEnabled,
+} from '../queries/settings';
 
 export function useFilteredUsers(isActive: boolean) {
   return useSelector<AppState, string[]>(
@@ -65,18 +70,6 @@ export function useArticle(id: number | undefined) {
   );
 }
 
-export function usePayPalSettings() {
-  return useSelector(getPayPal);
-}
-
-export function useSettings() {
-  return useSelector(getSettings);
-}
-
-export function useIsPaymentEnabled() {
-  return useSelector(isPaymentEnabled);
-}
-
 export function useUserArray() {
   return useSelector(getUserArray);
 }
@@ -89,14 +82,14 @@ export function useGlobalError() {
   return useSelector(getGlobalError);
 }
 
-export function useIsTransactionDeletable(id: number) {
-  return useSelector<AppState, boolean>(
-    useCallback((state: AppState) => isTransactionDeletable(state, id), [id])
-  );
-}
-
 export function useTransaction(id: number) {
   return useSelector<AppState, Transaction | undefined>(
     useCallback((state: AppState) => state.transaction[id], [id])
   );
+}
+
+export function useIsTransactionDeletable(id: number): boolean {
+  const undoEnabled = useSettings().payment.undo.enabled;
+  const transaction = useTransaction(id);
+  return Boolean(undoEnabled && transaction && transaction.isDeletable);
 }

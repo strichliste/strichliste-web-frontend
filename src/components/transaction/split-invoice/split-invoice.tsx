@@ -12,6 +12,7 @@ import { Currency, CurrencyInput } from '../../currency';
 import { UserSelection } from '../../user';
 import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
+import { useSettings } from '../../../store';
 import {
   AcceptButton,
   Input,
@@ -35,6 +36,7 @@ type Response = {
 
 export const SplitInvoiceForm = () => {
   const intl = useIntl();
+  const settings = useSettings();
   const [recipient, setRecipient] = React.useState<User | undefined>(undefined);
   const [participants, setParticipants] = React.useState<User[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -111,8 +113,8 @@ export const SplitInvoiceForm = () => {
 
   const updateValidation = () => {
     const value = getSplitAmount();
-    const accountBoundary = store.getState().settings.account.boundary;
-    const paymentBoundary = store.getState().settings.payment.boundary;
+    const accountBoundary = settings.account.boundary;
+    const paymentBoundary = settings.payment.boundary;
     const initialValue: { [key: number]: string } = {};
     const validation = Object.values(participants).reduce(
       (acc, participant) => {

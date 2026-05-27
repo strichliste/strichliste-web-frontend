@@ -1,14 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import {
-  article,
-  error,
-  loader,
-  search,
-  settings,
-  transaction,
-  user,
-} from './reducers';
+import { article, error, loader, search, transaction, user } from './reducers';
 
 const rootReducer = combineReducers({
   article,
@@ -16,7 +8,6 @@ const rootReducer = combineReducers({
   loader,
   user,
   transaction,
-  settings,
   search,
 });
 

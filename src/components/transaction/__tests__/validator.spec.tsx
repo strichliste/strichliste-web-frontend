@@ -27,13 +27,16 @@ const renderTransactionValidator = ({
     const isValid = useTransactionValidator(value, '1', isDeposit);
     return <div data-testid="result">{isValid ? 'yes' : 'no'}</div>;
   };
-  const { getByTestId } = renderWithContext(<Component />, {
-    user: { '1': { balance } },
-    settings: {
-      account: { boundary: accountBoundary },
-      payment: { boundary: paymentBoundary },
-    },
-  });
+  const { getByTestId } = renderWithContext(
+    <Component />,
+    { user: { '1': { balance } } },
+    {
+      settings: {
+        account: { boundary: accountBoundary },
+        payment: { boundary: paymentBoundary },
+      },
+    }
+  );
 
   return getByTestId;
 };

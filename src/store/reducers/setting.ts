@@ -1,34 +1,17 @@
-import { get } from '../../services/api';
-import { MaybeResponse, errorHandler } from '../../services/error-handler';
-import { Action } from '../action';
-import { AppState, Dispatch } from '../store';
-
-export enum SettingsTypes {
-  StartLoadingSettings = 'START_LOADING_SETTINGS',
-  SettingsLoaded = 'SETTINGS_LOADED',
-}
-
-export interface SettingsResponse extends MaybeResponse {
-  settings: Settings;
-}
+// Domain types for the backend `settings` resource. The data itself is loaded
+// and cached via TanStack Query (see src/queries/settings.ts); this module only
+// defines the shape and the default fallback.
 
 export interface Settings {
   i18n: I18N;
-  article: Article;
+  article: ArticleSettings;
   account: Account;
   payment: Payment;
   paypal: Paypal;
-  user: User;
+  user: UserSettings;
   common: {
     idleTimeout: number;
   };
-}
-
-export interface Payment {
-  boundary: Boundary;
-  transactions: Transactions;
-  deposit: Deposit;
-  dispense: Deposit;
 }
 
 export interface Boundary {
@@ -36,26 +19,11 @@ export interface Boundary {
   lower: number | boolean;
 }
 
-export interface SettingsLoadedAction {
-  type: SettingsTypes.SettingsLoaded;
-  payload: Settings;
-}
-
-export interface Setting {
-  settings: Settings;
-}
-
-export interface Settings {
-  i18n: I18N;
-  account: Account;
-  payment: Payment;
-}
-
 export interface Account {
   boundary: Boundary;
 }
 
-interface Article {
+interface ArticleSettings {
   enabled: boolean;
   autoOpen: boolean;
 }
@@ -106,32 +74,11 @@ export interface Paypal {
   sandbox?: boolean;
 }
 
-interface User {
+interface UserSettings {
   stalePeriod: string;
 }
 
-export type SettingsActions = SettingsLoadedAction;
-
-export function settingsLoaded(settings: Settings): SettingsLoadedAction {
-  return {
-    type: SettingsTypes.SettingsLoaded,
-    payload: settings,
-  };
-}
-
-export async function startLoadingSettings(dispatch: Dispatch): Promise<void> {
-  const promise = get('settings');
-  const data = await errorHandler<SettingsResponse>(dispatch, {
-    promise,
-    defaultError: 'SETTINGS_LOADED_FAILED',
-  });
-
-  if (data && data.settings) {
-    dispatch(settingsLoaded(data.settings));
-  }
-}
-
-export const initialState = {
+export const defaultSettings: Settings = {
   article: {
     enabled: false,
     autoOpen: false,
@@ -148,7 +95,7 @@ export const initialState = {
     dateFormat: 'YYYY-MM-DD HH:mm:ss',
     timezone: 'auto',
     language: 'en',
-    currency: { name: 'Euro', symbol: '\u20ac', alpha3: 'EUR' },
+    currency: { name: 'Euro', symbol: '€', alpha3: 'EUR' },
   },
   account: { boundary: { upper: 20000, lower: -20000 } },
   payment: {
@@ -168,41 +115,3 @@ export const initialState = {
     },
   },
 };
-
-export function settings(
-  state: Settings = initialState,
-  action: Action
-): Settings {
-  switch (action.type) {
-    case SettingsTypes.SettingsLoaded:
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
-}
-
-// Settings selectors
-export function getSettings(state: AppState): Settings {
-  return state.settings;
-}
-
-export function getPayment(state: AppState): Payment {
-  return getSettings(state).payment;
-}
-
-export function getSettingsBalance(state: AppState): number | boolean {
-  return getSettings(state).payment.boundary.upper;
-}
-
-export function getPayPal(state: AppState): Paypal {
-  return getSettings(state).paypal;
-}
-
-function isDepositActive(deposit: Deposit): boolean {
-  return Boolean(deposit.enabled || deposit.custom);
-}
-
-export function isPaymentEnabled(state: AppState): boolean {
-  const payment = getPayment(state);
-  return isDepositActive(payment.deposit) || isDepositActive(payment.dispense);
-}
