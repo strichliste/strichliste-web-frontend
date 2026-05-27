@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
 
 import { get, post } from '../services/api';
 import { errorHandler, MaybeResponse } from '../services/error-handler';
-import { store, AppState } from '../store/store';
+import { store } from '../store/store';
+import { useAppSelector } from '../store/hooks';
 import { queryClient } from '../services/query-client';
 import { User, UserUpdateParams } from '../store/reducers/user';
 import { getSearchQuery } from '../store/reducers/search';
@@ -64,7 +64,7 @@ export function useUserBalance(id: string): number {
 /** Active/inactive users filtered by the current search query (Redux). */
 export function useFilteredUsers(isActive: boolean): User[] {
   const users = useUsers(isActive);
-  const query = useSelector<AppState, string>(getSearchQuery);
+  const query = useAppSelector(getSearchQuery);
   return users
     .filter((user) => user.isActive === isActive && user.isDisabled === false)
     .filter((user) => user.name.toLowerCase().includes(query.toLowerCase()));

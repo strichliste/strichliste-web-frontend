@@ -1,31 +1,29 @@
 import * as React from 'react';
 import { useSettings } from '../../store';
 import { RouteComponentProps, withRouter } from '../../routing';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let timerId: any = 0;
 
 export function useIdleTimer(onTimeOut: () => void) {
-  const settings = useSettings();
+  const timeout = useSettings().common.idleTimeout;
+  const timerId = React.useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  );
 
-  const resetTimer = () => {
-    clearTimeout(timerId);
-    timerId = setTimeout(onTimeOut, settings.common.idleTimeout);
-  };
   React.useEffect(() => {
-    resetTimer();
-    document.addEventListener('scroll', resetTimer);
-    document.addEventListener('click', resetTimer);
-    document.addEventListener('touch', resetTimer);
-    document.addEventListener('keyup', resetTimer);
-    return () => {
-      document.removeEventListener('scroll', resetTimer);
-      document.removeEventListener('click', resetTimer);
-      document.removeEventListener('touch', resetTimer);
-      document.removeEventListener('keyup', resetTimer);
-      clearTimeout(timerId);
+    const resetTimer = () => {
+      clearTimeout(timerId.current);
+      timerId.current = setTimeout(onTimeOut, timeout);
     };
-    // eslint-disable-next-line
-  }, []);
+    resetTimer();
+    const events = ['scroll', 'click', 'touch', 'keyup'];
+    events.forEach((event) => document.addEventListener(event, resetTimer));
+    return () => {
+      events.forEach((event) =>
+        document.removeEventListener(event, resetTimer)
+      );
+      clearTimeout(timerId.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeout]);
 }
 
 const IdleTimer = (props: RouteComponentProps) => {

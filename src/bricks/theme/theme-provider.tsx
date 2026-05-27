@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 
 import { DayModeIcon } from './dayMode';
 import { NightModeIcon } from './nightMode';
@@ -51,10 +52,14 @@ export const ThemeSwitcher: React.FC<{ 'aria-label'?: string }> = ({
   'aria-label': ariaLabel,
 }) => {
   const { toggleTheme, theme } = React.useContext(ThemeContext);
+  const intl = useIntl();
   return (
     <Button
       onClick={toggleTheme}
-      aria-label={ariaLabel ?? 'Toggle color theme'}
+      aria-label={
+        ariaLabel ??
+        intl.formatMessage({ id: 'THEME_TOGGLE', defaultMessage: 'Toggle color theme' })
+      }
     >
       {theme === 'light' ? <DayModeIcon /> : <NightModeIcon />}
     </Button>

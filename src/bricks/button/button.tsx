@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import { useIntl } from 'react-intl';
 
 import styles from './button.module.css';
 import { AcceptIcon, CancelIcon } from '../icons';
@@ -56,14 +57,51 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-export const AcceptButton: React.FC<ButtonProps> = props => (
-  <Button aria-label="Accept" className={styles.acceptButton} fab {...props}>
+// These icon-only buttons need an accessible name. A consumer-supplied `title`
+// (usually an intl message) already provides one, so only fall back to the
+// localized default label when neither title nor aria-label is given.
+function useIconButtonLabel(
+  ariaLabel: string | undefined,
+  title: string | undefined,
+  id: string,
+  fallback: string
+): string | undefined {
+  const intl = useIntl();
+  if (ariaLabel) return ariaLabel;
+  if (title) return undefined;
+  return intl.formatMessage({ id, defaultMessage: fallback });
+}
+
+export const AcceptButton: React.FC<ButtonProps> = ({
+  'aria-label': ariaLabel,
+  title,
+  className,
+  ...props
+}) => (
+  <Button
+    {...props}
+    title={title}
+    aria-label={useIconButtonLabel(ariaLabel, title, 'ACCEPT', 'Accept')}
+    className={classnames(styles.acceptButton, className)}
+    fab
+  >
     <AcceptIcon />
   </Button>
 );
 
-export const CancelButton: React.FC<ButtonProps> = props => (
-  <Button aria-label="Cancel" className={styles.cancelButton} fab {...props}>
+export const CancelButton: React.FC<ButtonProps> = ({
+  'aria-label': ariaLabel,
+  title,
+  className,
+  ...props
+}) => (
+  <Button
+    {...props}
+    title={title}
+    aria-label={useIconButtonLabel(ariaLabel, title, 'CANCEL', 'Cancel')}
+    className={classnames(styles.cancelButton, className)}
+    fab
+  >
     <CancelIcon />
   </Button>
 );

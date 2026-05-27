@@ -4,7 +4,7 @@ import { get, post, restDelete } from '../services/api';
 import { errorHandler, MaybeResponse } from '../services/error-handler';
 import { store } from '../store/store';
 import { queryClient } from '../services/query-client';
-import { Article } from '../store/reducers/article';
+import { Article, Tag } from '../store/reducers/article';
 import { queryKeys } from './keys';
 
 export type { Article, Barcode, Tag } from '../store/reducers/article';
@@ -45,6 +45,14 @@ export function usePopularArticles(): Article[] {
     .filter((article) => article.isActive)
     .slice()
     .sort((a, b) => b.usageCount - a.usageCount);
+}
+
+export function useTags(): Tag[] {
+  const { data } = useQuery({
+    queryKey: ['tags'],
+    queryFn: (): Promise<Tag[]> => get('tag').then((res) => res.tags),
+  });
+  return data ?? [];
 }
 
 export function useArticle(id: number | undefined): Article | undefined {

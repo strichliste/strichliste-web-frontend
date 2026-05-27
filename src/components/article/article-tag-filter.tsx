@@ -1,15 +1,14 @@
 import React from 'react';
-import { get } from '../../services/api';
 import { Tag } from '../../store/reducers';
+import { useTags } from '../../queries/articles';
 import { Button } from '../../bricks';
 
 import styles from './article-tag-filter.module.css';
 
-let cachedTags: Tag[] = [];
 export const ArticleTagFilter: React.FC<{
   onFilterChange(activeTags: Record<string, string>): void;
 }> = ({ onFilterChange }) => {
-  const [tags, setTags] = React.useState(cachedTags);
+  const tags = useTags();
   const [activeTags, setActiveTag] = React.useState<Record<string, string>>({});
   const toggleTag = (tag: Tag) => {
     const tagState = activeTags[tag.id];
@@ -27,14 +26,6 @@ export const ArticleTagFilter: React.FC<{
     onFilterChange(activeTags);
     // eslint-disable-next-line
   }, [activeTags]);
-
-  React.useEffect(() => {
-    get('tag').then(result => {
-      const { tags } = result;
-      setTags(tags);
-      cachedTags = tags;
-    });
-  }, []);
 
   return (
     <div className={styles.wrapper}>
