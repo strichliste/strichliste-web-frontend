@@ -1,6 +1,6 @@
 import React from 'react';
 import { User } from '../../../types';
-import { useUserArray } from '../../../queries';
+import { useUsers } from '../../../queries';
 import { SearchList } from '../search-list/search-list';
 import { SearchResultItem } from './search-result-item/search-result-item';
 import { RouteComponentProps } from '../../../routing';
@@ -23,7 +23,7 @@ export const UserSearchList: React.FC<{
   filterUserId?: string;
   scrollableTarget?: string;
 }> = ({ onUserSelect, filterUsers, filterUserId, scrollableTarget }) => {
-  const userArray = useUserArray();
+  const userArray = useUsers();
   const filteredUsers = filterUsers
     ? userArray.filter(
         (user) => !filterUsers.map((user) => user.id).includes(user.id)

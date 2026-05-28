@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { RouteComponentProps, withRouter } from '../../routing';
 import { useSettings } from '../../queries';
 import { WrappedIdleTimer } from '../common/idle-timer';
@@ -69,14 +67,6 @@ export function UserRouter(): React.JSX.Element {
       />
       <Route path="*" element={<Navigate to="active" replace />} />
     </Routes>
-  );
-}
-
-export function UserArticleTransactionLink(props: { id: number }): React.JSX.Element {
-  return (
-    <Link to={`/user/${props.id}/article`}>
-      <FormattedMessage id="USER_ARTICLE_LINK" />
-    </Link>
   );
 }
 

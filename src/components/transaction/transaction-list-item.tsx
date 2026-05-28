@@ -52,7 +52,6 @@ export function TransactionListItem({
   transaction,
 }: {
   transaction: Transaction;
-  first?: boolean;
 }): React.JSX.Element | null {
   if (!transaction) {
     return null;

@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { Card } from '../../bricks';
 
-interface State {
-  isVisible: boolean;
-  timeoutId: number | NodeJS.Timer;
-}
-
 interface Props {
   children?: React.ReactNode;
   type?: 'error';
@@ -13,30 +8,25 @@ interface Props {
   onFadeOut?(): void;
 }
 
-export class Toast extends React.Component<Props, State> {
-  public state = { isVisible: true, timeoutId: 0 };
+export function Toast({
+  children,
+  type,
+  fadeOutSeconds,
+  onFadeOut,
+}: Props): React.JSX.Element | null {
+  const [isVisible, setVisible] = React.useState(true);
 
-  public componentDidMount(): void {
-    const timeoutId = setTimeout(() => {
-      this.setState({ isVisible: false });
-      if (this.props.onFadeOut) {
-        this.props.onFadeOut();
-      }
-    }, this.props.fadeOutSeconds * 1000);
-    this.setState({ timeoutId });
+  React.useEffect(() => {
+    const id = setTimeout(() => {
+      setVisible(false);
+      onFadeOut?.();
+    }, fadeOutSeconds * 1000);
+    return () => clearTimeout(id);
+  }, [fadeOutSeconds, onFadeOut]);
+
+  if (!isVisible) {
+    return null;
   }
 
-  public componentWillUnmount(): void {
-    clearTimeout(this.state.timeoutId);
-  }
-
-  public render(): React.JSX.Element | null {
-    if (!this.state.isVisible) {
-      return null;
-    }
-
-    return (
-      <Card error={this.props.type === 'error'}>{this.props.children}</Card>
-    );
-  }
+  return <Card error={type === 'error'}>{children}</Card>;
 }

@@ -10,9 +10,7 @@ interface Props {
   filterUsers?: User[];
   filterUserId?: string;
   placeholder: string;
-  disabled?: boolean;
   user?: User;
-  getString?(user: User): string;
   onSelect(user: User): void;
 }
 

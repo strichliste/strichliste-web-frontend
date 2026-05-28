@@ -40,7 +40,7 @@ export function TransactionTable({
       {pager}
       {transactions.map((transaction, index) => (
         <TransactionListItem
-          first={index === 0}
+
           key={transaction.id}
           transaction={transaction}
         />

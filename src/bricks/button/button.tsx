@@ -133,20 +133,3 @@ export const Tab: React.FC<any> = ({
   );
 };
 
-export const Tag: React.FC<
-  React.PropsWithChildren<{ red?: boolean; green?: boolean }>
-> = ({ red, green, children }) => {
-  return (
-    <div
-      className={classnames(styles.tags, {
-        [styles.red]: red,
-        [styles.green]: green,
-      })}
-    >
-      <button>
-        <CancelIcon />
-      </button>
-      <button>{children}</button>
-    </div>
-  );
-};

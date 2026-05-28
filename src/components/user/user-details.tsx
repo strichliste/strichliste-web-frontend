@@ -69,7 +69,7 @@ export const UserDetails = (props: UserDetailsProps) => {
                 {transactions.map((transaction, index) => (
                   <TransactionListItem
                     key={transaction.id}
-                    first={index === 0}
+
                     transaction={transaction}
                   />
                 ))}

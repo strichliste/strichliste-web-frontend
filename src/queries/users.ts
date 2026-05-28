@@ -57,10 +57,6 @@ export function useUser(id: string): User | undefined {
   return data;
 }
 
-export function useUserArray(): User[] {
-  return useUsers();
-}
-
 export function useUserName(id: string): string {
   return useUser(id)?.name ?? '';
 }
