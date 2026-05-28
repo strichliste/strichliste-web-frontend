@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import { createTransaction } from '../../queries/transactions';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
-import { useSettings } from '../../store';
+import { useSettings } from '../../queries';
 import { Button } from '../../bricks';
 
 import styles from './create-user-transaction-form.module.css';

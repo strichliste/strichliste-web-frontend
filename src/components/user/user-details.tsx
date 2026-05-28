@@ -8,7 +8,7 @@ import {
   useSettings,
   useIsPaymentEnabled,
   useUserTransactions,
-} from '../../store';
+} from '../../queries';
 import { ArticleScanner } from '../article/article-scanner';
 import { Payment, TransactionListItem } from '../transaction';
 import { UserDetailsHeader } from '../user-details/user-details-header';

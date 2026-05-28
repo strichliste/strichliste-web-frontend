@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { User } from '../../store/reducers';
+import { User } from '../../types';
 import { Currency } from '../currency';
 import { UserName } from './user-name';
 import { Card, AlertText } from '../../bricks';

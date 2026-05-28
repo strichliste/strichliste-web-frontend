@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag } from '../../store/reducers';
+import { Tag } from '../../types';
 import { useTags } from '../../queries/articles';
 import { Button } from '../../bricks';
 

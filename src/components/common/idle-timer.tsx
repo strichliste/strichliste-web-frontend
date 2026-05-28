@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useSettings } from '../../store';
+import { useSettings } from '../../queries';
 import { RouteComponentProps, withRouter } from '../../routing';
 
 export function useIdleTimer(onTimeOut: () => void) {

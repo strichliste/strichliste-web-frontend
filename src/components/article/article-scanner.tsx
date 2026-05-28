@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Article } from '../../store/reducers';
+import { Article } from '../../types';
 import { fetchArticleByBarcode } from '../../queries/articles';
 import { createTransaction } from '../../queries/transactions';
 import { Scanner } from '../common/scanner';

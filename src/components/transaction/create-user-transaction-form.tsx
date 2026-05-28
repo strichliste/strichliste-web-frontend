@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from '../../routing';
-import { User } from '../../store/reducers';
+import { User } from '../../types';
 import { createTransaction } from '../../queries/transactions';
 import { Currency, CurrencyInput } from '../currency';
 import { UserSelection } from '../user';

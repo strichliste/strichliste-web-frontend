@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useArticle } from '../../store';
-import { Article, Barcode, Tag } from '../../store/reducers';
+import { useArticle } from '../../queries';
+import { Article, Barcode, Tag } from '../../types';
 import {
   AddArticleParams,
   addArticle,

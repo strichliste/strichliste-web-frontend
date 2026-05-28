@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { NavLink } from 'react-router-dom';
-import { useSettings } from '../../store';
+import { useSettings } from '../../queries';
 import { HeaderNav, Logo, SearchIcon, ScrollContainer } from '../../bricks';
 
 const navLinkStyle = { marginRight: '1rem' };

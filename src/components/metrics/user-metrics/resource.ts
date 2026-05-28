@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { get } from '../../../services/api';
-import { Article } from '../../../store/reducers';
+import { Article } from '../../../types';
 
 export const useMetrics = (userId: string): UserMetric | null => {
   const { data } = useQuery({

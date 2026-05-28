@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { CreateTransactionParams, Transaction, User } from '../../../store/reducers';
+import { CreateTransactionParams, Transaction, User } from '../../../types';
 import { createTransaction } from '../../../queries/transactions';
 import { WrappedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
 import { UserSelection } from '../../user';
 import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
-import { useSettings } from '../../../store';
+import { useSettings } from '../../../queries';
 import {
   AcceptButton,
   Input,

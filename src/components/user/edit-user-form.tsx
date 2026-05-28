@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useUser } from '../../store';
+import { useUser } from '../../queries';
 import { updateUser } from '../../queries/users';
 import { Input, Flex, CancelButton, AcceptButton } from '../../bricks';
 

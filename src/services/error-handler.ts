@@ -1,22 +1,4 @@
-import { Dispatch } from '../store';
-import { LoaderTypes, setGlobalError, setLoader } from '../store/reducers';
-
-function handleApiError(
-  dispatch: Dispatch,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  config: ErrorConfig<any>,
-  error: { class: string }
-): void {
-  const [key] = Object.keys(config.errors || {}).filter(key =>
-    error.class.includes(key)
-  );
-
-  if (key && config.errors && config.errors[key]) {
-    dispatch(setGlobalError(config.errors[key]));
-  } else {
-    dispatch(setGlobalError(config.defaultError || ''));
-  }
-}
+import { setGlobalError } from './global-error';
 
 export interface MaybeResponse {
   error?: {
@@ -25,34 +7,45 @@ export interface MaybeResponse {
 }
 
 export interface ErrorConfig<Result> {
-  loader?: LoaderTypes;
   errors?: Record<string, string>;
   defaultError?: string;
   promise: Promise<Result>;
 }
+
+function handleApiError<Result>(
+  config: ErrorConfig<Result>,
+  error: { class: string }
+): void {
+  const [key] = Object.keys(config.errors || {}).filter((key) =>
+    error.class.includes(key)
+  );
+
+  if (key && config.errors && config.errors[key]) {
+    setGlobalError(config.errors[key]);
+  } else {
+    setGlobalError(config.defaultError || '');
+  }
+}
+
+/**
+ * Awaits an API promise, surfaces failures through the global error banner,
+ * and returns the typed response (or `undefined` on error). Callers in
+ * `src/queries/*` use this to keep the user-facing error UX consistent.
+ */
 export async function errorHandler<Result extends MaybeResponse>(
-  dispatch: Dispatch,
   config: ErrorConfig<Result>
 ): Promise<Result | undefined> {
-  const {
-    loader = LoaderTypes.GlobalLoader,
-    promise,
-    defaultError = '',
-  } = config;
-  dispatch(setLoader({ [loader]: true }));
-  dispatch(setGlobalError(''));
+  const { promise, defaultError = '' } = config;
+  setGlobalError('');
   try {
     const data = await promise;
-    dispatch(setLoader({ [loader]: false }));
     if (data.error) {
-      handleApiError(dispatch, config, data.error);
+      handleApiError(config, data.error);
       return undefined;
-    } else {
-      return data;
     }
-  } catch (e) {
-    dispatch(setGlobalError(defaultError));
-    dispatch(setLoader({ [loader]: false }));
+    return data;
+  } catch {
+    setGlobalError(defaultError);
     return undefined;
   }
 }

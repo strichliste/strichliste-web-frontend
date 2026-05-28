@@ -2,8 +2,8 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from '../../routing';
 
-import { useUserName } from '../../store';
-import { Transaction } from '../../store/reducers';
+import { useUserName } from '../../queries';
+import { Transaction } from '../../types';
 import { createTransaction } from '../../queries/transactions';
 import { getUserDetailLink, getUserPayPalLink } from '../user/user-router';
 import { PayPalTransactionForm } from './paypal-transaction-form';

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { withRouter } from '../../routing';
 
-import { useActiveArticles } from '../../store';
-import { Article } from '../../store/reducers';
+import { useActiveArticles } from '../../queries';
+import { Article } from '../../types';
 import { NavTabMenus } from '../common/nav-tab-menu';
 import { SearchList } from '../common/search-list/search-list';
 import { Link } from 'react-router-dom';

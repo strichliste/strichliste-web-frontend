@@ -2,12 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 
 import { get } from '../services/api';
 import { errorHandler } from '../services/error-handler';
-import { store } from '../store/store';
 import {
   defaultSettings,
   Paypal,
   Settings,
-} from '../store/reducers/setting';
+} from '../types/settings';
 import { queryKeys } from './keys';
 
 interface SettingsResponse {
@@ -24,7 +23,7 @@ export function useSettings(): Settings {
   const { data } = useQuery({
     queryKey: queryKeys.settings,
     queryFn: async (): Promise<Settings> => {
-      const data = await errorHandler<SettingsResponse>(store.dispatch, {
+      const data = await errorHandler<SettingsResponse>({
         promise: get('settings'),
         defaultError: 'SETTINGS_LOADED_FAILED',
       });

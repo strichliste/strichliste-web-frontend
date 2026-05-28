@@ -1,5 +1,5 @@
 import { Howl } from 'howler';
-import { CreateTransactionParams } from '../store/reducers';
+import { CreateTransactionParams } from '../types';
 
 const dispense = new Howl({
   src: ['ka-ching.wav'],

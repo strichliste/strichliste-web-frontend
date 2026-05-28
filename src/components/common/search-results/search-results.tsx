@@ -1,6 +1,6 @@
 import React from 'react';
-import { User } from '../../../store/reducers';
-import { useUserArray } from '../../../store';
+import { User } from '../../../types';
+import { useUserArray } from '../../../queries';
 import { SearchList } from '../search-list/search-list';
 import { SearchResultItem } from './search-result-item/search-result-item';
 import { RouteComponentProps } from '../../../routing';

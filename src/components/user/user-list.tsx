@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { UserCard } from '.';
-import { User } from '../../store/reducers';
+import { User } from '../../types';
 import { useInfiniteScrolling } from '../common/search-list/search-list';
 import { useUserDetailUrl } from './user-router';
 import { CardGrid } from '../../bricks';

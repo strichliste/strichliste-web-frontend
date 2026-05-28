@@ -6,7 +6,6 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { withRouter } from './routing';
 import { queryClient } from './services/query-client';
@@ -19,9 +18,8 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { MainFooter } from './components/footer';
 import { SearchResults } from './components/common/search-results';
 import { SplitInvoiceForm } from './components/transaction';
-import { store } from './store';
 import { UserRouter } from './components/user/user-router';
-import { useSettings } from './store/selector-hooks';
+import { useSettings } from './queries';
 
 // tslint:disable-next-line:no-import-side-effect
 import 'inter-ui';
@@ -132,13 +130,11 @@ export const App = () => {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <LocalizedIntlProvider>
-            <HashRouter>
-              <Layout />
-            </HashRouter>
-          </LocalizedIntlProvider>
-        </Provider>
+        <LocalizedIntlProvider>
+          <HashRouter>
+            <Layout />
+          </HashRouter>
+        </LocalizedIntlProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

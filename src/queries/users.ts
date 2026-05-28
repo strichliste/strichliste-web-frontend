@@ -2,14 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 
 import { get, post } from '../services/api';
 import { errorHandler, MaybeResponse } from '../services/error-handler';
-import { store } from '../store/store';
-import { useAppSelector } from '../store/hooks';
 import { queryClient } from '../services/query-client';
-import { User, UserUpdateParams } from '../store/reducers/user';
-import { getSearchQuery } from '../store/reducers/search';
+import { User, UserUpdateParams } from '../types/user';
 import { queryKeys } from './keys';
 
-export type { User, UserUpdateParams } from '../store/reducers/user';
+export type { User, UserUpdateParams } from '../types/user';
 
 type UsersResult = MaybeResponse & { users: User[] };
 type UserResult = MaybeResponse & { user: User };
@@ -30,7 +27,7 @@ export function useUsers(isActive?: boolean): User[] {
   const { data } = useQuery({
     queryKey: queryKeys.users(isActive),
     queryFn: async (): Promise<User[]> => {
-      const data = await errorHandler<UsersResult>(store.dispatch, {
+      const data = await errorHandler<UsersResult>({
         promise: get(usersUrl(isActive)),
         defaultError: 'USERS_LOADING_FAILED',
       });
@@ -61,13 +58,11 @@ export function useUserBalance(id: string): number {
   return useUser(id)?.balance ?? 0;
 }
 
-/** Active/inactive users filtered by the current search query (Redux). */
+/** Active/inactive users that aren't soft-disabled. */
 export function useFilteredUsers(isActive: boolean): User[] {
-  const users = useUsers(isActive);
-  const query = useAppSelector(getSearchQuery);
-  return users
-    .filter((user) => user.isActive === isActive && user.isDisabled === false)
-    .filter((user) => user.name.toLowerCase().includes(query.toLowerCase()));
+  return useUsers(isActive).filter(
+    (user) => user.isActive === isActive && user.isDisabled === false
+  );
 }
 
 // --- Mutations -----------------------------------------------------------
@@ -77,7 +72,7 @@ function invalidateUsers() {
 }
 
 export async function createUser(name: string): Promise<User | undefined> {
-  const data = await errorHandler<UserResult>(store.dispatch, {
+  const data = await errorHandler<UserResult>({
     promise: post('user', { name }),
     defaultError: 'USERS_CREATION_FAILED',
     errors: { UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST' },
@@ -93,7 +88,7 @@ export async function updateUser(
   userId: string,
   params: UserUpdateParams
 ): Promise<User | undefined> {
-  const data = await errorHandler<UserResult>(store.dispatch, {
+  const data = await errorHandler<UserResult>({
     promise: post(`user/${userId}`, params),
     defaultError: 'USER_EDIT_USER_FAILED',
     errors: { UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST' },

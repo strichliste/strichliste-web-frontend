@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { useSettings } from '../../store';
+import { useSettings } from '../../queries';
 import { Currency, CurrencyInput } from '../currency';
 import { useTransactionValidator } from '../transaction/validator';
 import { AcceptButton, Flex } from '../../bricks';

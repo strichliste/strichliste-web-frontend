@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useSettings } from '../../store';
+import { useSettings } from '../../queries';
 import { deleteTransaction } from '../../queries/transactions';
 import { Button } from '../../bricks';
 

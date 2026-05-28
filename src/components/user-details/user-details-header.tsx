@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from '../../routing';
-import { useSettings } from '../../store';
-import { User } from '../../store/reducers';
+import { useSettings } from '../../queries';
+import { User } from '../../types';
 import { Currency } from '../currency';
 import { UserName } from '../user/user-name';
 import { UserDetailRouter } from './user-details-router';

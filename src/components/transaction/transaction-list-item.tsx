@@ -3,7 +3,7 @@ import { Currency } from '../currency';
 import { TransactionUndoButton } from './transaction-undo-button';
 import { getUserDetailLink } from '../user/user-router';
 import { Link } from 'react-router-dom';
-import { User, Article, Transaction } from '../../store/reducers';
+import { User, Article, Transaction } from '../../types';
 import {
   Ellipsis,
   LineThrough,

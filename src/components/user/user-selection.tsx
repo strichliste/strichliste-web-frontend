@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { User } from '../../store/reducers';
+import { User } from '../../types';
 import { Modal, useModal, Ellipsis } from '../../bricks';
 import { Button } from '../../bricks/button/button';
 import { UserSearchList } from '../common/search-results';

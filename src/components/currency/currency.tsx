@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
-import { useSettings } from '../../store/selector-hooks';
+import { useSettings } from '../../queries';
 
 interface Props {
   value: number;

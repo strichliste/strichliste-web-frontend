@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSettings, useUserBalance } from '../../store';
+import { useSettings, useUserBalance } from '../../queries';
 
 export function useArticleValidator(
   value: number,

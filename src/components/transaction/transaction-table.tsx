@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useUserTransactions } from '../../store';
+import { useUserTransactions } from '../../queries';
 import { Pager } from '../common/pager';
 import { getUserTransactionsLink } from '../user/user-router';
 import { TransactionListItem } from './transaction-list-item';

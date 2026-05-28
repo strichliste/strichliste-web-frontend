@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useGlobalError } from '../../store';
+import { useGlobalError } from '../../services/global-error';
 import { Toast } from './toast';
 
 interface OwnProps {}

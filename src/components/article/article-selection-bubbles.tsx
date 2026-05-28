@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { usePopularArticles } from '../../store';
-import { Article } from '../../store/reducers';
+import { usePopularArticles } from '../../queries';
+import { Article } from '../../types';
 import { Currency } from '../currency';
 import { ArticleValidator } from './validator';
 import { Flex, Input, CancelButton, Button } from '../../bricks';

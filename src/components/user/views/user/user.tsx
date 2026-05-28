@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps } from '../../../../routing';
 
-import { useFilteredUsers } from '../../../../store';
+import { useFilteredUsers } from '../../../../queries';
 import { NavTabMenus } from '../../../common/nav-tab-menu';
 import { CreateUserInlineFormView } from '../../create-user-inline-form';
 import { ScrollToTop } from '../../../common/scroll-to-top';

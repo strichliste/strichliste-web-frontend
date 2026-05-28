@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { RouteComponentProps, withRouter } from '../../routing';
-import { useSettings } from '../../store';
+import { useSettings } from '../../queries';
 import { WrappedIdleTimer } from '../common/idle-timer';
 import { UserMetricsView } from '../metrics';
 import { UserDetails } from './user-details';

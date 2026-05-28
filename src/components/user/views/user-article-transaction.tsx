@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Article } from '../../../store/reducers';
+import { Article } from '../../../types';
 import { createTransaction } from '../../../queries/transactions';
 import { ArticleSelectionBubbles } from '../../article/article-selection-bubbles';
 import { getUserDetailLink, UserRouteProps } from '../user-router';

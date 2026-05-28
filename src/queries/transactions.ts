@@ -2,19 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 
 import { get, post, restDelete } from '../services/api';
 import { errorHandler, MaybeResponse } from '../services/error-handler';
-import { store } from '../store/store';
 import { queryClient } from '../services/query-client';
 import { playCashSound } from '../services/sound';
 import {
   CreateTransactionParams,
   Transaction,
-} from '../store/reducers/transaction';
+} from '../types/transaction';
 import { queryKeys } from './keys';
 
 export type {
   Transaction,
   CreateTransactionParams,
-} from '../store/reducers/transaction';
+} from '../types/transaction';
 
 type TransactionsResult = MaybeResponse & {
   transactions: Transaction[];
@@ -37,7 +36,7 @@ export function useUserTransactions(
   const { data } = useQuery({
     queryKey: queryKeys.userTransactions(userId, offset, limit),
     queryFn: async (): Promise<UserTransactions> => {
-      const data = await errorHandler<TransactionsResult>(store.dispatch, {
+      const data = await errorHandler<TransactionsResult>({
         promise: get(`user/${userId}/transaction?offset=${offset}&limit=${limit}`),
         defaultError: 'USER_TRANSACTIONS_LOADING_ERROR',
       });
@@ -66,7 +65,7 @@ export async function createTransaction(
   params: CreateTransactionParams
 ): Promise<Transaction | undefined> {
   playCashSound(params);
-  const data = await errorHandler<TransactionResult>(store.dispatch, {
+  const data = await errorHandler<TransactionResult>({
     promise: post(`user/${userId}/transaction`, params),
     defaultError: 'USER_TRANSACTION_CREATION_ERROR',
   });
@@ -81,7 +80,7 @@ export async function deleteTransaction(
   userId: string,
   transactionId: number
 ): Promise<void> {
-  const data = await errorHandler<TransactionResult>(store.dispatch, {
+  const data = await errorHandler<TransactionResult>({
     promise: restDelete(`user/${userId}/transaction/${transactionId}`),
     defaultError: 'USER_TRANSACTION_DELETION_ERROR',
   });
