@@ -59,9 +59,12 @@ const RouteTitle = () => {
     ? intl.formatMessage({ id: match.messageId, defaultMessage: match.fallback })
     : 'Strichliste';
 
+  // `title` and `match` are derived from pathname (ROUTE_TITLES is module-level
+  // constant), so pathname is the only authoritative input we want to react to.
   React.useEffect(() => {
     document.title = match ? `${title} · Strichliste` : 'Strichliste';
-  }, [pathname, title, match]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   return <h1 className="sr-only">{title}</h1>;
 };

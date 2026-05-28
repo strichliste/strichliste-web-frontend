@@ -20,8 +20,10 @@ const HiddenInput = () => (
 
 /**
  * Listens for hardware-barcode-reader keystrokes anywhere in the document.
- * A barcode is a fast run of alphanumeric keys terminated by Enter; if the
- * keys don't arrive within 200ms of each other, the rolling buffer resets.
+ * A barcode is a fast run of alphanumeric keys (`/[a-zA-Z0-9]/` only — `-`/`.`
+ * are dropped, so e.g. ISBN-10 dashes never make it into the buffer) ended
+ * by Enter. If Enter doesn't arrive within 200ms of the last keystroke, the
+ * rolling buffer resets.
  *
  * The buffer lives in a ref so the keydown handler is always reading the
  * current value (avoids the stale-closure bug the class version had).

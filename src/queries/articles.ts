@@ -54,7 +54,7 @@ export function useTags(): Tag[] {
     queryKey: queryKeys.tags,
     queryFn: ({ signal }): Promise<Tag[]> =>
       get<{ tags: Tag[] }>('tag', { signal }).then((res) => res.tags),
-    meta: { defaultError: 'ARTICLES_COULD_NOT_BE_LOADED' },
+    meta: { defaultError: 'TAGS_COULD_NOT_BE_LOADED' },
   });
   return data ?? [];
 }
@@ -134,6 +134,7 @@ export async function deleteBarcode(
     promise: restDelete<ArticleResult>(
       `article/${articleId}/barcode/${barcodeId}`
     ),
+    defaultError: 'ARTICLE_BARCODE_COULD_NOT_BE_DELETED',
   });
   if (data?.article) {
     invalidateArticles();
@@ -166,6 +167,7 @@ export async function deleteTag(
 ): Promise<Article | undefined> {
   const data = await errorHandler({
     promise: restDelete<ArticleResult>(`article/${articleId}/tag/${tagId}`),
+    defaultError: 'ARTICLE_TAG_COULD_NOT_BE_DELETED',
   });
   if (data?.article) {
     invalidateArticles();

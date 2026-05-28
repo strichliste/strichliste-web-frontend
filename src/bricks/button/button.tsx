@@ -109,8 +109,6 @@ type TabProps = Omit<NavLinkProps, 'className' | 'style'> & {
   className?: string;
   /** Static styles, merged with the active-state styles applied by Tab itself. */
   style?: React.CSSProperties;
-  /** Ignored — kept for source compat; the active class is applied automatically. */
-  active?: boolean;
   /** Class name applied when the link is active (defaults to "active"). */
   activeClassName?: string;
 };
@@ -119,7 +117,6 @@ export const Tab: React.FC<TabProps> = ({
   children,
   className,
   style,
-  active: _active,
   activeClassName = 'active',
   ...props
 }) => {

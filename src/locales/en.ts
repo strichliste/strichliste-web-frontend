@@ -42,6 +42,12 @@ export const en = {
   ARTICLE_FETCHED_BY_BARCODE: 'you just scanned:',
   ARTICLES_COULD_NOT_BE_LOADED:
     'Could not load Articles maybe check your internet connection',
+  ARTICLES_COULD_NOT_BE_DELETED:
+    'Could not delete the article maybe check your internet connection',
+  TAGS_COULD_NOT_BE_LOADED:
+    'Could not load tags maybe check your internet connection',
+  ARTICLE_BARCODE_COULD_NOT_BE_DELETED: 'Could not delete the barcode',
+  ARTICLE_TAG_COULD_NOT_BE_DELETED: 'Could not delete the tag',
   ARTICLE_COULD_NOT_BE_CREATED:
     'Could not create the article maybe check your internet connection',
   ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE:

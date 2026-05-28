@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from '../../routing';
 import { PayPalTransaction } from '../paypal/paypal-transaction';
 import { UserArticleTransaction } from '../user/views/user-article-transaction';
 import { UserEditView } from '../user/views/user-edit-view';
-import { ConnectedCreateCustomTransactionForm } from '../transaction';
+import { CreateUserTransactionForm } from '../transaction';
 
 // Rendered as a descendant of "/user/:id/*"; paths are relative to that match.
 const RoutedUserArticleTransaction = withRouter(UserArticleTransaction);
@@ -18,7 +18,7 @@ export function UserDetailRouter(): React.JSX.Element {
       <Route path="edit" element={<RoutedUserEditView />} />
       <Route
         path="send_money_to_a_friend"
-        element={<ConnectedCreateCustomTransactionForm />}
+        element={<CreateUserTransactionForm />}
       />
       <Route path="paypal" element={<PayPalTransaction />} />
       <Route path="paypal/:amount" element={<PayPalTransaction />} />

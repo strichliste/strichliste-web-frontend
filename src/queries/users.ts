@@ -73,6 +73,9 @@ export function useFilteredUsers(isActive: boolean): User[] {
 // --- Mutations -----------------------------------------------------------
 
 function invalidateUsers() {
+  // Two prefixes: `['users', …]` is the list view, `['user', id, …]` is the
+  // per-user detail/metrics. After a write we don't know which detail page is
+  // mounted, so we invalidate both prefixes broadly.
   queryClient.invalidateQueries({ queryKey: ['users'] });
   queryClient.invalidateQueries({ queryKey: ['user'] });
 }

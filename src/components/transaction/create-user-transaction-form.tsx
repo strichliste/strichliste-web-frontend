@@ -135,7 +135,3 @@ export function CreateUserTransactionForm(): React.JSX.Element {
     </form>
   );
 }
-
-// Existing routers reference the wrapped name; the function component uses
-// hooks directly so the wrapper is now an identity re-export.
-export const ConnectedCreateCustomTransactionForm = CreateUserTransactionForm;
