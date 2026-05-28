@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API;
+const API_URL = import.meta.env.API;
 
 /**
  * Thrown on any non-2xx HTTP response, *and* on 2xx responses whose body

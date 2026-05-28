@@ -75,7 +75,7 @@ browser" check. It is set up in Epic 1 and then grows with each epic.
   buy an article, check balance updates, settings, metrics, search).
 - **Where the data comes from:** the live demo backend at
   `https://demo.strichliste.org/api/`. The app is pointed at it via the API
-  base-URL env var (`REACT_APP_API` today → `VITE_API` after Epic 1), so no
+  base-URL env var (`REACT_APP_API` → `VITE_API` → now simply `API`), so no
   backend is run locally.
 - **How it fits the loop:** during each epic, Playwright is run locally while
   implementing, and in CI as part of the **PR quality gate**. An epic is "done"

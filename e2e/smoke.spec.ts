@@ -2,7 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 
 /**
  * Smoke suite: drives the real app in a browser against the live demo API
- * (https://demo.strichliste.org/api/, configured via VITE_API).
+ * (https://demo.strichliste.org/api/, configured via API).
  *
  * The demo backend is shared and stateful, so each run creates its own uniquely
  * named user and only mutates that user's balance — never any pre-existing data.

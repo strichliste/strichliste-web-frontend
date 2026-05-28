@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 /**
  * End-to-end tests run the real app in a browser against the live demo backend
- * at https://demo.strichliste.org/api/ (configured via VITE_API in
+ * at https://demo.strichliste.org/api/ (configured via API in
  * .env.development, which the dev server picks up).
  *
  * The demo API is shared and stateful, so tests create their own uniquely named
@@ -40,7 +40,7 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
     env: {
-      VITE_API: 'https://demo.strichliste.org/api/',
+      API: 'https://demo.strichliste.org/api/',
     },
   },
 });

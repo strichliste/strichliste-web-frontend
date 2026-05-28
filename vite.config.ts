@@ -6,6 +6,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   // Hash-based routing is used, so the app can be served from any sub-path.
   base: './',
+  // Expose env vars starting with `API` (e.g. `API`) to the client bundle.
+  // Vite defaults to `VITE_`; we override so the operator-facing variable
+  // is just `API` instead of the framework-prefixed name.
+  envPrefix: 'API',
   plugins: [react()],
   build: {
     outDir: 'build',
