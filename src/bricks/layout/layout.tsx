@@ -11,7 +11,7 @@ export interface FlexProps {
   children?: React.ReactNode;
   margin?: string;
   padding?: string;
-  grow?: any;
+  grow?: number | string;
   flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
   flexWrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
   justifyContent?:

@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 
 import styles from './button.module.css';
 import { AcceptIcon, CancelIcon } from '../icons';
-import { NavLink } from 'react-router-dom';
+import { NavLink, NavLinkProps } from 'react-router-dom';
 
 type ButtonProps = React.JSX.IntrinsicElements['button'] & {
   padding?: string;
@@ -17,7 +17,6 @@ type ButtonProps = React.JSX.IntrinsicElements['button'] & {
   red?: boolean;
   highlight?: boolean;
   className?: string;
-  ref?: any;
 };
 
 // eslint-disable-next-line react/display-name
@@ -106,23 +105,35 @@ export const CancelButton: React.FC<ButtonProps> = ({
   </Button>
 );
 
-export const Tab: React.FC<any> = ({
+type TabProps = Omit<NavLinkProps, 'className' | 'style'> & {
+  className?: string;
+  /** Static styles, merged with the active-state styles applied by Tab itself. */
+  style?: React.CSSProperties;
+  /** Ignored — kept for source compat; the active class is applied automatically. */
+  active?: boolean;
+  /** Class name applied when the link is active (defaults to "active"). */
+  activeClassName?: string;
+};
+
+export const Tab: React.FC<TabProps> = ({
   children,
   className,
-  active,
+  style,
+  active: _active,
   activeClassName = 'active',
   ...props
 }) => {
   return (
     <NavLink
-      style={({ isActive }: { isActive: boolean }) =>
-        isActive
+      style={({ isActive }: { isActive: boolean }) => ({
+        ...style,
+        ...(isActive
           ? {
               background: 'var(--componentBackgroundLight)',
               borderRadius: 'var(--borderRadius)',
             }
-          : {}
-      }
+          : {}),
+      })}
       className={({ isActive }: { isActive: boolean }) =>
         classnames(className, styles.tab, { [activeClassName]: isActive })
       }

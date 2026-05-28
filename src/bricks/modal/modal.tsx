@@ -45,7 +45,6 @@ export const useModal = (initialShow = false) => {
       document.removeEventListener('keydown', handleEsc);
       window.removeEventListener('popstate', handlePopState);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
   return { show, handleHide, handleShow };

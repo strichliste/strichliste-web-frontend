@@ -81,6 +81,6 @@ interface Article {
   amount: number;
   isActive: boolean;
   usageCount: number;
-  precursor?: any;
+  precursor?: Article;
   created: string;
 }
