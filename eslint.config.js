@@ -11,10 +11,8 @@ export default tseslint.config(
     ignores: ['build/**', 'node_modules/**', 'coverage/**', 'playwright-report/**', 'test-results/**'],
   },
   {
-    // `any` is disabled project-wide below, so the many inline disables for it
-    // are intentionally not reported as unused.
     linterOptions: {
-      reportUnusedDisableDirectives: false,
+      reportUnusedDisableDirectives: 'warn',
     },
   },
   js.configs.recommended,
@@ -52,12 +50,12 @@ export default tseslint.config(
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
+      // `any` surfaces as a warning so it's visible but doesn't block CI; new
+      // code is encouraged to use proper types or `unknown` + narrowing.
+      '@typescript-eslint/no-explicit-any': 'warn',
       'jsx-a11y/no-autofocus': 'off',
-      // Pre-existing unused-variable debt is surfaced as warnings (matching the
-      // previous CRA `react-app` config) rather than failing the build.
       '@typescript-eslint/no-unused-vars': [
-        'warn',
+        'error',
         {
           args: 'none',
           caughtErrors: 'none',

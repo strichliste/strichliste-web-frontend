@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { RenderResult, cleanup, fireEvent } from '@testing-library/react';
 
 import { renderWithIntl } from '../../../spec-configs/render';

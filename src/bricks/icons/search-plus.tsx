@@ -1,4 +1,3 @@
-import * as React from "react";
 
 export const SearchPlus = () => (
   <svg aria-hidden="true" focusable="false"

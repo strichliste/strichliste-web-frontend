@@ -1,4 +1,3 @@
-import * as React from 'react';
 
 import { withRouter } from '../../routing';
 import { UserRouteProps, getUserDetailLink } from '../user/user-router';

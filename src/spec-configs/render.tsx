@@ -30,9 +30,6 @@ function makeQueryClient(options: Options): QueryClient {
 
 export function renderWithContext(
   ui: React.ReactElement,
-  // Kept for source compatibility with existing specs; the Redux store is gone,
-  // so this argument is intentionally unused.
-  _initialState: unknown,
   options: Options = {}
 ) {
   return render(

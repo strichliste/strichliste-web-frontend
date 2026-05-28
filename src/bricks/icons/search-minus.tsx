@@ -1,4 +1,3 @@
-import * as React from "react";
 
 export const SearchMinus = () => (
   <svg aria-hidden="true" focusable="false"

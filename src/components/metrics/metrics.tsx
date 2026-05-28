@@ -16,7 +16,6 @@ import { useMetrics } from './resource';
 import { Currency } from '../currency';
 import { Card, GridThree, AlertText, Separator } from '../../bricks';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FixedTooltip: any = Tooltip;
 
 const Metrics: React.FC = () => {

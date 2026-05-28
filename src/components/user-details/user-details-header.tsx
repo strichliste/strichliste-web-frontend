@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from '../../routing';
 import { useSettings } from '../../queries';

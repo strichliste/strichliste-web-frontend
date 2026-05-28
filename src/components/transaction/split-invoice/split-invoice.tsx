@@ -150,8 +150,7 @@ export const SplitInvoiceForm = () => {
         )}
         {Object.keys(response).map(userId => {
           const item = response[userId];
-          // eslint-disable-next-line
-          const user = participants.find(user => user.id == userId);
+          const user = participants.find(user => user.id === userId);
           const userName = user ? user.name : '';
 
           if (item === 'error') {

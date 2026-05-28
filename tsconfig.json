@@ -16,9 +16,9 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": true,
-    "useUnknownInCatchVariables": false,
     "skipLibCheck": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "e2e", "vite.config.ts", "playwright.config.ts"],
