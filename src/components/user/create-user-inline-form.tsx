@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from '../../routing';
 
-import { createUser } from '../../queries/users';
+import { useCreateUser } from '../../queries/users';
 import { Button, Flex, Input, AddIcon, EditIcon } from '../../bricks';
 import { useModal, Modal } from '../../bricks/modal/modal';
 
@@ -17,6 +17,7 @@ export const CreateUserInlineForm = ({
   const modalProps = useModal();
   const [name, setName] = React.useState('');
   const intl = useIntl();
+  const { mutateAsync: createUser, isPending } = useCreateUser();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,6 +66,7 @@ export const CreateUserInlineForm = ({
               type="submit"
               fab
               highlight
+              disabled={isPending}
               aria-label={intl.formatMessage({ id: 'USER_CREATE_TRIGGER' })}
             >
               <EditIcon />

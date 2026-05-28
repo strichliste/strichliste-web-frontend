@@ -4,13 +4,13 @@ import { useArticle } from '../../queries';
 import { Article, Barcode, Tag } from '../../types';
 import {
   AddArticleParams,
-  addArticle,
-  addBarcode,
-  deleteBarcode,
-  addTag,
-  deleteTag,
-  deleteArticle,
   getArticleHistory,
+  useAddArticle,
+  useAddBarcode,
+  useAddTag,
+  useDeleteArticle,
+  useDeleteBarcode,
+  useDeleteTag,
 } from '../../queries/articles';
 import { CurrencyInput, Currency } from '../currency';
 import { useArticleValidator } from './validator';
@@ -84,6 +84,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
   const [params, setParams] = React.useState<AddArticleParams>(
     extractParams(article)
   );
+  const { mutateAsync: addArticle, isPending: isSaving } = useAddArticle();
   React.useEffect(() => {
     setParams(extractParams(article));
   }, [article]);
@@ -137,7 +138,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
         <div className={styles.flexEnd}>
           <AcceptButton
             title={intl.formatMessage({ id: 'ARTICLE_ADD_FROM_ACCEPT' })}
-            disabled={!useArticleValidator(params.amount)}
+            disabled={!useArticleValidator(params.amount) || isSaving}
           />
         </div>
       </Card>
@@ -147,8 +148,10 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
 
 const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
   const [barcodes, setBarcodes] = React.useState(article.barcodes || []);
+  const { mutateAsync: addBarcode } = useAddBarcode();
+  const { mutateAsync: deleteBarcode } = useDeleteBarcode();
   const handleAddBarcode = async (barcode: string) => {
-    const response = await addBarcode(article.id, barcode);
+    const response = await addBarcode({ id: article.id, barcode });
     if (response) {
       setBarcodes(response.barcodes);
     } else {
@@ -156,7 +159,7 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
     }
   };
   const handleDeleteBarcode = async (barcode: Barcode) => {
-    await deleteBarcode(article.id, barcode.id);
+    await deleteBarcode({ articleId: article.id, barcodeId: barcode.id });
     setBarcodes(barcodes.filter((item) => item.id !== barcode.id));
   };
   return (
@@ -178,8 +181,10 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
 const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
   const [tags, setTags] = React.useState(article.tags || []);
   const intl = useIntl();
-  const handleAddTag = async (tag: string) => {
-    const response = await addTag(article.id, tag);
+  const { mutateAsync: addTag } = useAddTag();
+  const { mutateAsync: deleteTag } = useDeleteTag();
+  const handleAddTag = async (tagValue: string) => {
+    const response = await addTag({ id: article.id, tag: tagValue });
     if (response) {
       setTags(response.tags);
     } else {
@@ -187,7 +192,7 @@ const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
     }
   };
   const handleDeleteTag = async (tag: Tag) => {
-    await deleteTag(article.id, tag.id);
+    await deleteTag({ articleId: article.id, tagId: tag.id });
     setTags(tags.filter((item) => item.id !== tag.id));
   };
   return (
@@ -332,10 +337,12 @@ const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
 
 const ToggleActivity: React.FC<{ article: Article }> = ({ article }) => {
   const history = useHistory();
+  const { mutateAsync: deleteArticle, isPending } = useDeleteArticle();
 
   if (!article.isActive) return null;
 
   const handleDeleteArticle = async () => {
+    if (isPending) return;
     const res = await deleteArticle(article.id);
     if (res) {
       history.goBack();
@@ -344,7 +351,12 @@ const ToggleActivity: React.FC<{ article: Article }> = ({ article }) => {
 
   return (
     <div style={{ margin: '3rem 0' }}>
-      <Button padding="1rem" red onClick={handleDeleteArticle}>
+      <Button
+        padding="1rem"
+        red
+        onClick={handleDeleteArticle}
+        disabled={isPending}
+      >
         <FormattedMessage id="DELETE_ARTICLE_LABEL" />
       </Button>
     </div>

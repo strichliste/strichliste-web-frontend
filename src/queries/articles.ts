@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { get, post, restDelete } from '../services/api';
 import { errorHandler, MaybeResponse } from '../services/error-handler';
@@ -182,6 +182,63 @@ export async function fetchArticleByBarcode(barcode: string): Promise<Article> {
     return data.articles[0];
   }
   throw new Error('no articles are matching the barcode');
+}
+
+// --- Mutation hooks ------------------------------------------------------
+
+export function useAddArticle() {
+  return useMutation({
+    mutationKey: ['addArticle'],
+    mutationFn: (article: AddArticleParams) => addArticle(article),
+  });
+}
+
+export function useDeleteArticle() {
+  return useMutation({
+    mutationKey: ['deleteArticle'],
+    mutationFn: (articleId: number) => deleteArticle(articleId),
+  });
+}
+
+export function useAddBarcode() {
+  return useMutation({
+    mutationKey: ['addBarcode'],
+    mutationFn: ({ id, barcode }: { id: number; barcode: string }) =>
+      addBarcode(id, barcode),
+  });
+}
+
+export function useDeleteBarcode() {
+  return useMutation({
+    mutationKey: ['deleteBarcode'],
+    mutationFn: ({
+      articleId,
+      barcodeId,
+    }: {
+      articleId: number;
+      barcodeId: number;
+    }) => deleteBarcode(articleId, barcodeId),
+  });
+}
+
+export function useAddTag() {
+  return useMutation({
+    mutationKey: ['addTag'],
+    mutationFn: ({ id, tag }: { id: number; tag: string }) => addTag(id, tag),
+  });
+}
+
+export function useDeleteTag() {
+  return useMutation({
+    mutationKey: ['deleteTag'],
+    mutationFn: ({
+      articleId,
+      tagId,
+    }: {
+      articleId: number;
+      tagId: number;
+    }) => deleteTag(articleId, tagId),
+  });
 }
 
 // --- Pure helpers --------------------------------------------------------

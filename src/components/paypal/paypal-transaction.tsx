@@ -3,8 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { RouteComponentProps, withRouter } from '../../routing';
 
 import { useUserName } from '../../queries';
-import { Transaction } from '../../types';
-import { createTransaction } from '../../queries/transactions';
+import { useCreateTransaction } from '../../queries/transactions';
 import { getUserDetailLink, getUserPayPalLink } from '../user/user-router';
 import { PayPalTransactionForm } from './paypal-transaction-form';
 
@@ -19,14 +18,15 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
   const paidAmount = Number(props.match.params.amount);
 
   const userName = useUserName(userId);
+  const { mutateAsync: createTransaction } = useCreateTransaction();
 
   React.useEffect(() => {
     if (paidAmount) {
-      createTransaction(userId, {
-        amount: paidAmount * 100,
-        comment: 'paypal',
-      }).then((response: Transaction | undefined) => {
-        if (response && response) {
+      createTransaction({
+        userId,
+        params: { amount: paidAmount * 100, comment: 'paypal' },
+      }).then((response) => {
+        if (response) {
           props.history.push(getUserDetailLink(userId));
         } else {
           props.history.push(`${getUserPayPalLink(userId)}/error`);

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { CreateTransactionParams, Transaction, User } from '../../../types';
-import { createTransaction } from '../../../queries/transactions';
+import { useCreateTransaction } from '../../../queries/transactions';
 import { WrappedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
 import { UserSelection } from '../../user';
@@ -32,6 +32,7 @@ type Response = {
 export const SplitInvoiceForm = () => {
   const intl = useIntl();
   const settings = useSettings();
+  const { mutateAsync: createTransaction } = useCreateTransaction();
   const [recipient, setRecipient] = React.useState<User | undefined>(undefined);
   const [participants, setParticipants] = React.useState<User[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -61,7 +62,7 @@ export const SplitInvoiceForm = () => {
       setIsLoading(true);
       const userId = participant.id;
       const params = getParams(recipient);
-      const result = await createTransaction(userId, params);
+      const result = await createTransaction({ userId, params });
       setResponse(response => ({ ...response, [userId]: result || 'error' }));
     }
   };
@@ -290,7 +291,7 @@ export const SplitInvoiceForm = () => {
               <AcceptButton
                 title={intl.formatMessage({ id: 'SPLIT_INVOICE_SUBMIT' })}
                 onClick={submitSplitInvoice}
-                disabled={!submitIsValid()}
+                disabled={!submitIsValid() || isLoading}
               />
             </div>
           </div>

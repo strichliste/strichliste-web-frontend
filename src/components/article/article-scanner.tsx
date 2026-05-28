@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Article } from '../../types';
 import { fetchArticleByBarcode } from '../../queries/articles';
-import { createTransaction } from '../../queries/transactions';
+import { useCreateTransaction } from '../../queries/transactions';
 import { Scanner } from '../common/scanner';
 import { Toast } from '../common/toast';
 import { Currency } from '../currency';
@@ -15,19 +15,23 @@ interface Props {
 export const ArticleScanner = (props: Props) => {
   const [message, setMessage] = React.useState('');
   const [article, setArticle] = React.useState<Article | undefined>(undefined);
+  const { mutate: createTransaction, isPending } = useCreateTransaction();
 
   const handleChange = async (barcode: string) => {
+    // Ignore rapid re-scans while a previous buy is still in flight.
+    if (isPending) return;
     setMessage(barcode);
     try {
       const article = await fetchArticleByBarcode(barcode);
       setMessage('ARTICLE_FETCHED_BY_BARCODE');
       setArticle(article);
       if (article) {
-        createTransaction(props.userId, {
-          articleId: article.id,
+        createTransaction({
+          userId: props.userId,
+          params: { articleId: article.id },
         });
       }
-    } catch (error) {
+    } catch {
       setMessage(':(');
     }
   };

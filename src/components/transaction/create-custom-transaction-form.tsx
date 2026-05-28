@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useIntl } from 'react-intl';
 
-import { createTransaction } from '../../queries/transactions';
+import { useCreateTransaction } from '../../queries/transactions';
 import { CurrencyInput } from '../currency';
 import { useTransactionValidator } from './validator';
 import { useSettings } from '../../queries';
@@ -22,14 +22,13 @@ export const CreateCustomTransactionForm = (props: Props) => {
   const [value, setValue] = React.useState(0);
   const depositIsValid = useTransactionValidator(value, userId, true);
   const dispenseIsValid = useTransactionValidator(value, userId, false);
+  const { mutateAsync, isPending } = useCreateTransaction();
 
   const submit = async (isDeposit: boolean) => {
     const multiplier = isDeposit ? 1 : -1;
     const amount = value * multiplier;
 
-    const result = await createTransaction(userId, {
-      amount,
-    });
+    const result = await mutateAsync({ userId, params: { amount } });
 
     if (transactionCreated) {
       transactionCreated();
@@ -47,7 +46,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
           title={intl.formatMessage({ id: 'BALANCE_DISPENSE' })}
           onClick={() => submit(false)}
           fab
-          disabled={!dispenseIsValid}
+          disabled={!dispenseIsValid || isPending}
           type="submit"
         >
           -
@@ -66,7 +65,7 @@ export const CreateCustomTransactionForm = (props: Props) => {
           title={intl.formatMessage({ id: 'BALANCE_DEPOSIT' })}
           onClick={() => submit(true)}
           fab
-          disabled={!depositIsValid}
+          disabled={!depositIsValid || isPending}
           type="submit"
         >
           +

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { get, post } from '../services/api';
 import { errorHandler, MaybeResponse } from '../services/error-handler';
@@ -111,4 +111,26 @@ export async function updateUser(
     return normalizeUser(data.user);
   }
   return undefined;
+}
+
+// --- Mutation hooks ------------------------------------------------------
+
+export function useCreateUser() {
+  return useMutation({
+    mutationKey: ['createUser'],
+    mutationFn: (name: string) => createUser(name),
+  });
+}
+
+export function useUpdateUser() {
+  return useMutation({
+    mutationKey: ['updateUser'],
+    mutationFn: ({
+      userId,
+      params,
+    }: {
+      userId: string;
+      params: UserUpdateParams;
+    }) => updateUser(userId, params),
+  });
 }

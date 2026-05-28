@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { get, post, restDelete } from '../services/api';
 import { errorHandler, MaybeResponse } from '../services/error-handler';
@@ -99,4 +99,34 @@ export async function deleteTransaction(
   if (data?.transaction) {
     invalidateUserData(userId);
   }
+}
+
+// --- Mutation hooks ------------------------------------------------------
+// Wrap the imperative helpers so call sites get `isPending` for free
+// (used to disable submit buttons and prevent double-submit).
+
+export function useCreateTransaction() {
+  return useMutation({
+    mutationKey: ['createTransaction'],
+    mutationFn: ({
+      userId,
+      params,
+    }: {
+      userId: string;
+      params: CreateTransactionParams;
+    }) => createTransaction(userId, params),
+  });
+}
+
+export function useDeleteTransaction() {
+  return useMutation({
+    mutationKey: ['deleteTransaction'],
+    mutationFn: ({
+      userId,
+      transactionId,
+    }: {
+      userId: string;
+      transactionId: number;
+    }) => deleteTransaction(userId, transactionId),
+  });
 }

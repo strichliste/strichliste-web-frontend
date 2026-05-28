@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { createTransaction } from '../../queries/transactions';
+import { useCreateTransaction } from '../../queries/transactions';
 import { Currency } from '../currency';
 import { useTransactionValidator } from './validator';
 import { Button } from '../../bricks';
@@ -17,6 +17,7 @@ export function TransactionButton(props: Props): React.JSX.Element {
     props.userId,
     props.isDeposit
   );
+  const { mutate, isPending } = useCreateTransaction();
 
   return (
     <Button
@@ -24,12 +25,13 @@ export function TransactionButton(props: Props): React.JSX.Element {
       red={!props.isDeposit}
       padding="0.8rem 0.5rem"
       onClick={() =>
-        createTransaction(props.userId, {
-          amount: props.value,
+        mutate({
+          userId: props.userId,
+          params: { amount: props.value },
         })
       }
       type="button"
-      disabled={!isValid}
+      disabled={!isValid || isPending}
     >
       <Currency value={props.value} />
     </Button>

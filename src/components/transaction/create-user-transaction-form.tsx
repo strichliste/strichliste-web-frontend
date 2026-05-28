@@ -26,6 +26,7 @@ const initialState = {
   amount: 0,
   createdTransactionId: 0,
   comment: '',
+  isSubmitting: false,
 };
 
 interface State {
@@ -35,6 +36,7 @@ interface State {
   selectedAmount: number;
   selectedUser: User;
   comment: string;
+  isSubmitting: boolean;
 }
 
 type Props = RouteComponentProps<{ id: string }>;
@@ -48,17 +50,23 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
   };
 
   public createTransaction = async () => {
+    if (this.state.isSubmitting) return;
     if (this.state.selectedUser.id && this.state.selectedAmount) {
-      const res = await createTransaction(this.props.match.params.id, {
-        amount: this.state.selectedAmount * -1,
-        recipientId: this.state.selectedUser.id,
-        comment: this.state.comment,
-      });
-      if (res && res.id) {
-        this.setState({
-          hasSelectionReady: true,
-          createdTransactionId: res.id,
+      this.setState({ isSubmitting: true });
+      try {
+        const res = await createTransaction(this.props.match.params.id, {
+          amount: this.state.selectedAmount * -1,
+          recipientId: this.state.selectedUser.id,
+          comment: this.state.comment,
         });
+        if (res && res.id) {
+          this.setState({
+            hasSelectionReady: true,
+            createdTransactionId: res.id,
+          });
+        }
+      } finally {
+        this.setState({ isSubmitting: false });
       }
     }
   };
@@ -152,7 +160,10 @@ export class CreateUserTransactionForm extends React.Component<Props, State> {
                     {text => (
                       <AcceptButton
                         type="submit"
-                        disabled={!(isValid && this.state.selectedUser.id)}
+                        disabled={
+                          !(isValid && this.state.selectedUser.id) ||
+                          this.state.isSubmitting
+                        }
                         title={text as unknown as string}
                       />
                     )}
