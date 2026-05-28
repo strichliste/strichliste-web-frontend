@@ -1,12 +1,19 @@
 const API_URL = import.meta.env.VITE_API;
 
-/** Thrown on any non-2xx HTTP response. Carries status + parsed body. */
+/**
+ * Thrown on any non-2xx HTTP response, *and* on 2xx responses whose body
+ * declares an `error.class` — that pattern is the backend's signal that the
+ * request was rejected at the application layer (e.g. duplicate username)
+ * even though the transport succeeded. `errorClass` carries the FQCN so
+ * mutation `meta.errors` maps can pick a specific localized message.
+ */
 export class ApiError extends Error {
   constructor(
     public readonly status: number,
     public readonly statusText: string,
     public readonly body: unknown,
-    message?: string
+    message?: string,
+    public readonly errorClass?: string
   ) {
     super(message ?? `HTTP ${status} ${statusText}`);
     this.name = 'ApiError';

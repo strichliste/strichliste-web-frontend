@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { get, post } from '../services/api';
-import { errorHandler, MaybeResponse } from '../services/error-handler';
+import { MaybeResponse, throwOnBodyError } from '../services/error-handler';
 import { queryClient } from '../services/query-client';
 import { User, UserUpdateParams } from '../types/user';
 import { queryKeys } from './keys';
@@ -51,6 +51,9 @@ export function useUser(id: string): User | undefined {
       return normalizeUser(res.user);
     },
     enabled: Boolean(id),
+    // Intentionally no meta.defaultError: per-user fetches are noisy (every
+    // detail page mount fires one) and we don't want stale per-user errors
+    // taking over the global toast while the user navigates.
   });
   return data;
 }
@@ -80,48 +83,38 @@ function invalidateUsers() {
   queryClient.invalidateQueries({ queryKey: ['user'] });
 }
 
-export async function createUser(name: string): Promise<User | undefined> {
-  const data = await errorHandler({
-    promise: post<UserResult>('user', { name }),
-    defaultError: 'USERS_CREATION_FAILED',
-    errors: { UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST' },
-  });
-  if (data?.user) {
-    invalidateUsers();
-    return normalizeUser(data.user);
-  }
-  return undefined;
+async function createUser(name: string): Promise<User> {
+  const res = throwOnBodyError(await post<UserResult>('user', { name }));
+  invalidateUsers();
+  return normalizeUser(res.user);
 }
 
-export async function updateUser(
+async function updateUser(
   userId: string,
   params: UserUpdateParams
-): Promise<User | undefined> {
-  const data = await errorHandler({
-    promise: post<UserResult>(`user/${encodeURIComponent(userId)}`, params),
-    defaultError: 'USER_EDIT_USER_FAILED',
-    errors: { UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST' },
-  });
-  if (data?.user) {
-    queryClient.invalidateQueries({ queryKey: queryKeys.user(userId) });
-    invalidateUsers();
-    return normalizeUser(data.user);
-  }
-  return undefined;
+): Promise<User> {
+  const res = throwOnBodyError(
+    await post<UserResult>(`user/${encodeURIComponent(userId)}`, params)
+  );
+  queryClient.invalidateQueries({ queryKey: queryKeys.user(userId) });
+  invalidateUsers();
+  return normalizeUser(res.user);
 }
 
 // --- Mutation hooks ------------------------------------------------------
 
 export function useCreateUser() {
   return useMutation({
-    mutationKey: ['createUser'],
     mutationFn: (name: string) => createUser(name),
+    meta: {
+      defaultError: 'USERS_CREATION_FAILED',
+      errors: { UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST' },
+    },
   });
 }
 
 export function useUpdateUser() {
   return useMutation({
-    mutationKey: ['updateUser'],
     mutationFn: ({
       userId,
       params,
@@ -129,5 +122,9 @@ export function useUpdateUser() {
       userId: string;
       params: UserUpdateParams;
     }) => updateUser(userId, params),
+    meta: {
+      defaultError: 'USER_EDIT_USER_FAILED',
+      errors: { UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST' },
+    },
   });
 }

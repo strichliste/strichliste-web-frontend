@@ -28,15 +28,14 @@ export const CreateCustomTransactionForm = (props: Props) => {
     const multiplier = isDeposit ? 1 : -1;
     const amount = value * multiplier;
 
-    const result = await mutateAsync({ userId, params: { amount } });
-
-    if (transactionCreated) {
-      transactionCreated();
-    }
-
-    if (result) {
+    try {
+      await mutateAsync({ userId, params: { amount } });
       setValue(0);
+    } catch {
+      // mutationCache.onError surfaced a toast; keep the entered amount so
+      // the user can retry without re-typing.
     }
+    transactionCreated?.();
   };
   return (
     <div className={styles.userTransactionGrid}>

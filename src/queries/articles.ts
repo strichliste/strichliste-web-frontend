@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { get, post, restDelete } from '../services/api';
-import { errorHandler, MaybeResponse } from '../services/error-handler';
+import { MaybeResponse, throwOnBodyError } from '../services/error-handler';
 import { queryClient } from '../services/query-client';
 import { Article, Tag } from '../types/article';
 import { queryKeys } from './keys';
@@ -79,111 +79,71 @@ function invalidateArticles() {
   queryClient.invalidateQueries({ queryKey: ['article'] });
 }
 
-export async function addArticle(
-  article: AddArticleParams
-): Promise<Article | undefined> {
+async function addArticle(article: AddArticleParams): Promise<Article> {
   const url = article.precursor ? `article/${article.precursor.id}` : 'article';
-  const data = await errorHandler({
-    promise: post<ArticleResult>(url, article),
-    defaultError: 'ARTICLE_COULD_NOT_BE_CREATED',
-  });
-  if (data?.article) {
-    invalidateArticles();
-    return data.article;
-  }
-  return undefined;
+  const res = throwOnBodyError(await post<ArticleResult>(url, article));
+  invalidateArticles();
+  return res.article;
 }
 
-export async function deleteArticle(
-  articleId: number
-): Promise<Article | undefined> {
-  const data = await errorHandler({
-    promise: restDelete<ArticleResult>(`article/${articleId}`),
-    defaultError: 'ARTICLES_COULD_NOT_BE_DELETED',
-  });
-  if (data?.article) {
-    invalidateArticles();
-    return data.article;
-  }
-  return undefined;
+async function deleteArticle(articleId: number): Promise<Article> {
+  const res = throwOnBodyError(
+    await restDelete<ArticleResult>(`article/${articleId}`)
+  );
+  invalidateArticles();
+  return res.article;
 }
 
-export async function addBarcode(
-  id: number,
-  barcode: string
-): Promise<Article | undefined> {
-  const data = await errorHandler({
-    promise: post<ArticleResult>(`article/${id}/barcode`, { barcode }),
-    defaultError: 'ARTICLE_BARCODE_COULD_NOT_BE_ADDED',
-    errors: {
-      ArticleBarcodeAlreadyExistsException: 'ARTICLE_BARCODE_ALREADY_EXISTS',
-    },
-  });
-  if (data?.article) {
-    invalidateArticles();
-    return data.article;
-  }
-  return undefined;
+async function addBarcode(id: number, barcode: string): Promise<Article> {
+  const res = throwOnBodyError(
+    await post<ArticleResult>(`article/${id}/barcode`, { barcode })
+  );
+  invalidateArticles();
+  return res.article;
 }
 
-export async function deleteBarcode(
+async function deleteBarcode(
   articleId: number,
   barcodeId: number
-): Promise<Article | undefined> {
-  const data = await errorHandler({
-    promise: restDelete<ArticleResult>(
+): Promise<Article> {
+  const res = throwOnBodyError(
+    await restDelete<ArticleResult>(
       `article/${articleId}/barcode/${barcodeId}`
-    ),
-    defaultError: 'ARTICLE_BARCODE_COULD_NOT_BE_DELETED',
-  });
-  if (data?.article) {
-    invalidateArticles();
-    return data.article;
-  }
-  return undefined;
+    )
+  );
+  invalidateArticles();
+  return res.article;
 }
 
-export async function addTag(
-  id: number,
-  tag: string
-): Promise<Article | undefined> {
-  const data = await errorHandler({
-    promise: post<ArticleResult>(`article/${id}/tag`, { tag }),
-    defaultError: 'ARTICLE_TAG_COULD_NOT_BE_ADDED',
-    errors: {
-      ArticleTagAlreadyExistsException: 'ARTICLE_TAG_ALREADY_EXISTS',
-    },
-  });
-  if (data?.article) {
-    invalidateArticles();
-    return data.article;
-  }
-  return undefined;
+async function addTag(id: number, tag: string): Promise<Article> {
+  const res = throwOnBodyError(
+    await post<ArticleResult>(`article/${id}/tag`, { tag })
+  );
+  invalidateArticles();
+  return res.article;
 }
 
-export async function deleteTag(
+async function deleteTag(
   articleId: number,
   tagId: number
-): Promise<Article | undefined> {
-  const data = await errorHandler({
-    promise: restDelete<ArticleResult>(`article/${articleId}/tag/${tagId}`),
-    defaultError: 'ARTICLE_TAG_COULD_NOT_BE_DELETED',
-  });
-  if (data?.article) {
-    invalidateArticles();
-    return data.article;
-  }
-  return undefined;
+): Promise<Article> {
+  const res = throwOnBodyError(
+    await restDelete<ArticleResult>(`article/${articleId}/tag/${tagId}`)
+  );
+  invalidateArticles();
+  return res.article;
 }
 
-export async function fetchArticleByBarcode(barcode: string): Promise<Article> {
+export async function fetchArticleByBarcode(
+  barcode: string,
+  signal?: AbortSignal
+): Promise<Article> {
   const params = new URLSearchParams({ barcode });
-  const data = await errorHandler({
-    promise: get<ArticlesResult>(`article/search?${params.toString()}`),
-    defaultError: 'ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE',
-  });
-  if (data?.articles?.length) {
-    return data.articles[0];
+  const res = throwOnBodyError(
+    await get<ArticlesResult>(`article/search?${params.toString()}`, { signal })
+  );
+  if (res.articles?.length) {
+    return res.articles[0];
   }
   throw new Error('no articles are matching the barcode');
 }
@@ -192,29 +152,33 @@ export async function fetchArticleByBarcode(barcode: string): Promise<Article> {
 
 export function useAddArticle() {
   return useMutation({
-    mutationKey: ['addArticle'],
     mutationFn: (article: AddArticleParams) => addArticle(article),
+    meta: { defaultError: 'ARTICLE_COULD_NOT_BE_CREATED' },
   });
 }
 
 export function useDeleteArticle() {
   return useMutation({
-    mutationKey: ['deleteArticle'],
     mutationFn: (articleId: number) => deleteArticle(articleId),
+    meta: { defaultError: 'ARTICLES_COULD_NOT_BE_DELETED' },
   });
 }
 
 export function useAddBarcode() {
   return useMutation({
-    mutationKey: ['addBarcode'],
     mutationFn: ({ id, barcode }: { id: number; barcode: string }) =>
       addBarcode(id, barcode),
+    meta: {
+      defaultError: 'ARTICLE_BARCODE_COULD_NOT_BE_ADDED',
+      errors: {
+        ArticleBarcodeAlreadyExistsException: 'ARTICLE_BARCODE_ALREADY_EXISTS',
+      },
+    },
   });
 }
 
 export function useDeleteBarcode() {
   return useMutation({
-    mutationKey: ['deleteBarcode'],
     mutationFn: ({
       articleId,
       barcodeId,
@@ -222,19 +186,24 @@ export function useDeleteBarcode() {
       articleId: number;
       barcodeId: number;
     }) => deleteBarcode(articleId, barcodeId),
+    meta: { defaultError: 'ARTICLE_BARCODE_COULD_NOT_BE_DELETED' },
   });
 }
 
 export function useAddTag() {
   return useMutation({
-    mutationKey: ['addTag'],
     mutationFn: ({ id, tag }: { id: number; tag: string }) => addTag(id, tag),
+    meta: {
+      defaultError: 'ARTICLE_TAG_COULD_NOT_BE_ADDED',
+      errors: {
+        ArticleTagAlreadyExistsException: 'ARTICLE_TAG_ALREADY_EXISTS',
+      },
+    },
   });
 }
 
 export function useDeleteTag() {
   return useMutation({
-    mutationKey: ['deleteTag'],
     mutationFn: ({
       articleId,
       tagId,
@@ -242,6 +211,7 @@ export function useDeleteTag() {
       articleId: number;
       tagId: number;
     }) => deleteTag(articleId, tagId),
+    meta: { defaultError: 'ARTICLE_TAG_COULD_NOT_BE_DELETED' },
   });
 }
 

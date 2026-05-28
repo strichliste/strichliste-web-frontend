@@ -12,12 +12,11 @@ export function UserArticleTransaction(props: Props): React.JSX.Element | null {
 
   const handleSelect = async (article: Article): Promise<void> => {
     if (!article || isPending) return;
-    const result = await createTransaction({
-      userId,
-      params: { articleId: article.id },
-    });
-    if (result) {
+    try {
+      await createTransaction({ userId, params: { articleId: article.id } });
       props.history.push(getUserDetailLink(userId));
+    } catch {
+      // mutationCache.onError surfaced a toast; stay on the article-pick view.
     }
   };
 

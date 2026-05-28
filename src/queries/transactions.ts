@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { get, post, restDelete } from '../services/api';
-import { errorHandler, MaybeResponse } from '../services/error-handler';
+import { MaybeResponse, throwOnBodyError } from '../services/error-handler';
 import { queryClient } from '../services/query-client';
 import { playCashSound } from '../services/sound';
 import {
@@ -65,47 +65,40 @@ function invalidateUserData(userId: string, recipientId?: string) {
   }
 }
 
-export async function createTransaction(
+async function createTransaction(
   userId: string,
   params: CreateTransactionParams
-): Promise<Transaction | undefined> {
-  const data = await errorHandler({
-    promise: post<TransactionResult>(
+): Promise<Transaction> {
+  const res = throwOnBodyError(
+    await post<TransactionResult>(
       `user/${encodeURIComponent(userId)}/transaction`,
       params
-    ),
-    defaultError: 'USER_TRANSACTION_CREATION_ERROR',
-  });
-  if (data?.transaction) {
-    playCashSound(params);
-    invalidateUserData(userId, params.recipientId);
-    return data.transaction;
-  }
-  return undefined;
+    )
+  );
+  playCashSound(params);
+  invalidateUserData(userId, params.recipientId);
+  return res.transaction;
 }
 
-export async function deleteTransaction(
+async function deleteTransaction(
   userId: string,
   transactionId: number
 ): Promise<void> {
-  const data = await errorHandler({
-    promise: restDelete<TransactionResult>(
+  throwOnBodyError(
+    await restDelete<TransactionResult>(
       `user/${encodeURIComponent(userId)}/transaction/${transactionId}`
-    ),
-    defaultError: 'USER_TRANSACTION_DELETION_ERROR',
-  });
-  if (data?.transaction) {
-    invalidateUserData(userId);
-  }
+    )
+  );
+  invalidateUserData(userId);
 }
 
 // --- Mutation hooks ------------------------------------------------------
 // Wrap the imperative helpers so call sites get `isPending` for free
-// (used to disable submit buttons and prevent double-submit).
+// (used to disable submit buttons and prevent double-submit) and route
+// failures through `mutationCache.onError` with the right localized message.
 
 export function useCreateTransaction() {
   return useMutation({
-    mutationKey: ['createTransaction'],
     mutationFn: ({
       userId,
       params,
@@ -113,12 +106,12 @@ export function useCreateTransaction() {
       userId: string;
       params: CreateTransactionParams;
     }) => createTransaction(userId, params),
+    meta: { defaultError: 'USER_TRANSACTION_CREATION_ERROR' },
   });
 }
 
 export function useDeleteTransaction() {
   return useMutation({
-    mutationKey: ['deleteTransaction'],
     mutationFn: ({
       userId,
       transactionId,
@@ -126,5 +119,6 @@ export function useDeleteTransaction() {
       userId: string;
       transactionId: number;
     }) => deleteTransaction(userId, transactionId),
+    meta: { defaultError: 'USER_TRANSACTION_DELETION_ERROR' },
   });
 }

@@ -21,18 +21,15 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
   const { mutateAsync: createTransaction } = useCreateTransaction();
 
   React.useEffect(() => {
-    if (paidAmount) {
-      createTransaction({
-        userId,
-        params: { amount: paidAmount * 100, comment: 'paypal' },
-      }).then((response) => {
-        if (response) {
-          props.history.push(getUserDetailLink(userId));
-        } else {
-          props.history.push(`${getUserPayPalLink(userId)}/error`);
-        }
-      });
-    }
+    if (!paidAmount) return;
+    createTransaction({
+      userId,
+      params: { amount: paidAmount * 100, comment: 'paypal' },
+    })
+      .then(() => props.history.push(getUserDetailLink(userId)))
+      .catch(() =>
+        props.history.push(`${getUserPayPalLink(userId)}/error`)
+      );
     // eslint-disable-next-line
   }, [paidAmount]);
 

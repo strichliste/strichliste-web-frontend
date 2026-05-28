@@ -62,8 +62,12 @@ export const SplitInvoiceForm = () => {
       setIsLoading(true);
       const userId = participant.id;
       const params = getParams(recipient);
-      const result = await createTransaction({ userId, params });
-      setResponse(response => ({ ...response, [userId]: result || 'error' }));
+      try {
+        const result = await createTransaction({ userId, params });
+        setResponse(response => ({ ...response, [userId]: result }));
+      } catch {
+        setResponse(response => ({ ...response, [userId]: 'error' }));
+      }
     }
   };
 

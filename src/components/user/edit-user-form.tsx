@@ -25,18 +25,18 @@ export const UserEditForm = (props: Props) => {
     user = useUser(props.userId),
     submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
       e.preventDefault();
-
-      const user = await updateUser({
-        userId: props.userId,
-        params: { name, email, isDisabled },
-      });
-
-      if (user && user.isDisabled) {
-        props.onDisabled();
-        return;
-      }
-      if (user && user.id) {
+      try {
+        const user = await updateUser({
+          userId: props.userId,
+          params: { name, email, isDisabled },
+        });
+        if (user.isDisabled) {
+          props.onDisabled();
+          return;
+        }
         props.onSave();
+      } catch {
+        // mutationCache.onError surfaced a toast.
       }
     };
 

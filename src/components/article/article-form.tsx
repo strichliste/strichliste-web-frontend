@@ -88,15 +88,14 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
   React.useEffect(() => {
     setParams(extractParams(article));
   }, [article]);
+  const isValid = useArticleValidator(params.amount);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await addArticle({
-      ...params,
-      precursor: article,
-    });
-
-    if (result) {
+    try {
+      const result = await addArticle({ ...params, precursor: article });
       history.push(`/articles/${result.id}/edit`);
+    } catch {
+      // mutationCache.onError surfaced a toast.
     }
   };
 
@@ -138,7 +137,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
         <div className={styles.flexEnd}>
           <AcceptButton
             title={intl.formatMessage({ id: 'ARTICLE_ADD_FROM_ACCEPT' })}
-            disabled={!useArticleValidator(params.amount) || isSaving}
+            disabled={!isValid || isSaving}
           />
         </div>
       </Card>
@@ -151,16 +150,21 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
   const { mutateAsync: addBarcode } = useAddBarcode();
   const { mutateAsync: deleteBarcode } = useDeleteBarcode();
   const handleAddBarcode = async (barcode: string) => {
-    const response = await addBarcode({ id: article.id, barcode });
-    if (response) {
+    try {
+      const response = await addBarcode({ id: article.id, barcode });
       setBarcodes(response.barcodes);
-    } else {
+    } catch {
+      // mutationCache.onError surfaced a toast; drop the optimistic empty row.
       setBarcodes(barcodes.filter((item) => item.id !== 0));
     }
   };
   const handleDeleteBarcode = async (barcode: Barcode) => {
-    await deleteBarcode({ articleId: article.id, barcodeId: barcode.id });
-    setBarcodes(barcodes.filter((item) => item.id !== barcode.id));
+    try {
+      await deleteBarcode({ articleId: article.id, barcodeId: barcode.id });
+      setBarcodes(barcodes.filter((item) => item.id !== barcode.id));
+    } catch {
+      // toast already shown; keep the row in the list.
+    }
   };
   return (
     <ItemList<Barcode>
@@ -184,16 +188,20 @@ const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
   const { mutateAsync: addTag } = useAddTag();
   const { mutateAsync: deleteTag } = useDeleteTag();
   const handleAddTag = async (tagValue: string) => {
-    const response = await addTag({ id: article.id, tag: tagValue });
-    if (response) {
+    try {
+      const response = await addTag({ id: article.id, tag: tagValue });
       setTags(response.tags);
-    } else {
+    } catch {
       setTags(tags.filter((item) => item.id !== 0));
     }
   };
   const handleDeleteTag = async (tag: Tag) => {
-    await deleteTag({ articleId: article.id, tagId: tag.id });
-    setTags(tags.filter((item) => item.id !== tag.id));
+    try {
+      await deleteTag({ articleId: article.id, tagId: tag.id });
+      setTags(tags.filter((item) => item.id !== tag.id));
+    } catch {
+      // toast already shown; keep the row.
+    }
   };
   return (
     <ItemList<Tag>
@@ -343,9 +351,11 @@ const ToggleActivity: React.FC<{ article: Article }> = ({ article }) => {
 
   const handleDeleteArticle = async () => {
     if (isPending) return;
-    const res = await deleteArticle(article.id);
-    if (res) {
+    try {
+      await deleteArticle(article.id);
       history.goBack();
+    } catch {
+      // toast already shown; stay on the form so the user can retry.
     }
   };
 

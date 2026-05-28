@@ -39,17 +39,19 @@ export function CreateUserTransactionForm(): React.JSX.Element {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedUser.id || !selectedAmount || isPending) return;
-    const res = await createTransaction({
-      userId,
-      params: {
-        amount: selectedAmount * -1,
-        recipientId: selectedUser.id,
-        comment,
-      },
-    });
-    if (res && res.id) {
+    try {
+      const res = await createTransaction({
+        userId,
+        params: {
+          amount: selectedAmount * -1,
+          recipientId: selectedUser.id,
+          comment,
+        },
+      });
       setHasSelectionReady(true);
       setCreatedTransactionId(res.id);
+    } catch {
+      // mutationCache.onError surfaced a toast.
     }
   };
 

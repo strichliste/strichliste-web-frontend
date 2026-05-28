@@ -22,13 +22,16 @@ export const CreateUserInlineForm = ({
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedName = name.trim();
-    if (name) {
-      const user = await createUser(trimmedName);
-      if (user && user.id) {
-        history.push(`/user/${user.id}`);
-      }
-    } else {
+    if (!trimmedName) {
       setName('');
+      return;
+    }
+    try {
+      const user = await createUser(trimmedName);
+      history.push(`/user/${user.id}`);
+    } catch {
+      // mutationCache.onError surfaced a toast; keep the typed name so the
+      // user can correct and retry.
     }
   };
 
