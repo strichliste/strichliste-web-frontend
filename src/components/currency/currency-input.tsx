@@ -44,27 +44,24 @@ export function CurrencyInput({
 }: Props): React.JSX.Element {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [hasFocus, setHasFocus] = React.useState(false);
-  // Local display state mirrors the (cents) prop, but can also be driven by
-  // the user typing when no `value` prop is passed (uncontrolled use, e.g.
-  // the article form).
-  const [displayValue, setDisplayValue] = React.useState(
-    value !== undefined ? value / 100 : 0
-  );
 
-  // Keep the local display in sync when the parent updates `value`.
-  React.useEffect(() => {
-    if (value !== undefined) {
-      setDisplayValue(value / 100);
-    }
-  }, [value]);
+  // Controlled-or-uncontrolled discipline (React standard): if a parent
+  // passes `value`, we mirror it directly — no local state, no prop-sync
+  // effect. If not, internal state holds the user's input. The mode is
+  // pinned to mount (props.value transitioning from defined↔undefined
+  // mid-life would be a misuse, same as <input value=…/>).
+  const isControlled = value !== undefined;
+  const [internalCents, setInternalCents] = React.useState(0);
+  const cents = isControlled ? (value as number) : internalCents;
+  const displayValue = cents / 100;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cents = noNegative
+    const next = noNegative
       ? Math.abs(convertFormattedNumberToCents(e.target.value))
       : convertFormattedNumberToCents(e.target.value);
-    setDisplayValue(cents / 100);
+    if (!isControlled) setInternalCents(next);
     moveCursorToEnd(inputRef.current);
-    onChange?.(cents);
+    onChange?.(next);
   };
 
   return (

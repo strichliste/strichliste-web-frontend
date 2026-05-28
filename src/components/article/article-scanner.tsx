@@ -16,22 +16,33 @@ export const ArticleScanner = (props: Props) => {
   const [message, setMessage] = React.useState('');
   const [article, setArticle] = React.useState<Article | undefined>(undefined);
   const { mutate: createTransaction, isPending } = useCreateTransaction();
+  // Abort an in-flight barcode lookup when a new scan comes in (or on
+  // unmount) — otherwise a slow earlier response can overwrite the state
+  // for a newer scan.
+  const lookupController = React.useRef<AbortController | null>(null);
+  React.useEffect(
+    () => () => lookupController.current?.abort(),
+    []
+  );
 
   const handleChange = async (barcode: string) => {
     // Ignore rapid re-scans while a previous buy is still in flight.
     if (isPending) return;
+    lookupController.current?.abort();
+    const controller = new AbortController();
+    lookupController.current = controller;
     setMessage(barcode);
     try {
-      const article = await fetchArticleByBarcode(barcode);
+      const article = await fetchArticleByBarcode(barcode, controller.signal);
+      if (controller.signal.aborted) return;
       setMessage('ARTICLE_FETCHED_BY_BARCODE');
       setArticle(article);
-      if (article) {
-        createTransaction({
-          userId: props.userId,
-          params: { articleId: article.id },
-        });
-      }
-    } catch {
+      createTransaction({
+        userId: props.userId,
+        params: { articleId: article.id },
+      });
+    } catch (e) {
+      if ((e as DOMException)?.name === 'AbortError') return;
       setMessage(':(');
     }
   };

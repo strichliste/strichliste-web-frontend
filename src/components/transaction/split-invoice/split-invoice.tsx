@@ -38,7 +38,6 @@ export const SplitInvoiceForm = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [amount, setAmount] = React.useState(0);
   const [comment, setComment] = React.useState('');
-  const [validation, setValidation] = React.useState<Validation>({});
   const [response, setResponse] = React.useState<Response>({});
 
   const resetState = () => {
@@ -47,7 +46,6 @@ export const SplitInvoiceForm = () => {
     setIsLoading(false);
     setAmount(0);
     setComment('');
-    setValidation({});
     setResponse({});
   };
 
@@ -79,11 +77,6 @@ export const SplitInvoiceForm = () => {
     };
   };
 
-  React.useEffect(() => {
-    updateValidation();
-    // eslint-disable-next-line
-  }, [participants, amount, recipient]);
-
   const addParticipant = (user: User) => {
     setParticipants([...participants, user]);
   };
@@ -107,31 +100,29 @@ export const SplitInvoiceForm = () => {
 
   const filterUsers = recipient ? [...participants, recipient] : participants;
 
-  const updateValidation = () => {
+  // Pure derivation of per-participant validity from the current form state;
+  // useMemo so the object identity is only fresh when one of the inputs
+  // actually changes (replaces the old effect+useState dance).
+  const validation = React.useMemo<Validation>(() => {
     const value = getSplitAmount();
     const accountBoundary = settings.account.boundary;
     const paymentBoundary = settings.payment.boundary;
-    const initialValue: { [key: number]: string } = {};
-    const validation = Object.values(participants).reduce(
-      (acc, participant) => {
-        return {
-          ...acc,
-          [participant.id]: isTransactionValid({
-            value,
-            isDeposit: false,
-            accountBoundary,
-            paymentBoundary,
-            balance: participant.balance,
-          })
-            ? ''
-            : `can't afford it`,
-        };
-      },
-      initialValue
-    );
-
-    setValidation(validation);
-  };
+    return participants.reduce<Validation>((acc, participant) => {
+      acc[participant.id] = isTransactionValid({
+        value,
+        isDeposit: false,
+        accountBoundary,
+        paymentBoundary,
+        balance: participant.balance,
+      })
+        ? ''
+        : `can't afford it`;
+      return acc;
+    }, {});
+    // getSplitAmount depends on amount + participants + recipient; settings
+    // is stable from useSettings.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [participants, amount, recipient, settings]);
 
   const formIsValid = () => {
     return Object.values(validation).every(item => item === '');

@@ -75,8 +75,24 @@ export const Modal: React.FC<{
     // Remember what had focus, move focus into the dialog, restore on close.
     previouslyFocused.current = document.activeElement as HTMLElement;
     const dialog = dialogRef.current;
-    const focusable = dialog?.querySelectorAll<HTMLElement>(FOCUSABLE);
-    (focusable && focusable.length ? focusable[0] : dialog)?.focus();
+    const focusFirst = () => {
+      if (!dialog) return;
+      const items = dialog.querySelectorAll<HTMLElement>(FOCUSABLE);
+      (items.length ? items[0] : dialog).focus();
+    };
+    focusFirst();
+    // If dialog contents render asynchronously (loading spinner → form), the
+    // initial pass focuses the dialog wrapper; observe the subtree and move
+    // focus to the first real control as soon as one appears.
+    let observer: MutationObserver | undefined;
+    if (dialog) {
+      observer = new MutationObserver(() => {
+        if (!dialog.contains(document.activeElement) || document.activeElement === dialog) {
+          focusFirst();
+        }
+      });
+      observer.observe(dialog, { childList: true, subtree: true });
+    }
 
     const trap = (e: KeyboardEvent) => {
       if (e.key !== 'Tab' || !dialog) {
@@ -100,6 +116,7 @@ export const Modal: React.FC<{
     document.addEventListener('keydown', trap);
     return () => {
       document.removeEventListener('keydown', trap);
+      observer?.disconnect();
       // Restore focus to whatever had it before; fall back to the main landmark
       // if the original element was unmounted while the dialog was open.
       const previous = previouslyFocused.current;

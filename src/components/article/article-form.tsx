@@ -85,9 +85,15 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
     extractParams(article)
   );
   const { mutateAsync: addArticle, isPending: isSaving } = useAddArticle();
+  // Re-seed form state when the underlying article identity changes (route
+  // change), but NOT when the cached article object is replaced after our own
+  // write — keying on `article.id` keeps unsaved edits from being clobbered
+  // on cache invalidation.
+  const articleId = article?.id;
   React.useEffect(() => {
     setParams(extractParams(article));
-  }, [article]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [articleId]);
   const isValid = useArticleValidator(params.amount);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
