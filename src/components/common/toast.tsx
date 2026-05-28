@@ -16,13 +16,22 @@ export function Toast({
 }: Props): React.JSX.Element | null {
   const [isVisible, setVisible] = React.useState(true);
 
+  // Keep the latest onFadeOut in a ref so callers can pass an inline closure
+  // (e.g. <Toast onFadeOut={resetState} />) without restarting the timer on
+  // every parent render — the old class component started the timer once in
+  // componentDidMount; this preserves that semantic.
+  const onFadeOutRef = React.useRef(onFadeOut);
+  React.useEffect(() => {
+    onFadeOutRef.current = onFadeOut;
+  }, [onFadeOut]);
+
   React.useEffect(() => {
     const id = setTimeout(() => {
       setVisible(false);
-      onFadeOut?.();
+      onFadeOutRef.current?.();
     }, fadeOutSeconds * 1000);
     return () => clearTimeout(id);
-  }, [fadeOutSeconds, onFadeOut]);
+  }, [fadeOutSeconds]);
 
   if (!isVisible) {
     return null;

@@ -34,6 +34,13 @@ export function Scanner({ render, onChange }: Props): React.JSX.Element {
   const resetTimerRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined
   );
+  // Keep the latest `onChange` in a ref so the document-level keydown listener
+  // doesn't need to be torn down and re-added every time the parent re-renders
+  // with a fresh callback identity.
+  const onChangeRef = React.useRef(onChange);
+  React.useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   React.useEffect(() => {
     const detection = (event: KeyboardEvent) => {
@@ -45,7 +52,7 @@ export function Scanner({ render, onChange }: Props): React.JSX.Element {
         const scanned = maybeBarcodeRef.current;
         maybeBarcodeRef.current = '';
         setBarcode(scanned);
-        onChange?.(scanned);
+        onChangeRef.current?.(scanned);
         return;
       }
       if (
@@ -66,7 +73,7 @@ export function Scanner({ render, onChange }: Props): React.JSX.Element {
       document.removeEventListener('keydown', detection);
       clearTimeout(resetTimerRef.current);
     };
-  }, [onChange]);
+  }, []);
 
   if (!render) {
     return <HiddenInput />;

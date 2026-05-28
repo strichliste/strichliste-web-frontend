@@ -20,16 +20,18 @@ const Backdrop: React.FC<{ onClick(): void }> = ({ onClick }) => {
 export const useModal = (initialShow = false) => {
   const [show, setShow] = React.useState(initialShow);
 
-  const handleShow = () => {
+  // Stable identities so consumers can put `handleHide` / `handleShow` in
+  // their own dep arrays without re-binding effects on every render.
+  const handleShow = React.useCallback(() => {
     window.history.pushState(null, document.title, window.location.href);
     setShow(true);
-  };
-  const handleHide = (popState = true) => {
+  }, []);
+  const handleHide = React.useCallback((popState = true) => {
     if (popState) {
       window.history.back();
     }
     setShow(false);
-  };
+  }, []);
 
   React.useEffect(() => {
     if (!show) return;
@@ -45,7 +47,7 @@ export const useModal = (initialShow = false) => {
       document.removeEventListener('keydown', handleEsc);
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [show]);
+  }, [show, handleHide]);
 
   return { show, handleHide, handleShow };
 };
