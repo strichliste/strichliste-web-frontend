@@ -87,6 +87,7 @@ export interface Deposit {
   enabled: boolean;
   custom: boolean;
   steps: number[];
+  sounds: string[];
 }
 
 export interface Transactions {
@@ -160,11 +161,13 @@ export const initialState = {
       enabled: true,
       custom: true,
       steps: [50, 100, 200, 500, 1000],
+      sounds: [],
     },
     dispense: {
       enabled: true,
       custom: true,
       steps: [50, 100, 200, 500, 1000],
+      sounds: [],
     },
   },
 };
