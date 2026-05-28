@@ -1,18 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { get } from '../services/api';
-import { errorHandler } from '../services/error-handler';
-import {
-  defaultSettings,
-  Paypal,
-  Settings,
-} from '../types/settings';
+import { errorHandler, MaybeResponse } from '../services/error-handler';
+import { defaultSettings, Paypal, Settings } from '../types/settings';
 import { queryKeys } from './keys';
 
-interface SettingsResponse {
-  settings: Settings;
-  error?: { class: string };
-}
+type SettingsResult = MaybeResponse & { settings: Settings };
 
 /**
  * App-wide settings. `initialData` guarantees a fully-populated object so the
@@ -22,9 +15,9 @@ interface SettingsResponse {
 export function useSettings(): Settings {
   const { data } = useQuery({
     queryKey: queryKeys.settings,
-    queryFn: async (): Promise<Settings> => {
-      const data = await errorHandler<SettingsResponse>({
-        promise: get('settings'),
+    queryFn: async ({ signal }): Promise<Settings> => {
+      const data = await errorHandler({
+        promise: get<SettingsResult>('settings', { signal }),
         defaultError: 'SETTINGS_LOADED_FAILED',
       });
       return data?.settings ?? defaultSettings;

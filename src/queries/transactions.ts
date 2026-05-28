@@ -35,9 +35,16 @@ export function useUserTransactions(
 ): UserTransactions {
   const { data } = useQuery({
     queryKey: queryKeys.userTransactions(userId, offset, limit),
-    queryFn: async (): Promise<UserTransactions> => {
-      const data = await errorHandler<TransactionsResult>({
-        promise: get(`user/${userId}/transaction?offset=${offset}&limit=${limit}`),
+    queryFn: async ({ signal }): Promise<UserTransactions> => {
+      const params = new URLSearchParams({
+        offset: String(offset),
+        limit: String(limit),
+      });
+      const data = await errorHandler({
+        promise: get<TransactionsResult>(
+          `user/${encodeURIComponent(userId)}/transaction?${params.toString()}`,
+          { signal }
+        ),
         defaultError: 'USER_TRANSACTIONS_LOADING_ERROR',
       });
       return { transactions: data?.transactions ?? [], count: data?.count ?? 0 };
@@ -64,12 +71,15 @@ export async function createTransaction(
   userId: string,
   params: CreateTransactionParams
 ): Promise<Transaction | undefined> {
-  playCashSound(params);
-  const data = await errorHandler<TransactionResult>({
-    promise: post(`user/${userId}/transaction`, params),
+  const data = await errorHandler({
+    promise: post<TransactionResult>(
+      `user/${encodeURIComponent(userId)}/transaction`,
+      params
+    ),
     defaultError: 'USER_TRANSACTION_CREATION_ERROR',
   });
   if (data?.transaction) {
+    playCashSound(params);
     invalidateUserData(userId, params.recipientId);
     return data.transaction;
   }
@@ -80,8 +90,10 @@ export async function deleteTransaction(
   userId: string,
   transactionId: number
 ): Promise<void> {
-  const data = await errorHandler<TransactionResult>({
-    promise: restDelete(`user/${userId}/transaction/${transactionId}`),
+  const data = await errorHandler({
+    promise: restDelete<TransactionResult>(
+      `user/${encodeURIComponent(userId)}/transaction/${transactionId}`
+    ),
     defaultError: 'USER_TRANSACTION_DELETION_ERROR',
   });
   if (data?.transaction) {

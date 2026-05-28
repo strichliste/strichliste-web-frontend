@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { withRouter } from '../../routing';
 
-import { useActiveArticles } from '../../queries';
+import { useArticles } from '../../queries';
 import { Article } from '../../types';
 import { NavTabMenus } from '../common/nav-tab-menu';
 import { SearchList } from '../common/search-list/search-list';
@@ -41,7 +41,7 @@ const AddArticleButton = withRouter((props) => {
 });
 
 export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
-  const articles = useActiveArticles(isActive);
+  const articles = useArticles(isActive);
   const [filters, setFilters] = React.useState<string[]>([]);
 
   const handleFilterChange = (filters: Record<string, string>) => {

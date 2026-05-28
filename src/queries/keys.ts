@@ -18,7 +18,9 @@ export const queryKeys = {
 
   articles: (isActive?: boolean) => ['articles', { isActive }] as const,
   article: (id: number) => ['article', id] as const,
+  tags: ['tags'] as const,
 
   metrics: ['metrics'] as const,
-  userMetrics: (userId: string) => ['metrics', 'user', userId] as const,
+  userMetrics: (userId: string | number) =>
+    ['metrics', 'user', String(userId)] as const,
 };

@@ -21,17 +21,23 @@ function usersUrl(isActive?: boolean): string {
   return `user?${params.toString()}`;
 }
 
+// The API returns numeric ids; normalize at the boundary so the rest of the
+// app can rely on the (string) User.id type.
+function normalizeUser(user: User): User {
+  return { ...user, id: String(user.id) };
+}
+
 // --- Queries -------------------------------------------------------------
 
 export function useUsers(isActive?: boolean): User[] {
   const { data } = useQuery({
     queryKey: queryKeys.users(isActive),
-    queryFn: async (): Promise<User[]> => {
-      const data = await errorHandler<UsersResult>({
-        promise: get(usersUrl(isActive)),
+    queryFn: async ({ signal }): Promise<User[]> => {
+      const data = await errorHandler({
+        promise: get<UsersResult>(usersUrl(isActive), { signal }),
         defaultError: 'USERS_LOADING_FAILED',
       });
-      return (data?.users ?? []).slice().sort(byName);
+      return (data?.users ?? []).map(normalizeUser).sort(byName);
     },
   });
   return data ?? [];
@@ -40,7 +46,12 @@ export function useUsers(isActive?: boolean): User[] {
 export function useUser(id: string): User | undefined {
   const { data } = useQuery({
     queryKey: queryKeys.user(id),
-    queryFn: (): Promise<User> => get(`user/${id}`).then((res) => res.user),
+    queryFn: async ({ signal }): Promise<User> => {
+      const res = await get<{ user: User }>(`user/${encodeURIComponent(id)}`, {
+        signal,
+      });
+      return normalizeUser(res.user);
+    },
     enabled: Boolean(id),
   });
   return data;
@@ -69,17 +80,18 @@ export function useFilteredUsers(isActive: boolean): User[] {
 
 function invalidateUsers() {
   queryClient.invalidateQueries({ queryKey: ['users'] });
+  queryClient.invalidateQueries({ queryKey: ['user'] });
 }
 
 export async function createUser(name: string): Promise<User | undefined> {
-  const data = await errorHandler<UserResult>({
-    promise: post('user', { name }),
+  const data = await errorHandler({
+    promise: post<UserResult>('user', { name }),
     defaultError: 'USERS_CREATION_FAILED',
     errors: { UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST' },
   });
   if (data?.user) {
     invalidateUsers();
-    return data.user;
+    return normalizeUser(data.user);
   }
   return undefined;
 }
@@ -88,15 +100,15 @@ export async function updateUser(
   userId: string,
   params: UserUpdateParams
 ): Promise<User | undefined> {
-  const data = await errorHandler<UserResult>({
-    promise: post(`user/${userId}`, params),
+  const data = await errorHandler({
+    promise: post<UserResult>(`user/${encodeURIComponent(userId)}`, params),
     defaultError: 'USER_EDIT_USER_FAILED',
     errors: { UserAlreadyExistsException: 'USERS_CREATION_FAILED_USER_EXIST' },
   });
   if (data?.user) {
     queryClient.invalidateQueries({ queryKey: queryKeys.user(userId) });
     invalidateUsers();
-    return data.user;
+    return normalizeUser(data.user);
   }
   return undefined;
 }

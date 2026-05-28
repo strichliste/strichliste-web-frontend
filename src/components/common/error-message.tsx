@@ -3,16 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import { useGlobalError } from '../../services/global-error';
 import { Toast } from './toast';
 
-interface OwnProps {}
-
-interface StateProps {
-  id?: string;
-}
-
-interface ActionProps {}
-
-export type ErrorMessageProps = ActionProps & StateProps & OwnProps;
-
 export function ErrorMessage() {
   const id = useGlobalError();
 

@@ -25,9 +25,14 @@ const byName = (a: Article, b: Article) => a.name.localeCompare(b.name);
 export function useArticles(isActive: boolean): Article[] {
   const { data } = useQuery({
     queryKey: queryKeys.articles(isActive),
-    queryFn: async (): Promise<Article[]> => {
-      const data = await errorHandler<ArticlesResult>({
-        promise: get(`article?limit=999&active=${isActive}&ancestor=false`),
+    queryFn: async ({ signal }): Promise<Article[]> => {
+      const params = new URLSearchParams({
+        limit: '999',
+        active: String(isActive),
+        ancestor: 'false',
+      });
+      const data = await errorHandler({
+        promise: get<ArticlesResult>(`article?${params.toString()}`, { signal }),
         defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
       });
       return (data?.articles ?? []).slice().sort(byName);
@@ -36,9 +41,7 @@ export function useArticles(isActive: boolean): Article[] {
   return data ?? [];
 }
 
-// Kept for API compatibility; the list query is already filtered by `isActive`.
-export const useActiveArticles = useArticles;
-
+/** Active articles sorted by usage. */
 export function usePopularArticles(): Article[] {
   return useArticles(true)
     .filter((article) => article.isActive)
@@ -48,8 +51,9 @@ export function usePopularArticles(): Article[] {
 
 export function useTags(): Tag[] {
   const { data } = useQuery({
-    queryKey: ['tags'],
-    queryFn: (): Promise<Tag[]> => get('tag').then((res) => res.tags),
+    queryKey: queryKeys.tags,
+    queryFn: ({ signal }): Promise<Tag[]> =>
+      get<{ tags: Tag[] }>('tag', { signal }).then((res) => res.tags),
   });
   return data ?? [];
 }
@@ -57,8 +61,10 @@ export function useTags(): Tag[] {
 export function useArticle(id: number | undefined): Article | undefined {
   const { data } = useQuery({
     queryKey: queryKeys.article(id ?? 0),
-    queryFn: (): Promise<Article> =>
-      get(`article/${id}?depth=10`).then((res) => res.article),
+    queryFn: ({ signal }): Promise<Article> =>
+      get<{ article: Article }>(`article/${id}?depth=10`, { signal }).then(
+        (res) => res.article
+      ),
     enabled: Boolean(id),
   });
   return data;
@@ -75,8 +81,8 @@ export async function addArticle(
   article: AddArticleParams
 ): Promise<Article | undefined> {
   const url = article.precursor ? `article/${article.precursor.id}` : 'article';
-  const data = await errorHandler<ArticleResult>({
-    promise: post(url, article),
+  const data = await errorHandler({
+    promise: post<ArticleResult>(url, article),
     defaultError: 'ARTICLE_COULD_NOT_BE_CREATED',
   });
   if (data?.article) {
@@ -89,8 +95,8 @@ export async function addArticle(
 export async function deleteArticle(
   articleId: number
 ): Promise<Article | undefined> {
-  const data = await errorHandler<ArticleResult>({
-    promise: restDelete(`article/${articleId}`),
+  const data = await errorHandler({
+    promise: restDelete<ArticleResult>(`article/${articleId}`),
     defaultError: 'ARTICLES_COULD_NOT_BE_DELETED',
   });
   if (data?.article) {
@@ -104,10 +110,12 @@ export async function addBarcode(
   id: number,
   barcode: string
 ): Promise<Article | undefined> {
-  const data = await errorHandler<ArticleResult>({
-    promise: post(`article/${id}/barcode`, { barcode }),
+  const data = await errorHandler({
+    promise: post<ArticleResult>(`article/${id}/barcode`, { barcode }),
     defaultError: 'ARTICLE_BARCODE_COULD_NOT_BE_ADDED',
-    errors: { ArticleBarcodeAlreadyExistsException: 'ARTICLE_BARCODE_ALREADY_EXISTS' },
+    errors: {
+      ArticleBarcodeAlreadyExistsException: 'ARTICLE_BARCODE_ALREADY_EXISTS',
+    },
   });
   if (data?.article) {
     invalidateArticles();
@@ -120,8 +128,10 @@ export async function deleteBarcode(
   articleId: number,
   barcodeId: number
 ): Promise<Article | undefined> {
-  const data = await errorHandler<ArticleResult>({
-    promise: restDelete(`article/${articleId}/barcode/${barcodeId}`),
+  const data = await errorHandler({
+    promise: restDelete<ArticleResult>(
+      `article/${articleId}/barcode/${barcodeId}`
+    ),
   });
   if (data?.article) {
     invalidateArticles();
@@ -134,10 +144,12 @@ export async function addTag(
   id: number,
   tag: string
 ): Promise<Article | undefined> {
-  const data = await errorHandler<ArticleResult>({
-    promise: post(`article/${id}/tag`, { tag }),
+  const data = await errorHandler({
+    promise: post<ArticleResult>(`article/${id}/tag`, { tag }),
     defaultError: 'ARTICLE_TAG_COULD_NOT_BE_ADDED',
-    errors: { ArticleTagAlreadyExistsException: 'ARTICLE_TAG_ALREADY_EXISTS' },
+    errors: {
+      ArticleTagAlreadyExistsException: 'ARTICLE_TAG_ALREADY_EXISTS',
+    },
   });
   if (data?.article) {
     invalidateArticles();
@@ -150,8 +162,8 @@ export async function deleteTag(
   articleId: number,
   tagId: number
 ): Promise<Article | undefined> {
-  const data = await errorHandler<ArticleResult>({
-    promise: restDelete(`article/${articleId}/tag/${tagId}`),
+  const data = await errorHandler({
+    promise: restDelete<ArticleResult>(`article/${articleId}/tag/${tagId}`),
   });
   if (data?.article) {
     invalidateArticles();
@@ -161,12 +173,12 @@ export async function deleteTag(
 }
 
 export async function fetchArticleByBarcode(barcode: string): Promise<Article> {
-  const data = await errorHandler<ArticlesResult>({
-    promise: get(`article/search?barcode=${barcode}`),
+  const params = new URLSearchParams({ barcode });
+  const data = await errorHandler({
+    promise: get<ArticlesResult>(`article/search?${params.toString()}`),
     defaultError: 'ARTICLE_COULD_NOT_BE_LOADED_BY_BARCODE',
   });
   if (data?.articles?.length) {
-    invalidateArticles();
     return data.articles[0];
   }
   throw new Error('no articles are matching the barcode');

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { get } from '../../services/api';
+import { queryKeys } from '../../queries/keys';
 
 const checkNaN = (value: number): number => {
   const maybeNaN = value / 100;
@@ -23,9 +24,9 @@ function formatMetric(nextMetrics: Metric): FormattedMetric {
 
 export const useMetrics = (): FormattedMetric | null => {
   const { data } = useQuery({
-    queryKey: ['metrics'],
-    queryFn: async (): Promise<FormattedMetric> => {
-      const nextMetrics: Metric = await get('metrics');
+    queryKey: queryKeys.metrics,
+    queryFn: async ({ signal }): Promise<FormattedMetric> => {
+      const nextMetrics = await get<Metric>('metrics', { signal });
       return formatMetric(nextMetrics);
     },
   });
