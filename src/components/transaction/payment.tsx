@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useSettings } from '../../store';
+import { useSettings } from '../../queries';
 import { CreateCustomTransactionForm } from './create-custom-transaction-form';
 import { PaymentButtonList } from './payment-button-steps';
 import { Card } from '../../bricks';
@@ -9,7 +9,7 @@ interface Props {
   userId: string;
 }
 
-export function Payment(props: Props): JSX.Element | null {
+export function Payment(props: Props): React.JSX.Element | null {
   const payment = useSettings().payment;
   return (
     <Card padding="0.5rem">

@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-export function AddIcon(): JSX.Element {
+export function AddIcon(): React.JSX.Element {
   return (
-    <svg
+    <svg aria-hidden="true" focusable="false"
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
@@ -15,7 +15,7 @@ export function AddIcon(): JSX.Element {
 
 export const CancelIcon = () => {
   return (
-    <svg
+    <svg aria-hidden="true" focusable="false"
       style={{ transform: 'rotate(45deg)' }}
       xmlns="http://www.w3.org/2000/svg"
       width="16"

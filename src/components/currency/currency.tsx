@@ -1,15 +1,14 @@
-/* eslint-disable react/style-prop-object */
 
 import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
-import { useSettings } from '../../store/selector-hooks';
+import { useSettings } from '../../queries';
 
 interface Props {
   value: number;
   hidePlusSign?: boolean;
 }
 
-export function Currency({ value, hidePlusSign }: Props): JSX.Element {
+export function Currency({ value, hidePlusSign }: Props): React.JSX.Element {
   const { i18n } = useSettings();
   return (
     <>

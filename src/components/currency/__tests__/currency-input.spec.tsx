@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { IntlProvider } from 'react-intl';
 import { cleanup, fireEvent, render } from '@testing-library/react';
 
@@ -9,7 +8,7 @@ afterEach(cleanup);
 describe('CurrencyInput', () => {
   it('matches the snapshot', () => {
     const { container } = render(
-      <IntlProvider defaultLocale="en">
+      <IntlProvider locale="en">
         <CurrencyInput />
       </IntlProvider>
     );
@@ -18,7 +17,7 @@ describe('CurrencyInput', () => {
   describe('with a default value', () => {
     it('matches the snapshot', () => {
       const { container } = render(
-        <IntlProvider defaultLocale="en">
+        <IntlProvider locale="en">
           <CurrencyInput value={123456} />
         </IntlProvider>
       );
@@ -28,9 +27,9 @@ describe('CurrencyInput', () => {
 
   describe('with changes on the input field', () => {
     it('updates state and calls onChange', () => {
-      const changeMock = jest.fn();
+      const changeMock = vi.fn();
       const { getByPlaceholderText } = render(
-        <IntlProvider defaultLocale="en">
+        <IntlProvider locale="en">
           <CurrencyInput placeholder="testInput" onChange={changeMock} />
         </IntlProvider>
       );
@@ -43,8 +42,8 @@ describe('CurrencyInput', () => {
 
     it('should handle the visibility of placeholder', () => {
       const { getByPlaceholderText } = render(
-        <IntlProvider defaultLocale="en">
-          <CurrencyInput placeholder="the placeholder" onChange={jest.fn()} />
+        <IntlProvider locale="en">
+          <CurrencyInput placeholder="the placeholder" onChange={vi.fn()} />
         </IntlProvider>
       );
       const input = getByPlaceholderText('the placeholder');

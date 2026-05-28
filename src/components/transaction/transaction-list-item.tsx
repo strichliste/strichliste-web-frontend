@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { Currency } from '../currency';
 import { TransactionUndoButton } from './transaction-undo-button';
-import { useTransaction } from '../../store';
 import { getUserDetailLink } from '../user/user-router';
 import { Link } from 'react-router-dom';
-import { User, Article } from '../../store/reducers';
+import { User, Article, Transaction } from '../../types';
 import {
   Ellipsis,
   LineThrough,
@@ -50,13 +49,10 @@ const ListItemDescription = ({
 };
 
 export function TransactionListItem({
-  id,
-  first,
+  transaction,
 }: {
-  id: string;
-  first?: boolean;
-}): JSX.Element | null {
-  const transaction = useTransaction(Number(id));
+  transaction: Transaction;
+}): React.JSX.Element | null {
   if (!transaction) {
     return null;
   }

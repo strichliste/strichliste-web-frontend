@@ -1,10 +1,9 @@
 import * as React from 'react';
 
 import { useIntl } from 'react-intl';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { RouteComponentProps, withRouter } from '../../routing';
 
-import { startCreatingUser } from '../../store/reducers';
+import { useCreateUser } from '../../queries/users';
 import { Button, Flex, Input, AddIcon, EditIcon } from '../../bricks';
 import { useModal, Modal } from '../../bricks/modal/modal';
 
@@ -17,28 +16,39 @@ export const CreateUserInlineForm = ({
 }: Props & RouteComponentProps) => {
   const modalProps = useModal();
   const [name, setName] = React.useState('');
-  const dispatch = useDispatch();
   const intl = useIntl();
+  const { mutateAsync: createUser, isPending } = useCreateUser();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedName = name.trim();
-    if (name) {
-      const user = await startCreatingUser(dispatch, trimmedName);
-      if (user && user.id) {
-        history.push(`/user/${user.id}`);
-      }
-    } else {
+    if (!trimmedName) {
       setName('');
+      return;
+    }
+    try {
+      const user = await createUser(trimmedName);
+      history.push(`/user/${user.id}`);
+    } catch {
+      // mutationCache.onError surfaced a toast; keep the typed name so the
+      // user can correct and retry.
     }
   };
 
   return (
     <div title={intl.formatMessage({ id: 'USER_CREATE_NAME_LABEL' })}>
-      <Button highlight onClick={modalProps.handleShow} fab>
+      <Button
+        highlight
+        onClick={modalProps.handleShow}
+        fab
+        aria-label={intl.formatMessage({ id: 'USER_CREATE_TRIGGER' })}
+      >
         <AddIcon />
       </Button>
-      <Modal backDropTile="close" {...modalProps}>
+      <Modal
+        label={intl.formatMessage({ id: 'USER_CREATE_HEADLINE' })}
+        {...modalProps}
+      >
         <form onSubmit={submit}>
           <Flex>
             <Input
@@ -47,13 +57,23 @@ export const CreateUserInlineForm = ({
               placeholder={intl.formatMessage({
                 id: 'USER_CREATE_NAME_LABEL',
               })}
+              aria-label={intl.formatMessage({
+                id: 'USER_CREATE_NAME_LABEL',
+              })}
               type="text"
               required
               minLength={1}
               maxLength={64}
               autoFocus={true}
             />
-            <Button margin="0 0 0 1rem" type="submit" fab highlight>
+            <Button
+              margin="0 0 0 1rem"
+              type="submit"
+              fab
+              highlight
+              disabled={isPending}
+              aria-label={intl.formatMessage({ id: 'USER_CREATE_TRIGGER' })}
+            >
               <EditIcon />
             </Button>
           </Flex>

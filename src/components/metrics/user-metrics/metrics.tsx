@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from '../../../routing';
 import { FormattedMessage } from 'react-intl';
 
 import { Currency } from '../../currency';
@@ -62,9 +62,9 @@ export const Metrics: React.FC<Props> = props => {
   }
   return (
     <div style={{ margin: '2rem 1rem' }}>
-      <h1 style={{ marginBottom: '2rem', fontSize: '1.5rem' }}>
+      <h2 style={{ marginBottom: '2rem', fontSize: '1.5rem' }}>
         <FormattedMessage id="METRICS_HEADLINE" defaultMessage="metrics" />
-      </h1>
+      </h2>
       <GridOneOneTwo>
         <MetricCard title={<FormattedMessage id="USER_TRANSACTIONS" />}>
           <div>

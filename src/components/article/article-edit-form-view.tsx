@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from '../../routing';
 import { ArticleForm } from './article-form';
 import { Button, Arrow } from '../../bricks';
 import { FormattedMessage } from 'react-intl';
@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 export function ArticleEditFormView({
   match,
   history,
-}: RouteComponentProps<{ id: string }>): JSX.Element {
+}: RouteComponentProps<{ id: string }>): React.JSX.Element {
   return (
     <>
       <div style={{ margin: '1rem' }}>

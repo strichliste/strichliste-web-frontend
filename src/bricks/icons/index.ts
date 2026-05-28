@@ -7,4 +7,5 @@ export * from './paypal';
 export * from './search-minus';
 export * from './search-plus';
 export * from './search';
+export * from './sound';
 export * from './icons';

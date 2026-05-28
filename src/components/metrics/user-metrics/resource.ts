@@ -1,19 +1,19 @@
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { get, useEffectAsync } from '../../../services/api';
-import { Article } from '../../../store/reducers';
+import { get } from '../../../services/api';
+import { queryKeys } from '../../../queries/keys';
+import { Article } from '../../../types';
 
 export const useMetrics = (userId: string): UserMetric | null => {
-  const [metrics, setMetrics] = useState(null);
+  const { data } = useQuery({
+    queryKey: queryKeys.userMetrics(userId),
+    queryFn: ({ signal }): Promise<UserMetric> =>
+      get<UserMetric>(`user/${encodeURIComponent(userId)}/metrics`, { signal }),
+    enabled: Boolean(userId),
+    meta: { defaultError: 'METRICS_LOADING_FAILED' },
+  });
 
-  useEffectAsync(async () => {
-    if (userId) {
-      const nextMetrics = await get(`user/${userId}/metrics`);
-      setMetrics(nextMetrics);
-    }
-  }, [userId]);
-
-  return metrics;
+  return data ?? null;
 };
 
 export interface ArticleEntry {

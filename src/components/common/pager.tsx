@@ -31,7 +31,7 @@ export interface PagerProps {
   onChange(nextPage: number): void;
 }
 
-export function Pager(props: PagerProps): JSX.Element {
+export function Pager(props: PagerProps): React.JSX.Element {
   return (
     <Flex margin="1rem 0" alignContent="center" justifyContent="space-between">
       <Button

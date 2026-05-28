@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from '../../routing';
 
-import { useUserName } from '../../store';
-import { Transaction, startCreatingTransaction } from '../../store/reducers';
+import { useUserName } from '../../queries';
+import { useCreateTransaction } from '../../queries/transactions';
 import { getUserDetailLink, getUserPayPalLink } from '../user/user-router';
 import { PayPalTransactionForm } from './paypal-transaction-form';
-import { useDispatch } from 'react-redux';
 
 export type PayPalTransactionProps = RouteComponentProps<{
   id: string;
@@ -19,21 +18,18 @@ export const PayPalTransaction = withRouter((props: PayPalTransactionProps) => {
   const paidAmount = Number(props.match.params.amount);
 
   const userName = useUserName(userId);
-  const dispatch = useDispatch();
+  const { mutateAsync: createTransaction } = useCreateTransaction();
 
   React.useEffect(() => {
-    if (paidAmount) {
-      startCreatingTransaction(dispatch, userId, {
-        amount: paidAmount * 100,
-        comment: 'paypal',
-      }).then((response: Transaction | undefined) => {
-        if (response && response) {
-          props.history.push(getUserDetailLink(userId));
-        } else {
-          props.history.push(`${getUserPayPalLink(userId)}/error`);
-        }
-      });
-    }
+    if (!paidAmount) return;
+    createTransaction({
+      userId,
+      params: { amount: paidAmount * 100, comment: 'paypal' },
+    })
+      .then(() => props.history.push(getUserDetailLink(userId)))
+      .catch(() =>
+        props.history.push(`${getUserPayPalLink(userId)}/error`)
+      );
     // eslint-disable-next-line
   }, [paidAmount]);
 

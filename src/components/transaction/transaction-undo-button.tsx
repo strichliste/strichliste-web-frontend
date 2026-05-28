@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useIsTransactionDeletable, store } from '../../store';
-import { startDeletingTransaction } from '../../store/reducers';
+import { useSettings } from '../../queries';
+import { useDeleteTransaction } from '../../queries/transactions';
 import { Button } from '../../bricks';
 
 interface Props {
@@ -11,28 +10,25 @@ interface Props {
 }
 
 export function TransactionUndoButton(props: Props) {
-  const isDeletable = useIsTransactionDeletable(props.transactionId);
+  const undoEnabled = useSettings().payment.undo.enabled;
+  const { mutate: deleteTransaction, isPending } = useDeleteTransaction();
 
-  if (!isDeletable) {
-    return null;
-  }
-
-  if (props.userId === undefined) {
+  if (!undoEnabled || props.userId === undefined) {
     return null;
   }
 
   return (
     <Button
       padding="0"
+      disabled={isPending}
       onClick={() => {
         if (typeof props.onSuccess === 'function') {
           props.onSuccess();
         }
-        startDeletingTransaction(
-          store.dispatch,
-          props.userId || '',
-          props.transactionId
-        );
+        deleteTransaction({
+          userId: props.userId || '',
+          transactionId: props.transactionId,
+        });
       }}
     >
       <FormattedMessage id="USER_TRANSACTION_UNDO" />

@@ -2,35 +2,27 @@ import * as React from 'react';
 import { FormattedNumber } from 'react-intl';
 import { Input } from '../../bricks';
 
-function getPlaceholder(
+function getDisplay(
   placeholder: string | undefined,
-  value: string,
+  formatted: string,
   hasFocus: boolean
 ): string {
-  return !placeholder || value !== '0.00' || hasFocus ? value : placeholder;
+  return !placeholder || formatted !== '0.00' || hasFocus
+    ? formatted
+    : placeholder;
 }
 
 export function convertFormattedNumberToCents(rawValue: string): number {
   return Number(rawValue.replace(/(-(?!\d))|[^0-9|-]/g, ''));
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function moveCursorToEnd(el: any): void {
+function moveCursorToEnd(el: HTMLInputElement | null): void {
+  if (!el) return;
   window.setTimeout(() => {
     if (typeof el.selectionStart === 'number') {
       el.selectionStart = el.selectionEnd = el.value.length;
-    } else if (typeof el.createTextRange !== 'undefined') {
-      const range = el.createTextRange();
-      range.collapse(false);
-      range.select();
     }
   }, 1);
-}
-
-interface State {
-  lastPropValue: number | undefined;
-  value: number;
-  hasFocus: boolean;
 }
 
 interface Props {
@@ -39,86 +31,62 @@ interface Props {
   value?: number;
   autoFocus?: boolean;
   id?: string;
+  /** Accessible name when no <label htmlFor> wires this input up. */
+  'aria-label'?: string;
   onChange?(value: number): void;
 }
 
-export class CurrencyInput extends React.Component<Props, State> {
-  public inputRef = React.createRef();
-  public state = {
-    lastPropValue: 0,
-    value: this.getValueFromProps(),
-    hasFocus: false,
-  };
+export function CurrencyInput({
+  noNegative,
+  placeholder,
+  value,
+  autoFocus,
+  id,
+  'aria-label': ariaLabel,
+  onChange,
+}: Props): React.JSX.Element {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [hasFocus, setHasFocus] = React.useState(false);
 
-  public getValueFromProps(): number {
-    return this.props.value ? this.props.value / 100 : 0;
-  }
+  // Controlled-or-uncontrolled discipline (React standard): if a parent
+  // passes `value`, we mirror it directly — no local state, no prop-sync
+  // effect. If not, internal state holds the user's input. The mode is
+  // pinned to mount (props.value transitioning from defined↔undefined
+  // mid-life would be a misuse, same as <input value=…/>).
+  const isControlled = value !== undefined;
+  const [internalCents, setInternalCents] = React.useState(0);
+  const cents = isControlled ? (value as number) : internalCents;
+  const displayValue = cents / 100;
 
-  public componentDidUpdate(): void {
-    if (this.props.value === undefined) {
-      return;
-    }
-
-    if (this.state.lastPropValue !== this.props.value) {
-      const value = this.getValueFromProps();
-      this.setState({ lastPropValue: this.props.value, value });
-    }
-  }
-
-  public updateValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleanedNumber = this.props.noNegative
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const next = noNegative
       ? Math.abs(convertFormattedNumberToCents(e.target.value))
       : convertFormattedNumberToCents(e.target.value);
-    this.setState({ value: cleanedNumber / 100 }, () => {
-      if (this.inputRef && this.inputRef.current) {
-        moveCursorToEnd(this.inputRef.current);
-      }
-    });
-    if (this.props.onChange) {
-      this.props.onChange(cleanedNumber);
-    }
+    if (!isControlled) setInternalCents(next);
+    moveCursorToEnd(inputRef.current);
+    onChange?.(next);
   };
 
-  public render(): JSX.Element {
-    return (
-      <>
-        <FormattedNumber
-          minimumFractionDigits={2}
-          value={this.state.value}
-          children={(formattedValue: string) => (
-            <Input
-              id={this.props.id}
-              // @ts-expect-error js-ts-error js-ts
-              ref={this.inputRef}
-              style={{
-                color:
-                  getPlaceholder(
-                    this.props.placeholder,
-                    formattedValue,
-                    this.state.hasFocus
-                  ) === this.props.placeholder
-                    ? '#8e8e8e'
-                    : undefined,
-              }}
-              placeholder={this.props.placeholder}
-              value={getPlaceholder(
-                this.props.placeholder,
-                formattedValue,
-                this.state.hasFocus
-              )}
-              onFocus={() => this.setState({ hasFocus: true })}
-              onBlur={() =>
-                this.setState({
-                  hasFocus: false,
-                })
-              }
-              onChange={this.updateValue}
-              type="tel"
-              autoFocus={this.props.autoFocus}
-            />
-          )}
-        />
-      </>
-    );
-  }
+  return (
+    <FormattedNumber minimumFractionDigits={2} value={displayValue}>
+      {(formattedValue: string) => {
+        const shown = getDisplay(placeholder, formattedValue, hasFocus);
+        return (
+          <Input
+            id={id}
+            ref={inputRef}
+            aria-label={ariaLabel ?? placeholder}
+            style={{ color: shown === placeholder ? '#6e6e6e' : undefined }}
+            placeholder={placeholder}
+            value={shown}
+            onFocus={() => setHasFocus(true)}
+            onBlur={() => setHasFocus(false)}
+            onChange={handleChange}
+            type="tel"
+            autoFocus={autoFocus}
+          />
+        );
+      }}
+    </FormattedNumber>
+  );
 }

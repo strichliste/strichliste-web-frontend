@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from '../../../routing';
 import { TransactionTable } from '../../transaction/transaction-table';
 import { ScrollToTop } from '../../common/scroll-to-top';
 
@@ -10,7 +10,7 @@ export type TransactionOverviewProps = RouteComponentProps<{
 
 export function TransactionOverview(
   props: TransactionOverviewProps
-): JSX.Element {
+): React.JSX.Element {
   const { id, page } = props.match.params;
   return (
     <div style={{ margin: '1rem' }}>

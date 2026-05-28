@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 
-import { User } from '../../store/reducers';
+import { User } from '../../types';
 import { Modal, useModal, Ellipsis } from '../../bricks';
 import { Button } from '../../bricks/button/button';
 import { UserSearchList } from '../common/search-results';
@@ -9,9 +10,7 @@ interface Props {
   filterUsers?: User[];
   filterUserId?: string;
   placeholder: string;
-  disabled?: boolean;
   user?: User;
-  getString?(user: User): string;
   onSelect(user: User): void;
 }
 
@@ -21,7 +20,8 @@ export function UserSelection({
   filterUserId,
   onSelect,
   user,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
+  const intl = useIntl();
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const modalProps = useModal();
   const [selection, setSelection] = React.useState<User | undefined>();
@@ -48,7 +48,11 @@ export function UserSelection({
       >
         <Ellipsis>{selection ? selection.name : placeholder}</Ellipsis>
       </Button>
-      <Modal {...modalProps} id="user-selection">
+      <Modal
+        {...modalProps}
+        id="user-selection"
+        label={intl.formatMessage({ id: 'USER_SELECTION_LIST_LABEL' })}
+      >
         <UserSearchList
           scrollableTarget="user-selection"
           filterUsers={filterUsers}

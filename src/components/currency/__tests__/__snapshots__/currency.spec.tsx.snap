@@ -1,22 +1,20 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Currency hides plus icons by prop 1`] = `
+exports[`Currency > hides plus icons by prop 1`] = `
 <div>
-  
   €1.20
 </div>
 `;
 
-exports[`Currency matches the snapshot for english locales 1`] = `
+exports[`Currency > matches the snapshot for english locales 1`] = `
 <div>
   +
   €1.20
 </div>
 `;
 
-exports[`Currency show - icons 1`] = `
+exports[`Currency > show - icons 1`] = `
 <div>
-  
   -€1.20
 </div>
 `;

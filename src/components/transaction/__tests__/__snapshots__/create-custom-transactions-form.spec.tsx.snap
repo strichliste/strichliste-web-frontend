@@ -1,11 +1,11 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
+exports[`CreateCustomTransactionForm > matches the snapshot 1`] = `
 <div
-  class="userTransactionGrid"
+  class="_userTransactionGrid_da91a8"
 >
   <button
-    class="button fab red"
+    class="_button_f259b0 _fab_f259b0 _red_f259b0"
     disabled=""
     title="BALANCE_DISPENSE"
     type="submit"
@@ -13,14 +13,15 @@ exports[`CreateCustomTransactionForm matches the snapshot 1`] = `
     -
   </button>
   <input
-    class="input"
+    aria-label="BALANCE_PLACEHOLDER"
+    class="_input_c1c268"
     placeholder="BALANCE_PLACEHOLDER"
-    style="color: rgb(142, 142, 142);"
+    style="color: rgb(110, 110, 110);"
     type="tel"
     value="BALANCE_PLACEHOLDER"
   />
   <button
-    class="button fab green"
+    class="_button_f259b0 _fab_f259b0 _green_f259b0"
     disabled=""
     title="BALANCE_DEPOSIT"
     type="submit"

@@ -1,57 +1,52 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MemoryHistory, createMemoryHistory } from 'history';
 import * as React from 'react';
+import { merge } from 'lodash';
 import { IntlProvider } from 'react-intl';
-import { Router } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
-import { DeepPartial, Store, createStore } from 'redux';
-import { Provider } from 'react-redux';
 
-import { AppState, reducer } from '../store';
+import { DeepPartial, Settings, User } from '../types';
+import { defaultSettings } from '../types/settings';
+import { queryKeys } from '../queries/keys';
+
+interface Options {
+  initialEntries?: string[];
+  /** Seed the settings query (merged onto the defaults). */
+  settings?: DeepPartial<Settings>;
+  /** Seed individual user queries by id (e.g. for balance-based validators). */
+  users?: Record<string, DeepPartial<User>>;
+}
+
+function makeQueryClient(options: Options): QueryClient {
+  const client = new QueryClient({
+    defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+  });
+  client.setQueryData(queryKeys.settings, merge({}, defaultSettings, options.settings));
+  Object.entries(options.users ?? {}).forEach(([id, user]) => {
+    client.setQueryData(queryKeys.user(id), { id, ...user });
+  });
+  return client;
+}
 
 export function renderWithContext(
-  ui: JSX.Element,
-  initialState: DeepPartial<AppState>,
-  store = createStore<any, any, any, any>(reducer, initialState),
-  history: MemoryHistory = createMemoryHistory()
+  ui: React.ReactElement,
+  options: Options = {}
 ) {
   return render(
-    <Provider store={store}>
-      <Router history={history}>
+    <QueryClientProvider client={makeQueryClient(options)}>
+      <MemoryRouter initialEntries={options.initialEntries ?? ['/']}>
         <IntlProvider locale="en">{ui}</IntlProvider>
-      </Router>
-    </Provider>
+      </MemoryRouter>
+    </QueryClientProvider>
   );
 }
 
-export function renderAndReturnContext(
-  ui: JSX.Element,
-  initialState: DeepPartial<AppState>,
-  store: Store<AppState> = createStore<any, any, any, any>(
-    reducer,
-    initialState
-  ),
-  history: MemoryHistory = createMemoryHistory()
-) {
-  return {
-    result: render(
-      <Provider store={store}>
-        <Router history={history}>
-          <IntlProvider locale="en" textComponent={React.Fragment}>
-            {ui}
-          </IntlProvider>
-        </Router>
-      </Provider>
-    ),
-    store,
-    history,
-  };
-}
-
-export function renderWithIntl(ui: JSX.Element) {
+export function renderWithIntl(ui: React.ReactElement) {
   return render(
-    <IntlProvider locale="en" textComponent={React.Fragment}>
-      {ui}
-    </IntlProvider>
+    <QueryClientProvider client={makeQueryClient({})}>
+      <IntlProvider locale="en" textComponent={React.Fragment}>
+        {ui}
+      </IntlProvider>
+    </QueryClientProvider>
   );
 }

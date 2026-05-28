@@ -1,17 +1,13 @@
 import * as React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { store } from '../../../store';
-import {
-  CreateTransactionParams,
-  Transaction,
-  User,
-  startCreatingTransaction,
-} from '../../../store/reducers';
+import { CreateTransactionParams, Transaction, User } from '../../../types';
+import { useCreateTransaction } from '../../../queries/transactions';
 import { WrappedIdleTimer } from '../../common/idle-timer';
 import { Currency, CurrencyInput } from '../../currency';
 import { UserSelection } from '../../user';
 import { UserName } from '../../user/user-name';
 import { isTransactionValid } from '../validator';
+import { useSettings } from '../../../queries';
 import {
   AcceptButton,
   Input,
@@ -35,12 +31,13 @@ type Response = {
 
 export const SplitInvoiceForm = () => {
   const intl = useIntl();
+  const settings = useSettings();
+  const { mutateAsync: createTransaction } = useCreateTransaction();
   const [recipient, setRecipient] = React.useState<User | undefined>(undefined);
   const [participants, setParticipants] = React.useState<User[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [amount, setAmount] = React.useState(0);
   const [comment, setComment] = React.useState('');
-  const [validation, setValidation] = React.useState<Validation>({});
   const [response, setResponse] = React.useState<Response>({});
 
   const resetState = () => {
@@ -49,27 +46,26 @@ export const SplitInvoiceForm = () => {
     setIsLoading(false);
     setAmount(0);
     setComment('');
-    setValidation({});
     setResponse({});
   };
 
   const submitSplitInvoice = async () => {
     for (const participant of participants) {
-      await createTransaction(participant);
+      await submitParticipantTransaction(participant);
     }
   };
 
-  const createTransaction = async (participant: User) => {
+  const submitParticipantTransaction = async (participant: User) => {
     if (formIsValid() && recipient) {
       setIsLoading(true);
       const userId = participant.id;
       const params = getParams(recipient);
-      const result = await startCreatingTransaction(
-        store.dispatch,
-        userId,
-        params
-      );
-      setResponse(response => ({ ...response, [userId]: result || 'error' }));
+      try {
+        const result = await createTransaction({ userId, params });
+        setResponse(response => ({ ...response, [userId]: result }));
+      } catch {
+        setResponse(response => ({ ...response, [userId]: 'error' }));
+      }
     }
   };
 
@@ -80,11 +76,6 @@ export const SplitInvoiceForm = () => {
       amount: getSplitAmount() * -1,
     };
   };
-
-  React.useEffect(() => {
-    updateValidation();
-    // eslint-disable-next-line
-  }, [participants, amount, recipient]);
 
   const addParticipant = (user: User) => {
     setParticipants([...participants, user]);
@@ -109,31 +100,29 @@ export const SplitInvoiceForm = () => {
 
   const filterUsers = recipient ? [...participants, recipient] : participants;
 
-  const updateValidation = () => {
+  // Pure derivation of per-participant validity from the current form state;
+  // useMemo so the object identity is only fresh when one of the inputs
+  // actually changes (replaces the old effect+useState dance).
+  const validation = React.useMemo<Validation>(() => {
     const value = getSplitAmount();
-    const accountBoundary = store.getState().settings.account.boundary;
-    const paymentBoundary = store.getState().settings.payment.boundary;
-    const initialValue: { [key: number]: string } = {};
-    const validation = Object.values(participants).reduce(
-      (acc, participant) => {
-        return {
-          ...acc,
-          [participant.id]: isTransactionValid({
-            value,
-            isDeposit: false,
-            accountBoundary,
-            paymentBoundary,
-            balance: participant.balance,
-          })
-            ? ''
-            : `can't afford it`,
-        };
-      },
-      initialValue
-    );
-
-    setValidation(validation);
-  };
+    const accountBoundary = settings.account.boundary;
+    const paymentBoundary = settings.payment.boundary;
+    return participants.reduce<Validation>((acc, participant) => {
+      acc[participant.id] = isTransactionValid({
+        value,
+        isDeposit: false,
+        accountBoundary,
+        paymentBoundary,
+        balance: participant.balance,
+      })
+        ? ''
+        : `can't afford it`;
+      return acc;
+    }, {});
+    // getSplitAmount depends on amount + participants + recipient; settings
+    // is stable from useSettings.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [participants, amount, recipient, settings]);
 
   const formIsValid = () => {
     return Object.values(validation).every(item => item === '');
@@ -156,8 +145,7 @@ export const SplitInvoiceForm = () => {
         )}
         {Object.keys(response).map(userId => {
           const item = response[userId];
-          // eslint-disable-next-line
-          const user = participants.find(user => user.id == userId);
+          const user = participants.find(user => user.id === userId);
           const userName = user ? user.name : '';
 
           if (item === 'error') {
@@ -198,9 +186,9 @@ export const SplitInvoiceForm = () => {
   return (
     <div className={styles.wrapper}>
       <WrappedIdleTimer />
-      <h1>
+      <h2>
         <FormattedMessage id="SPLIT_INVOICE_HEADLINE" />
-      </h1>
+      </h2>
 
       <div className={styles.grid}>
         <CurrencyInput
@@ -224,6 +212,9 @@ export const SplitInvoiceForm = () => {
         value={comment}
         onChange={e => setComment(e.target.value)}
         placeholder={intl.formatMessage({
+          id: 'USER_TRANSACTIONS_TABLE_COMMENT',
+        })}
+        aria-label={intl.formatMessage({
           id: 'USER_TRANSACTIONS_TABLE_COMMENT',
         })}
       />
@@ -297,7 +288,7 @@ export const SplitInvoiceForm = () => {
               <AcceptButton
                 title={intl.formatMessage({ id: 'SPLIT_INVOICE_SUBMIT' })}
                 onClick={submitSplitInvoice}
-                disabled={!submitIsValid()}
+                disabled={!submitIsValid() || isLoading}
               />
             </div>
           </div>

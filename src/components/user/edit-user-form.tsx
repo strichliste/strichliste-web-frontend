@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import { useUser } from '../../store';
-import { startUpdateUser } from '../../store/reducers';
+import { useUser } from '../../queries';
+import { useUpdateUser } from '../../queries/users';
 import { Input, Flex, CancelButton, AcceptButton } from '../../bricks';
 
 interface Props {
@@ -19,26 +18,25 @@ const formStyle = {
 
 export const UserEditForm = (props: Props) => {
   const intl = useIntl();
+  const { mutateAsync: updateUser, isPending } = useUpdateUser();
   const [name, setName] = React.useState(''),
     [email, setEmail] = React.useState(''),
     [isDisabled, setDisabled] = React.useState(false),
     user = useUser(props.userId),
-    dispatch = useDispatch(),
     submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
       e.preventDefault();
-
-      const user = await startUpdateUser(dispatch, props.userId, {
-        name,
-        email,
-        isDisabled,
-      });
-
-      if (user && user.isDisabled) {
-        props.onDisabled();
-        return;
-      }
-      if (user && user.id) {
+      try {
+        const user = await updateUser({
+          userId: props.userId,
+          params: { name, email, isDisabled },
+        });
+        if (user.isDisabled) {
+          props.onDisabled();
+          return;
+        }
         props.onSave();
+      } catch {
+        // mutationCache.onError surfaced a toast.
       }
     };
 
@@ -58,7 +56,8 @@ export const UserEditForm = (props: Props) => {
           id="USER_EDIT_NAME_LABEL"
           children={(text) => (
             <Input
-              placeholder={text as string}
+              placeholder={text as unknown as string}
+              aria-label={text as unknown as string}
               value={name}
               onChange={(e) => setName(e.target.value)}
               minLength={1}
@@ -74,7 +73,8 @@ export const UserEditForm = (props: Props) => {
           id="USER_EDIT_MAIL_LABEL"
           children={(text) => (
             <Input
-              placeholder={text as string}
+              placeholder={text as unknown as string}
+              aria-label={text as unknown as string}
               value={email || ''}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
@@ -97,6 +97,7 @@ export const UserEditForm = (props: Props) => {
 
             <AcceptButton
               type="submit"
+              disabled={isPending}
               title={intl.formatMessage({ id: 'USER_EDIT_TRIGGER' })}
             />
           </div>

@@ -20,3 +20,14 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# playwright
+/playwright-report
+/test-results
+/playwright/.cache
+
+# vite / tooling caches & misc
+/.vite
+*.log
+*.tsbuildinfo
+stats.html

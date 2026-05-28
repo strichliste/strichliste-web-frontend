@@ -1,75 +1,168 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import { useIntl } from 'react-intl';
 
 import styles from './modal.module.css';
 import { Card } from '..';
 
-export const Backdrop: React.FC<{ title: string; onClick(): void }> = ({
-  onClick,
-  title,
-}) => {
+/**
+ * Backdrop is intentionally `role="presentation"`: it dismisses the dialog
+ * when clicked, but isn't an interactive control to keyboard/AT users — they
+ * use Escape, the close button inside the dialog, or the focus-trap exit.
+ */
+const Backdrop: React.FC<{ onClick(): void }> = ({ onClick }) => {
   return ReactDom.createPortal(
-    <button
-      className={styles.backdrop}
-      onClick={onClick}
-      title={title}
-    ></button>,
+    <div role="presentation" className={styles.backdrop} onClick={onClick} />,
     document.body
   );
 };
 
+// Module-level stack of open modals so Esc and popstate only dismiss the
+// topmost one. Each useModal() instance pushes when it opens and pops when
+// it closes; the stack is consulted before the handlers fire.
+type Closer = () => void;
+const openStack: Closer[] = [];
+
 export const useModal = (initialShow = false) => {
   const [show, setShow] = React.useState(initialShow);
 
-  const handleShow = () => {
+  // Stable identities so consumers can put `handleHide` / `handleShow` in
+  // their own dep arrays without re-binding effects on every render.
+  const handleShow = React.useCallback(() => {
     window.history.pushState(null, document.title, window.location.href);
     setShow(true);
-  };
-  const handleHide = (popState = true) => {
+  }, []);
+  const handleHide = React.useCallback((popState = true) => {
     if (popState) {
       window.history.back();
     }
     setShow(false);
-  };
-  const handleEsc = (e: any) => {
-    if (e.keyCode === 27) {
-      handleHide();
-    }
-  };
-  const handlePopState = () => handleHide(false);
+  }, []);
 
   React.useEffect(() => {
-    if (show) {
-      document.addEventListener('keydown', handleEsc);
-      window.addEventListener('popstate', handlePopState);
-    }
+    if (!show) return;
+    const close: Closer = () => handleHide();
+    openStack.push(close);
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      // Only the topmost open modal responds.
+      if (openStack[openStack.length - 1] !== close) return;
+      handleHide();
+    };
+    const handlePopState = () => {
+      // Browser back / forward — only the top modal claims the event.
+      if (openStack[openStack.length - 1] !== close) return;
+      handleHide(false);
+    };
+    document.addEventListener('keydown', handleEsc);
+    window.addEventListener('popstate', handlePopState);
     return () => {
       document.removeEventListener('keydown', handleEsc);
       window.removeEventListener('popstate', handlePopState);
+      const idx = openStack.lastIndexOf(close);
+      if (idx >= 0) openStack.splice(idx, 1);
     };
-    // eslint-disable-next-line
-  }, [show]);
+  }, [show, handleHide]);
 
   return { show, handleHide, handleShow };
 };
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+
 export const Modal: React.FC<{
+  children?: React.ReactNode;
   handleShow(): void;
   handleHide(popState?: boolean): void;
   show: boolean;
-  backDropTile?: string;
+  /** Accessible name of the dialog. Defaults to a localized "Dialog". */
+  label?: string;
   id?: string;
-}> = ({ id, children, show, handleHide, backDropTile = 'close' }) => {
+}> = ({ id, children, show, handleHide, label }) => {
+  const intl = useIntl();
+  const dialogRef = React.useRef<HTMLDivElement>(null);
+  const previouslyFocused = React.useRef<HTMLElement | null>(null);
+
+  React.useEffect(() => {
+    if (!show) {
+      return;
+    }
+    // Remember what had focus, move focus into the dialog, restore on close.
+    previouslyFocused.current = document.activeElement as HTMLElement;
+    const dialog = dialogRef.current;
+    const focusFirst = () => {
+      if (!dialog) return;
+      const items = dialog.querySelectorAll<HTMLElement>(FOCUSABLE);
+      (items.length ? items[0] : dialog).focus();
+    };
+    focusFirst();
+    // If dialog contents render asynchronously (loading spinner → form), the
+    // initial pass focuses the dialog wrapper; observe the subtree and move
+    // focus to the first real control as soon as one appears.
+    let observer: MutationObserver | undefined;
+    if (dialog) {
+      observer = new MutationObserver(() => {
+        if (!dialog.contains(document.activeElement) || document.activeElement === dialog) {
+          focusFirst();
+        }
+      });
+      observer.observe(dialog, { childList: true, subtree: true });
+    }
+
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !dialog) {
+        return;
+      }
+      const items = dialog.querySelectorAll<HTMLElement>(FOCUSABLE);
+      if (items.length === 0) {
+        e.preventDefault();
+        return;
+      }
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', trap);
+    return () => {
+      document.removeEventListener('keydown', trap);
+      observer?.disconnect();
+      // Restore focus to whatever had it before; fall back to the main landmark
+      // if the original element was unmounted while the dialog was open.
+      const previous = previouslyFocused.current;
+      if (previous && document.body.contains(previous)) {
+        previous.focus();
+      } else {
+        document.getElementById('main-content')?.focus();
+      }
+    };
+  }, [show]);
+
   if (!show) {
     return null;
   }
 
   return ReactDom.createPortal(
     <>
-      <Card id={id} className={styles.modal}>
-        {children}
-      </Card>
-      <Backdrop onClick={handleHide} title={backDropTile} />
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={
+          label ?? intl.formatMessage({ id: 'DIALOG', defaultMessage: 'Dialog' })
+        }
+        tabIndex={-1}
+      >
+        <Card id={id} className={styles.modal}>
+          {children}
+        </Card>
+      </div>
+      <Backdrop onClick={() => handleHide()} />
     </>,
     document.body
   );

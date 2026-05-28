@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from '../../../../routing';
 
-import { useFilteredUsers } from '../../../../store';
-import { startLoadingUsers } from '../../../../store/reducers';
+import { useFilteredUsers } from '../../../../queries';
 import { NavTabMenus } from '../../../common/nav-tab-menu';
 import { CreateUserInlineFormView } from '../../create-user-inline-form';
-import { useDispatch } from 'react-redux';
 import { ScrollToTop } from '../../../common/scroll-to-top';
 import { UserList } from '../../user-list';
 
@@ -20,12 +17,7 @@ interface OwnProps {
 type UserProps = OwnProps & RouteComponentProps;
 
 export const User = (props: UserProps) => {
-  const userIds = useFilteredUsers(props.isActive);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    startLoadingUsers(dispatch);
-  }, [props.isActive, dispatch]);
+  const users = useFilteredUsers(props.isActive);
 
   return (
     <>
@@ -51,7 +43,12 @@ export const User = (props: UserProps) => {
             },
           ]}
         />
-        <UserList userIds={userIds} />
+        <h2 className="sr-only">
+          <FormattedMessage
+            id={props.isActive ? 'USER_ACTIVE_LINK' : 'USER_INACTIVE_LINK'}
+          />
+        </h2>
+        <UserList users={users} />
       </div>
     </>
   );

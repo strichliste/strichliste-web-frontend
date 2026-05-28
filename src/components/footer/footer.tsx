@@ -4,6 +4,8 @@ import styles from './footer.module.css';
 
 const GitHubIcon = (
   <svg
+    aria-hidden="true"
+    focusable="false"
     xmlns="http://www.w3.org/2000/svg"
     width="16"
     height="16"
@@ -13,7 +15,7 @@ const GitHubIcon = (
   </svg>
 );
 
-export function MainFooter(): JSX.Element {
+export function MainFooter(): React.JSX.Element {
   return (
     <footer className={styles.footer}>
       <div>

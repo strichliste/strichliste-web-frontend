@@ -1,5 +1,5 @@
-import { useSettings, useUserBalance } from '../../store';
-import { Boundary } from '../../store/reducers';
+import { useSettings, useUserBalance } from '../../queries';
+import { Boundary } from '../../types';
 
 interface TransactionArguments {
   accountBoundary: Boundary;

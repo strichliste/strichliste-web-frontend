@@ -1,15 +1,12 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  Article,
-  getArticleByBarcode,
-  startCreatingTransaction,
-} from '../../store/reducers';
+import { Article } from '../../types';
+import { fetchArticleByBarcode } from '../../queries/articles';
+import { useCreateTransaction } from '../../queries/transactions';
 import { Scanner } from '../common/scanner';
 import { Toast } from '../common/toast';
 import { Currency } from '../currency';
 import { Flex, AcceptIcon } from '../../bricks';
-import { useDispatch } from 'react-redux';
 
 interface Props {
   userId: string;
@@ -18,20 +15,34 @@ interface Props {
 export const ArticleScanner = (props: Props) => {
   const [message, setMessage] = React.useState('');
   const [article, setArticle] = React.useState<Article | undefined>(undefined);
-  const dispatch = useDispatch();
+  const { mutate: createTransaction, isPending } = useCreateTransaction();
+  // Abort an in-flight barcode lookup when a new scan comes in (or on
+  // unmount) — otherwise a slow earlier response can overwrite the state
+  // for a newer scan.
+  const lookupController = React.useRef<AbortController | null>(null);
+  React.useEffect(
+    () => () => lookupController.current?.abort(),
+    []
+  );
 
   const handleChange = async (barcode: string) => {
+    // Ignore rapid re-scans while a previous buy is still in flight.
+    if (isPending) return;
+    lookupController.current?.abort();
+    const controller = new AbortController();
+    lookupController.current = controller;
     setMessage(barcode);
     try {
-      const article = await getArticleByBarcode(dispatch, barcode);
+      const article = await fetchArticleByBarcode(barcode, controller.signal);
+      if (controller.signal.aborted) return;
       setMessage('ARTICLE_FETCHED_BY_BARCODE');
       setArticle(article);
-      if (article) {
-        startCreatingTransaction(dispatch, props.userId, {
-          articleId: article.id,
-        });
-      }
-    } catch (error) {
+      createTransaction({
+        userId: props.userId,
+        params: { articleId: article.id },
+      });
+    } catch (e) {
+      if ((e as DOMException)?.name === 'AbortError') return;
       setMessage(':(');
     }
   };
@@ -57,7 +68,7 @@ interface ToastProps {
   article: Article | undefined;
 }
 
-function ToastContent({ article, message }: ToastProps): JSX.Element {
+function ToastContent({ article, message }: ToastProps): React.JSX.Element {
   if (article === undefined) {
     return <>{message}</>;
   }

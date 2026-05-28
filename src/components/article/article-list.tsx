@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { withRouter } from 'react-router';
+import { withRouter } from '../../routing';
 
-import { useActiveArticles } from '../../store';
-import { startLoadingArticles, Article } from '../../store/reducers';
+import { useArticles } from '../../queries';
+import { Article } from '../../types';
 import { NavTabMenus } from '../common/nav-tab-menu';
 import { SearchList } from '../common/search-list/search-list';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,6 @@ import { ArticleTagFilter } from './article-tag-filter';
 
 import styles from './article-list.module.css';
 import { Button, AddIcon, Flex } from '../../bricks';
-import { useDispatch } from 'react-redux';
 
 const ArticleListItem: React.FC<{ article: Article }> = ({ article }) => {
   return (
@@ -42,13 +41,8 @@ const AddArticleButton = withRouter((props) => {
 });
 
 export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
-  const articles = useActiveArticles(isActive);
+  const articles = useArticles(isActive);
   const [filters, setFilters] = React.useState<string[]>([]);
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    startLoadingArticles(dispatch, isActive);
-  }, [dispatch, isActive]);
 
   const handleFilterChange = (filters: Record<string, string>) => {
     const filterQueries = Object.values(filters);
@@ -84,6 +78,11 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
           ]}
         />
       </Flex>
+      <h2 className="sr-only">
+        <FormattedMessage
+          id={isActive ? 'ARTICLE_ACTIVE_HEADLINE' : 'ARTICLE_INACTIVE_HEADLINE'}
+        />
+      </h2>
       <ArticleTagFilter onFilterChange={handleFilterChange} />
       <SearchList
         items={filterArticles()}

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { startLoadingUsers, User } from '../../../store/reducers';
-import { useUserArray } from '../../../store';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { User } from '../../../types';
+import { useUsers } from '../../../queries';
 import { SearchList } from '../search-list/search-list';
 import { SearchResultItem } from './search-result-item/search-result-item';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from '../../../routing';
 import { useUserDetailUrl } from '../../user/user-router';
-import { useDispatch } from 'react-redux';
 
 export const SearchResults: React.FC<RouteComponentProps> = (props) => {
   const userDetailUrl = useUserDetailUrl();
@@ -13,6 +13,9 @@ export const SearchResults: React.FC<RouteComponentProps> = (props) => {
     props.history.push(userDetailUrl(user.id));
   return (
     <div style={{ margin: '1rem' }}>
+      <h2 className="sr-only">
+        <FormattedMessage id="USER_SEARCH_HEADLINE" defaultMessage="Find users" />
+      </h2>
       <UserSearchList onUserSelect={handleOnUserSelect} />
     </div>
   );
@@ -24,19 +27,14 @@ export const UserSearchList: React.FC<{
   filterUserId?: string;
   scrollableTarget?: string;
 }> = ({ onUserSelect, filterUsers, filterUserId, scrollableTarget }) => {
-  const userArray = useUserArray();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    startLoadingUsers(dispatch);
-  }, [dispatch]);
+  const userArray = useUsers();
   const filteredUsers = filterUsers
     ? userArray.filter(
         (user) => !filterUsers.map((user) => user.id).includes(user.id)
       )
     : filterUserId
-    ? // eslint-disable-next-line
-      userArray.filter((user) => user.id != filterUserId)
-    : userArray;
+      ? userArray.filter((user) => user.id !== filterUserId)
+      : userArray;
 
   return (
     <SearchList

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from 'react';
 import { cleanup } from '@testing-library/react';
 import { renderWithContext } from '../../../spec-configs/render';
 import { useTransactionValidator } from '../validator';
@@ -28,12 +27,13 @@ const renderTransactionValidator = ({
     return <div data-testid="result">{isValid ? 'yes' : 'no'}</div>;
   };
   const { getByTestId } = renderWithContext(<Component />, {
-    user: { '1': { balance } },
-    settings: {
-      account: { boundary: accountBoundary },
-      payment: { boundary: paymentBoundary },
-    },
-  });
+      users: { '1': { balance } },
+      settings: {
+        account: { boundary: accountBoundary },
+        payment: { boundary: paymentBoundary },
+      },
+    }
+  );
 
   return getByTestId;
 };

@@ -1,17 +1,6 @@
-import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useGlobalError } from '../../store';
+import { useGlobalError } from '../../services/global-error';
 import { Toast } from './toast';
-
-interface OwnProps {}
-
-interface StateProps {
-  id?: string;
-}
-
-interface ActionProps {}
-
-export type ErrorMessageProps = ActionProps & StateProps & OwnProps;
 
 export function ErrorMessage() {
   const id = useGlobalError();
@@ -21,7 +10,11 @@ export function ErrorMessage() {
   }
 
   return (
+    // role="alert" already implies aria-live="assertive" + atomic; setting
+    // aria-live explicitly was a redundant double-announce. Keep just the
+    // role so AT clients pick the conventional behaviour.
     <div
+      role="alert"
       style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 600 }}
     >
       <Toast type="error" fadeOutSeconds={5}>

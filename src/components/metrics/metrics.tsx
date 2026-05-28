@@ -16,8 +16,11 @@ import { useMetrics } from './resource';
 import { Currency } from '../currency';
 import { Card, GridThree, AlertText, Separator } from '../../bricks';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const FixedTooltip: any = Tooltip;
+// Recharts' Tooltip is generic-typed and trips React 19's JSX checker; assert
+// a narrower ComponentType so we drop `any` without re-typing the full surface.
+const FixedTooltip = Tooltip as unknown as React.ComponentType<{
+  contentStyle?: React.CSSProperties;
+}>;
 
 const Metrics: React.FC = () => {
   const theme = window.localStorage.getItem('SELECTED_THEME');

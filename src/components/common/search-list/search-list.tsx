@@ -72,6 +72,8 @@ export const SearchList: SearchListComponent = ({
         <Input
           autoFocus
           placeholder={intl.formatMessage({ id: 'SEARCH' })}
+          aria-label={intl.formatMessage({ id: 'SEARCH' })}
+          type="search"
           value={filter}
           onChange={e => updateFilter(e.target.value)}
         />

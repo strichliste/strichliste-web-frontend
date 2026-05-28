@@ -1,34 +1,38 @@
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { get, useEffectAsync } from '../../services/api';
+import { get } from '../../services/api';
+import { queryKeys } from '../../queries/keys';
 
 const checkNaN = (value: number): number => {
   const maybeNaN = value / 100;
   return isNaN(maybeNaN) ? 0 : maybeNaN;
 };
 
+function formatMetric(nextMetrics: Metric): FormattedMetric {
+  return {
+    ...nextMetrics,
+    days: nextMetrics.days.map((day) => ({
+      balance: checkNaN(day.balance),
+      charged: checkNaN(day.charged.amount),
+      date: day.date,
+      distinctUsers: day.distinctUsers,
+      spent: checkNaN(day.spent.amount),
+      transactions: day.transactions,
+    })),
+  };
+}
+
 export const useMetrics = (): FormattedMetric | null => {
-  const [metric, setMetrics] = useState<FormattedMetric | null>(null);
+  const { data } = useQuery({
+    queryKey: queryKeys.metrics,
+    queryFn: async ({ signal }): Promise<FormattedMetric> => {
+      const nextMetrics = await get<Metric>('metrics', { signal });
+      return formatMetric(nextMetrics);
+    },
+    meta: { defaultError: 'METRICS_LOADING_FAILED' },
+  });
 
-  useEffectAsync(async () => {
-    const nextMetrics: Metric = await get(`metrics`);
-
-    const formattedMetric = {
-      ...nextMetrics,
-      days: nextMetrics.days.map(day => ({
-        balance: checkNaN(day.balance),
-        charged: checkNaN(day.charged.amount),
-        date: day.date,
-        distinctUsers: day.distinctUsers,
-        spent: checkNaN(day.spent.amount),
-        transactions: day.transactions,
-      })),
-    };
-
-    setMetrics(formattedMetric);
-  }, []);
-
-  return metric;
+  return data ?? null;
 };
 
 interface Metric {
@@ -77,6 +81,6 @@ interface Article {
   amount: number;
   isActive: boolean;
   usageCount: number;
-  precursor?: any;
+  precursor?: Article;
   created: string;
 }

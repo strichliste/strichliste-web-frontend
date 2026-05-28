@@ -3,7 +3,11 @@
   background: var(--background);
   align-items: center;
   display: inline-flex;
-  padding: 0.5rem;
+  /* Padding + min-height keeps every button at the WCAG 2.5.5 44x44 target on
+     all breakpoints; consumers can tighten via the `padding` prop if they
+     genuinely want a smaller hit area. */
+  padding: 0.75rem 1rem;
+  min-height: 2.75rem;
   text-transform: uppercase;
   font-size: 0.8rem;
   border-radius: var(--borderRadius);
@@ -48,8 +52,9 @@
 }
 .fab {
   border-radius: 100%;
-  width: 2rem;
-  height: 2rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }

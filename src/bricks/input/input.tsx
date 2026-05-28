@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import styles from './input.module.css';
 
-type InputProps = JSX.IntrinsicElements['input'] & { className?: string };
+type InputProps = React.JSX.IntrinsicElements['input'] & { className?: string };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
@@ -19,20 +19,26 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 
-export const FormField: React.FC<any> = ({
+type FormFieldProps = Omit<InputProps, 'children'> & {
+  label: React.ReactNode;
+  inline?: boolean;
+  children?: React.ReactNode | ((id: string) => React.ReactNode);
+};
+
+export const FormField: React.FC<FormFieldProps> = ({
   label,
   inline = false,
   children,
   ...props
 }) => {
-  const id = React.useRef(Date.now() + 'di');
+  const id = React.useId();
   return (
     <div className={classnames(styles.formField, { [styles.inline]: inline })}>
-      <label htmlFor={id.current}>{label}</label>
+      <label htmlFor={id}>{label}</label>
       {typeof children === 'function' ? (
-        children(id.current)
+        children(id)
       ) : (
-        <Input id={id.current} {...props} />
+        <Input id={id} {...props} />
       )}
     </div>
   );

@@ -1,20 +1,17 @@
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useArticle } from '../../store';
+import { useArticle } from '../../queries';
+import { Article, Barcode, Tag } from '../../types';
 import {
-  Article,
-  startLoadingArticleDetails,
   AddArticleParams,
-  startAddArticle,
-  startAddBarcode,
-  startDeleteBarcode,
-  Barcode,
-  startAddTag,
-  startDeleteTag,
-  Tag,
-  startDeletingArticle,
   getArticleHistory,
-} from '../../store/reducers';
+  useAddArticle,
+  useAddBarcode,
+  useAddTag,
+  useDeleteArticle,
+  useDeleteBarcode,
+  useDeleteTag,
+} from '../../queries/articles';
 import { CurrencyInput, Currency } from '../currency';
 import { useArticleValidator } from './validator';
 import {
@@ -29,10 +26,9 @@ import {
 } from '../../bricks';
 
 import styles from './article-form.module.css';
-import { useHistory } from 'react-router';
+import { useHistory } from '../../routing';
 import { FormField } from '../../bricks/input/input';
 import { ScrollToTop } from '../common/scroll-to-top';
-import { useDispatch } from 'react-redux';
 
 interface Props {
   articleId?: number;
@@ -41,15 +37,7 @@ interface Props {
 
 export const ArticleForm: React.FC<Props> = (props) => {
   const intl = useIntl();
-  const dispatch = useDispatch();
   const article = useArticle(props.articleId);
-
-  React.useEffect(() => {
-    if (props.articleId) {
-      startLoadingArticleDetails(dispatch, props.articleId);
-    }
-    // eslint-disable-next-line
-  }, [props.articleId]);
 
   return (
     <>
@@ -96,19 +84,24 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
   const [params, setParams] = React.useState<AddArticleParams>(
     extractParams(article)
   );
-  const dispatch = useDispatch();
+  const { mutateAsync: addArticle, isPending: isSaving } = useAddArticle();
+  // Re-seed form state when the underlying article identity changes (route
+  // change), but NOT when the cached article object is replaced after our own
+  // write — keying on `article.id` keeps unsaved edits from being clobbered
+  // on cache invalidation.
+  const articleId = article?.id;
   React.useEffect(() => {
     setParams(extractParams(article));
-  }, [article]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [articleId]);
+  const isValid = useArticleValidator(params.amount);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await startAddArticle(dispatch, {
-      ...params,
-      precursor: article,
-    });
-
-    if (result) {
+    try {
+      const result = await addArticle({ ...params, precursor: article });
       history.push(`/articles/${result.id}/edit`);
+    } catch {
+      // mutationCache.onError surfaced a toast.
     }
   };
 
@@ -150,7 +143,7 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
         <div className={styles.flexEnd}>
           <AcceptButton
             title={intl.formatMessage({ id: 'ARTICLE_ADD_FROM_ACCEPT' })}
-            disabled={!useArticleValidator(params.amount)}
+            disabled={!isValid || isSaving}
           />
         </div>
       </Card>
@@ -160,18 +153,24 @@ const ArticleDetails: React.FC<{ article?: Article }> = ({ article }) => {
 
 const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
   const [barcodes, setBarcodes] = React.useState(article.barcodes || []);
-  const dispatch = useDispatch();
+  const { mutateAsync: addBarcode } = useAddBarcode();
+  const { mutateAsync: deleteBarcode } = useDeleteBarcode();
   const handleAddBarcode = async (barcode: string) => {
-    const response = await startAddBarcode(dispatch, article.id, barcode);
-    if (response) {
+    try {
+      const response = await addBarcode({ id: article.id, barcode });
       setBarcodes(response.barcodes);
-    } else {
+    } catch {
+      // mutationCache.onError surfaced a toast; drop the optimistic empty row.
       setBarcodes(barcodes.filter((item) => item.id !== 0));
     }
   };
   const handleDeleteBarcode = async (barcode: Barcode) => {
-    await startDeleteBarcode(dispatch, article.id, barcode.id);
-    setBarcodes(barcodes.filter((item) => item.id !== barcode.id));
+    try {
+      await deleteBarcode({ articleId: article.id, barcodeId: barcode.id });
+      setBarcodes(barcodes.filter((item) => item.id !== barcode.id));
+    } catch {
+      // toast already shown; keep the row in the list.
+    }
   };
   return (
     <ItemList<Barcode>
@@ -191,19 +190,24 @@ const ArticleBarCodes: React.FC<{ article: Article }> = ({ article }) => {
 
 const ArticleTags: React.FC<{ article: Article }> = ({ article }) => {
   const [tags, setTags] = React.useState(article.tags || []);
-  const dispatch = useDispatch();
   const intl = useIntl();
-  const handleAddTag = async (tag: string) => {
-    const response = await startAddTag(dispatch, article.id, tag);
-    if (response) {
+  const { mutateAsync: addTag } = useAddTag();
+  const { mutateAsync: deleteTag } = useDeleteTag();
+  const handleAddTag = async (tagValue: string) => {
+    try {
+      const response = await addTag({ id: article.id, tag: tagValue });
       setTags(response.tags);
-    } else {
+    } catch {
       setTags(tags.filter((item) => item.id !== 0));
     }
   };
   const handleDeleteTag = async (tag: Tag) => {
-    await startDeleteTag(dispatch, article.id, tag.id);
-    setTags(tags.filter((item) => item.id !== tag.id));
+    try {
+      await deleteTag({ articleId: article.id, tagId: tag.id });
+      setTags(tags.filter((item) => item.id !== tag.id));
+    } catch {
+      // toast already shown; keep the row.
+    }
   };
   return (
     <ItemList<Tag>
@@ -285,6 +289,7 @@ const ListInput: React.FC<{
       <Flex margin="0 0 0.5rem 0">
         <Input
           placeholder={placeholder}
+          aria-label={placeholder}
           autoFocus={item === ''}
           value={value}
           readOnly={!!item}
@@ -346,21 +351,29 @@ const ArticleHistory: React.FC<{ article: Article }> = ({ article }) => {
 };
 
 const ToggleActivity: React.FC<{ article: Article }> = ({ article }) => {
-  const dispatch = useDispatch();
   const history = useHistory();
+  const { mutateAsync: deleteArticle, isPending } = useDeleteArticle();
 
   if (!article.isActive) return null;
 
   const handleDeleteArticle = async () => {
-    const res = await startDeletingArticle(dispatch, article.id);
-    if (res) {
+    if (isPending) return;
+    try {
+      await deleteArticle(article.id);
       history.goBack();
+    } catch {
+      // toast already shown; stay on the form so the user can retry.
     }
   };
 
   return (
     <div style={{ margin: '3rem 0' }}>
-      <Button padding="1rem" red onClick={handleDeleteArticle}>
+      <Button
+        padding="1rem"
+        red
+        onClick={handleDeleteArticle}
+        disabled={isPending}
+      >
         <FormattedMessage id="DELETE_ARTICLE_LABEL" />
       </Button>
     </div>

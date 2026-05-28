@@ -10,7 +10,7 @@ export interface UserNameProps {
   center?: boolean;
 }
 
-export function UserName({ name, width, center }: UserNameProps): JSX.Element {
+export function UserName({ name, width, center }: UserNameProps): React.JSX.Element {
   return (
     <div
       className={classnames(styles.wrapper, { [styles.center]: center })}

@@ -21,3 +21,6 @@
 .greenText {
   color: var(--greenText);
 }
+
+/* The visually-hidden helper lives in bricks/theme/theme.css as `.sr-only`
+   (a global utility); use that instead of duplicating it here. */

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { Button, SearchMinus, SearchPlus } from '../../bricks';
 
 const STORAGE_KEY = 'strichliste_ui_scaling';
@@ -54,14 +55,21 @@ export const useScalingState = () => {
 
 export const ScalingButtons = () => {
   const { increment, decrement } = useScalingState();
+  const intl = useIntl();
 
   return (
     <>
-      <Button onClick={decrement}>
+      <Button
+        onClick={decrement}
+        aria-label={intl.formatMessage({ id: 'DECREASE_TEXT_SIZE' })}
+      >
         <SearchMinus />
       </Button>
 
-      <Button onClick={increment}>
+      <Button
+        onClick={increment}
+        aria-label={intl.formatMessage({ id: 'INCREASE_TEXT_SIZE' })}
+      >
         <SearchPlus />
       </Button>
     </>
