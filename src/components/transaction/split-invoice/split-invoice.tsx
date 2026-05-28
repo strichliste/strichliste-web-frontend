@@ -214,6 +214,9 @@ export const SplitInvoiceForm = () => {
         placeholder={intl.formatMessage({
           id: 'USER_TRANSACTIONS_TABLE_COMMENT',
         })}
+        aria-label={intl.formatMessage({
+          id: 'USER_TRANSACTIONS_TABLE_COMMENT',
+        })}
       />
       <div style={{ margin: '1rem 0', textAlign: 'center' }}>
         <FormattedMessage id="AND" defaultMessage="and" />

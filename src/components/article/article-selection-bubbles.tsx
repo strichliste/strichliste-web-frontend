@@ -24,6 +24,7 @@ export const ArticleSelectionBubbles = (props: Props) => {
       <Flex>
         <Input
           placeholder={intl.formatMessage({ id: 'BUY_ARTICLE_PLACEHOLDER' })}
+          aria-label={intl.formatMessage({ id: 'BUY_ARTICLE_PLACEHOLDER' })}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />

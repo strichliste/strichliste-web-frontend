@@ -31,6 +31,8 @@ interface Props {
   value?: number;
   autoFocus?: boolean;
   id?: string;
+  /** Accessible name when no <label htmlFor> wires this input up. */
+  'aria-label'?: string;
   onChange?(value: number): void;
 }
 
@@ -40,6 +42,7 @@ export function CurrencyInput({
   value,
   autoFocus,
   id,
+  'aria-label': ariaLabel,
   onChange,
 }: Props): React.JSX.Element {
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -72,6 +75,7 @@ export function CurrencyInput({
           <Input
             id={id}
             ref={inputRef}
+            aria-label={ariaLabel ?? placeholder}
             style={{ color: shown === placeholder ? '#6e6e6e' : undefined }}
             placeholder={placeholder}
             value={shown}

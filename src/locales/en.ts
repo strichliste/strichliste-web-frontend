@@ -23,6 +23,7 @@ export const en = {
   SOUND_ENABLE: 'Enable transaction sound',
   SOUND_DISABLE: 'Disable transaction sound',
   ROUTE_TITLE_SEND_MONEY: 'Send money',
+  TRANSACTION_SUCCESS: 'Transaction recorded',
   ADD_TAG_PLACEHOLDER: 'new tag',
   ARTICLE_FORM_ADD_TAG: 'add tag',
   ARTICLE_ADD_FORM_TAG: 'Tags',

@@ -57,6 +57,9 @@ export const CreateUserInlineForm = ({
               placeholder={intl.formatMessage({
                 id: 'USER_CREATE_NAME_LABEL',
               })}
+              aria-label={intl.formatMessage({
+                id: 'USER_CREATE_NAME_LABEL',
+              })}
               type="text"
               required
               minLength={1}

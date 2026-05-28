@@ -134,6 +134,7 @@ export function CreateUserTransactionForm(): React.JSX.Element {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder={text as unknown as string}
+            aria-label={text as unknown as string}
           />
         )}
       </FormattedMessage>

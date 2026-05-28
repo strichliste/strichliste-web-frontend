@@ -47,7 +47,7 @@ export const AlertText: React.FC<AlertTextProps> = ({
       })}
       {...props}
     >
-      <span className={styles.srOnly}>{srLabel}</span>
+      <span className="sr-only">{srLabel}</span>
       {children}
     </span>
   );

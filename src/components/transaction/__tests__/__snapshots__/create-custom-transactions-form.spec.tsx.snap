@@ -13,6 +13,7 @@ exports[`CreateCustomTransactionForm > matches the snapshot 1`] = `
     -
   </button>
   <input
+    aria-label="BALANCE_PLACEHOLDER"
     class="_input_c1c268"
     placeholder="BALANCE_PLACEHOLDER"
     style="color: rgb(110, 110, 110);"

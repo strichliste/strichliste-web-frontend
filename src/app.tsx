@@ -5,6 +5,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigationType,
 } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { withRouter } from './routing';
@@ -13,6 +14,7 @@ import { queryClient } from './services/query-client';
 import { ArticleRouter } from './components/article/article-router';
 import { en } from './locales/en';
 import { ErrorMessage } from './components/common/error-message';
+import { StatusMessage } from './components/common/status-message';
 import { HeaderMenu } from './components/common/header-menu';
 import { FormattedMessage, IntlProvider, useIntl } from 'react-intl';
 import { MainFooter } from './components/footer';
@@ -70,21 +72,22 @@ const RouteTitle = () => {
 };
 
 /**
- * After every navigation, move keyboard focus to the <main> landmark so
- * screen-reader and keyboard users land on the new view's heading instead
- * of being stranded on a now-unmounted element. Skipping the initial mount
- * keeps the page's natural first-Tab target (the skip link).
+ * After a user-initiated navigation, move keyboard focus to the <main>
+ * landmark so screen-reader and keyboard users land on the new view's
+ * heading instead of being stranded on a now-unmounted element.
+ *
+ * Gated on navigationType === 'PUSH': initial loads, redirects (REPLACE,
+ * including the root `/` → `/user/active` Navigate at boot), and browser
+ * back/forward (POP) leave focus alone, so the page's natural first-Tab
+ * target (the skip link) is reachable as the user expects.
  */
 const FocusMainOnRouteChange = () => {
   const { pathname } = useLocation();
-  const isFirstRender = React.useRef(true);
+  const navigationType = useNavigationType();
   React.useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    if (navigationType !== 'PUSH') return;
     document.getElementById('main-content')?.focus();
-  }, [pathname]);
+  }, [pathname, navigationType]);
   return null;
 };
 
@@ -95,6 +98,7 @@ const Layout = () => {
       <FocusMainOnRouteChange />
       <SkipLink />
       <ErrorMessage />
+      <StatusMessage />
       <HeaderMenu />
       <main id="main-content" tabIndex={-1}>
         <Routes>

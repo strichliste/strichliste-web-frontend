@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { get, post, restDelete } from '../services/api';
 import { MaybeResponse, throwOnBodyError } from '../services/error-handler';
+import { setGlobalStatus } from '../services/global-status';
 import { queryClient } from '../services/query-client';
 import { playCashSound } from '../services/sound';
 import {
@@ -76,6 +77,9 @@ async function createTransaction(
     )
   );
   playCashSound(params);
+  // Hearing the sound only helps hearing users; the polite status region is
+  // the AT signal that the deposit/dispense actually went through.
+  setGlobalStatus('TRANSACTION_SUCCESS');
   invalidateUserData(userId, params.recipientId);
   return res.transaction;
 }

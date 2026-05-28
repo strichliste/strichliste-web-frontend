@@ -17,6 +17,12 @@ const Backdrop: React.FC<{ onClick(): void }> = ({ onClick }) => {
   );
 };
 
+// Module-level stack of open modals so Esc and popstate only dismiss the
+// topmost one. Each useModal() instance pushes when it opens and pops when
+// it closes; the stack is consulted before the handlers fire.
+type Closer = () => void;
+const openStack: Closer[] = [];
+
 export const useModal = (initialShow = false) => {
   const [show, setShow] = React.useState(initialShow);
 
@@ -35,17 +41,26 @@ export const useModal = (initialShow = false) => {
 
   React.useEffect(() => {
     if (!show) return;
+    const close: Closer = () => handleHide();
+    openStack.push(close);
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleHide();
-      }
+      if (e.key !== 'Escape') return;
+      // Only the topmost open modal responds.
+      if (openStack[openStack.length - 1] !== close) return;
+      handleHide();
     };
-    const handlePopState = () => handleHide(false);
+    const handlePopState = () => {
+      // Browser back / forward — only the top modal claims the event.
+      if (openStack[openStack.length - 1] !== close) return;
+      handleHide(false);
+    };
     document.addEventListener('keydown', handleEsc);
     window.addEventListener('popstate', handlePopState);
     return () => {
       document.removeEventListener('keydown', handleEsc);
       window.removeEventListener('popstate', handlePopState);
+      const idx = openStack.lastIndexOf(close);
+      if (idx >= 0) openStack.splice(idx, 1);
     };
   }, [show, handleHide]);
 

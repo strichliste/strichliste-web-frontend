@@ -57,6 +57,7 @@ export const UserEditForm = (props: Props) => {
           children={(text) => (
             <Input
               placeholder={text as unknown as string}
+              aria-label={text as unknown as string}
               value={name}
               onChange={(e) => setName(e.target.value)}
               minLength={1}
@@ -73,6 +74,7 @@ export const UserEditForm = (props: Props) => {
           children={(text) => (
             <Input
               placeholder={text as unknown as string}
+              aria-label={text as unknown as string}
               value={email || ''}
               onChange={(e) => setEmail(e.target.value)}
               type="email"

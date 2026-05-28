@@ -289,6 +289,7 @@ const ListInput: React.FC<{
       <Flex margin="0 0 0.5rem 0">
         <Input
           placeholder={placeholder}
+          aria-label={placeholder}
           autoFocus={item === ''}
           value={value}
           readOnly={!!item}
