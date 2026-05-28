@@ -26,3 +26,8 @@ const getSnapshot = () => current;
 export function useGlobalError(): string {
   return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 }
+
+/** Non-hook accessor for tests and non-component callers. */
+export function getGlobalError(): string {
+  return current;
+}

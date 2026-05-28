@@ -77,6 +77,24 @@ test('dark theme has no detectable WCAG A/AA violations', async ({ page }) => {
   expect((await scan(page)).violations).toEqual([]);
 });
 
+test('dark theme scans clean on the articles + metrics routes too', async ({ page }) => {
+  await page.addInitScript(() =>
+    window.localStorage.setItem('SELECTED_THEME', 'dark')
+  );
+  for (const hash of ['#/articles/active', '#/metrics']) {
+    await gotoAndSettle(page, hash);
+    expect((await scan(page)).violations).toEqual([]);
+  }
+});
+
+test('each route renders exactly one <h1>', async ({ page }) => {
+  for (const route of routes) {
+    await gotoAndSettle(page, route.hash);
+    const h1s = await page.getByRole('heading', { level: 1 }).count();
+    expect(h1s, `${route.name} should have exactly one <h1>`).toBe(1);
+  }
+});
+
 test('add-user modal traps focus and is axe-clean', async ({ page }) => {
   await gotoAndSettle(page, '#/user/active');
   await page.getByTitle('add new user').getByRole('button').first().click();
