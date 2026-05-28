@@ -1,19 +1,18 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import { useIntl } from 'react-intl';
 
 import styles from './modal.module.css';
 import { Card } from '..';
 
-export const Backdrop: React.FC<{ title: string; onClick(): void }> = ({
-  onClick,
-  title,
-}) => {
+/**
+ * Backdrop is intentionally `role="presentation"`: it dismisses the dialog
+ * when clicked, but isn't an interactive control to keyboard/AT users — they
+ * use Escape, the close button inside the dialog, or the focus-trap exit.
+ */
+const Backdrop: React.FC<{ onClick(): void }> = ({ onClick }) => {
   return ReactDom.createPortal(
-    <button
-      className={styles.backdrop}
-      onClick={onClick}
-      title={title}
-    ></button>,
+    <div role="presentation" className={styles.backdrop} onClick={onClick} />,
     document.body
   );
 };
@@ -31,23 +30,22 @@ export const useModal = (initialShow = false) => {
     }
     setShow(false);
   };
-  const handleEsc = (e: any) => {
-    if (e.keyCode === 27) {
-      handleHide();
-    }
-  };
-  const handlePopState = () => handleHide(false);
 
   React.useEffect(() => {
-    if (show) {
-      document.addEventListener('keydown', handleEsc);
-      window.addEventListener('popstate', handlePopState);
-    }
+    if (!show) return;
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleHide();
+      }
+    };
+    const handlePopState = () => handleHide(false);
+    document.addEventListener('keydown', handleEsc);
+    window.addEventListener('popstate', handlePopState);
     return () => {
       document.removeEventListener('keydown', handleEsc);
       window.removeEventListener('popstate', handlePopState);
     };
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
   return { show, handleHide, handleShow };
@@ -61,17 +59,11 @@ export const Modal: React.FC<{
   handleShow(): void;
   handleHide(popState?: boolean): void;
   show: boolean;
-  backDropTile?: string;
+  /** Accessible name of the dialog. Defaults to a localized "Dialog". */
   label?: string;
   id?: string;
-}> = ({
-  id,
-  children,
-  show,
-  handleHide,
-  backDropTile = 'close',
-  label = 'Dialog',
-}) => {
+}> = ({ id, children, show, handleHide, label }) => {
+  const intl = useIntl();
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const previouslyFocused = React.useRef<HTMLElement | null>(null);
 
@@ -107,7 +99,14 @@ export const Modal: React.FC<{
     document.addEventListener('keydown', trap);
     return () => {
       document.removeEventListener('keydown', trap);
-      previouslyFocused.current?.focus?.();
+      // Restore focus to whatever had it before; fall back to the main landmark
+      // if the original element was unmounted while the dialog was open.
+      const previous = previouslyFocused.current;
+      if (previous && document.body.contains(previous)) {
+        previous.focus();
+      } else {
+        document.getElementById('main-content')?.focus();
+      }
     };
   }, [show]);
 
@@ -121,14 +120,16 @@ export const Modal: React.FC<{
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label={label}
+        aria-label={
+          label ?? intl.formatMessage({ id: 'DIALOG', defaultMessage: 'Dialog' })
+        }
         tabIndex={-1}
       >
         <Card id={id} className={styles.modal}>
           {children}
         </Card>
       </div>
-      <Backdrop onClick={handleHide} title={backDropTile} />
+      <Backdrop onClick={() => handleHide()} />
     </>,
     document.body
   );

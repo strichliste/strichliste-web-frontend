@@ -20,7 +20,13 @@ interface AlertTextProps {
   value: number;
   style?: React.CSSProperties;
 }
-export const AlertText: React.FC<AlertTextProps> = ({ value, ...props }) => {
+export const AlertText: React.FC<AlertTextProps> = ({
+  value,
+  children,
+  ...props
+}) => {
+  // Colour conveys positive/negative; pair with a screen-reader-only word so
+  // colour-vision-deficient users get the same signal.
   return (
     <span
       className={classNames(styles.noWrap, {
@@ -28,7 +34,12 @@ export const AlertText: React.FC<AlertTextProps> = ({ value, ...props }) => {
         [styles.greenText]: value >= 0,
       })}
       {...props}
-    />
+    >
+      <span className={styles.srOnly}>
+        {value < 0 ? 'negative balance: ' : 'positive balance: '}
+      </span>
+      {children}
+    </span>
   );
 };
 

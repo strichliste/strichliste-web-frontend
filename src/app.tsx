@@ -14,7 +14,7 @@ import { ArticleRouter } from './components/article/article-router';
 import { en } from './locales/en';
 import { ErrorMessage } from './components/common/error-message';
 import { HeaderMenu } from './components/common/header-menu';
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider, useIntl } from 'react-intl';
 import { MainFooter } from './components/footer';
 import { SearchResults } from './components/common/search-results';
 import { SplitInvoiceForm } from './components/transaction';
@@ -36,23 +36,34 @@ const SkipLink = () => (
   </a>
 );
 
-const ROUTE_TITLES: { test: RegExp; title: string }[] = [
-  { test: /^\/user\/\d+/, title: 'User' },
-  { test: /^\/user/, title: 'Users' },
-  { test: /^\/articles/, title: 'Articles' },
-  { test: /^\/split-invoice/, title: 'Split Invoice' },
-  { test: /^\/metrics/, title: 'Metrics' },
-  { test: /^\/search-results/, title: 'Search' },
+const ROUTE_TITLES: { test: RegExp; messageId: string; fallback: string }[] = [
+  { test: /^\/user\/\d+/, messageId: 'ROUTE_TITLE_USER', fallback: 'User' },
+  { test: /^\/user/, messageId: 'ROUTE_TITLE_USERS', fallback: 'Users' },
+  { test: /^\/articles/, messageId: 'ROUTE_TITLE_ARTICLES', fallback: 'Articles' },
+  { test: /^\/split-invoice/, messageId: 'SPLIT_INVOICE_HEADLINE', fallback: 'Split Invoice' },
+  { test: /^\/metrics/, messageId: 'METRICS_HEADLINE', fallback: 'Metrics' },
+  { test: /^\/search-results/, messageId: 'ROUTE_TITLE_SEARCH', fallback: 'Search' },
 ];
 
-// Give each route a distinct, announced document title.
+/**
+ * Sets the localized document title for each route AND renders a
+ * visually-hidden <h1> so every routed view has exactly one top-level heading
+ * for screen-reader navigation (without disturbing the existing visual
+ * hierarchy that starts at <h2>).
+ */
 const RouteTitle = () => {
   const { pathname } = useLocation();
+  const intl = useIntl();
+  const match = ROUTE_TITLES.find((entry) => entry.test.test(pathname));
+  const title = match
+    ? intl.formatMessage({ id: match.messageId, defaultMessage: match.fallback })
+    : 'Strichliste';
+
   React.useEffect(() => {
-    const match = ROUTE_TITLES.find((entry) => entry.test.test(pathname));
-    document.title = match ? `${match.title} · Strichliste` : 'Strichliste';
-  }, [pathname]);
-  return null;
+    document.title = match ? `${title} · Strichliste` : 'Strichliste';
+  }, [pathname, title, match]);
+
+  return <h1 className="sr-only">{title}</h1>;
 };
 
 const Layout = () => {

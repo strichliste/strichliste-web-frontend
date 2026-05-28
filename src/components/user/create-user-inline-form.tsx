@@ -43,7 +43,6 @@ export const CreateUserInlineForm = ({
         <AddIcon />
       </Button>
       <Modal
-        backDropTile="close"
         label={intl.formatMessage({ id: 'USER_CREATE_HEADLINE' })}
         {...modalProps}
       >

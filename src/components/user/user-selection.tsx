@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 
 import { User } from '../../types';
 import { Modal, useModal, Ellipsis } from '../../bricks';
@@ -22,6 +23,7 @@ export function UserSelection({
   onSelect,
   user,
 }: Props): React.JSX.Element {
+  const intl = useIntl();
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const modalProps = useModal();
   const [selection, setSelection] = React.useState<User | undefined>();
@@ -48,7 +50,11 @@ export function UserSelection({
       >
         <Ellipsis>{selection ? selection.name : placeholder}</Ellipsis>
       </Button>
-      <Modal {...modalProps} id="user-selection">
+      <Modal
+        {...modalProps}
+        id="user-selection"
+        label={intl.formatMessage({ id: 'USER_SELECTION_LIST_LABEL' })}
+      >
         <UserSearchList
           scrollableTarget="user-selection"
           filterUsers={filterUsers}

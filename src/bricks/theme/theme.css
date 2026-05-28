@@ -32,6 +32,19 @@ main:focus {
   outline: none;
 }
 
+/* Visually hidden but exposed to screen readers (WCAG sufficient pattern). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -102,16 +115,19 @@ html[data-theme='dark'] {
   --redHover: #443444;
   --redLight: #514151;
   --text: #fdfdfd;
-  --textSubtile: #59687c;
+  /* Brightened from #59687c to meet WCAG AA on the dark header (>= 4.5:1).
+     Used for inactive nav links and icons. */
+  --textSubtile: #a8b3c0;
   --headerBackground: #1d2832;
   --buttonCancelFont: #ffedf0;
   --buttonCancelBackground: #f54963;
   --buttonHighlightFont: #353535;
   --buttonHighlightBackground: #f2f3f2;
   --buttonGreenBackground: #155949;
-  --buttonGreenFont: #00cc1d;
+  /* Lighter green/red text against the darker step-button backgrounds. */
+  --buttonGreenFont: #7be09a;
   --buttonRedBackground: #544052;
-  --buttonRedFont: #f54963;
+  --buttonRedFont: #ffb3be;
   --buttonDefaultBackground: #2a3e4f;
   --buttonDefaultFont: #eaebed;
   --defaultFillColor: #e9ebec;
