@@ -25,3 +25,9 @@ yarn-error.log*
 /playwright-report
 /test-results
 /playwright/.cache
+
+# vite / tooling caches & misc
+/.vite
+*.log
+*.tsbuildinfo
+stats.html

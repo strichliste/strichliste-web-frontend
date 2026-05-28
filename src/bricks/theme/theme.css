@@ -118,6 +118,9 @@ html[data-theme='dark'] {
   /* Brightened from #59687c to meet WCAG AA on the dark header (>= 4.5:1).
      Used for inactive nav links and icons. */
   --textSubtile: #a8b3c0;
+  /* Lightened so balance text on the dark user-card background meets AA. */
+  --greenText: #5dd07e;
+  --redText: #ffb3be;
   --headerBackground: #1d2832;
   --buttonCancelFont: #ffedf0;
   --buttonCancelBackground: #f54963;
