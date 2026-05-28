@@ -43,6 +43,11 @@ export const User = (props: UserProps) => {
             },
           ]}
         />
+        <h2 className="sr-only">
+          <FormattedMessage
+            id={props.isActive ? 'USER_ACTIVE_LINK' : 'USER_INACTIVE_LINK'}
+          />
+        </h2>
         <UserList users={users} />
       </div>
     </>

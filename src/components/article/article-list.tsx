@@ -78,6 +78,11 @@ export const ArticleList: React.FC<{ isActive: boolean }> = ({ isActive }) => {
           ]}
         />
       </Flex>
+      <h2 className="sr-only">
+        <FormattedMessage
+          id={isActive ? 'ARTICLE_ACTIVE_HEADLINE' : 'ARTICLE_INACTIVE_HEADLINE'}
+        />
+      </h2>
       <ArticleTagFilter onFilterChange={handleFilterChange} />
       <SearchList
         items={filterArticles()}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { User } from '../../../types';
 import { useUsers } from '../../../queries';
 import { SearchList } from '../search-list/search-list';
@@ -12,6 +13,9 @@ export const SearchResults: React.FC<RouteComponentProps> = (props) => {
     props.history.push(userDetailUrl(user.id));
   return (
     <div style={{ margin: '1rem' }}>
+      <h2 className="sr-only">
+        <FormattedMessage id="USER_SEARCH_HEADLINE" defaultMessage="Find users" />
+      </h2>
       <UserSearchList onUserSelect={handleOnUserSelect} />
     </div>
   );

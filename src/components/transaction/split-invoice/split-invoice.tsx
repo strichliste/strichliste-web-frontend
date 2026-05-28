@@ -186,9 +186,9 @@ export const SplitInvoiceForm = () => {
   return (
     <div className={styles.wrapper}>
       <WrappedIdleTimer />
-      <h1>
+      <h2>
         <FormattedMessage id="SPLIT_INVOICE_HEADLINE" />
-      </h1>
+      </h2>
 
       <div className={styles.grid}>
         <CurrencyInput

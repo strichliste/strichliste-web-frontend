@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { useIntl } from 'react-intl';
 
 import styles from './text.module.css';
 
@@ -25,19 +26,28 @@ export const AlertText: React.FC<AlertTextProps> = ({
   children,
   ...props
 }) => {
+  const intl = useIntl();
   // Colour conveys positive/negative; pair with a screen-reader-only word so
-  // colour-vision-deficient users get the same signal.
+  // colour-vision-deficient users get the same signal. The cue is three-way
+  // (zero gets its own label) so a balance of 0 doesn't lie as "positive".
+  const sign = value > 0 ? 'positive' : value < 0 ? 'negative' : 'zero';
+  const srLabel = intl.formatMessage({
+    id:
+      sign === 'positive'
+        ? 'BALANCE_SIGN_POSITIVE'
+        : sign === 'negative'
+          ? 'BALANCE_SIGN_NEGATIVE'
+          : 'BALANCE_SIGN_ZERO',
+  });
   return (
     <span
       className={classNames(styles.noWrap, {
         [styles.redText]: value < 0,
-        [styles.greenText]: value >= 0,
+        [styles.greenText]: value > 0,
       })}
       {...props}
     >
-      <span className={styles.srOnly}>
-        {value < 0 ? 'negative balance: ' : 'positive balance: '}
-      </span>
+      <span className={styles.srOnly}>{srLabel}</span>
       {children}
     </span>
   );

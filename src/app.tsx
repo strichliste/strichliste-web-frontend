@@ -69,10 +69,30 @@ const RouteTitle = () => {
   return <h1 className="sr-only">{title}</h1>;
 };
 
+/**
+ * After every navigation, move keyboard focus to the <main> landmark so
+ * screen-reader and keyboard users land on the new view's heading instead
+ * of being stranded on a now-unmounted element. Skipping the initial mount
+ * keeps the page's natural first-Tab target (the skip link).
+ */
+const FocusMainOnRouteChange = () => {
+  const { pathname } = useLocation();
+  const isFirstRender = React.useRef(true);
+  React.useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    document.getElementById('main-content')?.focus();
+  }, [pathname]);
+  return null;
+};
+
 const Layout = () => {
   return (
     <>
       <RouteTitle />
+      <FocusMainOnRouteChange />
       <SkipLink />
       <ErrorMessage />
       <HeaderMenu />

@@ -84,6 +84,9 @@ export function CreateUserTransactionForm(): React.JSX.Element {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h2 className="sr-only">
+        <FormattedMessage id="ROUTE_TITLE_SEND_MONEY" defaultMessage="Send money" />
+      </h2>
       <div className={styles.grid}>
         <FormattedMessage
           defaultMessage="Amount"

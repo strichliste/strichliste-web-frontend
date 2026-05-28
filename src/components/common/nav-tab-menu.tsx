@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Flex, Tab, ThemeSwitcher, ScrollContainer } from '../../bricks';
 import { ScalingButtons } from '../settings/scaling-buttons';
+import { SoundToggle } from '../settings/sound-toggle';
 
 export interface NavTabMenusProps {
   breakpoint: number;
@@ -21,6 +22,7 @@ export function NavTabMenus({ tabs, margin }: NavTabMenusProps): React.JSX.Eleme
       </ScrollContainer>
       <Flex>
         <ScalingButtons />
+        <SoundToggle />
         <ThemeSwitcher />
       </Flex>
     </Flex>
