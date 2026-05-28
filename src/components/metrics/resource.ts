@@ -29,6 +29,7 @@ export const useMetrics = (): FormattedMetric | null => {
       const nextMetrics = await get<Metric>('metrics', { signal });
       return formatMetric(nextMetrics);
     },
+    meta: { defaultError: 'METRICS_LOADING_FAILED' },
   });
 
   return data ?? null;

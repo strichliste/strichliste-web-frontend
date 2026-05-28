@@ -112,6 +112,7 @@ export const en = {
   CREATE_USER_TO_USER_TRANSACTION_COMMENT: 'Add notes to your transaction',
   TRANSACTION_EMPTY_STATE: 'You have no transactions yet :,(',
   METRICS_HEADLINE: 'Metrics',
+  METRICS_LOADING_FAILED: 'Could not load metrics',
   ARTICLE_USAGE_COUNT_LABEL: 'This article was bought {value} times',
   ARTICLE_ACTIVE_HEADLINE: 'Active Articles',
   ARTICLE_INACTIVE_HEADLINE: 'Inactive Articles',

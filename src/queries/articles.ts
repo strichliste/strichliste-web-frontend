@@ -31,12 +31,12 @@ export function useArticles(isActive: boolean): Article[] {
         active: String(isActive),
         ancestor: 'false',
       });
-      const data = await errorHandler({
-        promise: get<ArticlesResult>(`article?${params.toString()}`, { signal }),
-        defaultError: 'ARTICLES_COULD_NOT_BE_LOADED',
+      const res = await get<ArticlesResult>(`article?${params.toString()}`, {
+        signal,
       });
-      return (data?.articles ?? []).slice().sort(byName);
+      return (res.articles ?? []).slice().sort(byName);
     },
+    meta: { defaultError: 'ARTICLES_COULD_NOT_BE_LOADED' },
   });
   return data ?? [];
 }
@@ -54,6 +54,7 @@ export function useTags(): Tag[] {
     queryKey: queryKeys.tags,
     queryFn: ({ signal }): Promise<Tag[]> =>
       get<{ tags: Tag[] }>('tag', { signal }).then((res) => res.tags),
+    meta: { defaultError: 'ARTICLES_COULD_NOT_BE_LOADED' },
   });
   return data ?? [];
 }
@@ -66,6 +67,7 @@ export function useArticle(id: number | undefined): Article | undefined {
         (res) => res.article
       ),
     enabled: Boolean(id),
+    meta: { defaultError: 'ARTICLES_COULD_NOT_BE_LOADED' },
   });
   return data;
 }

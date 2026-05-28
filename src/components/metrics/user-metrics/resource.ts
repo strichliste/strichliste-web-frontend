@@ -10,6 +10,7 @@ export const useMetrics = (userId: string): UserMetric | null => {
     queryFn: ({ signal }): Promise<UserMetric> =>
       get<UserMetric>(`user/${encodeURIComponent(userId)}/metrics`, { signal }),
     enabled: Boolean(userId),
+    meta: { defaultError: 'METRICS_LOADING_FAILED' },
   });
 
   return data ?? null;

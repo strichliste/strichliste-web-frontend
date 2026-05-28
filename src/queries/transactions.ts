@@ -40,16 +40,14 @@ export function useUserTransactions(
         offset: String(offset),
         limit: String(limit),
       });
-      const data = await errorHandler({
-        promise: get<TransactionsResult>(
-          `user/${encodeURIComponent(userId)}/transaction?${params.toString()}`,
-          { signal }
-        ),
-        defaultError: 'USER_TRANSACTIONS_LOADING_ERROR',
-      });
-      return { transactions: data?.transactions ?? [], count: data?.count ?? 0 };
+      const res = await get<TransactionsResult>(
+        `user/${encodeURIComponent(userId)}/transaction?${params.toString()}`,
+        { signal }
+      );
+      return { transactions: res.transactions ?? [], count: res.count ?? 0 };
     },
     enabled: Boolean(userId),
+    meta: { defaultError: 'USER_TRANSACTIONS_LOADING_ERROR' },
   });
   return data ?? { transactions: [], count: 0 };
 }

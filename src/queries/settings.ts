@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { get } from '../services/api';
-import { errorHandler, MaybeResponse } from '../services/error-handler';
+import { MaybeResponse } from '../services/error-handler';
 import { defaultSettings, Paypal, Settings } from '../types/settings';
 import { queryKeys } from './keys';
 
@@ -16,14 +16,12 @@ export function useSettings(): Settings {
   const { data } = useQuery({
     queryKey: queryKeys.settings,
     queryFn: async ({ signal }): Promise<Settings> => {
-      const data = await errorHandler({
-        promise: get<SettingsResult>('settings', { signal }),
-        defaultError: 'SETTINGS_LOADED_FAILED',
-      });
-      return data?.settings ?? defaultSettings;
+      const res = await get<SettingsResult>('settings', { signal });
+      return res.settings;
     },
     initialData: defaultSettings,
     staleTime: 5 * 60 * 1000,
+    meta: { defaultError: 'SETTINGS_LOADED_FAILED' },
   });
   return data;
 }

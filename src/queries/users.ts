@@ -33,12 +33,10 @@ export function useUsers(isActive?: boolean): User[] {
   const { data } = useQuery({
     queryKey: queryKeys.users(isActive),
     queryFn: async ({ signal }): Promise<User[]> => {
-      const data = await errorHandler({
-        promise: get<UsersResult>(usersUrl(isActive), { signal }),
-        defaultError: 'USERS_LOADING_FAILED',
-      });
-      return (data?.users ?? []).map(normalizeUser).sort(byName);
+      const res = await get<UsersResult>(usersUrl(isActive), { signal });
+      return (res.users ?? []).map(normalizeUser).sort(byName);
     },
+    meta: { defaultError: 'USERS_LOADING_FAILED' },
   });
   return data ?? [];
 }
